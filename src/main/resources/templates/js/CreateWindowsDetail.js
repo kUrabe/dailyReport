@@ -259,6 +259,7 @@ function CreateWindowsDetail() {
 			user = $(SELECTOR_USER_ID).text();
 			// 当該日の日付を取得する
 			date = $(SELECTOR_REPORT_DATE).text();
+			// TODO:【セレクタ】コンテンツIDはページ内に埋め込まれていなければサーバへのリクエストに含まない方がよい？
 			// 当該コンテンツIDを取得する
 			content_id = $(SELECTOR_CONTENT_ID).text();
 			
@@ -272,14 +273,111 @@ function CreateWindowsDetail() {
 
 			// 見出しエリアをすべて削除する
 			$(SELECTOR_PARENT_AREA).remove();
-			// 紐付くデータが取得出来ているか検証する
-			
+			// 紐付くデータが取得出来ているか検証する(messageが返ってきていないか)
+			if(!this.json.hasOwnProperty(STR_MESSAGE)) {
+				// 取得したJSONを展開する
+				this.createReportDetail(SELECTOR_MAIN);
+				// 画面内の所定の位置に取得したコンテンツIDを埋める
+				$(SELECTOR_CONTENT_ID).text(this.json[KEY_CONTENT_ID]);
+			// 取得できなかった場合、テンプレートの取得を試みる
+			} else {
+				// 新たなリクエストを作成するためJSON連想配列を初期化する
+				jsonArray = {};
+				// リクエスト用JSON連想配列に追加する
+				jsonArray[KEY_USER_ID] = user;
+				jsonArray[KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
+				
+				// JSON連想配列を用いてDBの値を取得する
+				this.getJsonData(PATH_CREATE, jsonArray, STR_READ);
+				
+				// 紐付くデータが取得出来ているか検証する(messageが返ってきていないか)
+				if(!this.json.hasOwnProperty(STR_MESSAGE)) {
+					// 取得したJSONを展開する
+					this.createReportDetail(SELECTOR_MAIN);
+				} 
+				// 画面内の所定の位置（コンテンツID）に空白文字を埋める
+				$(SELECTOR_CONTENT_ID).text("");	
+			}
 		});
-		
 		
 	}
 	
+	/**
+	 * 関数名：	saveFormat
+	 * 概要：		フォーマットを登録する
+	 * 引数：		なし
+	 * 戻り値：	なし
+	 * 作成日：	2016/11/23
+	 * 作成者：	k.urabe
+	 */
+	this.saveFormat = function() {
+		
+		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		
+		// 見出しが1つでもあるか検証する
+		if(this.isCheckFormatIndex()) {
+			// 見出しエリアの個数分走査する
+			$(SELECTOR_PARENT_AREA).each(function(index) {
+				// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
+				// TODO:【セレクタ】fixed_item_idは、固定項目を使用している
+				// リクエスト用JSON連想配列に必要な値をセットする
+				jsonArray[index + 1][KEY_USER_ID] = $(SELECTOR_USER_ID).text();
+				jsonArray[index + 1][KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
+				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
+				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_INDEX_AREA).text();
+				jsonArray[index + 1][KEY_FIXED_ITEM_ID] = $(this).children(SELECTOR_FIXED_ITEM_ID).text();
+			});
+		} else {
+			// 見出しが1つもないため登録できない旨を表示する
+			alert(MESSAGE_FORMAT_ERROR);
+		}
+		// JSON連想配列を用いてDBに値を登録する
+		this.getJsonData(PATH_CREATE, jsonArray, STR_CREATE);
+	}
 	
+	/**
+	 * 関数名：	saveReport
+	 * 概要：		日報を登録する
+	 * 引数：		なし
+	 * 戻り値：	なし
+	 * 作成日：	2016/11/23
+	 * 作成者：	k.urabe
+	 */
+	this.saveFormat = function() {
+		
+		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		
+		// 見出しが1つでもあるか、空白エリアはないか検証する
+		if(this.isCheckFormatIndex() && isCheckTextArea) {
+			// 見出しエリアの個数分走査する
+			$(SELECTOR_PARENT_AREA).each(function(index) {
+				// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
+				// TODO:【セレクタ】fixed_item_idは、固定項目を使用している
+				// リクエスト用JSON連想配列に必要な値をセットする
+				jsonArray[index + 1][KEY_USER_ID] = $(SELECTOR_USER_ID).text();
+				jsonArray[index + 1][KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
+				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
+				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_INDEX_AREA).text();
+				jsonArray[index + 1][KEY_MAIN_TEXT] = $(this).children(SELECTOR_MAIN_TEXT).text();
+				jsonArray[index + 1][KEY_FIXED_ITEM_ID] = $(this).children(SELECTOR_FIXED_ITEM_ID).text();
+			});
+		} else {
+			// 登録できない旨を表示する
+			alert(MESSAGE_REPORT_ERROR);
+		}
+		// 当該コンテンツIDを取得する
+		var content_id = $(SELECTOR_CONTENT_ID).text();
+		// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
+		if(content_id != "") {
+			jsonArray[KEY_CONTENT_ID] = content_id;
+			// JSON連想配列を用いてDBに値を更新する
+			this.getJsonData(PATH_CREATE, jsonArray, STR_UPDATE);
+		} else {
+			// JSON連想配列を用いてDBに値を登録する
+			this.getJsonData(PATH_CREATE, jsonArray, STR_CREATE);
+		}
+		
+	}
 	
 }
 

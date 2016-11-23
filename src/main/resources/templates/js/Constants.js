@@ -35,6 +35,9 @@ FLAG_ADD_CATEGORY_FAVORITE = 2;				// record_content_addテーブルのいいね
 FLAG_ENTRY_STATUS_NOTE = 1;					// record_content_infテーブルの下書状態を表す
 FLAG_ENTRY_STATUS_REG = 2;					// record_content_infテーブルの登録状態を表す
 FLAG_ENTRY_STATUS_DEL = 4;					// record_content_infテーブルの削除状態を表す
+FLAG_ENTRY_FORMAT_REPORT = 1;				// record_content_infテーブルの書式（日報）を表す
+FLAG_ENTRY_FORMAT_COMMENT = 2;				// record_content_infテーブルの書式（コメント）を表す
+FLAG_ENTRY_FORMAT_TEMPLATE = 4;				// record_content_infテーブルの書式（テンプレート）を表す
 
 /*
  * キー名
@@ -48,6 +51,7 @@ KEY_CONTENT_ID = 'content_id';					// コンテンツIDを管理するキー
 KEY_ADD_CATEGORY = 'add_category';				// 追加種別（いいね、未読）を管理するキー
 KEY_ENTRY_STATUS = 'entry_status';				// コンテンツの登録状態（下書、登録、削除）を管理するキー
 KEY_MAIN_TEXT = 'main_text';					// 各コンテンツの本文
+KEY_ENTRY_FORMAT = 'entry_format';				// 登録書式（日報、コメント、テンプレート）を管理するキー
 
 KEY_SRC = 'src';								// src属性
 KEY_DISABLED = 'disabled';						// disabled属性
@@ -75,6 +79,7 @@ KEY_TITLE = 'title';
 KEY_REPORT_DATE = 'report_date';
 KEY_NUMBER = 'number';
 KEY_INDEX_AREA = 'index_area';
+KEY_FIXED_ITEM_ID = 'fixed_item_id';
 KEY_MAIN_TEXT = 'main_text';
 KEY_B_DEL_INDEX = 'b_del_index';
 KEY_B_FIXED = 'b_fixed';
@@ -134,6 +139,7 @@ SELECTOR_TITLE = '.title';
 SELECTOR_REPORT_DATE = '.report_date';
 SELECTOR_NUMBER = '.number';
 SELECTOR_INDEX_AREA = '.index_area';
+SELECTOR_FIXED_ITEM_ID = '.fixed_item_id';
 SELECTOR_MAIN_TEXT = '.main_text';
 SELECTOR_B_DEL_INDEX = '.b_del_index';
 SELECTOR_B_FIXED = '.b_fixed';
@@ -200,3 +206,5 @@ STR_PLAN = '予定';
 
 //TODO:【未実装】ダイアログのコメント系が未定義
 MESSAGE_DEL_INDEX = '見出しエリアを削除します。\n入力していたデータは消えますがよろしいですか？';
+MESSAGE_FORMAT_ERROR = '見出しが1つもないため登録できません。';
+MESSAGE_REPORT_ERROR = '';
