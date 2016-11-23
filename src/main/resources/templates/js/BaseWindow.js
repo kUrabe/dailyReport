@@ -29,8 +29,7 @@ function BaseWindow() {
 		
 		// 引数で受けたセレクタに対してクリックイベントをバインドする
 		$(clickTarget).on(CLICK, function() {
-			// TODO:【未実装】アコーディオン開く前に、配下にデータが展開済みか確認し、ないならデータを展開する。大元の設計は画面表示時にすべて展開する予定であったが処理の負荷も考え、アコーディオン開く際に行う
-			// TODO:【セレクタ】押下された行もしくはボタンを包括するエリア配下のアコーディオン対象を指定しないと、これでは画面全部のアコーディオンが開く
+			// TODO:【未実装】アコーディオン開く前に、配下にデータが展開済みか確認し、ないならデータを展開する
 			// 対象セレクタがクリックされた場合に、引数で受けたセレクタのアコーディオン開閉を行う。
 			$(accordionTarget).slideToggle();
 		});	
@@ -87,9 +86,9 @@ function BaseWindow() {
 		// 対象となったコンテンツの機能登録状態を取得する
 		categoryStatus = parseInt($(target > SELECTOR_CATEGORY_STATUS).text());
 		// 押下されボタンの機能を検証する（いいねボタンであるか検証する）
-		if(FLAG_ADD_CATEGORY_FAVORITE & contentTyp) {
+		if(FLAG_ADD_CATEGORY_FAVORITE && contentTyp) {
 			// いいねが登録状態であるか検証する
-			if(FLAG_CATEGORY_STATUS_REG & categoryStatus) {
+			if(FLAG_CATEGORY_STATUS_REG && categoryStatus) {
 				// ボタンの画像イメージをいいね登録中のものに変更する
 				$(target > detail).attr(KEY_SRC, PATH_FAVORITE_ON);
 			// 削除（未登録）状態であるか検証する
@@ -98,9 +97,9 @@ function BaseWindow() {
 				$(target > detail).attr(KEY_SRC, PATH_FAVORITE_OFF);
 			}	
 		// 押下されボタンの機能を検証する（未読にするボタンであるか検証する）
-		} else if(FLAG_ADD_CATEGORY_NOREAD & contentTyp) {
+		} else if(FLAG_ADD_CATEGORY_NOREAD && contentTyp) {
 			// 未読機能が登録状態(既読状態)であるか検証する
-			if(FLAG_CATEGORY_STATUS_REG & categoryStatus) {
+			if(FLAG_CATEGORY_STATUS_REG && categoryStatus) {
 				// ボタンを無効化する
 				$(target > detail).prop(KEY_DISABLED, STR_TRUE);
 			}
@@ -113,17 +112,16 @@ function BaseWindow() {
 	 * 概要：		確認ダイアログを開く
 	 * 引数：		function:func	OK押下時に呼ばれる関数
 	 * 			String:message	ダイアログに表示されるメッセージ
-	 * 			selector		コールバックに使用する引数（セレクタ）
 	 * 戻り値：	なし
 	 * 作成日：	2016/11/22
 	 * 作成者：	k.urabe
 	 */
-	this.openConfirmationDialog = function(func, message, selector) {
+	this.openConfirmationDialog = function(func, message) {
 		
 		// 確認ダイアログを開き、OKが押下されたかを検証する
 		if(window.confirm(message)) {
 			// OK押下時に引数で受けた関数を実行する
-			func(selector);
+			func();
 		} else {
 			// キャンセル時は何もしない
 		}
@@ -155,9 +153,6 @@ function BaseWindow() {
 	 */
 	this.openAnotherWindow = function(html) {
 
-		// TODO:【未実装】今の方法だと、URLが無いため、開いた画面での処理が実行できないと思われる。
-		// TODO:【未実装】サーバからHTMLを取得して開くのではなく、この関数内で直にURLを指定して開いた方がよいと考えられる。
-		
 		// TODO:【メモ】ウインドウの高さと幅は後々修正（合わせて定数化する）
 		// 空のウインドウを開いてメンバ変数へ保持する
 		this.anotherWindow = window.open("", "", "scrollbars=no, width=600, height=400");
@@ -194,7 +189,7 @@ function BaseWindow() {
 	 * 作成日：	2016/11/22
 	 * 作成者：	k.urabe
 	 */
-	this.setClickEvent = function(target, func) {
+	this.setClickEvent = function() {
 		
 		// 引数のセレクタでクリックイベントをバインドする
 		$(target).on(CLICK, function() {
@@ -238,14 +233,14 @@ function BaseWindow() {
 		
 		// 対象のコンテンツIDを取得
 		// TODO:【メモ】引数のselectorはボタンを指している
-		contentId = parseInt($($(selector).parent(SELECTOR_PARENT_AREA) > SELECTOR_CONTENT_ID).text());
-		// TODO:【セレクタ】ボタンにはcontentTypeという要素を入れて種別の値を入れる、その値を機能FLAGにする
+		contentId = parseInt($($(selector).parent(KEY_PARENT_AREA) > SELECTOR_CONTENT_ID).text());
+		// TODO:【セレクタ】ボタンにはcontentTypeという要素を入れて、その値を機能FLAGにする
 		// ボタンに設定されている追加種別を取得する
-		add_category = parseInt($(selector[contentType]).val());
+		add_category = parseInt($(selector > detail[contentType]).val());
 		// 対象の登録状態を取得
-		category_status = parseInt($($(selector).parent(SELECTOR_PARENT_AREA) > SELECTOR_CATEGORY_STATUS).text());
+		category_status = parseInt($($(selector).parent(KEY_PARENT_AREA) > SELECTOR_CATEGORY_STATUS).text());
 		// 取得した各値を処理振り分け用の関数に渡す
-		this.addContentBranch(contentId, add_category, category_status, $(selector).parent(SELECTOR_PARENT_AREA));
+		this.addContentBranch(contentId, add_category, category_status, $(selector).parent(KEY_PARENT_AREA));
 		
 	}
 	
@@ -273,7 +268,7 @@ function BaseWindow() {
 		
 		// TODO:【未実装】条件分岐の中が同じ処理ばかり、共通化を検討
 		// 押下した時の状態が登録であるかを検証する
-		if(FLAG_CATEGORY_STATUS_REG & category_status) {
+		if(FLAG_CATEGORY_STATUS_REG && category_status) {
 			// JSON連想配列に更新すべき登録状態をセットする
 			jsonArray[KEY_CATEGORY_STATUS] = FLAG_CATEGORY_STATUS_DEL;
 			// JSON連想配列を用いてDBの値を更新する
@@ -281,7 +276,7 @@ function BaseWindow() {
 			// 加算値をセットする
 			addValue = -1;
 		// 押下した時の状態が削除であるかを検証する
-		} else if(FLAG_CATEGORY_STATUS_DEL & category_status) {
+		} else if(FLAG_CATEGORY_STATUS_DEL && category_status) {
 			// JSON連想配列に更新すべき登録状態をセットする
 			jsonArray[KEY_CATEGORY_STATUS] = FLAG_CATEGORY_STATUS_REG;
 			// JSON連想配列を用いてDBの値を更新する
@@ -298,11 +293,11 @@ function BaseWindow() {
 		}
 		
 		// 機能がいいねか検証
-		if(FLAG_ADD_CATEGORY_FAVORITE & add_category) {
+		if(FLAG_ADD_CATEGORY_FAVORITE && add_category) {
 			// 項目単位のセレクタをセットする
 			detail = SELECTOR_FAVORITE_COUNT;
 		// 機能が未読にするか検証
-		} else if(FLAG_ADD_CATEGORY_NOREAD & add_category) {
+		} else if(FLAG_ADD_CATEGORY_NOREAD && add_category) {
 			// 項目単位のセレクタをセットする
 			detail = SELECTOR_READ_COUNT;
 		}
@@ -331,20 +326,20 @@ function BaseWindow() {
 		
 		// 対象のコンテンツIDを取得
 		// TODO:【メモ】引数のselectorはボタンを指している
-		contentId = parseInt($($(selector).parent(SELECTOR_PARENT_AREA) > SELECTOR_CONTENT_ID).text());
+		contentId = parseInt($($(selector).parent(KEY_PARENT_AREA) > SELECTOR_CONTENT_ID).text());
 		// 対象の登録状態を取得
-		category_status = parseInt($($(selector).parent(SELECTOR_PARENT_AREA) > SELECTOR_ENTRY_STATUS).text());
+		category_status = parseInt($($(selector).parent(KEY_PARENT_AREA) > SELECTOR_ENTRY_STATUS).text());
 		// JSON連想配列にコンテンツIDをセットする
 		jsonArray[KEY_CONTENT_ID] = content_id;
 		
 		// 当該コンテンツの状態が登録であるか検証する
-		if(FLAG_ENTRY_STATUS_REG & category_status) {
+		if(FLAG_ENTRY_STATUS_REG && category_status) {
 			// JSON連想配列に更新する登録状態をセットする
 			jsonArray[KEY_ENTRY_STATUS] = FLAG_ENTRY_STATUS_DEL;
 			// JSON連想配列を用いてDBの値を更新する
 			this.getJsonData(PATH_CREATE, jsonArray, STR_UPDATE);
 		// 当該コンテンツの状態が下書であるか検証する
-		} else if(FLAG_ENTRY_STATUS_NOTE & category_status) {
+		} else if(FLAG_ENTRY_STATUS_NOTE && category_status) {
 			// JSON連想配列を用いてDBのレコードを削除する
 			this.getJsonData(PATH_CREATE, jsonArray, STR_DELETE);
 		}
@@ -371,12 +366,12 @@ function BaseWindow() {
 		
 		// 対象の親コンテンツIDを取得
 		// TODO:【メモ】引数のselectorはボタンを指している
-		parent_content_id = parseInt($($(selector).parent(SELECTOR_PARENT_AREA) > SELECTOR_PARENT_CONTENT_ID).text());
+		parent_content_id = parseInt($($(selector).parent(KEY_PARENT_AREA) > SELECTOR_PARENT_CONTENT_ID).text());
 		// 対象のコンテンツIDを取得
 		// TODO:【メモ】引数のselectorはボタンを指している
-		contentId = parseInt($($(selector).parent(SELECTOR_PARENT_AREA) > SELECTOR_CONTENT_ID).text());
+		contentId = parseInt($($(selector).parent(KEY_PARENT_AREA) > SELECTOR_CONTENT_ID).text());
 		// 押下されたボタンのタイプを取得
-		// TODO:【セレクタ】ボタンのname属性にはボタンの機能を表す名称をセットする。名称は定数クラスを参照
+		// TODO:【セレクタ】ボタンのname属性にはボタンの機能を表す名称をセットする
 		button_type = $(selector[name]).val();
 		
 		// TODO:【未実装】以下の条件判定を別関数へ定義検討
@@ -394,7 +389,6 @@ function BaseWindow() {
 			path = PATH_COMMENT_VIEW;
 		}
 		
-		// TODO:【未実装】HTMLをサーバから取得せず、openAnotherWindow関数から直接URLを指定する形にする方が、URLも取得できて、後続の処理が繋がると考えられる。
 		// HTML文字列を取得する
 		this.getHtmlData(path);
 		
