@@ -32,10 +32,15 @@ function WindowDesign() {
 	this.createContentIndex = function(selector, grand_parent_content_id, parent_content_id, indent = 0) {
 		
 		// jsonが取得出来ているか検証する
-		if(this.json !== null | this.json !== undefined) {
+		if(this.json !== null | this.json !== undefined | this.json[message]) {
 			
-			// 
-			
+			// セレクタに応じたテーブルの開始タグを取得して追加する
+			$(selector).append(this.getIndexTag(selector));
+		
+		// JSONにメッセージがあれば
+		} else if(this.json[message]) {
+			// 検索結果が0件の旨のメッセージを表示する
+			$(selector > SELECTOR_SERACH_MESSAGE).text(this.json[message]);
 		}
 	}
 }

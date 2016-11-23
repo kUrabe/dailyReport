@@ -65,7 +65,7 @@ SELECTOR_CONTENT_ID = '.content_id';				// コンテンツIDを管理するセ�
 SELECTOR_FAVORITE_COUNT = '.favorite_count';		// いいね集計項目のセレクタ
 SELECTOR_READ_COUNT = '.read_count';				// 既読集計項目のセレクタ
 SELECTOR_ENTRY_STATUS = '.entry_status';			// コンテンツの登録状態（下書、登録、削除）を管理するセレクタ
-
+SELECTOR_SERACH_MESSAGE = '.serach_message';		// 検索結果が0件の際にメッセージを表示するセレクタ
 
 /*
  * path名(file名)
