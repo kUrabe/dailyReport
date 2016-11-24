@@ -148,12 +148,15 @@ function CreateWindowsDetail() {
 		date = $(SELECTOR_REPORT_DATE).text();
 		
 		// リクエスト用JSON連想配列に追加する
+		// ユーザIDをセット
 		jsonArray[KEY_USER_ID] = user;
+		// 日付をセット
 		jsonArray[KEY_DATE] = date;
+		// 取得対象の項目名をセット
 		jsonArray[KEY_INDEX_NAME] = STR_PLAN;
 		
 		// JSON連想配列を用いてDBの値を取得する
-		this.getJsonData(PATH_CREATE, jsonArray, STR_READ);
+		this.getJsonData(PATH_CREATE_BEFORE_CONTENT, jsonArray, STR_READ);
 		
 		// 対象のテキストエリアに取得した値をセットする
 		$(selector).parent(SELECTOR_PARENT_AREA).children(SELECTOR_MAIN_TEXT).text(this.json[KEY_MAIN_TEXT]);
@@ -264,12 +267,15 @@ function CreateWindowsDetail() {
 			content_id = $(SELECTOR_CONTENT_ID).text();
 			
 			// リクエスト用JSON連想配列に追加する
+			// ユーザIDをセット
 			jsonArray[KEY_USER_ID] = user;
+			// 日付をセット
 			jsonArray[KEY_DATE] = date;
+			// コンテンツIDをセット
 			jsonArray[KEY_CONTENT_ID] = content_id;
 			
 			// JSON連想配列を用いてDBの値を取得する
-			this.getJsonData(PATH_CREATE, jsonArray, STR_READ);
+			this.getJsonData(PATH_CREATE_BY_DAY, jsonArray, STR_READ);
 
 			// 見出しエリアをすべて削除する
 			$(SELECTOR_PARENT_AREA).remove();
@@ -288,7 +294,7 @@ function CreateWindowsDetail() {
 				jsonArray[KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
 				
 				// JSON連想配列を用いてDBの値を取得する
-				this.getJsonData(PATH_CREATE, jsonArray, STR_READ);
+				this.getJsonData(PATH_CREATE_BY_DAY, jsonArray, STR_READ);
 				
 				// 紐付くデータが取得出来ているか検証する(messageが返ってきていないか)
 				if(!this.json.hasOwnProperty(STR_MESSAGE)) {
@@ -321,10 +327,15 @@ function CreateWindowsDetail() {
 				// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
 				// TODO:【セレクタ】fixed_item_idは、固定項目を使用している
 				// リクエスト用JSON連想配列に必要な値をセットする
+				// ユーザIDをセット
 				jsonArray[index + 1][KEY_USER_ID] = $(SELECTOR_USER_ID).text();
+				// 登録書式をテンプレートのフラグでセット
 				jsonArray[index + 1][KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
+				// 見出し番号をセット
 				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
+				// 見出し文字をセット
 				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_INDEX_AREA).text();
+				// 固定IDをセット
 				jsonArray[index + 1][KEY_FIXED_ITEM_ID] = $(this).children(SELECTOR_FIXED_ITEM_ID).text();
 			});
 		} else {
@@ -332,7 +343,7 @@ function CreateWindowsDetail() {
 			alert(MESSAGE_FORMAT_ERROR);
 		}
 		// JSON連想配列を用いてDBに値を登録する
-		this.getJsonData(PATH_CREATE, jsonArray, STR_CREATE);
+		this.getJsonData(PATH_CREATE_SAVE_TEMPLATE, jsonArray, STR_CREATE);
 	}
 	
 	/**
@@ -348,17 +359,23 @@ function CreateWindowsDetail() {
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		
 		// 見出しが1つでもあるか、空白エリアはないか検証する
-		if(this.isCheckFormatIndex() && isCheckTextArea) {
+		if(this.isCheckFormatIndex() && this.isCheckTextArea) {
 			// 見出しエリアの個数分走査する
 			$(SELECTOR_PARENT_AREA).each(function(index) {
 				// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
 				// TODO:【セレクタ】fixed_item_idは、固定項目を使用している
 				// リクエスト用JSON連想配列に必要な値をセットする
+				// ユーザIDをセット
 				jsonArray[index + 1][KEY_USER_ID] = $(SELECTOR_USER_ID).text();
+				// 登録書式を日報のフラグでセット
 				jsonArray[index + 1][KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
+				// 見出し番号をセット
 				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
+				// 見出し文字をセット
 				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_INDEX_AREA).text();
+				// 本文をセット
 				jsonArray[index + 1][KEY_MAIN_TEXT] = $(this).children(SELECTOR_MAIN_TEXT).text();
+				// 固定IDをセット
 				jsonArray[index + 1][KEY_FIXED_ITEM_ID] = $(this).children(SELECTOR_FIXED_ITEM_ID).text();
 			});
 		} else {
@@ -371,10 +388,236 @@ function CreateWindowsDetail() {
 		if(content_id != "") {
 			jsonArray[KEY_CONTENT_ID] = content_id;
 			// JSON連想配列を用いてDBに値を更新する
-			this.getJsonData(PATH_CREATE, jsonArray, STR_UPDATE);
+			this.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_UPDATE);
 		} else {
 			// JSON連想配列を用いてDBに値を登録する
-			this.getJsonData(PATH_CREATE, jsonArray, STR_CREATE);
+			this.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_CREATE);
+		}
+		
+	}
+	
+	/**
+	 * 関数名：	saveComment
+	 * 概要：		コメントを登録する
+	 * 引数：		なし
+	 * 戻り値：	なし
+	 * 作成日：	2016/11/23
+	 * 作成者：	k.urabe
+	 */
+	// TODO:【未実装】saveReportと統合予定
+	this.saveComment = function() {
+		
+		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		
+		// 見出しが1つでもあるか、空白エリアはないか検証する
+		if(this.isCheckFormatIndex() && this.isCheckTextArea) {
+			// 見出しエリアの個数分走査する
+			$(SELECTOR_PARENT_AREA).each(function(index) {
+				// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
+				// TODO:【セレクタ】fixed_item_idは、固定項目を使用している
+				// リクエスト用JSON連想配列に必要な値をセットする
+				// ユーザIDをセット
+				jsonArray[index + 1][KEY_USER_ID] = $(SELECTOR_USER_ID).text();
+				// 登録書式を日報のフラグでセット
+				jsonArray[index + 1][KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
+				// 見出し番号をセット
+				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
+				// 見出し文字をセット
+				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_INDEX_AREA).text();
+				// 本文をセット
+				jsonArray[index + 1][KEY_MAIN_TEXT] = $(this).children(SELECTOR_MAIN_TEXT).text();
+				// 固定IDをセット
+				jsonArray[index + 1][KEY_FIXED_ITEM_ID] = $(this).children(SELECTOR_FIXED_ITEM_ID).text();
+			});
+		} else {
+			// 登録できない旨を表示する
+			alert(MESSAGE_COMMENT_ERROR);
+		}
+		// 当該コンテンツIDを取得する
+		var content_id = $(SELECTOR_CONTENT_ID).text();
+		// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
+		if(content_id != "") {
+			// リクエスト用JSON連想配列にコンテンツIDをセットする
+			jsonArray[KEY_CONTENT_ID] = content_id;
+			// JSON連想配列を用いてDBに値を更新する
+			this.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_UPDATE);
+		} else {
+			// JSON連想配列を用いてDBに値を登録する
+			this.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_CREATE);
+		}
+		
+	}
+	
+	/**
+	 * 関数名：	isCheckFormatIndex
+	 * 概要：		コメントを登録する
+	 * 引数：		なし
+	 * 戻り値：	なし
+	 * 作成日：	2016/11/23
+	 * 作成者：	k.urabe
+	 */
+	this.isCheckFormatIndex = function() {
+		
+		var returnBoolean = false;		// 返却用の変数に初期値としてfalseを格納する
+		
+		// 画面内の見出し項目が1つ以上あるか検証
+		if(1 <= $(SELECTOR_INDEX_AREA).length()) {
+			// 見出し項目が存在するため、trueをセット
+			returnBoolean = true;
+		}
+		
+		// 判定結果を返す
+		return returnBoolean;
+		
+	}
+	
+	/**
+	 * 関数名：	createReportWindow
+	 * 概要：		レポート作成画面を開いた時の処理
+	 * 引数：		なし
+	 * 戻り値：	なし
+	 * 作成日：	2016/11/24
+	 * 作成者：	k.urabe
+	 */
+	this.createReportWindow = function() {
+		
+		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		
+		// TODO:【メモ】共通ボタンは初期表示のHTMLに展開されている想定
+		// 画面共通のボタンイベント等を登録する
+		// 見出し追加ボタンを登録する
+		this.setClickEvent(SELECTOR_B_ADD_INDEX, this.addIndex);
+		// 報告ボタンを登録する
+		this.setClickEvent(SELECTOR_B_ADD_REPORT, this.saveFormat);
+		// キャンセルボタンを登録する
+		this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
+		// 日付エリアのイベントを登録する
+		this.getDayContent();
+		
+		// 当該コンテンツIDを取得する
+		var content_id = $(SELECTOR_CONTENT_ID).text();
+		// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
+		if(content_id != "") {
+			// リクエスト用JSON連想配列にコンテンツIDをセットする
+			jsonArray[KEY_CONTENT_ID] = content_id;
+			// JSON連想配列を用いてDBに値を取得する
+			this.getJsonData(PATH_CREATE_BY_DAY, jsonArray, STR_READ);
+			// 取得したJSONを展開する
+			this.createReportDetail(SELECTOR_MAIN);
+			// 画面内の所定の位置に取得したコンテンツIDを埋める
+			$(SELECTOR_CONTENT_ID).text(this.json[KEY_CONTENT_ID]);
+			
+			// TODO:【未実装】ボタンの数だけステップが増えるので、別関数検討
+			// TODO:【メモ】ボタンの設置は画面初期表示（固定パーツ）と、タグ展開時（流動パーツ）で行う。ここではイベント登録のみ
+			// TODO:【メモ】↑ 現在はタグ展開時にボタンの配置までやっていない
+			// TODO:【メモ】同じタグの複数箇所に一気にイベント登録しようとしているが、これが可能か不明。場合によってはタグの展開時に1つ1つボタンの展開に合わせてイベント登録が必要かも
+			// 追加された項目に付随するボタンイベント等を登録する
+			// 見出し削除ボタンのイベントを登録する
+			this.setClickEvent(SELECTOR_B_DEL_INDEX, this.deleteIndex);
+			// TODO:【未実装】固定機能は共通のイベント登録に渡すための、機能振り分け用の関数を作成するべきか
+			// 固定機能（前日予定継承）ボタンのイベントを登録する
+			this.setClickEvent(SELECTOR_B_FIXED_BEORE_PLAN, this.getBeforePlan);
+			// 固定機能（当日結果継承）ボタンのイベントを登録する
+			this.setClickEvent(SELECTOR_B_FIXED_TODAY_RESULT, this.getTodayResult);
+			
+		}
+		
+		/**
+		 * 関数名：	ViewCommentWindow
+		 * 概要：		コメント詳細画面を開いた時の処理
+		 * 引数：		なし
+		 * 戻り値：	なし
+		 * 作成日：	2016/11/24
+		 * 作成者：	k.urabe
+		 */
+		this.ViewCommentWindow = function() {
+			
+			var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+			
+			// 当該コンテンツIDを取得する
+			var content_id = $(SELECTOR_CONTENT_ID).text();
+			// リクエスト用JSON連想配列にコンテンツIDをセットする
+			jsonArray[KEY_CONTENT_ID] = content_id;
+			// JSON連想配列を用いてDBに値を取得する
+			this.getJsonData(PATH_CREATE, jsonArray, STR_READ);
+			// 取得したJSONを展開する
+			this.createReportDetail(SELECTOR_MAIN);
+			
+			// TODO:【未実装】ログインユーザは所定の位置（'.user_id'）に埋め込んでいる想定だが、開かれたコメントの投稿ユーザは取得したJSONデータから取得する必要がある
+			// TODO:【未実装】JSONの結果はコメントなので1件しかないが、行ごとに結果が格納されてくる想定で記述
+			// ログインユーザとコメントの投稿者が同一人物か検証する
+			if($(SELECTOR_USER_ID).text() == this.json[1].user_id) {
+				// TODO:【メモ】画面表示時には画面のボタンが全て揃っている想定。そこからユーザ種別ごとにボタンイベント登録と、非表示設定を行う
+				// 本人用のボタンイベントを登録する
+				
+				// 編集ボタンのイベントを登録する
+				this.setClickEvent(SELECTOR_B_EDIT, this.prepareAnotherWindow);
+				// 削除ボタンのイベントを登録する
+				this.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton);
+				
+				// TODO:【未実装】ボタンの非表示は、クラス名に追加付与して、その名称をcssで指定することにより変更する
+				// 不要なボタンを非表示にする。
+				// 未読にするボタンを非表示にする
+				$(SELECTOR_B_NO_READ).addClass(SRT_SHOW_HIDE);
+				// いいねボタンを非表示にする。
+				$(SELECTOR_B_FAVORITE).addClass(SRT_SHOW_HIDE);
+				
+			} else {
+				// TODO:【メモ】画面表示時には画面のボタンが全て揃っている想定。そこからユーザ種別ごとにボタンイベント登録と、非表示設定を行う
+				// 他人用のボタンイベントを登録する
+				// 未読にするボタンのイベントを登録する
+				this.setClickEvent(SELECTOR_B_NO_READ, this.clickAddContentButton);
+				// いいねボタンのイベントを登録する
+				this.setClickEvent(SELECTOR_B_FAVORITE, this.clickAddContentButton);
+				// コメントするボタンのイベントを登録する
+				this.setClickEvent(SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow);
+				
+				// TODO:【未実装】ボタンの非表示は、クラス名に追加付与して、その名称をcssで指定することにより変更する
+				// 不要なボタンを非表示にする。
+				// 編集ボタンを非表示にする
+				$(SELECTOR_B_EDIT).addClass(SRT_SHOW_HIDE);
+				// 削除ボタンを非表示にする。
+				$(SELECTOR_B_DELETE).addClass(SRT_SHOW_HIDE);
+			}
+			// TODO:【メモ】画面設計上、ボタン名は閉じるだが、他画面との兼ね合い上、クラス名はキャンセルボタンのものを指定する想定
+			// 共通のキャンセルボタンを登録する
+			this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
+			
+		}
+
+	}
+	
+	/**
+	 * 関数名：	createCommentWindow
+	 * 概要：		コメント作成画面を開いた時の処理
+	 * 引数：		なし
+	 * 戻り値：	なし
+	 * 作成日：	2016/11/24
+	 * 作成者：	k.urabe
+	 */
+	this.createCommentWindow = function() {
+		
+		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		
+		// TODO:【メモ】共通ボタンは初期表示のHTMLに展開されている想定
+		// 画面共通のボタンイベント等を登録する
+		// コメントボタンを登録する
+		this.setClickEvent(SELECTOR_B_ADD_COMMENT, this.saveComment);
+		// キャンセルボタンを登録する
+		this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
+		
+		// 当該コンテンツIDを取得する
+		var content_id = $(SELECTOR_CONTENT_ID).text();
+		// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
+		if(content_id != "") {
+			// リクエスト用JSON連想配列にコンテンツIDをセットする
+			jsonArray[KEY_CONTENT_ID] = content_id;
+			// JSON連想配列を用いてDBに値を取得する
+			this.getJsonData(PATH_CREATE, jsonArray, STR_READ);
+			// 取得したJSONを展開する
+			this.createReportDetail(SELECTOR_MAIN);
+			// 画面内の所定の位置に取得したコンテンツIDを埋める
+			$(SELECTOR_CONTENT_ID).text(this.json[KEY_CONTENT_ID]);
 		}
 		
 	}

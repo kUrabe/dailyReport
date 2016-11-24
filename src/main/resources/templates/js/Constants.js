@@ -35,9 +35,11 @@ FLAG_ADD_CATEGORY_FAVORITE = 2;				// record_content_addテーブルのいいね
 FLAG_ENTRY_STATUS_NOTE = 1;					// record_content_infテーブルの下書状態を表す
 FLAG_ENTRY_STATUS_REG = 2;					// record_content_infテーブルの登録状態を表す
 FLAG_ENTRY_STATUS_DEL = 4;					// record_content_infテーブルの削除状態を表す
-FLAG_ENTRY_FORMAT_REPORT = 1;				// record_content_infテーブルの書式（日報）を表す
-FLAG_ENTRY_FORMAT_COMMENT = 2;				// record_content_infテーブルの書式（コメント）を表す
-FLAG_ENTRY_FORMAT_TEMPLATE = 4;				// record_content_infテーブルの書式（テンプレート）を表す
+FLAG_ENTRY_FORMAT_TEMPLATE = 1;				// record_content_infテーブルの書式（テンプレート）を表す
+FLAG_ENTRY_FORMAT_REPORT = 2;				// record_content_infテーブルの書式（日報）を表す
+FLAG_ENTRY_FORMAT_COMMENT = 4;				// record_content_infテーブルの書式（コメント）を表す
+FLAG_BUTTON_FUNCTION_BEFOR_PLAN = 2;		// fixed_item_infテーブルのボタン機能（前日予定）を表す
+FLAG_BUTTON_FUNCTION_TODAY_RESULT = 4;		// fixed_item_infテーブルのボタン機能（当日結果）を表す
 
 /*
  * キー名
@@ -58,6 +60,7 @@ KEY_DISABLED = 'disabled';						// disabled属性
 KEY_NEW_REPORT_CREATE = 'report_create';		// 別ウインドウの開くボタンのname属性（日報作成画面）
 KEY_NEW_COMMENT_CREATE = 'comment_create';		// 別ウインドウの開くボタンのname属性（コメント作成画面）
 KEY_NEW_COMMENT_VIEW = 'comment_view';			// 別ウインドウの開くボタンのname属性（コメント詳細画面）
+KEY_BUTTON_FUNCTION = 'button_function';		// コメント作成画面の固定機能ボタンのname属性
 KEY_DIV = 'div';								// div要素
 KEY_TEXT_AREA = 'textarea';						// textarea要素
 
@@ -69,8 +72,8 @@ KEY_SERACH_NOTE = 'serach_note';				// 検索領域の下書
 
 KEY_USER_ID = 'user_id';
 KEY_USER_NAME = 'user_name';
-KEY_LOGIN_NAME = 'login_name';
-KEY_INDEX_NAME = 'index_name';
+KEY_LOGIN_NAME = 'login_name';					// ログイン
+KEY_INDEX_NAME = 'index_name';					// 見出し項目の値が入るのクラス名（ここに「予定」とか「結果」とか入る）。
 KEY_DATE = 'date';
 
 //日報作成画面のキー
@@ -132,7 +135,7 @@ SELECTOR_B_EDIT = '.b_edit';
 SELECTOR_B_DELETE = '.b_delete';
 SELECTOR_B_ACCORDION = '.b_accordion';
 
-// 日報作成画面のセレクタ
+// 日報作成、コメント詳細、コメント作成画面のセレクタ
 SELECTOR_MAIN = '.main';
 SELECTOR_MAIN_LAST = '.main:last';
 SELECTOR_TITLE = '.title';
@@ -143,10 +146,13 @@ SELECTOR_FIXED_ITEM_ID = '.fixed_item_id';
 SELECTOR_MAIN_TEXT = '.main_text';
 SELECTOR_B_DEL_INDEX = '.b_del_index';
 SELECTOR_B_FIXED = '.b_fixed';
+SELECTOR_B_FIXED_BEORE_PLAN = '.b_fixed[name="' + FLAG_BUTTON_FUNCTION_BEFOR_PLAN + '"]';
+SELECTOR_B_FIXED_TODAY_RESULT = '.b_fixed[name="' + FLAG_BUTTON_FUNCTION_TODAY_RESULT + '"]';
 SELECTOR_B_ADD_INDEX = '.b_add_index';
 SELECTOR_C_NOTE = '.c_note';
 SELECTOR_B_ADD_REPORT = '.b_add_report';
 SELECTOR_B_CANCEL = '.b_cancel';
+SELECTOR_B_ADD_COMMENT = '.b_add_comment';				// コメント作成画面のコメントボタン(詳細画面のコメントするボタンにはTop画面と同じくSELECTOR_B_NEW_COMMENTを使用)
 
 
 /*
@@ -155,14 +161,23 @@ SELECTOR_B_CANCEL = '.b_cancel';
  * 命名規則
  * PATH + _ + キー名
  */
-PATH_FAVORITE_ON = 'img/XXX.jpg';					// いいねが登録されている時のボタン画像
-PATH_FAVORITE_OFF = 'img/XXX.jpg';					// いいねが登録されている時のボタン画像
-PATH_COMMON = '/common';							// 共通処理系のリクエストpath
-PATH_TOP = '/top';									// top処理系のリクエストpath
-PATH_CREATE = '/create';							// create処理系のリクエストpath
-PATH_REPORT_CREATE = '/create/report_create.html';	// 日報作成画面のPATH
-PATH_COMMENT_CREATE = '/create/comment_create.html';	// コメント作成画面のPATH
-PATH_COMMENT_VIEW = '/create/comment_view.html';	// コメント詳細画面のPATH
+PATH_FAVORITE_ON = 'img/XXX.jpg';							// いいねが登録されている時のボタン画像
+PATH_FAVORITE_OFF = 'img/XXX.jpg';							// いいねが解除されている時のボタン画像
+PATH_COMMON = '/common';									// 共通処理系のリクエストpath
+PATH_COMMON_SAVE_ADD_CONTENT = '/common/saveAddContent';	// 追加機能（いいね）等に対する処理リクエスト
+PATH_TOP = '/top';											// top処理系のリクエストpath
+PATH_TOP_PAGE_CONTENT = '/top/topPageContent';				// アコーディオン内を除くコンテンツの取得
+PATH_TOP_PAGE_DETAIAL_CONTENT = '/top/topPageDetailContent';// アコーディオン内のコンテンツの取得
+PATH_CREATE = '/create';									// create処理系のリクエストpath
+PATH_CREATE_DELETE_CONTENT = '/create/deleteContent';		// 削除ボタン押下時のリクエストPATH
+PATH_CREATE_BY_DAY = '/create/contentByDay';				// 作成画面の日付選択に応じたリクエストpath
+PATH_CREATE_SAVE_CONTENT = '/create/saveContent';			// コンテンツ（日報・コメント）の新規・更新処理
+PATH_CREATE_BEFORE_CONTENT = '/create/beforeContent';		// 前日以前の日報（予定）を取得
+PATH_CREATE_SAVE_TEMPLATE = '/create/saveTemplate';			// テンプレートの新規・更新処理
+
+PATH_REPORT_CREATE = '/create/report_create.html';			// 日報作成画面のPATH
+PATH_COMMENT_CREATE = '/create/comment_create.html';		// コメント作成画面のPATH
+PATH_COMMENT_VIEW = '/create/comment_view.html';			// コメント詳細画面のPATH
 
 /*
  * tag名
@@ -203,8 +218,12 @@ STR_UPDATE = 'update';								// サーバへ渡すパラメータにリクエ�
 STR_DELETE = 'delete';								// サーバへ渡すパラメータにリクエストする処理をマッピングさせるための単語
 STR_MESSAGE = 'message';
 STR_PLAN = '予定';
+SRT_SHOW_HIDE = 'ShowHide';							// 非表示にしたい要素のクラス名に付与する
 
 //TODO:【未実装】ダイアログのコメント系が未定義
 MESSAGE_DEL_INDEX = '見出しエリアを削除します。\n入力していたデータは消えますがよろしいですか？';
 MESSAGE_FORMAT_ERROR = '見出しが1つもないため登録できません。';
-MESSAGE_REPORT_ERROR = '';
+MESSAGE_REPORT_ERROR = '内容に空白がある状態で報告は出来ません。\n下書きを保存する場合、チェックを入れてから報告してください。';
+MESSAGE_COMMENT_ERROR = '内容が空白ではコメントできません。';
+
+

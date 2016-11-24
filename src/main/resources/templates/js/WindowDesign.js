@@ -151,6 +151,8 @@ function WindowDesign() {
 			type: 'POST',
 			// 同期通信を行う
 			async: false,
+			// サーバへ渡すデータを連想配列にする
+			data: {anotherWidow:''},
 			// キャッシュを無効にする
 			cache: false,
 			// 通信成功時の処理

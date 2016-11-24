@@ -277,7 +277,7 @@ function BaseWindow() {
 			// JSON連想配列に更新すべき登録状態をセットする
 			jsonArray[KEY_CATEGORY_STATUS] = FLAG_CATEGORY_STATUS_DEL;
 			// JSON連想配列を用いてDBの値を更新する
-			this.getJsonData(PATH_COMMON, jsonArray, STR_UPDATE);
+			this.getJsonData(PATH_COMMON_SAVE_ADD_CONTENT, jsonArray, STR_UPDATE);
 			// 加算値をセットする
 			addValue = -1;
 		// 押下した時の状態が削除であるかを検証する
@@ -285,14 +285,14 @@ function BaseWindow() {
 			// JSON連想配列に更新すべき登録状態をセットする
 			jsonArray[KEY_CATEGORY_STATUS] = FLAG_CATEGORY_STATUS_REG;
 			// JSON連想配列を用いてDBの値を更新する
-			this.getJsonData(PATH_COMMON, jsonArray, STR_UPDATE);
+			this.getJsonData(PATH_COMMON_SAVE_ADD_CONTENT, jsonArray, STR_UPDATE);
 			// 加算値をセットする
 			addValue = 1;
 		} else {
 			// JSON連想配列に更新すべき登録状態をセットする
 			jsonArray[KEY_CATEGORY_STATUS] = FLAG_CATEGORY_STATUS_DEL;
 			// JSON連想配列を用いてDBの値を登録する
-			this.getJsonData(PATH_COMMON, jsonArray, STR_CREATE);
+			this.getJsonData(PATH_COMMON_SAVE_ADD_CONTENT, jsonArray, STR_CREATE);
 			// 加算値をセットする
 			addValue = 1;
 		}
@@ -342,11 +342,11 @@ function BaseWindow() {
 			// JSON連想配列に更新する登録状態をセットする
 			jsonArray[KEY_ENTRY_STATUS] = FLAG_ENTRY_STATUS_DEL;
 			// JSON連想配列を用いてDBの値を更新する
-			this.getJsonData(PATH_CREATE, jsonArray, STR_UPDATE);
+			this.getJsonData(PATH_CREATE_DELETE_CONTENT, jsonArray, STR_UPDATE);
 		// 当該コンテンツの状態が下書であるか検証する
 		} else if(FLAG_ENTRY_STATUS_NOTE & category_status) {
 			// JSON連想配列を用いてDBのレコードを削除する
-			this.getJsonData(PATH_CREATE, jsonArray, STR_DELETE);
+			this.getJsonData(PATH_CREATE_DELETE_CONTENT, jsonArray, STR_DELETE);
 		}
 		
 		// 一覧を再描画する

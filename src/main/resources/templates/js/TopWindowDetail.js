@@ -67,7 +67,7 @@ function TopWindowDetail() {
 		jsonArray[KEY_SERACH_NOTE] = getWindowItem(SELECTOR_SERACH_NOTE);
 
 		// JSON連想配列を用いてDBから値を取得する
-		this.getJsonData(PATH_TOP, jsonArray, STR_READ);
+		this.getJsonData(PATH_TOP_PAGE_CONTENT, jsonArray, STR_READ);
 		// 取得したJSONを用いてHTMLへタグを展開する
 		this.createContentIndex(SELECTOR_REPORT_AREA, 0);
 		
@@ -77,18 +77,18 @@ function TopWindowDetail() {
 		// TODO:【メモ】同じタグの複数箇所に一気にイベント登録しようとしているが、これが可能か不明。場合によってはタグの展開時に1つ1つボタンの展開に合わせてイベント登録が必要かも
 		// 流動的なパーツのイベントを登録する
 		// 新規コメントボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_NEW_COMMENT, prepareAnotherWindow);
+		this.setClickEvent(SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow);
 		// TODO:【メモ】アコーディオンと共通化するため、個別には必要ない？
 		// 閉じるボタンのイベントを登録する
 		//setClickEvent(SELECTOR_B_CLOSE, );
 		// 未読にするボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_NO_READ, clickAddContentButton);
+		this.setClickEvent(SELECTOR_B_NO_READ, this.clickAddContentButton);
 		// いいねボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_FAVORITE, clickAddContentButton);
+		this.setClickEvent(SELECTOR_B_FAVORITE, this.clickAddContentButton);
 		// 編集ボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_EDIT, prepareAnotherWindow);
+		this.setClickEvent(SELECTOR_B_EDIT, this.prepareAnotherWindow);
 		// 削除ボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_DELETE, clickDeleteButton);
+		this.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton);
 		// アコーディオン対象ボタンのイベントを登録する
 		this.managementAccordion(SELECTOR_B_ACCORDION, SELECTOR_ACCORDION_AREA);
 		
@@ -107,9 +107,9 @@ function TopWindowDetail() {
 		// TODO:【未実装】logoutボタンはサーバ側のSpringで制御予定のため、特に記述なし。ただし、ダイアログを出さないといけないので、追加する必要あり
 		// 画面共通部分のボタンにイベントを登録する
 		// 検索ボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_SERACH, clickSearchButton);
+		this.setClickEvent(SELECTOR_B_SERACH, this.clickSearchButton);
 		// 新規日報ボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_NEW_REPORT, prepareAnotherWindow);
+		this.setClickEvent(SELECTOR_B_NEW_REPORT, this.prepareAnotherWindow);
 		
 		// TODO:【メモ】サーバから取得したHTMLには、初期表示として値が入っていることを想定
 		// 初期の検索条件にて画面項目の取得を行う。
