@@ -7,6 +7,7 @@
 
 package dailyReport.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class CreateController {
 		
 		// TODO:【未実装】ここで格納する型が単純なテーブルのentityクラスではダメなはずなので要検証（こちらは詳細テーブルだけでもよいかも…）
 		// 検索を実行し、その結果をentityインスタンスへ格納する
-		recordContentDetail = createService.getContentByDay(map);
+		List<RecordContentDetail> recordContentDetail = createService.getContentByDay(map);
 		
 		// TODO:【未実装】entityクラスに対する0件の検証が以下であっているか不明
 		// 検索結果が1件以上取得出来ているか検証する
@@ -140,7 +141,7 @@ public class CreateController {
 	
 		// TODO:【未実装】ここで格納する型が単純なテーブルのentityクラスではダメなはずなので要検証（こちらは詳細テーブルだけでもよいかも…）
 		// 検索を実行し、その結果をentityインスタンスへ格納する
-		recordContentDetail = createService.getContentByDay(map);
+		List<RecordContentDetail> recordContentDetail = createService.getContentByDay(map);
 		
 		// TODO:【未実装】entityクラスに対する0件の検証が以下であっているか不明
 		// 検索結果が1件以上取得出来ているか検証する

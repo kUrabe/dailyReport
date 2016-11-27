@@ -12,6 +12,12 @@ public class RecordContentAdd implements Serializable {
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	// 主キー
+	@Id
+	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
+	
 	/** レコード情報. */
 	@ManyToOne
 	@JoinColumn(name="content_id", insertable=false, updatable=false)
@@ -22,7 +28,6 @@ public class RecordContentAdd implements Serializable {
 	private String userId;
 
 	/** 追加種別. */
-	@Id
 	@Column(name="add_category")
 	private Integer addCategory;
 
@@ -119,9 +124,7 @@ public class RecordContentAdd implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((recordContentInf == null) ? 0 : recordContentInf.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		result = prime * result + ((addCategory == null) ? 0 : addCategory.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -140,25 +143,11 @@ public class RecordContentAdd implements Serializable {
 			return false;
 		}
 		RecordContentAdd other = (RecordContentAdd) obj;
-		if (recordContentInf == null) {
-			if (other.recordContentInf != null) {
+		if (id == null) {
+			if (other.id != null) {
 				return false;
 			}
-		} else if (!recordContentInf.equals(other.recordContentInf)) {
-			return false;
-		}
-		if (userId == null) {
-			if (other.userId != null) {
-				return false;
-			}
-		} else if (!userId.equals(other.userId)) {
-			return false;
-		}
-		if (addCategory == null) {
-			if (other.addCategory != null) {
-				return false;
-			}
-		} else if (!addCategory.equals(other.addCategory)) {
+		} else if (!id.equals(other.id)) {
 			return false;
 		}
 		return true;

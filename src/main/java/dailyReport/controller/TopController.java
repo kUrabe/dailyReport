@@ -7,6 +7,7 @@
 
 package dailyReport.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,9 @@ public class TopController {
 	@Autowired
 	TopService topService;
 	@Autowired
-	RecordContentInf recordContentInf;
+	List<RecordContentInf> recordContentInf;
 	@Autowired
-	RecordContentDetail recordContentDetail;
+	List<RecordContentDetail> recordContentDetail;
 	
 	/**
 	 * 関数名：	requestTopPageContent

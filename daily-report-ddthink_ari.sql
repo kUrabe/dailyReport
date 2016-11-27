@@ -36,21 +36,23 @@ CREATE TABLE fixed_item_inf
 
 CREATE TABLE record_content_add
 (
+	-- 主キーのID
+	id int NOT NULL AUTO_INCREMENT COMMENT '主キーのID',
 	-- コンテンツ情報を一意に紐付けるID。
 	content_id int NOT NULL COMMENT 'コンテンツ情報を一意に紐付けるID。',
 	-- 一意なユーザID。
-	user_id int NOT NULL COMMENT '一意なユーザID。',
+	user_id varchar(30) NOT NULL COMMENT '一意なユーザID。',
 	-- 追加種別。bit管理
 	add_category int NOT NULL COMMENT '追加種別。bit管理',
 	-- 登録状態。bit管理
 	category_status int NOT NULL COMMENT '登録状態。bit管理',
-	PRIMARY KEY (content_id, user_id, add_category),
-	UNIQUE (add_category)
+	PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
 
 
 CREATE TABLE record_content_detail
 (
+	id int NOT NULL AUTO_INCREMENT,
 	-- 主キー。コンテンツ情報を一意に紐付けるID
 	content_id int NOT NULL COMMENT '主キー。コンテンツ情報を一意に紐付けるID',
 	-- コンテンツ詳細ID。
@@ -61,7 +63,7 @@ CREATE TABLE record_content_detail
 	index_name varchar(30) COMMENT '項目名',
 	-- コンテンツの内容。本文。
 	main_text text COMMENT 'コンテンツの内容。本文。',
-	PRIMARY KEY (content_id, detail_id)
+	PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
 
 
@@ -70,7 +72,7 @@ CREATE TABLE record_content_inf
 	-- 主キー。コンテンツ情報を一意に紐付けるID
 	content_id int NOT NULL AUTO_INCREMENT COMMENT '主キー。コンテンツ情報を一意に紐付けるID',
 	-- 一意なユーザID。
-	user_id int NOT NULL COMMENT '一意なユーザID。',
+	user_id varchar(30) NOT NULL COMMENT '一意なユーザID。',
 	-- 登録書式。bit管理
 	entry_format int NOT NULL COMMENT '登録書式。bit管理',
 	-- 登録状態。bit管理
@@ -95,9 +97,7 @@ CREATE TABLE record_content_inf
 CREATE TABLE user_inf
 (
 	-- 一意なユーザID。
-	user_id int NOT NULL AUTO_INCREMENT COMMENT '一意なユーザID。',
-	-- ログイン時に使用されるログインユーザ名。例：tanaka
-	login_name varchar(30) NOT NULL COMMENT 'ログイン時に使用されるログインユーザ名。例：tanaka',
+	user_id varchar(30) NOT NULL COMMENT '一意なユーザID。',
 	-- ユーザに紐付くパスワード。ハッシュ化されてDB保存。
 	login_password varchar(512) COMMENT 'ユーザに紐付くパスワード。ハッシュ化されてDB保存。',
 	-- ユーザに紐付く名前
@@ -117,8 +117,7 @@ CREATE TABLE user_inf
 	-- コンテンツ情報の更新日
 	update_dated datetime NOT NULL COMMENT 'コンテンツ情報の更新日',
 	PRIMARY KEY (user_id),
-	UNIQUE (user_id),
-	UNIQUE (login_name)
+	UNIQUE (user_id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
 
 
@@ -146,14 +145,6 @@ ALTER TABLE record_content_detail
 	REFERENCES record_content_inf (content_id)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
-;
-
-
-ALTER TABLE record_content_add
-	ADD FOREIGN KEY (user_id)
-	REFERENCES user_inf (user_id)
-	ON UPDATE CASCADE
-	ON DELETE CASCADE
 ;
 
 

@@ -9,6 +9,7 @@
 package dailyReport.service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.persistence.*;
@@ -16,9 +17,13 @@ import javax.persistence.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dailyReport.Constants;
 import dailyReport.resource.RecordContentAdd;
 import dailyReport.resource.RecordContentInf;
+import dailyReport.resource.UserInf;
 
 
 /**
@@ -150,13 +155,12 @@ public class CommonService {
 	public String setResultMessage(String message) {
 		
 		// 返却用のメッセージを格納するMapを生成する
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		// mapに受け取ったメッセージをセットする
 		map.put(Constants.STR_MESSAGE, message);
-		// TODO:【未実装】mapからJSONへの実装が未
-		// mapをJSON文字列に変換する
+		// mapをJSON文字列に変換して返す
+		return this.convertMapToJson(map);
 		
-		return "";
 	}
 	
 	/**
@@ -166,10 +170,21 @@ public class CommonService {
 	 * 戻り値：	String
 	 * 作成日：	2016/11/25
 	 * 作成者：	k.urabe
+	 * 参考:		http://blog.pepese.com/entry/20130915/1379222428
 	 */
 	public String convertMapToJson(Map<String, Object> map) {
 		
-		return "";
+		//Map<String,String> map = new LinkedHashMap<>();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		return json;
 	}
 	
 	/**
@@ -179,15 +194,32 @@ public class CommonService {
 	 * 戻り値：	MAP
 	 * 作成日：	2016/11/25
 	 * 作成者：	k.urabe
+	 * 参考:		http://blog.pepese.com/entry/20130915/1379222428
 	 */
 	public Map<String, Object> convertJsonToMap(String json) {
-		// エラー消す用のダミー
-		Map<String, Object> map = new HashMap<String, Object>();
-		// TODO:【未実装】jacksonが使えていない。Springでは違うもの使う？　それともインポートする？
-		//Map<String, Object> map = (Map<String, Object>)JSON.decode(json);
 		
-		// エラー消す用のダミー
+		Map<String,Object> map = new LinkedHashMap<>();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			map = mapper.readValue(json, new TypeReference<LinkedHashMap<String,Object>>(){});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return map;
 	}
 	
+	/**
+	 * 関数名：	userAuth
+	 * 概要：		ユーザ認証用
+	 * 引数：		String
+	 * 戻り値：	UserInf
+	 * 作成日：	2016/11/28
+	 * 作成者：	k.urabe
+	 */
+	public UserInf userAuth(String username) {
+		// 入力されたログインユーザの情報を返す
+		return entityManager.find(UserInf.class, username);
+	}
 }

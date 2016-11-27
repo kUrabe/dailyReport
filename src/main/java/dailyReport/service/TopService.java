@@ -1,5 +1,6 @@
 package dailyReport.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -35,12 +36,18 @@ public class TopService {
 	 * 作成者：	k.urabe
 	 */
 	// TODO:【未実装】entityクラスはこれでよいか未検証。今はダミーとしてテーブル単体のものを指定している。
-	public RecordContentInf searchTopPageContent(Map<String, Object> map) {
-		// TODO:【未実装】主キー以外の検索および、複数テーブルの結合、Countなど使用について不明点があるため保留
+	public List<RecordContentInf> searchTopPageContent(Map<String, Object> map) {
+		// TODO:【未実装】Countなど使用について不明点があるため保留
 		// TODO:【未実装】なお、Countなどをとることにより、Entityクラスの型から外れてしまう。その場合はどうするか
-		// 現状はダミーとしてコンテンツIDによる全件検索を行う。
-		RecordContentInf content = entityManager.find(RecordContentInf.class, (int)map.get(Constants.KEY_CONTENT_ID));
-		
+		// 現状はCountの部分以外を実装
+		List<RecordContentInf> content = entityManager
+				.createNamedQuery("TopSearchContentQuery", RecordContentInf.class)
+				.setParameter("serach_user", map.get(Constants.KEY_SERACH_USER))
+				.setParameter("serach_note", map.get(Constants.KEY_SERACH_NOTE))
+				.setParameter("serach_from_date", map.get(Constants.KEY_SERACH_FROM_DATE))
+				.setParameter("serach_to_date", map.get(Constants.KEY_SERACH_TO_DATE))
+				.setParameter("serach_read", map.get(Constants.KEY_SERACH_READ))
+				.getResultList();
 		// 取得した情報を返す
 		return content;
 	}
@@ -54,11 +61,14 @@ public class TopService {
 	 * 作成者：	k.urabe
 	 */
 	// TODO:【未実装】entityクラスはこれでよいか未検証。今はダミーとしてテーブル単体のものを指定している。
-	public RecordContentDetail searchTopPageDetailContent(Map<String, Object> map) {
+	public List<RecordContentDetail> searchTopPageDetailContent(Map<String, Object> map) {
 		
-		// TODO:【未実装】主キー以外にも登録書式（日報、コメント）を検索キーとして使用する必要がある（これが別テーブルになるためJOIN）の必要がでる
-		// jsonから取得したコンテンツIDで情報を取得する
-		RecordContentDetail content = entityManager.find(RecordContentDetail.class, (int)map.get(Constants.KEY_CONTENT_ID));
+		// jsonから取得したコンテンツIDと登録書式で情報を取得する
+		List<RecordContentDetail> content = entityManager
+				.createNamedQuery("getContentDetailQuery", RecordContentDetail.class)
+				.setParameter("content_id", map.get(Constants.KEY_CONTENT_ID))
+				.setParameter("entry_format", map.get(Constants.KEY_ENTRY_FORMAT))
+				.getResultList();
 		
 		// 取得した情報を返す
 		return content;

@@ -2,6 +2,7 @@ package dailyReport.service;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -43,13 +44,14 @@ public class CreateService {
 	 * 作成者：	k.urabe
 	 */
 	// TODO:【未実装】entityクラスはこれでよいか未検証。今はダミーとしてテーブル単体のものを指定している。
-	public RecordContentDetail getContentByDay(Map<String, Object> map) {
+	public List<RecordContentDetail> getContentByDay(Map<String, Object> map) {
 		
-		// TODO:【未実装】主キー以外の検索および、複数テーブルの結合の手段が不明。
-		// TODO:【未実装】なお、Countなどをとることにより、Entityクラスの型から外れてしまう。その場合はどうするか
-		// 現状はダミーとしてコンテンツIDによる全件検索を行う。
-		RecordContentDetail content = entityManager.find(RecordContentDetail.class, (int)map.get(Constants.KEY_CONTENT_ID));
-		
+		// クライアントから受けたユーザIDを日付で日報があるか検索する
+		List<RecordContentDetail> content = entityManager
+				.createNamedQuery("getReportByDayQuery", RecordContentDetail.class)
+				.setParameter("user_id", map.get(Constants.KEY_USER_ID))
+				.setParameter("report_date", map.get(Constants.KEY_DATE))
+				.getResultList();
 		// 取得した情報を返す
 		return content;
 		
@@ -57,7 +59,7 @@ public class CreateService {
 	
 	/**
 	 * 関数名：	createContent
-	 * 概要：		作成画面（日報、コメント）
+	 * 概要：		作成画面（日報、コメント）の新規登録
 	 * 引数：		Map<String, Object> map
 	 * 戻り値：	boolean
 	 * 作成日：	2016/11/25
@@ -155,21 +157,88 @@ public class CreateService {
 	 * 作成者：	k.urabe
 	 */
 	// TODO:【未実装】entityクラスはこれでよいか未検証。今はダミーとしてテーブル単体のものを指定している。
-	public RecordContentDetail getBeforeContent(Map<String, Object> map) {
+	public List<RecordContentDetail> getBeforeContent(Map<String, Object> map) {
 		
-
+		// クライアントから受けたユーザIDを日付で日報があるか検索する
+		List<RecordContentDetail> content = entityManager
+				.createNamedQuery("getBeforePlanQuery", RecordContentDetail.class)
+				.setParameter("user_id", map.get(Constants.KEY_USER_ID))
+				.setParameter("report_date", map.get(Constants.KEY_DATE))
+				.getResultList();
+		
+		// 検索結果を返す
+		return content;
 	}
 	
+	// createContentへ統合（不要）
 	public boolean createTemplate(Map<String, Object> json) {
 		
 		return false;
 	}
 	
-	public boolean updateContent(Map<String, Object> json) {
+	/**
+	 * 関数名：	updateContent
+	 * 概要：		コンテンツ（日報・コメント）を更新する
+	 * 引数：		Map<String, Object> map
+	 * 戻り値：	RecordContentDetail
+	 * 作成日：	2016/11/27
+	 * 作成者：	k.urabe
+	 */
+	public boolean updateContent(Map<String, Object> map) {
 		
-		return false;
+		boolean returnBoolean = true;			// 返却用の真偽値。失敗したらfalse返す
+		
+		try {
+			
+			// クライアントから受けたコンテンツIDで紐付くコンテンツ情報を取得する
+			RecordContentInf parent_content = entityManager.find(RecordContentInf.class, (String)map.get(Constants.KEY_CONTENT_ID));
+			// （親）更新日をセットする
+			parent_content.setUpdateDated(new Date());	
+			// （親）クエリを実行する
+			entityManager.persist(parent_content);
+			
+			
+			// TODO:【未実装】子要素（詳細テーブル）は複数レコードになる。それを1レコードのみの情報テーブルと同時にやるのは難しい？ リクエスト2つか、JSON2つはどうか。
+			// （子）登録対象のRecordContentAddテーブルのインスタンスを生成する
+			RecordContentDetail content = new RecordContentDetail();
+			
+			// 対象のmapを走査して、値がオブジェクトのものを探す
+			for(Map.Entry<String, Object> obj : map.entrySet()) {
+				
+				// 値がobjectか判定する
+				if(obj.getValue() instanceof Map<?, ?>) {
+					// objをmapに変換する
+					Map<String, Object> childmap = (Map<String, Object>)obj;
+					// 子要素の中を走査する
+					for(Entry<String, Object> childObj : childmap.entrySet()) {
+						// コンテンツIDとして親のテーブルを取得してセットする
+						content.setRecordContentInf(parent_content);
+						// 詳細IDをセットする
+						content.setDetailId((int)childmap.get(Constants.KEY_DETAIL_ID));
+						// 固定項目IDをセットする
+						content.setFixedItemInf(entityManager.find(FixedItemInf.class, (int)childmap.get(Constants.KEY_FIXED_ITEM_ID)));
+						// 項目名をセットする
+						content.setIndexName((String)childmap.get(Constants.KEY_INDEX_NAME));
+						// 内容をセットする
+						content.setMainText((String)childmap.get(Constants.KEY_MAIN_TEXT));
+					}
+				}
+				
+			}
+
+			// TODO:【メモ】こちらのentityは管理状態になっていないはずなので、persistが動くはず。
+			// （子）クエリを実行する
+			entityManager.persist(content);
+			
+		} catch (Exception e) {
+			// 処理に失敗した旨を返す
+			returnBoolean = false;
+		}
+		
+		return returnBoolean;
 	}
 	
+	// updateContentへ統合（不要）
 	public boolean updateTemplate(Map<String, Object> json) {
 		
 		return false;

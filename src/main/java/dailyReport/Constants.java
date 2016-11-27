@@ -29,6 +29,12 @@ public class Constants {
 	public static final String KEY_REPORT_DATE = "report_date";
 	public static final String KEY_CREATE_DATE = "create_date";
 	public static final String KEY_UPDATE_DATE = "update_dated";
+	// RecordContentInfテーブル(検索時クライアントからのキー名)
+	public static final String KEY_SERACH_FROM_DATE = "serach_from_date";		// 検索領域のfrom
+	public static final String KEY_SERACH_TO_DATE = "serach_to_date";			// 検索領域のto
+	public static final String KEY_SERACH_USER = "serach_user";				// 検索領域の対象ユーザ
+	public static final String KEY_SERACH_READ = "serach_read";				// 検索領域の既読
+	public static final String KEY_SERACH_NOTE = "serach_note";
 	// RecordContentAddテーブル
 	public static final String KEY_ADD_CATEGORY = "add_category";
 	public static final String KEY_CATEGORY_STATUS = "category_status";
@@ -36,6 +42,8 @@ public class Constants {
 	public static final String KEY_DETAIL_ID = "detail_id";
 	public static final String KEY_INDEX_NAME = "index_name";
 	public static final String KEY_MAIN_TEXT = "main_text";
+	// record_content_detailテーブル(日付検索時)
+	public static final String KEY_DATE = "date";
 	// fixed_item_infテーブル
 	public static final String KEY_FIXED_ITEM_ID = "fixed_item_id";
 	public static final String KEY_ITEM_STATUS = "item_status";
