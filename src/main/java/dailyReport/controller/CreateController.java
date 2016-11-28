@@ -36,8 +36,8 @@ public class CreateController {
 	CommonService commonService;
 	@Autowired
 	CreateService createService;
-	@Autowired
-	RecordContentDetail recordContentDetail;
+	//@Autowired
+	//RecordContentDetail recordContentDetail;
 	
 	
 	/**
@@ -182,11 +182,11 @@ public class CreateController {
 		// パラメータのcurdから処理内容が新規登録であるか検証する
 		if(crud == Constants.STR_CREATE) {
 			// 新規登録の処理を実行する
-			result = createService.createTemplate(map);
+			result = createService.createContent(map);
 		// 新規登録でなければ更新処理
 		} else {
 			// 更新の処理を実行する
-			result = createService.updateTemplate(map);
+			result = createService.updateContent(map);
 		}
 		
 		// 処理の成否を判定する

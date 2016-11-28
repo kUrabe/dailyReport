@@ -51,20 +51,58 @@ function TopWindowDetail() {
 	this.clickSearchButton = function() {
 		
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		var readTemp;				// サーバに渡す値に置き換えるために一時的に保持する変数
+		var noteTemp;				// サーバに渡す値に置き換えるために一時的に保持する変数
 		
 		// 日報の描画領域をすべて削除する
 		$(KEY_DIV).remove(SELECTOR_PARENT_AREA);
 		
+		// JSON連想配列にユーザID（ログインユーザ）をセットする
+		jsonArray[KEY_USER_ID] = $(SELECTOR_TOP_MENU > SELECTOR_USER_ID).text();
 		// 検索領域のfromを取得する
 		jsonArray[KEY_SERACH_FROM_DATE] = getWindowItem(SELECTOR_SERACH_FROM_DATE);
 		// 検索領域のtoを取得する
 		jsonArray[KEY_SERACH_TO_DATE] = getWindowItem(SELECTOR_SERACH_TO_DATE);
 		// 検索領域のユーザを取得する
 		jsonArray[KEY_SERACH_USER] = getWindowItem(SELECTOR_SERACH_USER);
+		
+		// 既読
+		// 判定用の一時保持変数へ、検索領域から取得した値を格納する
+		readTemp = getWindowItem(SELECTOR_SERACH_READ);
+		// 取得した文字列が「含んで表示」か判定する
+		if(readTemp == STR_READ_IN) {
+			// 対応した検索キーに置き換える
+			readTemp = STR_READ_IN_VAL;
+		// 取得した文字列が「除いて表示」か判定する
+		} else if(readTemp == STR_READ_OUT) {
+			// 対応した検索キーに置き換える
+			readTemp = STR_READ_OUT_VAL;
+		// 取得した文字列が「のみ表示」
+		} else {
+			// 対応した検索キーに置き換える
+			readTemp = STR_READ_ONLY_VAL;
+		}
 		// 検索領域の既読を取得する
-		jsonArray[KEY_SERACH_READ] = getWindowItem(SELECTOR_SERACH_READ);
+		jsonArray[KEY_SERACH_READ] = readTemp;
+		
+		// 下書
+		// 判定用の一時保持変数へ、検索領域から取得した値を格納する
+		noteTemp = getWindowItem(SELECTOR_SERACH_NOTE);
+		// 取得した文字列が「含んで表示」か判定する
+		if(noteTemp == STR_NOTE_IN) {
+			// 対応した検索キーに置き換える
+			noteTemp = STR_NOTE_IN_VAL;
+		// 取得した文字列が「除いて表示」か判定する
+		} else if(noteTemp == STR_NOTE_OUT) {
+			// 対応した検索キーに置き換える
+			noteTemp = STR_NOTE_OUT_VAL;
+		// 取得した文字列が「のみ表示」
+		} else {
+			// 対応した検索キーに置き換える
+			noteTemp = STR_NOTE_ONLY_VAL;
+		}
 		// 検索領域の下書を取得する
-		jsonArray[KEY_SERACH_NOTE] = getWindowItem(SELECTOR_SERACH_NOTE);
+		jsonArray[KEY_SERACH_NOTE] = noteTemp;
 
 		// JSON連想配列を用いてDBから値を取得する
 		this.getJsonData(PATH_TOP_PAGE_CONTENT, jsonArray, STR_READ);
@@ -95,6 +133,26 @@ function TopWindowDetail() {
 	}
 	
 	/**
+	 * 関数名：	logout
+	 * 概要：		logout処理を実行する
+	 * 引数：		なし
+	 * 戻り値：	なし
+	 * 作成日：	2016/11/23
+	 * 作成者：	k.urabe
+	 */
+	this.logout = function() {
+		// 確認ダイアログを表示
+		if(window.confirm(MESSAGE_LOGOUT)){
+			// 「OK」時は送信を実行
+			return true;
+		}
+		// 「キャンセル」時の処理
+		else{
+			return false; // 送信を中止
+		}
+	}
+	
+	/**
 	 * 関数名：	createTopWindow
 	 * 概要：		Top画面を開いた時の処理
 	 * 引数：		なし
@@ -104,8 +162,9 @@ function TopWindowDetail() {
 	 */
 	this.createTopWindow = function() {
 		
-		// TODO:【未実装】logoutボタンはサーバ側のSpringで制御予定のため、特に記述なし。ただし、ダイアログを出さないといけないので、追加する必要あり
 		// 画面共通部分のボタンにイベントを登録する
+		// ログアウトボタンのイベントを登録する(/logoutへリクエストするとSpringが制御する)
+		this.setClickEvent(SELECTOR_B_LOGOUT, this.logout);
 		// 検索ボタンのイベントを登録する
 		this.setClickEvent(SELECTOR_B_SERACH, this.clickSearchButton);
 		// 新規日報ボタンのイベントを登録する

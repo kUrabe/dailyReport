@@ -37,10 +37,6 @@ public class TopController {
 	CommonService commonService;
 	@Autowired
 	TopService topService;
-	@Autowired
-	List<RecordContentInf> recordContentInf;
-	@Autowired
-	List<RecordContentDetail> recordContentDetail;
 	
 	/**
 	 * 関数名：	requestTopPageContent
@@ -52,7 +48,7 @@ public class TopController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "top/topPageContent", method = RequestMethod.POST)
-	public String requestTopPageContent(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+	public List<RecordContentInf> requestTopPageContent(@RequestParam("crud") String crud, @RequestParam("json") String json) {
 		
 		String message = "";							// 返却用JSONにセットする文字列格納
 		
@@ -65,7 +61,7 @@ public class TopController {
 		
 		// TODO:【未実装】ここで格納する型が単純なテーブルのentityクラスではダメなはずなので要検証
 		// 検索を実行し、その結果をentityインスタンスへ格納する
-		recordContentInf = topService.searchTopPageContent(map);
+		List<RecordContentInf> recordContentInf = topService.searchTopPageContent(map);
 		
 		// TODO:【未実装】entityクラスに対する0件の検証が以下であっているか不明
 		// 検索結果が1件以上取得出来ているか検証する
@@ -79,7 +75,7 @@ public class TopController {
 		}
 		
 		// 作成したJSON文字列を返却する
-		return message;
+		return recordContentInf;
 		
 	}
 	
@@ -93,7 +89,7 @@ public class TopController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "top/topPageDetailContent", method = RequestMethod.POST)
-	public String requestTopPageDetailContent(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+	public List<RecordContentDetail> requestTopPageDetailContent(@RequestParam("crud") String crud, @RequestParam("json") String json) {
 		
 		String message = "";							// 返却用JSONにセットする文字列格納
 		
@@ -103,7 +99,7 @@ public class TopController {
 		
 		// TODO:【未実装】ここで格納する型が単純なテーブルのentityクラスではダメなはずなので要検証（こちらは詳細テーブルだけでもよいかも…）
 		// 検索を実行し、その結果をentityインスタンスへ格納する
-		recordContentDetail = topService.searchTopPageDetailContent(map);
+		List<RecordContentDetail>recordContentDetail = topService.searchTopPageDetailContent(map);
 		
 		// TODO:【未実装】entityクラスに対する0件の検証が以下であっているか不明
 		// 検索結果が1件以上取得出来ているか検証する
@@ -117,7 +113,7 @@ public class TopController {
 		}
 		
 		// 作成したJSON文字列を返却する
-		return message;
+		return recordContentDetail;
 		
 	}
 	
@@ -131,7 +127,7 @@ public class TopController {
 	 * 作成者：	k.urabe
 	 */
 	// TODO:【未実装】現在は、文字列で返しているが、クライアントから直接ページURLにリクエストし、それをマッピングしてデータ取得させる方法を検討中
-	@RequestMapping(value = "create/{htmlPath}", params = "anotherWidow", method = RequestMethod.POST)
+	@RequestMapping(value = "createWindow/{htmlPath}", params = "anotherWidow", method = RequestMethod.POST)
 	public String requestAnotherWindow(@PathVariable("htmlPath") String htmlPath) {
 		// リクエストのpathで受けたHTMLを返す。
 		return htmlPath;

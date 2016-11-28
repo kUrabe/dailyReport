@@ -324,17 +324,32 @@ function CreateWindowsDetail() {
 		if(this.isCheckFormatIndex()) {
 			// 見出しエリアの個数分走査する
 			$(SELECTOR_PARENT_AREA).each(function(index) {
+				
+				// リクエスト用JSON連想配列に必要な値をセットする
+				// ユーザIDをセット
+				jsonArray[KEY_USER_ID] = $(SELECTOR_USER_ID).text();
+				// 登録書式を日報のフラグでセット
+				jsonArray[KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
+				// 登録状態を下書でセット
+				jsonArray[KEY_ENTRY_STATUS] = FLAG_ENTRY_STATUS_NOTE;
+				// 当該日の日報日付を取得する
+				jsonArray[KEY_DATE] = "";
+				// 基底親コンテンツIDを取得してセット
+				jsonArray[KEY_BASE_PARENT_CONTENT_ID] = "";
+				// 祖先コンテンツIDを取得してセットする
+				jsonArray[KEY_GRAND_PARENT_CONTENT_ID] = "";
+				// 親コンテンツIDを取得してセットする
+				jsonArray[KEY_PARENT_CONTENT_ID] = "";
+				
 				// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
 				// TODO:【セレクタ】fixed_item_idは、固定項目を使用している
 				// リクエスト用JSON連想配列に必要な値をセットする
-				// ユーザIDをセット
-				jsonArray[index + 1][KEY_USER_ID] = $(SELECTOR_USER_ID).text();
-				// 登録書式をテンプレートのフラグでセット
-				jsonArray[index + 1][KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
 				// 見出し番号をセット
 				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
 				// 見出し文字をセット
 				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_INDEX_AREA).text();
+				// 本文をセット
+				jsonArray[index + 1][KEY_MAIN_TEXT] = "";
 				// 固定IDをセット
 				jsonArray[index + 1][KEY_FIXED_ITEM_ID] = $(this).children(SELECTOR_FIXED_ITEM_ID).text();
 			});
@@ -354,21 +369,40 @@ function CreateWindowsDetail() {
 	 * 作成日：	2016/11/23
 	 * 作成者：	k.urabe
 	 */
-	this.saveFormat = function() {
+	this.saveReport = function() {
 		
-		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		var jsonArray = {};								// リクエストに使用するjson連想配列を作成する
+		var draftBox = FLAG_ENTRY_STATUS_REG;			// 下書チェックの結果。登録状態をどうするかを格納する。初期値は登録済みとなる
 		
 		// 見出しが1つでもあるか、空白エリアはないか検証する
 		if(this.isCheckFormatIndex() && this.isCheckTextArea) {
+			
+			// 下書チェックボックスにチャックが付いているか
+			if(this.isCheckDraftBox) {
+				draftBox = FLAG_ENTRY_STATUS_NOTE;
+			}
+			
+			// リクエスト用JSON連想配列に必要な値をセットする
+			// ユーザIDをセット
+			jsonArray[KEY_USER_ID] = $(SELECTOR_USER_ID).text();
+			// 登録書式を日報のフラグでセット
+			jsonArray[KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_REPORT;
+			// 登録状態を登録済み OR 下書でセット
+			jsonArray[KEY_ENTRY_STATUS] = draftBox;
+			// 当該日の日報日付を取得する
+			jsonArray[KEY_DATE] = $(SELECTOR_REPORT_DATE).text();
+			// 基底親コンテンツIDを取得してセット
+			jsonArray[KEY_BASE_PARENT_CONTENT_ID] = $(SELECTOR_BASE_PARENT_CONTENT_ID).text();
+			// 祖先コンテンツIDを取得してセットする
+			jsonArray[KEY_GRAND_PARENT_CONTENT_ID] = $(SELECTOR_GRAND_PARENT_CONTENT_ID).text();
+			// 親コンテンツIDを取得してセットする
+			jsonArray[KEY_PARENT_CONTENT_ID] = $(SELECTOR_PARENT_CONTENT_ID).text();
+			
 			// 見出しエリアの個数分走査する
 			$(SELECTOR_PARENT_AREA).each(function(index) {
 				// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
 				// TODO:【セレクタ】fixed_item_idは、固定項目を使用している
 				// リクエスト用JSON連想配列に必要な値をセットする
-				// ユーザIDをセット
-				jsonArray[index + 1][KEY_USER_ID] = $(SELECTOR_USER_ID).text();
-				// 登録書式を日報のフラグでセット
-				jsonArray[index + 1][KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
 				// 見出し番号をセット
 				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
 				// 見出し文字をセット
@@ -411,15 +445,27 @@ function CreateWindowsDetail() {
 		
 		// 見出しが1つでもあるか、空白エリアはないか検証する
 		if(this.isCheckFormatIndex() && this.isCheckTextArea) {
+			
+			// ユーザIDをセット
+			jsonArray[index + 1][KEY_USER_ID] = $(SELECTOR_USER_ID).text();
+			// 登録書式を日報のフラグでセット
+			jsonArray[KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_COMMENT;
+			// 登録状態を登録済み OR 下書でセット
+			jsonArray[KEY_ENTRY_STATUS] = FLAG_ENTRY_STATUS_REG;
+			// 当該日の日報日付を取得する
+			jsonArray[KEY_DATE] = $(SELECTOR_REPORT_DATE).text();
+			// 基底親コンテンツIDを取得してセット
+			jsonArray[KEY_BASE_PARENT_CONTENT_ID] = $(SELECTOR_BASE_PARENT_CONTENT_ID).text();
+			// 祖先コンテンツIDを取得してセットする
+			jsonArray[KEY_GRAND_PARENT_CONTENT_ID] = $(SELECTOR_GRAND_PARENT_CONTENT_ID).text();
+			// 親コンテンツIDを取得してセットする
+			jsonArray[KEY_PARENT_CONTENT_ID] = $(SELECTOR_PARENT_CONTENT_ID).text();
+			
 			// 見出しエリアの個数分走査する
 			$(SELECTOR_PARENT_AREA).each(function(index) {
 				// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
 				// TODO:【セレクタ】fixed_item_idは、固定項目を使用している
 				// リクエスト用JSON連想配列に必要な値をセットする
-				// ユーザIDをセット
-				jsonArray[index + 1][KEY_USER_ID] = $(SELECTOR_USER_ID).text();
-				// 登録書式を日報のフラグでセット
-				jsonArray[index + 1][KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
 				// 見出し番号をセット
 				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
 				// 見出し文字をセット
@@ -546,7 +592,7 @@ function CreateWindowsDetail() {
 			// TODO:【未実装】ログインユーザは所定の位置（'.user_id'）に埋め込んでいる想定だが、開かれたコメントの投稿ユーザは取得したJSONデータから取得する必要がある
 			// TODO:【未実装】JSONの結果はコメントなので1件しかないが、行ごとに結果が格納されてくる想定で記述
 			// ログインユーザとコメントの投稿者が同一人物か検証する
-			if($(SELECTOR_USER_ID).text() == this.json[1].user_id) {
+			if($(SELECTOR_TOP_MENU > SELECTOR_USER_ID).text() == this.json[1].user_id) {
 				// TODO:【メモ】画面表示時には画面のボタンが全て揃っている想定。そこからユーザ種別ごとにボタンイベント登録と、非表示設定を行う
 				// 本人用のボタンイベントを登録する
 				
@@ -610,10 +656,14 @@ function CreateWindowsDetail() {
 		var content_id = $(SELECTOR_CONTENT_ID).text();
 		// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
 		if(content_id != "") {
+			// JSON連想配列にユーザID（ログインユーザ）をセットする
+			jsonArray[KEY_USER_ID] = $(SELECTOR_TOP_MENU > SELECTOR_USER_ID).text();
+			// 当該日の日付を取得する
+			jsonArray[KEY_DATE] = $(SELECTOR_REPORT_DATE).text();
 			// リクエスト用JSON連想配列にコンテンツIDをセットする
 			jsonArray[KEY_CONTENT_ID] = content_id;
 			// JSON連想配列を用いてDBに値を取得する
-			this.getJsonData(PATH_CREATE, jsonArray, STR_READ);
+			this.getJsonData(PATH_CREATE_BY_DAY, jsonArray, STR_READ);
 			// 取得したJSONを展開する
 			this.createReportDetail(SELECTOR_MAIN);
 			// 画面内の所定の位置に取得したコンテンツIDを埋める

@@ -197,6 +197,8 @@ public class CreateService {
 			// （親）クエリを実行する
 			entityManager.persist(parent_content);
 			
+			// 子の情報を一旦すべて削除する
+			entityManager.createNamedQuery("updateContentQuery", RecordContentDetail.class).setParameter("content_id", (String)map.get(Constants.KEY_CONTENT_ID)).getResultList();
 			
 			// TODO:【未実装】子要素（詳細テーブル）は複数レコードになる。それを1レコードのみの情報テーブルと同時にやるのは難しい？ リクエスト2つか、JSON2つはどうか。
 			// （子）登録対象のRecordContentAddテーブルのインスタンスを生成する

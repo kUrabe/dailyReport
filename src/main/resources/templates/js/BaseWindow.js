@@ -27,8 +27,38 @@ function BaseWindow() {
 	 */
 	this.managementAccordion = function(clickTarget, accordionTarget) {
 		
+		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		
 		// 引数で受けたセレクタに対してクリックイベントをバインドする
 		$(clickTarget).on(CLICK, function() {
+			
+			// アコーディオン内のレポート詳細が展開済みでなければ
+			if($(this).parent(SELECTOR_PARENT_AREA).children(SELECTOR_REPORT_DETAIL).hasClass(SELECTOR_PARENT_AREA)) {
+				// データが未展開であるため、データを展開する
+				
+				// 日報の詳細部分を展開する
+				// コンテンツIDをセットする
+				jsonArray[KEY_CONTENT_ID] = $(this).parent().children(SELECTOR_CONTENT_ID).text();
+				// 登録書式を日報でセットする
+				jsonArray[SELECTOR_CONTENT_ID] = FLAG_ENTRY_FORMAT_REPORT;
+				// サーバから日報詳細のデータを取得する
+				this.getJsonData(PATH_TOP_PAGE_DETAIAL_CONTENT, jsonArray, STR_READ);
+				// 取得したデータを展開する
+				this.createReportDetail($(this).parent().children(SELECTOR_REPORT_DETAIL));
+				
+				// コメントの見出し部分を展開する
+				// 登録書式を日報でセットする
+				jsonArray[SELECTOR_CONTENT_ID] = FLAG_ENTRY_FORMAT_COMMENT;
+				// サーバからコメント概要のデータを取得する
+				this.getJsonData(PATH_TOP_PAGE_DETAIAL_CONTENT, jsonArray, STR_READ);
+				// 取得したデータを展開する
+				this.createContentIndex($(this).parent().children(SELECTOR_COMMENT_AREA));
+				
+				// コメントの詳細部分を展開するcreateCommentDetail
+				this.createCommentDetail($(this).parent().children(SELECTOR_COMMENT_AREA).children(SELECTOR_PARENT_AREA));
+				
+			}
+			
 			// TODO:【未実装】アコーディオン開く前に、配下にデータが展開済みか確認し、ないならデータを展開する。大元の設計は画面表示時にすべて展開する予定であったが処理の負荷も考え、アコーディオン開く際に行う
 			// TODO:【セレクタ】押下された行もしくはボタンを包括するエリア配下のアコーディオン対象を指定しないと、これでは画面全部のアコーディオンが開く
 			// 対象セレクタがクリックされた場合に、引数で受けたセレクタのアコーディオン開閉を行う。
@@ -266,6 +296,8 @@ function BaseWindow() {
 		var addValue;				// 追加機能の集計数への加算値を格納
 		var detail;					// selector内の詳細項目のセレクタ
 		
+		// JSON連想配列にユーザID（ログインユーザ）をセットする
+		jsonArray[KEY_USER_ID] = $(SELECTOR_TOP_MENU > SELECTOR_USER_ID).text();
 		// JSON連想配列にコンテンツIDをセットする
 		jsonArray[KEY_CONTENT_ID] = contentId;
 		// JSON連想配列に追加種別をセットする
@@ -392,6 +424,8 @@ function BaseWindow() {
 		} else {
 			// コメント詳細画面のpathをセットする
 			path = PATH_COMMENT_VIEW;
+			// 対象のコメントを既読にする
+			this.addContentBranch(content_id, FLAG_ADD_CATEGORY_NOREAD, FLAG_CATEGORY_STATUS_DEL, selector);
 		}
 		
 		// TODO:【未実装】HTMLをサーバから取得せず、openAnotherWindow関数から直接URLを指定する形にする方が、URLも取得できて、後続の処理が繋がると考えられる。

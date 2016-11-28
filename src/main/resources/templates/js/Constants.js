@@ -55,6 +55,11 @@ KEY_ENTRY_STATUS = 'entry_status';				// コンテンツの登録状態（下書
 KEY_MAIN_TEXT = 'main_text';					// 各コンテンツの本文
 KEY_ENTRY_FORMAT = 'entry_format';				// 登録書式（日報、コメント、テンプレート）を管理するキー
 
+KEY_BASE_PARENT_CONTENT_ID = 'base_parent_content_id';
+KEY_GRAND_PARENT_CONTENT_ID = 'grand_parent_content_id';
+KEY_PARENT_CONTENT_ID = 'parent_content_id';
+
+
 KEY_SRC = 'src';								// src属性
 KEY_DISABLED = 'disabled';						// disabled属性
 KEY_NEW_REPORT_CREATE = 'report_create';		// 別ウインドウの開くボタンのname属性（日報作成画面）
@@ -98,7 +103,14 @@ KEY_B_CANCEL = 'b_cancel';
  * 命名規則
  * SELECTOR + _ + キー名
  */
+SELECTOR_LEFT_MENU = ".leftMenu";
+SELECTOR_TOP_MENU = ".topMenu";
+SELECTOR_MAIN_MENU = ".mainMenu";
+
+
 SELECTOR_CATEGORY_STATUS = '.category_status';		// いいね、既読数の登録状態を管理するセレクタ
+SELECTOR_BASE_PARENT_CONTENT_ID = '.base_parent_content_id';
+SELECTOR_GRAND_PARENT_CONTENT_ID = '.grand_parent_content_id';
 SELECTOR_PARENT_CONTENT_ID = '.parent_content_id';	// 親コンテンツIDを管理するセレクタ
 SELECTOR_CONTENT_ID = '.content_id';				// コンテンツIDを管理するセレクタ
 SELECTOR_FAVORITE_COUNT = '.favorite_count';		// いいね集計項目のセレクタ
@@ -114,6 +126,7 @@ SELECTOR_SERACH_NOTE = '.serach_note';				// 検索領域の下書
 
 SELECTOR_CONTENT_AREA = '.content_area';			// コンテンツ全体を囲む領域
 SELECTOR_REPORT_AREA = '.report_area';				// レポートの概要と詳細を囲む領域
+SELECTOR_REPORT_DETAIL = '.report_detail';			// レポートの詳細を囲む
 SELECTOR_COMMENT_AREA = '.comment_area';			// コメントの概要と1行文を囲む領域
 SELECTOR_PARENT_AREA = '.blockArea';				// ボタンからみた親要素を囲むセレクタ(.report_areaやcomment_areaの中で、1行ごとにこれで囲む)
 SELECTOR_PARENT_AREA_LAST = '.blockArea:last';
@@ -174,10 +187,11 @@ PATH_CREATE_BY_DAY = '/create/contentByDay';				// 作成画面の日付選択�
 PATH_CREATE_SAVE_CONTENT = '/create/saveContent';			// コンテンツ（日報・コメント）の新規・更新処理
 PATH_CREATE_BEFORE_CONTENT = '/create/beforeContent';		// 前日以前の日報（予定）を取得
 PATH_CREATE_SAVE_TEMPLATE = '/create/saveTemplate';			// テンプレートの新規・更新処理
+PATH_LOGOUT = "/logout";
 
-PATH_REPORT_CREATE = '/create/report_create.html';			// 日報作成画面のPATH
-PATH_COMMENT_CREATE = '/create/comment_create.html';		// コメント作成画面のPATH
-PATH_COMMENT_VIEW = '/create/comment_view.html';			// コメント詳細画面のPATH
+PATH_REPORT_CREATE = '/createWindow/report_create.html';			// 日報作成画面のPATH
+PATH_COMMENT_CREATE = '/createWindow/comment_create.html';		// コメント作成画面のPATH
+PATH_COMMENT_VIEW = '/createWindow/comment_view.html';			// コメント詳細画面のPATH
 
 /*
  * tag名
@@ -190,8 +204,26 @@ TAG_NEW_PAGE_CONTENT_ID = '<div class="content_id">';					// 別ウインドウ�
 TAG_DIV_END = '</div>';													// divタグの終了
 TAG_TOP_TABLE_START ='<table class="">';								// tableの開始タグ
 TAG_TOP_TABLE_END = '</table>';
+
+TAG_REPORT_AREA_START = '<div class="blockArea"><table class="tableIndex ">';
+TAG_REPORT_AREA_END = '</table>';
+TAG_REPORT_ACCORDION = '<div class="accordion_area"><div class="report_detail"></div><div class="comment_area"><div class="search_message"></div></div></div>';
+
+// top画面のボタン
+TAG_EDIT_BUTTON = '<button type="button" class="b_edit" name="">編集</button>';	// 編集ボタン
+TAG_DELETE_BUTTON = '<button type="button" class="b_delete" name="">削除</button>';	// 削除ボタン
+TAG_FAVORITE_BUTTON = '<button type="button" class="b_favorite" name="">いいね</button>';	// いいねボタン
+TAG_NO_READ_BUTTON = '<button type="button" class="b_no_read" name="">未読にする</button>';	// ボタン
+TAG_NEW_COMMENT_BUTTON = '<button type="button" class="b_new_comment" name="">コメントする</button>';	// ボタン
+TAG_ACCORDION_BUTTON = '<button type="button" class="b_accordion" name="">閉じる</button>';	// ボタン
+TAG__BUTTON = '<button type="button" class="" name=""></button>';	// ボタン
+
+
 TAG_INDENT = '<div width="10"></div>';
 TAG_TR_START = '<tr>';
+TAG_TR_REPORT_INDEX_START = '<tr class="indexTR b_accordion">';
+TAG_TR_REPORT_DETAIL_START = '<tr class="detailTR">';
+TAG_TR_COMMENT_START = '<tr class="commentTR">';
 TAG_TR_END = '</tr>';
 TAG_TD_START = '<td>';
 TAG_TD_END = '</td>';
@@ -220,10 +252,28 @@ STR_MESSAGE = 'message';
 STR_PLAN = '予定';
 SRT_SHOW_HIDE = 'ShowHide';							// 非表示にしたい要素のクラス名に付与する
 
+STR_READ_IN = '含んで表示';							// 既読　含んで表示
+STR_READ_OUT = '除いて表示';							// 既読　除いて表示
+STR_READ_ONLY = 'のみ表示';							// 既読　のみ表示
+STR_READ_IN_VAL = '1, null';						// 既読　含んで表示
+STR_READ_OUT_VAL = 'null';							// 既読　除いて表示
+STR_READ_ONLY_VAL = '1';							// 既読　のみ表示
+
+STR_NOTE_IN = '含んで表示';							// 下書　含んで表示
+STR_NOTE_OUT = '除いて表示';							// 下書　除いて表示
+STR_NOTE_ONLY = 'のみ表示';							// 下書　のみ表示
+STR_NOTE_IN_VAL = '1, 2';							// 下書　含んで表示
+STR_NOTE_OUT_VAL = '2';								// 下書　除いて表示
+STR_NOTE_ONLY_VAL = '1';							// 下書　のみ表示
+
+
 //TODO:【未実装】ダイアログのコメント系が未定義
 MESSAGE_DEL_INDEX = '見出しエリアを削除します。\n入力していたデータは消えますがよろしいですか？';
 MESSAGE_FORMAT_ERROR = '見出しが1つもないため登録できません。';
 MESSAGE_REPORT_ERROR = '内容に空白がある状態で報告は出来ません。\n下書きを保存する場合、チェックを入れてから報告してください。';
 MESSAGE_COMMENT_ERROR = '内容が空白ではコメントできません。';
+MESSAGE_LOGOUT = 'ログアウトしますか？';
+MESSAGE_AJAX_ERROR = '通信に失敗しました。';
+MESSAGE_SEARCH_NOT_DATA = '検索条件に一致する日報がありません。';
 
 

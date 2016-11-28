@@ -7,12 +7,16 @@
 
 package dailyReport.controller;
 
+import java.security.Principal;
 import java.util.Calendar;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import dailyReport.service.CommonService;
 
 /**
  * クラス名：	PageReturnController
@@ -23,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class PageReturnController {
 
+	@Autowired
+	CommonService commonService;
+	
 	/**
 	 * 関数名：	requestTopPage
 	 * 概要：		topページへのリクエスト
@@ -32,14 +39,13 @@ public class PageReturnController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String requestTopPage(Model model) {
+	public String requestTopPage(Model model, Principal principal) {
 		
 		// topページへの日付返却用
 		Calendar cal = Calendar.getInstance();
 		
-		// TODO:【未実装】ログイン中のユーザ情報の取得方法が不明
 		// ユーザ情報をViewに渡す
-		model.addAttribute("user", "");
+		model.addAttribute("user", commonService.getUserName(principal.getName()));
 		// TODO:【メモ】TOの日付は現在日時
 		// TOMの日付をViewに渡す
 		model.addAttribute("to", cal.toString());

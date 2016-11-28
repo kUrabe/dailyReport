@@ -12,16 +12,33 @@
   <!-- jQueryUIを読み込む。 -->
   <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
   <!-- 定数クラスを読み込む。 -->
-<script src="js/Constants.js"></script>
+  <script src="js/Constants.js"></script>
+  <!-- 基底画面クラスを読み込む。 -->
+  <script src="js/BaseWindow.js"></script>
+  <!-- 画面描画クラスを読み込む。 -->
+  <script src="js/WindowDesign.js"></script>
+  <!-- 作成画面クラスを読み込む。 -->
+  <script src="js/CreateWindowsDetail.js"></script>
+  <!-- トップ画面用クラスを読み込む。 -->
+  <script src="js/TopWindowDetail.js"></script>
 </head>
 
 <body>
 
 <div class="main">
-
+	<span th:text="${user.userName}"></span>
+	<span th:text="${user.userAuthority}"></span>
+	<span th:text="${to}"></span>
+	<span th:text="${from}"></span>
 <div class="leftmenu"></div>
 
-<div class="topmenu"></div>
+<div class="topmenu">
+<form th:action="@{/logout}" method="post">
+		<button class="b_logout">ログアウト</button>
+</form>
+</div>
+
+
 
 
 
@@ -30,6 +47,13 @@
 
 
 </div>
+
+<script type="text/javascript">
+	// トップウインドウ用のインスタンスを生成する
+	thisElem = new TopWindowDetail();
+	// 初期化処理を実行する
+	thisElem.createTopWindow();
+</script>
 
 </body>
 

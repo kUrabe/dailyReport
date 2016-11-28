@@ -36,19 +36,24 @@ function WindowDesign() {
 		var jsonLen;		// jsonの長さを保持するための変数
 		
 		// jsonが取得出来ているか検証する
-		if(this.json !== null | this.json !== undefined | this.json[message]) {
+		if(this.json !== null | this.json !== undefined) {
 			
 			// indentで1階層目か判定する
 			if(indent == 0) {
+				// TODO:【未実装】ここはtable開始・終了タグとタイトル部分（報告日…など）
 				// 1階層目なのでセレクタに応じたテーブルの開始タグを取得して追加する
-				$(selector).append(this.getIndexTag(selector));
+				// $(selector).append(this.getIndexTag(selector));
 			}
 			// JSONの長さを取得
 			jsonLen = this.json.length;
 			
+			// ブロックエリアのタグと、テーブルの開始タグを埋める
+			$(selector).append(TAG_REPORT_AREA_START);
+			
 			// TODO:【未実装】子要素の呼び出しについて、今のままでは適切でない。
 			// JSONの行要素を走査する
 			for(var key in this.json) {
+				
 				// TODO:【未実装】レポートの概要を展開する際は、複数のコンテンツIDがJSONに含まれる。
 				// TODO:【未実装】それにも関わらず、受け取らなければならないので、ロジックが矛盾する
 				// TODO:【未実装】暫定として0を引数として受け取り、0の際は子を検証しない動きとする
@@ -57,6 +62,7 @@ function WindowDesign() {
 					// 子要素を出力するため再帰呼び出しを行う。
 					this.createContentIndex(selector, this.json[key].parent_content_id, indent + 1)
 				}
+				
 				// indent数分、ループしてテーブルのインデントをずらす
 				for(var i = 0; i < indent; i++) {
 					// indent用のタグを挿入する
@@ -64,7 +70,7 @@ function WindowDesign() {
 				}
 				// 行開始のタグを挿入する
 				// TODO:【セレクタ】行の開始にも識別可能なクラス名など設けるか
-				$(selector).append(TAG_TR_START);
+				$(selector).append(TAG_TR_REPORT_INDEX_START);
 				// JSONの列要素を走査する
 				for(var keyIn in key) {
 					// 項目タグと値をセットする
@@ -72,17 +78,24 @@ function WindowDesign() {
 				}
 				// 行終了のタグを挿入する
 				$(selector).append(TAG_TR_END);
+				// テーブルの終了タグを挿入する
+				$(selector).append(TAG_REPORT_AREA_END);
+				
+				// 展開行に対するアコーディオン部分を作成する
+				$(selector).append(TAG_REPORT_ACCORDION);
+				// ブロックエリアの終了タグを挿入する
+				$(selector).append(TAG_DIV_END);
 			}
 			// indentで1階層目か判定する
 			if(indent == 0) {
 				// 1階層目なのでテーブルの終了タグを追加する
-				$(selector).append(TAG_TOP_TABLE_END);
+				$(selector).append(TAG_REPORT_AREA_END);
 			}
 		
 		// JSONにメッセージがあれば
 		} else if(this.json[message]) {
 			// 検索結果が0件の旨のメッセージを表示する
-			$(selector > SELECTOR_SERACH_MESSAGE).text(this.json[message]);
+			$(selector > SELECTOR_SERACH_MESSAGE).text(MESSAGE_SEARCH_NOT_DATA);
 		}
 	}
 	
@@ -125,7 +138,7 @@ function WindowDesign() {
 			error: function(xhr, status, error) {
 				// TODO:【未実装】メッセージおよび例外処理について未実装
 				// 処理失敗の旨を出力する
-				alert("");
+				alert(MESSAGE_AJAX_ERROR);
 			}
 		});
 		
@@ -179,17 +192,31 @@ function WindowDesign() {
 	 */
 	this.createReportDetail = function(selector) {
 		
-		// json内にkey:messageがないか検証する（あれば本関数は何もしない）
-		if(!this.json.hasOwnProperty(STR_MESSAGE)) {
+		var userFlag = STR_FALSE;		// 本人ならtrue、他人の日報ならfalse
+		var user;						// ログイン中のユーザIDを保管
+
+		// json空でなければ処理を行う。空であれば展開するデータが無いとして何もしない。
+		if(this.json !== null | this.json !== undefined) {
+			
+			// ユーザID（ログインユーザ）をセットする
+			user = $(SELECTOR_TOP_MENU > SELECTOR_USER_ID).text();
 			
 			// セレクタに応じたテーブルの開始タグを取得して追加する
-			$(selector).append(this.getIndexTag(selector));
+			//$(selector).append(this.getIndexTag(selector));
+			
+			// ブロックエリアのタグと、テーブルの開始タグを埋める
+			$(selector).append(TAG_REPORT_AREA_START);
 			
 			// JSONの行要素を走査する
 			for(var key in this.json) {
+				// これから走査するレコードがログインユーザの日報かどうかを判定する
+				if(user == json[key].content_id) {
+					userFlag = STR_TRUE;
+				}
+				
 				// 行開始のタグを挿入する
 				// TODO:【セレクタ】行の開始にも識別可能なクラス名など設けるか
-				$(selector).append(TAG_TR_START);
+				$(selector).append(TAG_TR_REPORT_DETAIL_START);
 				// JSONの列要素を走査する
 				for(var keyIn in key) {
 					// 項目タグと値をセットする
@@ -199,7 +226,25 @@ function WindowDesign() {
 				$(selector).append(TAG_TR_END);
 			}
 			// テーブルの終了タグを追加する
-			$(selector).append(TAG_TOP_TABLE_END);			
+			$(selector).append(TAG_TOP_TABLE_END);	
+			// 出力したレコードの投稿ユーザに合わせてボタンを出力する（userFlag）
+			if(userFlag) {
+				// ログインユーザ = 投稿ユーザ
+				// 編集ボタンを追加する
+				$(selector).append(TAG_EDIT_BUTTON);
+				// 削除ボタンを追加する
+				$(selector).append(TAG_DELETE_BUTTON);
+			} else {
+				// いいねボタンを追加する
+				$(selector).append(TAG_FAVORITE_BUTTON);
+				// 未読にするボタンを追加する
+				$(selector).append(TAG_NO_READ_BUTTON);
+			}
+			// 閉じるボタンを追加する
+			$(selector).append(TAG_ACCORDION_BUTTON);
+			// ブロックエリアの終了タグを挿入する
+			$(selector).append(TAG_DIV_END);
+			
 		}
 		
 	}
@@ -224,11 +269,11 @@ function WindowDesign() {
 			// JSON内を走査して、当該コメント概要に紐付く内容を探す
 			$.each(this.json, function(key, value) {
 				// 各行のコンテンツIDとJSON内のコンテンツIDが一致するか検証(一致ならば出力対象)
-				if($(thisElem > SELECTOR_CONTENT_ID).text() == this.json[key].KEY_CONTENT_ID) {
+				if($(thisElem > SELECTOR_CONTENT_ID).text() == this.json[key][KEY_CONTENT_ID]) {
 					// 行の開始としてtrを挿入する
-					$(thisElem).append(TAG_TR_START);
+					$(thisElem).append(TAG_TR_COMMENT_START);
 					// 項目の要素を出力する
-					$(thisElem).append(TAG_TD_START + this.json[key].KEY_MAIN_TEXT + TAG_TD_END).addClass(key);
+					$(thisElem).append(TAG_TD_START + this.json[key][KEY_MAIN_TEXT] + TAG_TD_END).addClass(key);
 					// 行終了のタグを挿入する
 					$(thisElem).append(TAG_TR_END);
 				}
@@ -252,7 +297,8 @@ function WindowDesign() {
 		// TODO:【未実装】今後、セレクタによってタグを振り分けるために使用。
 		// セレクタによって返すタグを振り分ける
 		switch(selector) {
-			case "dummy":
+			case SELECTOR_REPORT_AREA:
+				// returnTag = TAG_REPORT_AREA_START;
 				break;
 			default:
 				// TODO:【セレクタ】デフォルトで返すものも、全体のタグ構成が見えてきたら検証し直し。

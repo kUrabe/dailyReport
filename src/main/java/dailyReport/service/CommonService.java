@@ -222,4 +222,18 @@ public class CommonService {
 		// 入力されたログインユーザの情報を返す
 		return entityManager.find(UserInf.class, username);
 	}
+	
+	/**
+	 * 関数名：	getUserName
+	 * 概要：		ログイン中のユーザ名を取得する
+	 * 引数：		String
+	 * 戻り値：	String
+	 * 作成日：	2016/11/29
+	 * 作成者：	k.urabe
+	 */
+	public UserInf getUserName(String id) {
+
+		// DBからユーザ名を取得して返す
+		return entityManager.find(UserInf.class, id);
+	}
 }
