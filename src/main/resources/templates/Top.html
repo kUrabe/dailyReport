@@ -30,22 +30,49 @@
 	<span th:text="${user.userAuthority}"></span>
 	<span th:text="${to}"></span>
 	<span th:text="${from}"></span>
-<div class="leftmenu"></div>
-
-<div class="topmenu">
-<form th:action="@{/logout}" method="post">
-		<button class="b_logout">ログアウト</button>
-</form>
+<div class="leftMenu">
+	<div class="calender">カレンダー領域</div>
+	<div class="searchArea">
+		<p class="searchIndex">FROM</p>
+		<input class="serach_from_date" type="date" value="2016-11-20"></input>
+		<p class="searchIndex">TO</p>
+		<input class="serach_to_date" type="date" value="2016-11-28"></input>
+		<p class="searchIndex">対象ユーザ</p>
+		<input class="serach_user" type="text"></input>
+		<p class="searchIndex">既読</p>
+		<select class="serach_read" type="text">
+			<option value="">含んで表示</option>
+			<option value="">除いて表示</option>
+			<option value="">のみ表示</option>
+		</select>
+		<p class="searchIndex">下書</p>
+		<select class="serach_note" type="text">
+			<option value="">含んで表示</option>
+			<option value="">除いて表示</option>
+			<option value="">のみ表示</option>
+		</select>
+		<button class="b_serach">検索</button>
+	</div>
 </div>
 
+<div class="topMenu">
+	<button class="b_new_report">新規日報</button>
+	<div class="user_id" style="display:none" th:text="${user.userId}"></div>
+	<div class="user_name" th:text="${user.userName}"></div>
+	<div class="" style="display:none" th:text="${user.userAuthority}"></div>
+	<form th:action="@{/logout}" method="post">
+		<button class="b_logout">ログアウト</button>
+	</form>
+</div>
 
-
-
-
-
-<div class="mainmenu"></div>
-
-
+<div class="mainMenu">
+	<div class="content_area">
+		<div class="report_area">
+	
+	
+		</div>
+	</div>
+</div>
 </div>
 
 <script type="text/javascript">

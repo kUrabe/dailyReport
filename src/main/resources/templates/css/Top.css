@@ -8,26 +8,44 @@ body {
     background: white;  	/* 背景色を白にする。 */
 }
 
+div {
+	border:		1px solid #AAA;
+}
+
 /* 画面上部メニュー領域 */
-.topmenu {
+.topMenu {
+	float:		top;
 	width:		528px;
 	height:		36px;
-	border:		1px solid #AAA;
 	display:	inline-block;
 }
 
 /* 画面左部メニュー領域（検索領域） */
-.leftmenu {
+.leftMenu {
+	float:		left;
 	width:		144px;
 	height:		370px;
-	border:		1px solid #AAA;
 	display:	inline-block;
 }
 
 /* 画面メインコンテンツ領域 */
-.mainmenu {
+.mainMenu {
+	float:		left;
 	width:		528px;
 	height:		560px;
-	border:		1px solid #AAA;
 	display:	inline-block;
 }
+
+/* カレンダー領域 */
+.calender {
+	height:		112px;
+	width:		112px;
+}
+
+/* 検索領域 */
+.searchArea {
+	margin-top:	32px;
+	height:		204px;
+}
+
+/*  */
