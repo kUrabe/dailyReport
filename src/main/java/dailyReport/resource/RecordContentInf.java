@@ -9,6 +9,10 @@ import javax.persistence.*;
 
 // TopSearchContent Top画面検索実行時
 // "SELECT i FROM record_content_inf i LEFT JOIN FETCH record_content_add a ON i.content_id = a.content_id WHERE i.user_id like :serach_user AND i.entry_status IN(:serach_note) AND i.report_date BETWEEN :serach_from_date AND :serach_to_date AND a.category_status IN(:serach_read)"
+
+// ↓ 下書と既読の条件指定を外している、かつ集計していないJPQL（実行可）
+// "SELECT i FROM RecordContentInf i LEFT JOIN FETCH i.recordContentAddSet WHERE i.userInf.userId like :serach_user AND i.reportDate BETWEEN :serach_from_date AND :serach_to_date"
+
 @Entity
 @NamedQueries({
 	@NamedQuery(name="TopSearchContentQuery", 

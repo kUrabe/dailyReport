@@ -51,4 +51,7 @@ public class Constants {
 	public static final String KEY_BUTTON_FUNCTION = "button_function";
 	public static final String KEY_BUTTON_NAME = "button_name";
 	public static final String KEY_GET_INDEX_NAME = "get_index_name";
+	
+	// その他定数
+	public static final String DATE_FORMAT = "yyyy-MM-dd";
 }

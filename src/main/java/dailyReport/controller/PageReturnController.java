@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import dailyReport.Constants;
 import dailyReport.service.CommonService;
 
 /**
@@ -45,7 +46,7 @@ public class PageReturnController {
 		// topページへの日付返却用にCalendarインスタンスを生成する
 		Calendar cal = Calendar.getInstance();
 		// 日付のフォーマットパターンを指定するためSimpleDateFormatのインスタンスを取得する
-		SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat simple = new SimpleDateFormat(Constants.DATE_FORMAT);
 		
 		// ユーザ情報をViewに渡す
 		model.addAttribute("user", commonService.getUserName(principal.getName()));
