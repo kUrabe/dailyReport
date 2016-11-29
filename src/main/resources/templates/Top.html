@@ -26,17 +26,14 @@
 <body>
 
 <div class="main">
-	<span th:text="${user.userName}"></span>
-	<span th:text="${user.userAuthority}"></span>
-	<span th:text="${to}"></span>
-	<span th:text="${from}"></span>
+	
 <div class="leftMenu">
 	<div class="calender">カレンダー領域</div>
 	<div class="searchArea">
 		<p class="searchIndex">FROM</p>
-		<input class="serach_from_date" type="date" value="2016-11-20"></input>
+		<input class="serach_from_date" type="date" th:value="${from}"></input>
 		<p class="searchIndex">TO</p>
-		<input class="serach_to_date" type="date" value="2016-11-28"></input>
+		<input class="serach_to_date" type="date" th:value="${to}"></input>
 		<p class="searchIndex">対象ユーザ</p>
 		<input class="serach_user" type="text"></input>
 		<p class="searchIndex">既読</p>

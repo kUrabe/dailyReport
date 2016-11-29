@@ -1,40 +1,55 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title><ui:insert name="title">Default title</ui:insert></title>
+  <meta charset="UTF-8" />
+  <title>Topページ</title>
+  <!-- コメント作成画面用CSSを読み込む。 -->
+  <link href="css/comment_create.css" rel="stylesheet" type="text/css" />
+  <!-- Queryの本体を読み込む。 -->
+  <script src="js/jquery-1.11.0.min.js"></script>
+  <!-- jQueryUIを読み込む。 -->
+  <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+  <!-- 定数クラスを読み込む。 -->
+  <script src="js/Constants.js"></script>
+  <!-- 基底画面クラスを読み込む。 -->
+  <script src="js/BaseWindow.js"></script>
+  <!-- 画面描画クラスを読み込む。 -->
+  <script src="js/WindowDesign.js"></script>
+  <!-- 作成画面クラスを読み込む。 -->
+  <script src="js/CreateWindowsDetail.js"></script>
+  <!-- トップ画面用クラスを読み込む。 -->
+  <script src="js/TopWindowDetail.js"></script>
 </head>
 
 <body>
-<ui:debug hotkey="x" rendered="#{initParam['javax.faces.FACELETS_DEVELOPMENT']}"/>
 
-<div id="header">
-    <ui:insert name="header">
-    	Header area.  See comments below this line in the source.
-    	<!--  include your header file or uncomment the include below and create header.xhtml in this directory -->
-    	<!-- <ui:include src="header.xhtml"/> -->
-    </ui:insert>
+<div class="topMenu">
+	<div class="user_id" style="display:none"></div>
+	<div class="base_parent_content_id" style="display:none"></div>
+	<div class="parent_content_id" style="display:none"></div>
+	<div class="content_id" style="display:none"></div>
+	
+	<div class="title">コメント作成</div>
+	<div class="sendTo">YYYY/MM/DD ○○さんの△△へコメント</div>
 </div>
 
+<div class="main">
 
-<div id="content">
-  <ui:insert name="content">
-    	Content area.  See comments below this line in the source.
-    	<!--  include your content file or uncomment the include below and create content.xhtml in this directory -->
-	  	<!-- <div> -->
-    	<!-- <ui:include src="content.xhtml"/> -->  
-    	<!-- </div> -->
-  </ui:insert>
 </div>
 
-<div id="footer">
-  <ui:insert name="footer">
-    	Footer area.  See comments below this line in the source.
-    	<!--  include your header file or uncomment the include below and create footer.xhtml in this directory -->
-		<!--<ui:include src="footer.xhtml"/>  -->
-  </ui:insert>
+<div class="downMenu">
+	<button class="b_new_comment">コメント</button>
+	<button class="b_cancel">キャンセル</button>
 </div>
+
+<script type="text/javascript">
+	// 作成画面用のインスタンスを生成する
+	thisElem = new CreateWindowsDetail();
+	// 初期化処理を実行する
+	thisElem.this.createCommentWindow();
+</script>
 
 </body>
 

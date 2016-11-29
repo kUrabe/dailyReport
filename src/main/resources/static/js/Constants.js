@@ -103,9 +103,9 @@ KEY_B_CANCEL = 'b_cancel';
  * 命名規則
  * SELECTOR + _ + キー名
  */
-SELECTOR_LEFT_MENU = ".leftMenu";
-SELECTOR_TOP_MENU = ".topMenu";
-SELECTOR_MAIN_MENU = ".mainMenu";
+SELECTOR_LEFT_MENU = ".leftMenu";			// トップ画面の左領域
+SELECTOR_TOP_MENU = ".topMenu";				// トップ画面の上領域
+SELECTOR_MAIN_MENU = ".mainMenu";			// トップ画面のメイン領域
 
 
 SELECTOR_CATEGORY_STATUS = '.category_status';		// いいね、既読数の登録状態を管理するセレクタ
@@ -137,36 +137,39 @@ SELECTOR_USER_NAME = '.user_name';
 SELECTOR_LOGIN_NAME = '.login_name';
 
 // top画面のボタンセレクタ
-SELECTOR_B_SERACH = '.b_serach';
-SELECTOR_B_NEW_REPORT = '.b_new_report';
-SELECTOR_B_LOGOUT = '.b_logout';
-SELECTOR_B_NEW_COMMENT = '.b_new_comment';
-SELECTOR_B_CLOSE = '.b_close';
-SELECTOR_B_NO_READ = '.b_no_read';
-SELECTOR_B_FAVORITE = '.b_favorite';
-SELECTOR_B_EDIT = '.b_edit';
-SELECTOR_B_DELETE = '.b_delete';
-SELECTOR_B_ACCORDION = '.b_accordion';
+SELECTOR_B_SERACH = '.b_serach';				// 検索ボタン
+SELECTOR_B_NEW_REPORT = '.b_new_report';		// 新規日報ボタン
+SELECTOR_B_LOGOUT = '.b_logout';				// ログアウトボタン
+SELECTOR_B_NEW_COMMENT = '.b_new_comment';		// コメントするボタン
+SELECTOR_B_CLOSE = '.b_close';					// 閉じる（アコーディオン）ボタン
+SELECTOR_B_NO_READ = '.b_no_read';				// 未読にするボタン
+SELECTOR_B_FAVORITE = '.b_favorite';			// いいねボタン
+SELECTOR_B_EDIT = '.b_edit';					// 編集ボタン
+SELECTOR_B_DELETE = '.b_delete';				// 削除ボタン
+SELECTOR_B_ACCORDION = '.b_accordion';			// アコーディオンが仕掛けられるセレクタ
 
 // 日報作成、コメント詳細、コメント作成画面のセレクタ
-SELECTOR_MAIN = '.main';
-SELECTOR_MAIN_LAST = '.main:last';
-SELECTOR_TITLE = '.title';
-SELECTOR_REPORT_DATE = '.report_date';
-SELECTOR_NUMBER = '.number';
-SELECTOR_INDEX_AREA = '.index_area';
-SELECTOR_FIXED_ITEM_ID = '.fixed_item_id';
-SELECTOR_MAIN_TEXT = '.main_text';
-SELECTOR_B_DEL_INDEX = '.b_del_index';
-SELECTOR_B_FIXED = '.b_fixed';
-SELECTOR_B_FIXED_BEORE_PLAN = '.b_fixed[name="' + FLAG_BUTTON_FUNCTION_BEFOR_PLAN + '"]';
-SELECTOR_B_FIXED_TODAY_RESULT = '.b_fixed[name="' + FLAG_BUTTON_FUNCTION_TODAY_RESULT + '"]';
-SELECTOR_B_ADD_INDEX = '.b_add_index';
-SELECTOR_C_NOTE = '.c_note';
-SELECTOR_B_ADD_REPORT = '.b_add_report';
-SELECTOR_B_CANCEL = '.b_cancel';
-SELECTOR_B_ADD_COMMENT = '.b_add_comment';				// コメント作成画面のコメントボタン(詳細画面のコメントするボタンにはTop画面と同じくSELECTOR_B_NEW_COMMENTを使用)
-
+SELECTOR_MAIN = '.main';						// 各画面のJSONデータ展開先
+SELECTOR_MAIN_LAST = '.main:last';				// 上記のLast要素
+SELECTOR_TITLE = '.title';						// ページタイトル
+SELECTOR_REPORT_DATE = '.report_date';			// 日報作成画面の日報報告日
+SELECTOR_NUMBER = '.number';					// 見出し番号
+SELECTOR_INDEX_AREA = '.index_area';			// 見出し文字列
+SELECTOR_FIXED_ITEM_ID = '.fixed_item_id';		// 固定ID
+SELECTOR_MAIN_TEXT = '.main_text';				// 本文
+SELECTOR_B_DEL_INDEX = '.b_del_index';			// 見出し削除ボタン
+SELECTOR_B_FIXED = '.b_fixed';					// 固定機能ボタン（前日予定、本日結果など）
+SELECTOR_B_FIXED_BEORE_PLAN = '.b_fixed[name="' + FLAG_BUTTON_FUNCTION_BEFOR_PLAN + '"]';		// 固定機能ボタン（前日予定）を表すname属性
+SELECTOR_B_FIXED_TODAY_RESULT = '.b_fixed[name="' + FLAG_BUTTON_FUNCTION_TODAY_RESULT + '"]';	// 固定機能ボタン（当日結果）を表すname属性
+SELECTOR_B_ADD_INDEX = '.b_add_index';			// 見出し追加ボタン
+SELECTOR_C_NOTE = '.c_note';					// 下書チェックボックス
+SELECTOR_B_ADD_REPORT = '.b_add_report';		// 報告ボタン
+SELECTOR_B_ADD_TEMPLATE = '.b_add_template';	// フォーマット保存ボタン
+SELECTOR_B_CANCEL = '.b_cancel';				// キャンセル、閉じるボタン
+SELECTOR_B_ADD_COMMENT = '.b_add_comment';		// コメント作成画面のコメントボタン(詳細画面のコメントするボタンにはTop画面と同じくSELECTOR_B_NEW_COMMENTを使用)
+SELECTOR_COMMENT_DATE = '.comment_date';		// コメント詳細の当該コメント日付
+SELECTOR_COMMENT_USER = '.comment_user';		// コメント詳細の当該コメント投稿ユーザ名
+SELECTOR_SEND_TO = '.sendTo';					// コメント作成画面の誰宛の何へのコメントなのか表示する領域
 
 /*
  * path名(file名)
@@ -187,7 +190,7 @@ PATH_CREATE_BY_DAY = '/create/contentByDay';				// 作成画面の日付選択�
 PATH_CREATE_SAVE_CONTENT = '/create/saveContent';			// コンテンツ（日報・コメント）の新規・更新処理
 PATH_CREATE_BEFORE_CONTENT = '/create/beforeContent';		// 前日以前の日報（予定）を取得
 PATH_CREATE_SAVE_TEMPLATE = '/create/saveTemplate';			// テンプレートの新規・更新処理
-PATH_LOGOUT = "/logout";
+PATH_LOGOUT = "/logout";									// ログアウトのリクエストパス
 
 PATH_REPORT_CREATE = '/createWindow/report_create.html';			// 日報作成画面のPATH
 PATH_COMMENT_CREATE = '/createWindow/comment_create.html';		// コメント作成画面のPATH
@@ -275,5 +278,8 @@ MESSAGE_COMMENT_ERROR = '内容が空白ではコメントできません。';
 MESSAGE_LOGOUT = 'ログアウトしますか？';
 MESSAGE_AJAX_ERROR = '通信に失敗しました。';
 MESSAGE_SEARCH_NOT_DATA = '検索条件に一致する日報がありません。';
+MESSAGE_SEARCH_NOT_COMMENT = 'この日報にコメントはありません。';
+
+MARK_SPACE = " ";		// 半角スペース
 
 

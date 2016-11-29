@@ -533,8 +533,10 @@ function CreateWindowsDetail() {
 		// 画面共通のボタンイベント等を登録する
 		// 見出し追加ボタンを登録する
 		this.setClickEvent(SELECTOR_B_ADD_INDEX, this.addIndex);
+		// フォーマット保存ボタンを登録する
+		this.setClickEvent(SELECTOR_B_ADD_TEMPLATE, this.saveFormat);
 		// 報告ボタンを登録する
-		this.setClickEvent(SELECTOR_B_ADD_REPORT, this.saveFormat);
+		this.setClickEvent(SELECTOR_B_ADD_REPORT, this.saveReport);
 		// キャンセルボタンを登録する
 		this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
 		// 日付エリアのイベントを登録する
@@ -592,7 +594,7 @@ function CreateWindowsDetail() {
 			// TODO:【未実装】ログインユーザは所定の位置（'.user_id'）に埋め込んでいる想定だが、開かれたコメントの投稿ユーザは取得したJSONデータから取得する必要がある
 			// TODO:【未実装】JSONの結果はコメントなので1件しかないが、行ごとに結果が格納されてくる想定で記述
 			// ログインユーザとコメントの投稿者が同一人物か検証する
-			if($(SELECTOR_TOP_MENU > SELECTOR_USER_ID).text() == this.json[1].user_id) {
+			if($(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text() == this.json[1].user_id) {
 				// TODO:【メモ】画面表示時には画面のボタンが全て揃っている想定。そこからユーザ種別ごとにボタンイベント登録と、非表示設定を行う
 				// 本人用のボタンイベントを登録する
 				
@@ -657,7 +659,7 @@ function CreateWindowsDetail() {
 		// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
 		if(content_id != "") {
 			// JSON連想配列にユーザID（ログインユーザ）をセットする
-			jsonArray[KEY_USER_ID] = $(SELECTOR_TOP_MENU > SELECTOR_USER_ID).text();
+			jsonArray[KEY_USER_ID] = $(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text();
 			// 当該日の日付を取得する
 			jsonArray[KEY_DATE] = $(SELECTOR_REPORT_DATE).text();
 			// リクエスト用JSON連想配列にコンテンツIDをセットする

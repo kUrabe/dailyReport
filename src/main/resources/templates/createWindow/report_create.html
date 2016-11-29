@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Topページ</title>
-  <!-- 日報報告画面用CSSを読み込む。 -->
+  <!-- 日報作成画面用CSSを読み込む。 -->
   <link href="css/report_create.css" rel="stylesheet" type="text/css" />
   <!-- Queryの本体を読み込む。 -->
   <script src="js/jquery-1.11.0.min.js"></script>
@@ -26,23 +26,28 @@
 <body>
 
 <div class="topMenu">
+	<div class="user_id" style="display:none"></div>
+	<div class="base_parent_content_id" style="display:none"></div>
+	<div class="parent_content_id" style="display:none"></div>
+	<div class="content_id" style="display:none"></div>
 	<div class="title">日報作成</div>
-	<input class="report_date" type="date" value="2016-11-28"></input><p>付日報</p>
+	<input class="report_date" type="date" value="2016-11-28"></input><span>付日報</span>
 </div>
 
-<div class="mainMenu">
+<div class="main">
 
 </div>
 
 <div class="downMenu">
 	<button class="b_add_index">見出し追加</button>
-	<input type="checkbox" class="c_note">下書き</input>
+	<button class="b_add_template">フォーマット保存</button>
+	<input type="checkbox" class="c_note"></input><span>下書き</span>
 	<button class="b_add_report">報告</button>
 	<button class="b_cancel">キャンセル</button>
 </div>
 
 <script type="text/javascript">
-	// 日報作成画面用のインスタンスを生成する
+	// 作成画面用のインスタンスを生成する
 	thisElem = new CreateWindowsDetail();
 	// 初期化処理を実行する
 	thisElem.this.createCommentWindow();

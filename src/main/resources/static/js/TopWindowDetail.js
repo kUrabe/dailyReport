@@ -43,12 +43,13 @@ function TopWindowDetail() {
 	/**
 	 * 関数名：	clickSearchButton
 	 * 概要：		Top画面の検索実行時や、初期表示処理、リロード時に実行
-	 * 引数：		なし
+	 * 引数：		String selector 使用しない想定
+	 * 			object thisElem ボタン押下時に取得したobject
 	 * 戻り値：	なし
 	 * 作成日：	2016/11/23
 	 * 作成者：	k.urabe
 	 */
-	this.clickSearchButton = function() {
+	this.clickSearchButton = function(selector, thisElem) {
 		
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		var readTemp;				// サーバに渡す値に置き換えるために一時的に保持する変数
@@ -58,17 +59,17 @@ function TopWindowDetail() {
 		$(KEY_DIV).remove(SELECTOR_PARENT_AREA);
 		
 		// JSON連想配列にユーザID（ログインユーザ）をセットする
-		jsonArray[KEY_USER_ID] = $(SELECTOR_TOP_MENU > SELECTOR_USER_ID).text();
+		jsonArray[KEY_USER_ID] = $(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text();
 		// 検索領域のfromを取得する
-		jsonArray[KEY_SERACH_FROM_DATE] = getWindowItem(SELECTOR_SERACH_FROM_DATE);
+		jsonArray[KEY_SERACH_FROM_DATE] = thisElem.getWindowItem(SELECTOR_SERACH_FROM_DATE);
 		// 検索領域のtoを取得する
-		jsonArray[KEY_SERACH_TO_DATE] = getWindowItem(SELECTOR_SERACH_TO_DATE);
+		jsonArray[KEY_SERACH_TO_DATE] = thisElem.getWindowItem(SELECTOR_SERACH_TO_DATE);
 		// 検索領域のユーザを取得する
-		jsonArray[KEY_SERACH_USER] = getWindowItem(SELECTOR_SERACH_USER);
+		jsonArray[KEY_SERACH_USER] = thisElem.getWindowItem(SELECTOR_SERACH_USER);
 		
 		// 既読
 		// 判定用の一時保持変数へ、検索領域から取得した値を格納する
-		readTemp = getWindowItem(SELECTOR_SERACH_READ);
+		readTemp = thisElem.getWindowItem(SELECTOR_SERACH_READ);
 		// 取得した文字列が「含んで表示」か判定する
 		if(readTemp == STR_READ_IN) {
 			// 対応した検索キーに置き換える
@@ -87,7 +88,7 @@ function TopWindowDetail() {
 		
 		// 下書
 		// 判定用の一時保持変数へ、検索領域から取得した値を格納する
-		noteTemp = getWindowItem(SELECTOR_SERACH_NOTE);
+		noteTemp = thisElem.getWindowItem(SELECTOR_SERACH_NOTE);
 		// 取得した文字列が「含んで表示」か判定する
 		if(noteTemp == STR_NOTE_IN) {
 			// 対応した検索キーに置き換える
@@ -105,9 +106,9 @@ function TopWindowDetail() {
 		jsonArray[KEY_SERACH_NOTE] = noteTemp;
 
 		// JSON連想配列を用いてDBから値を取得する
-		this.getJsonData(PATH_TOP_PAGE_CONTENT, jsonArray, STR_READ);
+		thisElem.getJsonData(PATH_TOP_PAGE_CONTENT, jsonArray, STR_READ);
 		// 取得したJSONを用いてHTMLへタグを展開する
-		this.createContentIndex(SELECTOR_REPORT_AREA, 0);
+		thisElem.createContentIndex(SELECTOR_REPORT_AREA, 0);
 		
 		// TODO:【未実装】ボタンの数だけステップが増えるので、別関数検討
 		// TODO:【メモ】ボタンの設置は画面初期表示（固定パーツ）と、タグ展開時（流動パーツ）で行う。ここではイベント登録のみ
@@ -115,20 +116,20 @@ function TopWindowDetail() {
 		// TODO:【メモ】同じタグの複数箇所に一気にイベント登録しようとしているが、これが可能か不明。場合によってはタグの展開時に1つ1つボタンの展開に合わせてイベント登録が必要かも
 		// 流動的なパーツのイベントを登録する
 		// 新規コメントボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow);
+		thisElem.setClickEvent(SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow);
 		// TODO:【メモ】アコーディオンと共通化するため、個別には必要ない？
 		// 閉じるボタンのイベントを登録する
 		//setClickEvent(SELECTOR_B_CLOSE, );
 		// 未読にするボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_NO_READ, this.clickAddContentButton);
+		thisElem.setClickEvent(SELECTOR_B_NO_READ, this.clickAddContentButton);
 		// いいねボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_FAVORITE, this.clickAddContentButton);
+		thisElem.setClickEvent(SELECTOR_B_FAVORITE, this.clickAddContentButton);
 		// 編集ボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_EDIT, this.prepareAnotherWindow);
+		thisElem.setClickEvent(SELECTOR_B_EDIT, this.prepareAnotherWindow);
 		// 削除ボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton);
+		thisElem.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton);
 		// アコーディオン対象ボタンのイベントを登録する
-		this.managementAccordion(SELECTOR_B_ACCORDION, SELECTOR_ACCORDION_AREA);
+		thisElem.managementAccordion(SELECTOR_B_ACCORDION, SELECTOR_ACCORDION_AREA);
 		
 	}
 	
@@ -172,7 +173,7 @@ function TopWindowDetail() {
 		
 		// TODO:【メモ】サーバから取得したHTMLには、初期表示として値が入っていることを想定
 		// 初期の検索条件にて画面項目の取得を行う。
-		this.clickSearchButton();
+		this.clickSearchButton(null, this);
 		
 	}
 	

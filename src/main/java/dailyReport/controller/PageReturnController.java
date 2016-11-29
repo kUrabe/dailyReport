@@ -8,6 +8,7 @@
 package dailyReport.controller;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,18 +42,20 @@ public class PageReturnController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String requestTopPage(Model model, Principal principal) {
 		
-		// topページへの日付返却用
+		// topページへの日付返却用にCalendarインスタンスを生成する
 		Calendar cal = Calendar.getInstance();
+		// 日付のフォーマットパターンを指定するためSimpleDateFormatのインスタンスを取得する
+		SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
 		
 		// ユーザ情報をViewに渡す
 		model.addAttribute("user", commonService.getUserName(principal.getName()));
 		// TODO:【メモ】TOの日付は現在日時
 		// TOMの日付をViewに渡す
-		model.addAttribute("to", cal.toString());
+		model.addAttribute("to", simple.format(cal.getTime()));
 		// TODO:【メモ】FROMの日付は現在日時の1週間前
 		// FROMの日付をViewに渡す
 		cal.add(Calendar.DATE, -7);
-		model.addAttribute("from", cal.toString());
+		model.addAttribute("from", simple.format(cal.getTime()));
 		
 		// トップページのURLを返す
 		return "/Top";

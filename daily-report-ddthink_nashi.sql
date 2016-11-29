@@ -84,7 +84,9 @@ CREATE TABLE record_content_inf
 	-- 親コンテンツID。親となるコンテンツIDを値を保持。
 	parent_content_id int COMMENT '親コンテンツID。親となるコンテンツIDを値を保持。',
 	-- コンテンツ情報の報告日
-	report_date datetime NOT NULL COMMENT 'コンテンツ情報の報告日',
+	-- 時刻なし
+	report_date date NOT NULL COMMENT 'コンテンツ情報の報告日
+時刻なし',
 	-- コンテンツ情報の作成日
 	create_date datetime NOT NULL COMMENT 'コンテンツ情報の作成日',
 	-- コンテンツ情報の更新日

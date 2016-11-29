@@ -95,7 +95,7 @@ function WindowDesign() {
 		// JSONにメッセージがあれば
 		} else if(this.json[message]) {
 			// 検索結果が0件の旨のメッセージを表示する
-			$(selector > SELECTOR_SERACH_MESSAGE).text(MESSAGE_SEARCH_NOT_DATA);
+			$(selector + MARK_SPACE + SELECTOR_SERACH_MESSAGE).text(MESSAGE_SEARCH_NOT_DATA);
 		}
 	}
 	
@@ -199,7 +199,7 @@ function WindowDesign() {
 		if(this.json !== null | this.json !== undefined) {
 			
 			// ユーザID（ログインユーザ）をセットする
-			user = $(SELECTOR_TOP_MENU > SELECTOR_USER_ID).text();
+			user = $(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text();
 			
 			// セレクタに応じたテーブルの開始タグを取得して追加する
 			//$(selector).append(this.getIndexTag(selector));
@@ -269,7 +269,7 @@ function WindowDesign() {
 			// JSON内を走査して、当該コメント概要に紐付く内容を探す
 			$.each(this.json, function(key, value) {
 				// 各行のコンテンツIDとJSON内のコンテンツIDが一致するか検証(一致ならば出力対象)
-				if($(thisElem > SELECTOR_CONTENT_ID).text() == this.json[key][KEY_CONTENT_ID]) {
+				if($(thisElem + MARK_SPACE + SELECTOR_CONTENT_ID).text() == this.json[key][KEY_CONTENT_ID]) {
 					// 行の開始としてtrを挿入する
 					$(thisElem).append(TAG_TR_COMMENT_START);
 					// 項目の要素を出力する
