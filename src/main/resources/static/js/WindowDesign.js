@@ -35,8 +35,11 @@ function WindowDesign() {
 		
 		var jsonLen;		// jsonの長さを保持するための変数
 		
+		// JSONの長さを取得
+		jsonLen = this.json.length;
+		
 		// jsonが取得出来ているか検証する
-		if(this.json !== null | this.json !== undefined) {
+		if(this.json !== null && this.json !== undefined && jsonLen !== 0) {
 			
 			// indentで1階層目か判定する
 			if(indent == 0) {
@@ -44,8 +47,6 @@ function WindowDesign() {
 				// 1階層目なのでセレクタに応じたテーブルの開始タグを取得して追加する
 				// $(selector).append(this.getIndexTag(selector));
 			}
-			// JSONの長さを取得
-			jsonLen = this.json.length;
 			
 			// ブロックエリアのタグと、テーブルの開始タグを埋める
 			$(selector).append(TAG_REPORT_AREA_START);
@@ -92,8 +93,8 @@ function WindowDesign() {
 				$(selector).append(TAG_REPORT_AREA_END);
 			}
 		
-		// JSONにメッセージがあれば
-		} else if(this.json[message]) {
+		// データが取得できていない旨を所定の位置に表示する
+		} else {
 			// 検索結果が0件の旨のメッセージを表示する
 			$(selector + MARK_SPACE + SELECTOR_SERACH_MESSAGE).text(MESSAGE_SEARCH_NOT_DATA);
 		}
@@ -112,6 +113,7 @@ function WindowDesign() {
 	this.getJsonData = function(path, json, type) {
 		
 		var map;		// json連想配列を文字列かしたものを格納するための変数
+		var tmp;		// 一時的にJSONほ保持してメンバのjsonに格納する。
 		
 		// json連想配列から、JSON文字列に変換、取得する
 		map = JSON.stringify(json);
@@ -133,7 +135,7 @@ function WindowDesign() {
 			// 通信成功時の処理
 			success: function(json) {
 				// 取得したjsonをメンバへ格納する
-				this.json = json;
+				tmp = json;
 			},
 			error: function(xhr, status, error) {
 				// TODO:【未実装】メッセージおよび例外処理について未実装
@@ -141,6 +143,9 @@ function WindowDesign() {
 				alert(MESSAGE_AJAX_ERROR);
 			}
 		});
+		
+		// 取得したJSONをメンバのJSONへ格納する
+		this.json = tmp;
 		
 	}
 	

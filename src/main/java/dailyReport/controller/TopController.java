@@ -7,6 +7,7 @@
 
 package dailyReport.controller;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +62,13 @@ public class TopController {
 		
 		// TODO:【未実装】ここで格納する型が単純なテーブルのentityクラスではダメなはずなので要検証
 		// 検索を実行し、その結果をentityインスタンスへ格納する
-		List<RecordContentInf> recordContentInf = topService.searchTopPageContent(map);
+		List<RecordContentInf> recordContentInf = null;
+		try {
+			recordContentInf = topService.searchTopPageContent(map);
+		} catch (ParseException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 		
 		// TODO:【未実装】entityクラスに対する0件の検証が以下であっているか不明
 		// 検索結果が1件以上取得出来ているか検証する

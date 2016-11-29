@@ -406,10 +406,12 @@ function BaseWindow() {
 		
 		// 対象の親コンテンツIDを取得
 		// TODO:【メモ】引数のselectorはボタンを指している
-		parent_content_id = parseInt($($(selector).parent(SELECTOR_PARENT_AREA) + MARK_SPACE + SELECTOR_PARENT_CONTENT_ID).text());
+		// parent_content_id = parseInt($($(selector).parent() + MARK_SPACE + SELECTOR_PARENT_CONTENT_ID).text());
+		parent_content_id = $(selector).parent().children(SELECTOR_PARENT_CONTENT_ID).text();
 		// 対象のコンテンツIDを取得
 		// TODO:【メモ】引数のselectorはボタンを指している
-		contentId = parseInt($($(selector).parent(SELECTOR_PARENT_AREA) + MARK_SPACE + SELECTOR_CONTENT_ID).text());
+		//contentId = parseInt($($(selector).parent() + MARK_SPACE + SELECTOR_CONTENT_ID).text());
+		contentId = $(selector).parent().children(SELECTOR_CONTENT_ID).text();
 		// 押下されたボタンのタイプを取得
 		// TODO:【セレクタ】ボタンのname属性にはボタンの機能を表す名称をセットする。名称は定数クラスを参照
 		button_type = $(selector[name]).val();

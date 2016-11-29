@@ -1,5 +1,8 @@
 package dailyReport.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,19 +37,30 @@ public class TopService {
 	 * 戻り値：	RecordContentInf
 	 * 作成日：	2016/11/25
 	 * 作成者：	k.urabe
+	 * @throws ParseException 
 	 */
 	// TODO:【未実装】entityクラスはこれでよいか未検証。今はダミーとしてテーブル単体のものを指定している。
-	public List<RecordContentInf> searchTopPageContent(Map<String, Object> map) {
+	public List<RecordContentInf> searchTopPageContent(Map<String, Object> map) throws ParseException {
+		
+		//String query = "SELECT i FROM RecordContentInf i LEFT JOIN FETCH i.recordContentAddSet WHERE i.userInf.userId like :serach_user AND i.entryStatus IN(:serach_note) AND i.reportDate BETWEEN :serach_from_date AND :serach_to_date AND i.recordContentAddSet.categoryStatus IN(:serach_read)";
+		// TODO:【メモ】下が一応実行可能
+		//String query = "SELECT i FROM RecordContentInf i LEFT JOIN FETCH i.recordContentAddSet WHERE i.userInf.userId like :serach_user AND i.reportDate BETWEEN :serach_from_date AND :serach_to_date";
+		
+		// JSONから取得した日付をentityクラスのdate型プロパティへ格納するための日付変換インスタンスを生成する
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		
 		// TODO:【未実装】Countなど使用について不明点があるため保留
 		// TODO:【未実装】なお、Countなどをとることにより、Entityクラスの型から外れてしまう。その場合はどうするか
 		// 現状はCountの部分以外を実装
 		List<RecordContentInf> content = entityManager
 				.createNamedQuery("TopSearchContentQuery", RecordContentInf.class)
-				.setParameter("serach_user", map.get(Constants.KEY_SERACH_USER))
-				.setParameter("serach_note", map.get(Constants.KEY_SERACH_NOTE))
-				.setParameter("serach_from_date", map.get(Constants.KEY_SERACH_FROM_DATE))
-				.setParameter("serach_to_date", map.get(Constants.KEY_SERACH_TO_DATE))
-				.setParameter("serach_read", map.get(Constants.KEY_SERACH_READ))
+				//.createQuery(query, RecordContentInf.class)
+				.setParameter("serach_user", "%" + (String)map.get(Constants.KEY_SERACH_USER) + "%")
+				//.setParameter("serach_note", map.get(Constants.KEY_SERACH_NOTE))
+				.setParameter("serach_from_date", sdf.parse((String)map.get(Constants.KEY_SERACH_FROM_DATE)))
+				.setParameter("serach_to_date", sdf.parse((String)map.get(Constants.KEY_SERACH_TO_DATE)))
+				//.setParameter("serach_read", map.get(Constants.KEY_SERACH_READ))
 				.getResultList();
 		// 取得した情報を返す
 		return content;
