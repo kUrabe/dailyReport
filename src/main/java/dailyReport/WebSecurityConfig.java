@@ -34,9 +34,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// ログインフォームを認証に使う
 		// 成功時は/roomsへ遷移する
 		// 失敗時の遷移先を常にアクセス許可する
-		http.authorizeRequests().antMatchers("/js/**", "/css/**").permitAll().antMatchers("/**").authenticated().and()
-				.formLogin().loginPage("/loginForm").loginProcessingUrl("/login").usernameParameter("username")
-				.passwordParameter("password").defaultSuccessUrl("/", true).failureUrl("/loginForm?error=true")
+		http.authorizeRequests()
+				.antMatchers("/js/**", "/css/**", "/img/**")
+				.permitAll()
+				//.antMatchers("/**", "/**/**")
+				.anyRequest()
+				.authenticated()
+				.and()
+				.csrf()
+				.disable()
+				.formLogin()
+				.loginPage("/loginForm")
+				.loginProcessingUrl("/login")
+				.usernameParameter("username")
+				.passwordParameter("password")
+				.defaultSuccessUrl("/", true)
+				.failureUrl("/loginForm?error=true")
 				.permitAll();
 	}
 

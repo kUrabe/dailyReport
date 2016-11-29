@@ -69,7 +69,7 @@ function TopWindowDetail() {
 		
 		// 既読
 		// 判定用の一時保持変数へ、検索領域から取得した値を格納する
-		readTemp = thisElem.getWindowItem(SELECTOR_SERACH_READ);
+		readTemp = thisElem.getWindowItem(SELECTOR_SERACH_READ + MARK_SPACE + SELECTOR_OPTION);
 		// 取得した文字列が「含んで表示」か判定する
 		if(readTemp == STR_READ_IN) {
 			// 対応した検索キーに置き換える
@@ -88,7 +88,7 @@ function TopWindowDetail() {
 		
 		// 下書
 		// 判定用の一時保持変数へ、検索領域から取得した値を格納する
-		noteTemp = thisElem.getWindowItem(SELECTOR_SERACH_NOTE);
+		noteTemp = thisElem.getWindowItem(SELECTOR_SERACH_NOTE + MARK_SPACE + SELECTOR_OPTION);
 		// 取得した文字列が「含んで表示」か判定する
 		if(noteTemp == STR_NOTE_IN) {
 			// 対応した検索キーに置き換える

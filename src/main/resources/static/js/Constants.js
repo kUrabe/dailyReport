@@ -123,6 +123,7 @@ SELECTOR_SERACH_TO_DATE = '.serach_to_date';		// 検索領域のto
 SELECTOR_SERACH_USER = '.serach_user';				// 検索領域の対象ユーザ
 SELECTOR_SERACH_READ = '.serach_read';				// 検索領域の既読
 SELECTOR_SERACH_NOTE = '.serach_note';				// 検索領域の下書
+SELECTOR_OPTION = 'option:selected';				// 既読と下書きの選択されている値を取得するためのセレクタ
 
 SELECTOR_CONTENT_AREA = '.content_area';			// コンテンツ全体を囲む領域
 SELECTOR_REPORT_AREA = '.report_area';				// レポートの概要と詳細を囲む領域
