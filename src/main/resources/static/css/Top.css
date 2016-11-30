@@ -55,4 +55,7 @@ div {
 .blockArea span {
 	width:		50px;
 }
-/*  */
+/* 日報概要内の非表示項目 */
+.report_area .blockArea .content_id .user_id .entry_format .entry_status .base_parent_content_id .grand_parent_content_id .parent_content_id {
+	display:	none;
+}

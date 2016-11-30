@@ -43,35 +43,43 @@ function WindowDesign() {
 			
 			// indentで1階層目か判定する
 			if(indent == 0) {
-				// TODO:【未実装】ここはtable開始・終了タグとタイトル部分（報告日…など）
-				// 1階層目なのでセレクタに応じたテーブルの開始タグを取得して追加する
-				// $(selector).append(this.getIndexTag(selector));
+				// 1階層目なので見出し行のタグ一式を追加する
+				$(selector).append(TAG_REPORT_INDEX_LINE);
 			}
-			
-			// ブロックエリアのタグと、テーブルの開始タグを埋める
-			$(selector).append(TAG_REPORT_AREA_START);
 			
 			// TODO:【未実装】子要素の呼び出しについて、今のままでは適切でない。
 			// JSONの行要素を走査する
 			for(var key in this.json) {
 				
-				// TODO:【未実装】レポートの概要を展開する際は、複数のコンテンツIDがJSONに含まれる。
-				// TODO:【未実装】それにも関わらず、受け取らなければならないので、ロジックが矛盾する
-				// TODO:【未実装】暫定として0を引数として受け取り、0の際は子を検証しない動きとする
-				// 対象レコードが子要素であるか検証する
-				if(parent_content_id < this.json[key].parent_content_id && parent_content_id !== 0) {
-					// 子要素を出力するため再帰呼び出しを行う。
-					this.createContentIndex(selector, this.json[key].parent_content_id, indent + 1)
-				}
+				// ブロックエリアのタグを追加する
+				$(selector + SELECTOR_LAST).append(TAG_BLOCK_AREA);
+				
+				// 行(ブロック)内のセレクタを取得する
+				$_blockSelector = $(selector + MARK_SPACE + SELECTOR_PARENT_AREA_LAST)
 				
 				// indent数分、ループしてテーブルのインデントをずらす
 				for(var i = 0; i < indent; i++) {
 					// indent用のタグを挿入する
-					$(selector).append(TAG_INDENT);
+					$_blockSelector.append(TAG_INDENT);
 				}
-				// 行開始のタグを挿入する
-				// TODO:【セレクタ】行の開始にも識別可能なクラス名など設けるか
-				$(selector + MARK_SPACE + SELECTOR_TABLE_INDEX).append(TAG_TR_REPORT_INDEX_START);
+				
+				// TODO:【未実装】レポートの概要を展開する際は、複数のコンテンツIDがJSONに含まれる。
+				// TODO:【未実装】それにも関わらず、受け取らなければならないので、ロジックが矛盾する
+				// TODO:【未実装】暫定として0を引数として受け取り、0の際は子を検証しない動きとする
+				// 対象レコードが子要素であるか検証する
+				//if(parent_content_id < this.json[key].parent_content_id && parent_content_id !== 0) {
+					// 子要素を出力するため再帰呼び出しを行う。
+					//this.createContentIndex(selector, this.json[key].parent_content_id, indent + 1)
+				//}
+				
+				
+				
+				// 行開始のタグを挿入する(アコーディオンボタンクラス名付き)
+				$_blockSelector.append(TAG_LINE_START);
+				// 追加した行開始タグにクラス名を追加する
+				$($_blockSelector + MARK_SPACE + SELECTOR_B_ACCORDION).addClass(STR_LINE + key);
+				
+				
 				// JSONの列要素を走査する
 				for(var keyIn in this.json[key]) {
 					// 項目タグと値をセットする

@@ -18,7 +18,7 @@ import dailyReport.service.TopSearchContentSummary;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="TopSearchContentQuery", 
-			query="SELECT DISTINCT i FROM RecordContentInf i LEFT JOIN FETCH i.recordContentAddSet WHERE i.userInf.userId like :serach_user AND i.reportDate BETWEEN :serach_from_date AND :serach_to_date AND i.entryFormat = 2")
+			query="SELECT DISTINCT i FROM RecordContentInf i LEFT JOIN FETCH i.recordContentAddSet WHERE i.userInf.user_id like :serach_user AND i.report_date BETWEEN :serach_from_date AND :serach_to_date AND i.entry_format = 2")
 })
 @Table(name="record_content_inf")
 @SqlResultSetMappings({

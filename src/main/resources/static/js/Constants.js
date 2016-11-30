@@ -148,6 +148,8 @@ SELECTOR_B_FAVORITE = '.b_favorite';			// いいねボタン
 SELECTOR_B_EDIT = '.b_edit';					// 編集ボタン
 SELECTOR_B_DELETE = '.b_delete';				// 削除ボタン
 SELECTOR_B_ACCORDION = '.b_accordion';			// アコーディオンが仕掛けられるセレクタ
+SELECTOR_B_ACCORDION_LAST = '.b_accordion:last';
+SELECTOR_LAST = ':last';
 
 // 日報作成、コメント詳細、コメント作成画面のセレクタ
 SELECTOR_MAIN = '.main';						// 各画面のJSONデータ展開先
@@ -173,6 +175,7 @@ SELECTOR_COMMENT_USER = '.comment_user';		// コメント詳細の当該コメ�
 SELECTOR_SEND_TO = '.sendTo';					// コメント作成画面の誰宛の何へのコメントなのか表示する領域
 SELECTOR_TABLE_INDEX = '.tableIndex';
 SELECTOR_INDEX_TR = '.indexTR';
+SELECTOR_INDEX_LINE = '.index_line';
 
 /*
  * path名(file名)
@@ -211,9 +214,21 @@ TAG_DIV_END = '</div>';													// divタグの終了
 TAG_TOP_TABLE_START ='<table class="">';								// tableの開始タグ
 TAG_TOP_TABLE_END = '</table>';
 
+// トップ画面 日報概要の見出し
+TAG_REPORT_INDEX_LINE = '<div class="index_line"><span>報告日</span><span>報告者</span><span>既読者</span><span>ステータス</span><span>コメント数</span><span>いいね数</span></div>';
+// 日報概要の1行とアコーディオン範囲を包むブロックエリアのタグ
+TAG_BLOCK_AREA = '<div class="blockArea"></div>';
+// 日報概要の1行を表すタグ
+TAG_LINE_START = '<div class="b_accordion"></div>';
+// 日報概要の行内の1項目を表すタグ
+TAG_IN_LINE_ITEM = '<span class=""></span>';
+// アコーディオンエリアのフォーマットタグを追加する
+TAG_REPORT_ACCORDION = '<div class="accordion_area"><div class="report_detail"></div><div class="comment_area"><div class="search_message"></div></div></div>';
+
+
+
 TAG_REPORT_AREA_START = '<div class="blockArea"><table class="tableIndex ">';
 TAG_REPORT_AREA_END = '</table>';
-TAG_REPORT_ACCORDION = '<div class="accordion_area"><div class="report_detail"></div><div class="comment_area"><div class="search_message"></div></div></div>';
 
 // top画面のボタン
 TAG_EDIT_BUTTON = '<button type="button" class="b_edit" name="">編集</button>';	// 編集ボタン
@@ -225,7 +240,7 @@ TAG_ACCORDION_BUTTON = '<button type="button" class="b_accordion" name="">閉じ
 TAG__BUTTON = '<button type="button" class="" name=""></button>';	// ボタン
 
 
-TAG_INDENT = '<div width="10"></div>';
+TAG_INDENT = '<span width="10"></span>';
 TAG_TR_START = '<tr>';
 TAG_TR_REPORT_INDEX_START = '<tr class="indexTR b_accordion">';
 TAG_TR_REPORT_DETAIL_START = '<tr class="detailTR">';
@@ -272,6 +287,8 @@ STR_NOTE_IN_VAL = '1, 2';							// 下書　含んで表示
 STR_NOTE_OUT_VAL = '2';								// 下書　除いて表示
 STR_NOTE_ONLY_VAL = '1';							// 下書　のみ表示
 
+// トップ画面の日報概要の1行を囲むタグに付与するクラス名の一部
+STR_LINE = 'line';
 
 //TODO:【未実装】ダイアログのコメント系が未定義
 MESSAGE_DEL_INDEX = '見出しエリアを削除します。\n入力していたデータは消えますがよろしいですか？';

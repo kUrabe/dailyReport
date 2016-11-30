@@ -59,6 +59,8 @@ function TopWindowDetail() {
 		$(KEY_DIV).remove(SELECTOR_PARENT_AREA);
 		// 件数取得なしのメッセージを削除する
 		$(SELECTOR_SERACH_MESSAGE).text("");
+		// 行の見出しを削除する
+		$(KEY_DIV).remove(SELECTOR_INDEX_LINE);
 		
 		// JSON連想配列にユーザID（ログインユーザ）をセットする
 		jsonArray[KEY_USER_ID] = $(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text();
