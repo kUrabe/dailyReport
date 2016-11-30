@@ -40,7 +40,7 @@ public class TopService {
 	 * @throws ParseException 
 	 */
 	// TODO:【未実装】entityクラスはこれでよいか未検証。今はダミーとしてテーブル単体のものを指定している。
-	public List<RecordContentInf> searchTopPageContent(Map<String, Object> map) throws ParseException {
+	public List<TopSearchContentSummary> searchTopPageContent(Map<String, Object> map) throws ParseException {
 		
 		//String query = "SELECT i FROM RecordContentInf i LEFT JOIN FETCH i.recordContentAddSet WHERE i.userInf.userId like :serach_user AND i.entryStatus IN(:serach_note) AND i.reportDate BETWEEN :serach_from_date AND :serach_to_date AND i.recordContentAddSet.categoryStatus IN(:serach_read)";
 		// TODO:【メモ】下が一応実行可能
@@ -53,7 +53,8 @@ public class TopService {
 		// TODO:【未実装】Countなど使用について不明点があるため保留
 		// TODO:【未実装】なお、Countなどをとることにより、Entityクラスの型から外れてしまう。その場合はどうするか
 		// 現状はCountの部分以外を実装
-		List<RecordContentInf> content = entityManager
+		/*
+		List<TopSearchContentSummary> content = entityManager
 				.createNamedQuery("TopSearchContentQuery", RecordContentInf.class)
 				//.createQuery(query, RecordContentInf.class)
 				.setParameter("serach_user", "%" + (String)map.get(Constants.KEY_SERACH_USER) + "%")
@@ -61,6 +62,26 @@ public class TopService {
 				.setParameter("serach_from_date", sdf.parse((String)map.get(Constants.KEY_SERACH_FROM_DATE)))
 				.setParameter("serach_to_date", sdf.parse((String)map.get(Constants.KEY_SERACH_TO_DATE)))
 				//.setParameter("serach_read", map.get(Constants.KEY_SERACH_READ))
+				.getResultList();
+		*/
+		
+		List<TopSearchContentSummary> content = entityManager.createNativeQuery("SELECT ri.report_date AS report_date, "
+				+ "ri.content_id AS content_id, ri.user_id AS user_id, ui.user_name AS user_name,"
+				+ "ri.entry_format AS entry_format, ri.entry_status AS entry_status, ri.base_parent_content_id AS base_parent_content_id, "
+				+ "ri.grand_parent_content_id AS grand_parent_content_id, ri.parent_content_id AS parent_content_id,"
+				+ "(SELECT COUNT(ra.id) FROM record_content_add ra WHERE ra.content_id = ri.content_id AND ra.add_category = 1 AND ra.category_status = 1) AS read_count, "
+				+ "(SELECT COUNT(ra.id) FROM record_content_add ra WHERE ra.content_id = ri.content_id AND ra.add_category = 1 AND ra.category_status = 1 AND ra.user_id = ?1) AS read_status, "
+				+ "(SELECT COUNT(ri2.content_id) FROM record_content_inf ri2 WHERE ri2.parent_content_id = ri.content_id) AS comment_count, "
+				+ "(SELECT COUNT(ra.id) FROM record_content_add ra WHERE ra.content_id = ri.content_id AND ra.add_category = 2 AND ra.category_status = 1) AS favorite_count "
+				+ "FROM record_content_inf ri LEFT JOIN user_inf ui ON ri.user_id = ui.user_id "
+				+ "WHERE ri.entry_format = 2 AND ui.user_name LIKE ?2 AND ri.report_date BETWEEN ?3 AND ?4"
+				//+ " AND ri.entry_status IN (?5)"
+				,"summary")
+				.setParameter(1, (String)map.get(Constants.KEY_USER_ID))
+				.setParameter(2, "%" + (String)map.get(Constants.KEY_SERACH_USER) + "%")
+				.setParameter(3, sdf.parse((String)map.get(Constants.KEY_SERACH_FROM_DATE)))
+				.setParameter(4, sdf.parse((String)map.get(Constants.KEY_SERACH_TO_DATE)))
+				//.setParameter(5, map.get(Constants.KEY_SERACH_READ))
 				.getResultList();
 		// 取得した情報を返す
 		return content;

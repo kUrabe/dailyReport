@@ -12,7 +12,8 @@ import dailyReport.Constants;
  * 作成者：	k.urabe
  */
 public class TopSearchContentSummary {
-	
+
+	private String reportDate;				// 報告日マッピング
 	private Integer contentId;				// コンテンツIDマッピング
 	private String userId;					// ユーザID(投稿者)マッピング
 	private String userName;				// ユーザ名（投稿者）マッピング
@@ -21,15 +22,41 @@ public class TopSearchContentSummary {
 	private Integer baseParentContentId;	// 基底親コンテンツIDマッピング
 	private Integer grandParentContentId;	// 祖先コンテンツIDマッピング
 	private Integer parentContentId;		// 親コンテンツIDマッピング
-	private String reportDate;				// 報告日マッピング
-	private Integer favorite_count;			// いいねカウント数マッピング
 	private Integer read_count;				// 既読カウント数マッピング
+	private Integer read_status;			// 既読ステータス　// 未読なら0件、既読なら1件になる想定
+	private Integer comment_count;			// コメントカウント数マッピング
+	private Integer favorite_count;			// いいねカウント数マッピング
 	
 	// コンストラクタ（引数あり）
-	public TopSearchContentSummary(Date reportDate) {
+	public TopSearchContentSummary(
+			Date reportDate,
+			Integer contentId,
+			String userId,
+			String userName,
+			Integer entryFormat,
+			Integer entryStatus,
+			Integer baseParentContentId,
+			Integer grandParentContentId,
+			Integer parentContentId,
+			Integer read_count,
+			Integer read_status,
+			Integer comment_count,
+			Integer favorite_count
+			) {
 
-		//this.reportDate = new SimpleDateFormat(Constants.DATE_FORMAT).format(reportDate);
-
+		this.reportDate = new SimpleDateFormat(Constants.DATE_FORMAT).format(reportDate);
+		this.contentId = contentId;
+		this.userId = userId;
+		this.userName = userName;
+		this.entryFormat = entryFormat;
+		this.entryStatus = entryStatus;
+		this.baseParentContentId = baseParentContentId;
+		this.grandParentContentId = grandParentContentId;
+		this.parentContentId = parentContentId;
+		this.read_count = read_count;
+		this.read_status = read_status;
+		this.comment_count = comment_count;
+		this.favorite_count = favorite_count;
 	}
 	
 	// コンストラクタ（引数なし）
@@ -104,6 +131,22 @@ public class TopSearchContentSummary {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Integer getComment_count() {
+		return comment_count;
+	}
+
+	public void setComment_count(Integer comment_count) {
+		this.comment_count = comment_count;
+	}
+
+	public Integer getRead_status() {
+		return read_status;
+	}
+
+	public void setRead_status(Integer read_status) {
+		this.read_status = read_status;
 	}
 	
 }

@@ -22,6 +22,7 @@ import dailyReport.Constants;
 import dailyReport.resource.RecordContentDetail;
 import dailyReport.resource.RecordContentInf;
 import dailyReport.service.CommonService;
+import dailyReport.service.TopSearchContentSummary;
 import dailyReport.service.TopService;
 
 /**
@@ -49,7 +50,7 @@ public class TopController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "top/topPageContent", method = RequestMethod.POST)
-	public List<RecordContentInf> requestTopPageContent(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+	public List<TopSearchContentSummary> requestTopPageContent(@RequestParam("crud") String crud, @RequestParam("json") String json) {
 		
 		String message = "";							// 返却用JSONにセットする文字列格納
 		
@@ -62,9 +63,9 @@ public class TopController {
 		
 		// TODO:【未実装】ここで格納する型が単純なテーブルのentityクラスではダメなはずなので要検証
 		// 検索を実行し、その結果をentityインスタンスへ格納する
-		List<RecordContentInf> recordContentInf = null;
+		List<TopSearchContentSummary> topSearchContentSummary = null;
 		try {
-			recordContentInf = topService.searchTopPageContent(map);
+			topSearchContentSummary = topService.searchTopPageContent(map);
 		} catch (ParseException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
@@ -72,7 +73,7 @@ public class TopController {
 		
 		// TODO:【未実装】entityクラスに対する0件の検証が以下であっているか不明
 		// 検索結果が1件以上取得出来ているか検証する
-		if(recordContentInf == null) {
+		if(topSearchContentSummary == null) {
 			// 返却用メッセージとして取得できなかった旨の文言をセットしたJSON文字列を作成する
 			message = commonService.setResultMessage(Constants.STR_NO_GET);
 		} else {
@@ -82,7 +83,7 @@ public class TopController {
 		}
 		
 		// 作成したJSON文字列を返却する
-		return recordContentInf;
+		return topSearchContentSummary;
 		
 	}
 	
