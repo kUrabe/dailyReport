@@ -70,7 +70,11 @@ public class TopSearchContentSummary {
 			int entry_status,
 			int base_parent_content_id,
 			int grand_parent_content_id,
-			int parent_content_id
+			int parent_content_id,
+			Object read_count,
+			Object read_status,
+			Object comment_count,
+			Object favorite_count
 			) {
 
 		this.report_date = new SimpleDateFormat(Constants.DATE_FORMAT).format(report_date);
@@ -83,12 +87,10 @@ public class TopSearchContentSummary {
 		this.base_parent_content_id = base_parent_content_id;
 		this.grand_parent_content_id = grand_parent_content_id;
 		this.parent_content_id = parent_content_id;
-		
-		this.read_count = 0;
-		this.read_status = 0;
-		this.comment_count = 0;
-		this.favorite_count = 0;
-		
+		this.read_count = read_count == null ? 0 : new Integer(read_count.toString());
+		this.read_status = read_status == null ? 0 : new Integer(read_status.toString());
+		this.comment_count = comment_count == null ? 0 : new Integer(comment_count.toString());
+		this.favorite_count = favorite_count == null ? 0 : new Integer(favorite_count.toString());
 	}
 	
 	// コンストラクタ（引数なし）

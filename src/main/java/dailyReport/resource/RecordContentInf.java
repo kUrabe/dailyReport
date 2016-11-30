@@ -35,11 +35,11 @@ import dailyReport.service.TopSearchContentSummary;
 							@ColumnResult(name = "entry_status"),
 							@ColumnResult(name = "base_parent_content_id"),
 							@ColumnResult(name = "grand_parent_content_id"),
-							@ColumnResult(name = "parent_content_id")
-							//@ColumnResult(name = "read_count")
-							//@ColumnResult(name = "read_status"),
-							//@ColumnResult(name = "comment_count"),
-							//@ColumnResult(name = "favorite_count")
+							@ColumnResult(name = "parent_content_id"),
+							@ColumnResult(name = "read_count"),
+							@ColumnResult(name = "read_status"),
+							@ColumnResult(name = "comment_count"),
+							@ColumnResult(name = "favorite_count")
 					}
 			)
 	)
