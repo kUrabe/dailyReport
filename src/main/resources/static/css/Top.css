@@ -51,4 +51,8 @@ div {
 	height:		204px;
 }
 
+/* blockArea配下のdiv幅 */
+.blockArea span {
+	width:		50px;
+}
 /*  */
