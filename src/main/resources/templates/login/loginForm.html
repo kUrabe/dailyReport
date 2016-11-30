@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h3>日報システム</h3>
-	<p th:if="${param.error}">Error!</p>
+	<p th:if="${param.error}"><script>alert("ユーザID、またはパスワードが違います。");</script></p>
 	<form th:action="@{/login}" method="POST">
 		<table>
 			<tr>

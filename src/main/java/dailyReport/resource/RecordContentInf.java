@@ -20,6 +20,7 @@ import dailyReport.service.TopSearchContentSummary;
 	@NamedQuery(name="TopSearchContentQuery", 
 			query="SELECT DISTINCT i FROM RecordContentInf i LEFT JOIN FETCH i.recordContentAddSet WHERE i.userInf.userId like :serach_user AND i.reportDate BETWEEN :serach_from_date AND :serach_to_date AND i.entryFormat = 2")
 })
+@Table(name="record_content_inf")
 @SqlResultSetMappings({
 	@SqlResultSetMapping(
 			name="summary", 
@@ -34,14 +35,15 @@ import dailyReport.service.TopSearchContentSummary;
 							@ColumnResult(name = "entry_status"),
 							@ColumnResult(name = "base_parent_content_id"),
 							@ColumnResult(name = "grand_parent_content_id"),
-							@ColumnResult(name = "parent_content_id"),
-							@ColumnResult(name = "read_count"),
-							@ColumnResult(name = "read_status"),
-							@ColumnResult(name = "comment_count"),
-							@ColumnResult(name = "favorite_count")
-						}))
-	})
-@Table(name="record_content_inf")
+							@ColumnResult(name = "parent_content_id")
+							//@ColumnResult(name = "read_count")
+							//@ColumnResult(name = "read_status"),
+							//@ColumnResult(name = "comment_count"),
+							//@ColumnResult(name = "favorite_count")
+					}
+			)
+	)
+})
 public class RecordContentInf implements Serializable {
 
 	/** serialVersionUID. */
@@ -51,7 +53,7 @@ public class RecordContentInf implements Serializable {
 	@Id
 	@Column(name="content_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer contentId;
+	private Integer content_id;
 
 	/** ユーザ情報. */
 	@ManyToOne
@@ -60,35 +62,35 @@ public class RecordContentInf implements Serializable {
 
 	/** 登録書式. */
 	@Column(name="entry_format")
-	private Integer entryFormat;
+	private Integer entry_format;
 
 	/** 登録状態. */
 	@Column(name="entry_status")
-	private Integer entryStatus;
+	private Integer entry_status;
 
 	/** 基底親コンテンツID. */
 	@Column(name="base_parent_content_id")
-	private Integer baseParentContentId;
+	private Integer base_parent_content_id;
 
 	/** 祖先コンテンツID. */
 	@Column(name="grand_parent_content_id")
-	private Integer grandParentContentId;
+	private Integer grand_parent_content_id;
 
 	/** 親コンテンツID. */
 	@Column(name="parent_content_id")
-	private Integer parentContentId;
+	private Integer parent_content_id;
 
 	/** 報告日. */
 	@Column(name="report_date")
-	private Date reportDate;
+	private Date report_date;
 
 	/** 作成日. */
 	@Column(name="create_date")
-	private Date createDate;
+	private Date create_date;
 
 	/** 更新日. */
 	@Column(name="update_dated")
-	private Date updateDated;
+	private Date update_dated;
 
 	/** コンテンツ追加情報 一覧. */
 	@OneToMany
@@ -115,7 +117,7 @@ public class RecordContentInf implements Serializable {
 	 *            コンテンツID
 	 */
 	public void setContentId(Integer contentId) {
-		this.contentId = contentId;
+		this.content_id = contentId;
 	}
 
 	/**
@@ -124,7 +126,7 @@ public class RecordContentInf implements Serializable {
 	 * @return コンテンツID
 	 */
 	public Integer getContentId() {
-		return this.contentId;
+		return this.content_id;
 	}
 
 	/**
@@ -153,7 +155,7 @@ public class RecordContentInf implements Serializable {
 	 *            登録書式
 	 */
 	public void setEntryFormat(Integer entryFormat) {
-		this.entryFormat = entryFormat;
+		this.entry_format = entryFormat;
 	}
 
 	/**
@@ -162,7 +164,7 @@ public class RecordContentInf implements Serializable {
 	 * @return 登録書式
 	 */
 	public Integer getEntryFormat() {
-		return this.entryFormat;
+		return this.entry_format;
 	}
 
 	/**
@@ -172,7 +174,7 @@ public class RecordContentInf implements Serializable {
 	 *            登録状態
 	 */
 	public void setEntryStatus(Integer entryStatus) {
-		this.entryStatus = entryStatus;
+		this.entry_status = entryStatus;
 	}
 
 	/**
@@ -181,7 +183,7 @@ public class RecordContentInf implements Serializable {
 	 * @return 登録状態
 	 */
 	public Integer getEntryStatus() {
-		return this.entryStatus;
+		return this.entry_status;
 	}
 
 	/**
@@ -191,7 +193,7 @@ public class RecordContentInf implements Serializable {
 	 *            基底親コンテンツID
 	 */
 	public void setBaseParentContentId(Integer baseParentContentId) {
-		this.baseParentContentId = baseParentContentId;
+		this.base_parent_content_id = baseParentContentId;
 	}
 
 	/**
@@ -200,7 +202,7 @@ public class RecordContentInf implements Serializable {
 	 * @return 基底親コンテンツID
 	 */
 	public Integer getBaseParentContentId() {
-		return this.baseParentContentId;
+		return this.base_parent_content_id;
 	}
 
 	/**
@@ -210,7 +212,7 @@ public class RecordContentInf implements Serializable {
 	 *            祖先コンテンツID
 	 */
 	public void setGrandParentContentId(Integer grandParentContentId) {
-		this.grandParentContentId = grandParentContentId;
+		this.grand_parent_content_id = grandParentContentId;
 	}
 
 	/**
@@ -219,7 +221,7 @@ public class RecordContentInf implements Serializable {
 	 * @return 祖先コンテンツID
 	 */
 	public Integer getGrandParentContentId() {
-		return this.grandParentContentId;
+		return this.grand_parent_content_id;
 	}
 
 	/**
@@ -229,7 +231,7 @@ public class RecordContentInf implements Serializable {
 	 *            親コンテンツID
 	 */
 	public void setParentContentId(Integer parentContentId) {
-		this.parentContentId = parentContentId;
+		this.parent_content_id = parentContentId;
 	}
 
 	/**
@@ -238,7 +240,7 @@ public class RecordContentInf implements Serializable {
 	 * @return 親コンテンツID
 	 */
 	public Integer getParentContentId() {
-		return this.parentContentId;
+		return this.parent_content_id;
 	}
 
 	/**
@@ -248,7 +250,7 @@ public class RecordContentInf implements Serializable {
 	 *            報告日
 	 */
 	public void setReportDate(Date reportDate) {
-		this.reportDate = reportDate;
+		this.report_date = reportDate;
 	}
 
 	/**
@@ -257,7 +259,7 @@ public class RecordContentInf implements Serializable {
 	 * @return 報告日
 	 */
 	public Date getReportDate() {
-		return this.reportDate;
+		return this.report_date;
 	}
 
 	/**
@@ -267,7 +269,7 @@ public class RecordContentInf implements Serializable {
 	 *            作成日
 	 */
 	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+		this.create_date = createDate;
 	}
 
 	/**
@@ -276,7 +278,7 @@ public class RecordContentInf implements Serializable {
 	 * @return 作成日
 	 */
 	public Date getCreateDate() {
-		return this.createDate;
+		return this.create_date;
 	}
 
 	/**
@@ -286,7 +288,7 @@ public class RecordContentInf implements Serializable {
 	 *            更新日
 	 */
 	public void setUpdateDated(Date updateDated) {
-		this.updateDated = updateDated;
+		this.update_dated = updateDated;
 	}
 
 	/**
@@ -295,7 +297,7 @@ public class RecordContentInf implements Serializable {
 	 * @return 更新日
 	 */
 	public Date getUpdateDated() {
-		return this.updateDated;
+		return this.update_dated;
 	}
 
 	/**
@@ -363,7 +365,7 @@ public class RecordContentInf implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((contentId == null) ? 0 : contentId.hashCode());
+		result = prime * result + ((content_id == null) ? 0 : content_id.hashCode());
 		return result;
 	}
 
@@ -382,11 +384,11 @@ public class RecordContentInf implements Serializable {
 			return false;
 		}
 		RecordContentInf other = (RecordContentInf) obj;
-		if (contentId == null) {
-			if (other.contentId != null) {
+		if (content_id == null) {
+			if (other.content_id != null) {
 				return false;
 			}
-		} else if (!contentId.equals(other.contentId)) {
+		} else if (!content_id.equals(other.content_id)) {
 			return false;
 		}
 		return true;

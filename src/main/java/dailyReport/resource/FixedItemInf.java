@@ -17,31 +17,31 @@ public class FixedItemInf implements Serializable {
 	/** 固定項目ID. */
 	@Id
 	@Column(name="fixed_item_id")
-	private Integer fixedItemId;
+	private Integer fixed_item_id;
 
 	/** 項目状態. */
 	@Column(name="item_status")
-	private Integer itemStatus;
+	private Integer item_status;
 
 	/** 出力順序. */
 	@Column(name="output_order")
-	private Integer outputOrder;
+	private Integer output_order;
 
 	/** 見出し名. */
 	@Column(name="index_name")
-	private String indexName;
+	private String index_name;
 
 	/** ボタン機能. */
 	@Column(name="button_function")
-	private Integer buttonFunction;
+	private Integer button_function;
 
 	/** ボタン名. */
 	@Column(name="button_name")
-	private String buttonName;
+	private String button_name;
 
 	/** 取得ボタン名. */
 	@Column(name="get_index_name")
-	private String getIndexName;
+	private String get_index_name;
 
 	/** コンテンツ詳細 一覧. */
 	@OneToMany
@@ -62,7 +62,7 @@ public class FixedItemInf implements Serializable {
 	 *            固定項目ID
 	 */
 	public void setFixedItemId(Integer fixedItemId) {
-		this.fixedItemId = fixedItemId;
+		this.fixed_item_id = fixedItemId;
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class FixedItemInf implements Serializable {
 	 * @return 固定項目ID
 	 */
 	public Integer getFixedItemId() {
-		return this.fixedItemId;
+		return this.fixed_item_id;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class FixedItemInf implements Serializable {
 	 *            項目状態
 	 */
 	public void setItemStatus(Integer itemStatus) {
-		this.itemStatus = itemStatus;
+		this.item_status = itemStatus;
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class FixedItemInf implements Serializable {
 	 * @return 項目状態
 	 */
 	public Integer getItemStatus() {
-		return this.itemStatus;
+		return this.item_status;
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class FixedItemInf implements Serializable {
 	 *            出力順序
 	 */
 	public void setOutputOrder(Integer outputOrder) {
-		this.outputOrder = outputOrder;
+		this.output_order = outputOrder;
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class FixedItemInf implements Serializable {
 	 * @return 出力順序
 	 */
 	public Integer getOutputOrder() {
-		return this.outputOrder;
+		return this.output_order;
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class FixedItemInf implements Serializable {
 	 *            見出し名
 	 */
 	public void setIndexName(String indexName) {
-		this.indexName = indexName;
+		this.index_name = indexName;
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class FixedItemInf implements Serializable {
 	 * @return 見出し名
 	 */
 	public String getIndexName() {
-		return this.indexName;
+		return this.index_name;
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class FixedItemInf implements Serializable {
 	 *            ボタン機能
 	 */
 	public void setButtonFunction(Integer buttonFunction) {
-		this.buttonFunction = buttonFunction;
+		this.button_function = buttonFunction;
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class FixedItemInf implements Serializable {
 	 * @return ボタン機能
 	 */
 	public Integer getButtonFunction() {
-		return this.buttonFunction;
+		return this.button_function;
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class FixedItemInf implements Serializable {
 	 *            ボタン名
 	 */
 	public void setButtonName(String buttonName) {
-		this.buttonName = buttonName;
+		this.button_name = buttonName;
 	}
 
 	/**
@@ -166,7 +166,7 @@ public class FixedItemInf implements Serializable {
 	 * @return ボタン名
 	 */
 	public String getButtonName() {
-		return this.buttonName;
+		return this.button_name;
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class FixedItemInf implements Serializable {
 	 *            取得ボタン名
 	 */
 	public void setGetIndexName(String getIndexName) {
-		this.getIndexName = getIndexName;
+		this.get_index_name = getIndexName;
 	}
 
 	/**
@@ -185,7 +185,7 @@ public class FixedItemInf implements Serializable {
 	 * @return 取得ボタン名
 	 */
 	public String getGetIndexName() {
-		return this.getIndexName;
+		return this.get_index_name;
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class FixedItemInf implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((fixedItemId == null) ? 0 : fixedItemId.hashCode());
+		result = prime * result + ((fixed_item_id == null) ? 0 : fixed_item_id.hashCode());
 		return result;
 	}
 
@@ -243,11 +243,11 @@ public class FixedItemInf implements Serializable {
 			return false;
 		}
 		FixedItemInf other = (FixedItemInf) obj;
-		if (fixedItemId == null) {
-			if (other.fixedItemId != null) {
+		if (fixed_item_id == null) {
+			if (other.fixed_item_id != null) {
 				return false;
 			}
-		} else if (!fixedItemId.equals(other.fixedItemId)) {
+		} else if (!fixed_item_id.equals(other.fixed_item_id)) {
 			return false;
 		}
 		return true;

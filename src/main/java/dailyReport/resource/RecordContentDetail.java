@@ -39,7 +39,7 @@ public class RecordContentDetail implements Serializable {
 
 	/** 詳細ID. */
 	@Column(name="detail_id")
-	private Integer detailId;
+	private Integer detail_id;
 
 	/** 固定項目情報. */
 	@ManyToOne
@@ -48,11 +48,11 @@ public class RecordContentDetail implements Serializable {
 
 	/** 項目名. */
 	@Column(name="index_name")
-	private String indexName;
+	private String index_name;
 
 	/** 内容. */
 	@Column(name="main_text")
-	private String mainText;
+	private String main_text;
 
 	/**
 	 * コンストラクタ.
@@ -86,7 +86,7 @@ public class RecordContentDetail implements Serializable {
 	 *            詳細ID
 	 */
 	public void setDetailId(Integer detailId) {
-		this.detailId = detailId;
+		this.detail_id = detailId;
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class RecordContentDetail implements Serializable {
 	 * @return 詳細ID
 	 */
 	public Integer getDetailId() {
-		return this.detailId;
+		return this.detail_id;
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class RecordContentDetail implements Serializable {
 	 *            項目名
 	 */
 	public void setIndexName(String indexName) {
-		this.indexName = indexName;
+		this.index_name = indexName;
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class RecordContentDetail implements Serializable {
 	 * @return 項目名
 	 */
 	public String getIndexName() {
-		return this.indexName;
+		return this.index_name;
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class RecordContentDetail implements Serializable {
 	 *            内容
 	 */
 	public void setMainText(String mainText) {
-		this.mainText = mainText;
+		this.main_text = mainText;
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class RecordContentDetail implements Serializable {
 	 * @return 内容
 	 */
 	public String getMainText() {
-		return this.mainText;
+		return this.main_text;
 	}
 
 	/**

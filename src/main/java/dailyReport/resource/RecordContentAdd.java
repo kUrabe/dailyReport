@@ -21,19 +21,19 @@ public class RecordContentAdd implements Serializable {
 	/** レコード情報. */
 	@ManyToOne
 	@JoinColumn(name="content_id", insertable=false, updatable=false)
-	private RecordContentInf recordContentInf;
+	private RecordContentInf recoredContentInf;
 
 	/** ユーザID. */
 	@Column(name="user_id")
-	private String userId;
+	private String user_id;
 
 	/** 追加種別. */
 	@Column(name="add_category")
-	private Integer addCategory;
+	private Integer add_category;
 
 	/** 登録状態. */
 	@Column(name="category_status")
-	private Integer categoryStatus;
+	private Integer category_status;
 
 	/**
 	 * コンストラクタ.
@@ -48,7 +48,7 @@ public class RecordContentAdd implements Serializable {
 	 *            レコード情報
 	 */
 	public void setRecordContentInf(RecordContentInf recordContentInf) {
-		this.recordContentInf = recordContentInf;
+		this.recoredContentInf = recordContentInf;
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class RecordContentAdd implements Serializable {
 	 * @return レコード情報
 	 */
 	public RecordContentInf getRecordContentInf() {
-		return this.recordContentInf;
+		return this.recoredContentInf;
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class RecordContentAdd implements Serializable {
 	 *            ユーザID
 	 */
 	public void setUserId(String userId) {
-		this.userId = userId;
+		this.user_id = userId;
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class RecordContentAdd implements Serializable {
 	 * @return ユーザID
 	 */
 	public String getUserId() {
-		return this.userId;
+		return this.user_id;
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class RecordContentAdd implements Serializable {
 	 *            追加種別
 	 */
 	public void setAddCategory(Integer addCategory) {
-		this.addCategory = addCategory;
+		this.add_category = addCategory;
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class RecordContentAdd implements Serializable {
 	 * @return 追加種別
 	 */
 	public Integer getAddCategory() {
-		return this.addCategory;
+		return this.add_category;
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class RecordContentAdd implements Serializable {
 	 *            登録状態
 	 */
 	public void setCategoryStatus(Integer categoryStatus) {
-		this.categoryStatus = categoryStatus;
+		this.category_status = categoryStatus;
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class RecordContentAdd implements Serializable {
 	 * @return 登録状態
 	 */
 	public Integer getCategoryStatus() {
-		return this.categoryStatus;
+		return this.category_status;
 	}
 
 	/**

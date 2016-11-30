@@ -71,16 +71,16 @@ function WindowDesign() {
 				}
 				// 行開始のタグを挿入する
 				// TODO:【セレクタ】行の開始にも識別可能なクラス名など設けるか
-				$(selector).append(TAG_TR_REPORT_INDEX_START);
+				$(selector + MARK_SPACE + SELECTOR_TABLE_INDEX).append(TAG_TR_REPORT_INDEX_START);
 				// JSONの列要素を走査する
-				for(var keyIn in key) {
+				for(var keyIn in this.json[key]) {
 					// 項目タグと値をセットする
-					$(selector).append(TAG_TD_START + key[keyIn] + TAG_TD_END).addClass(keyIn);
+					$(selector + MARK_SPACE + SELECTOR_INDEX_TR).append(TAG_TD_START + this.json[key][keyIn] + TAG_TD_END).addClass(keyIn);
 				}
 				// 行終了のタグを挿入する
-				$(selector).append(TAG_TR_END);
+				//$(selector).append(TAG_TR_END);
 				// テーブルの終了タグを挿入する
-				$(selector).append(TAG_REPORT_AREA_END);
+				//$(selector).append(TAG_REPORT_AREA_END);
 				
 				// 展開行に対するアコーディオン部分を作成する
 				$(selector).append(TAG_REPORT_ACCORDION);

@@ -171,6 +171,8 @@ SELECTOR_B_ADD_COMMENT = '.b_add_comment';		// コメント作成画面のコメ
 SELECTOR_COMMENT_DATE = '.comment_date';		// コメント詳細の当該コメント日付
 SELECTOR_COMMENT_USER = '.comment_user';		// コメント詳細の当該コメント投稿ユーザ名
 SELECTOR_SEND_TO = '.sendTo';					// コメント作成画面の誰宛の何へのコメントなのか表示する領域
+SELECTOR_TABLE_INDEX = '.tableIndex';
+SELECTOR_INDEX_TR = '.indexTR';
 
 /*
  * path名(file名)

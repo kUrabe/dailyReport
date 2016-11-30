@@ -65,19 +65,26 @@ public class TopService {
 				.getResultList();
 		*/
 		
-		List<TopSearchContentSummary> content = entityManager.createNativeQuery("SELECT ri.report_date AS report_date, "
-				+ "ri.content_id AS content_id, ri.user_id AS user_id, ui.user_name AS user_name,"
-				+ "ri.entry_format AS entry_format, ri.entry_status AS entry_status, ri.base_parent_content_id AS base_parent_content_id, "
-				+ "ri.grand_parent_content_id AS grand_parent_content_id, ri.parent_content_id AS parent_content_id,"
-				+ "(SELECT COUNT(ra.id) FROM record_content_add ra WHERE ra.content_id = ri.content_id AND ra.add_category = 1 AND ra.category_status = 1) AS read_count, "
-				+ "(SELECT COUNT(ra.id) FROM record_content_add ra WHERE ra.content_id = ri.content_id AND ra.add_category = 1 AND ra.category_status = 1 AND ra.user_id = ?1) AS read_status, "
-				+ "(SELECT COUNT(ri2.content_id) FROM record_content_inf ri2 WHERE ri2.parent_content_id = ri.content_id) AS comment_count, "
-				+ "(SELECT COUNT(ra.id) FROM record_content_add ra WHERE ra.content_id = ri.content_id AND ra.add_category = 2 AND ra.category_status = 1) AS favorite_count "
+		//TODO【メモ】エラー発生中。回避のため、IN句の条件バインドと、副問い合わせ箇所をコメントアウト
+		List<TopSearchContentSummary> content = entityManager.createNativeQuery("SELECT "
+				+ "ri.report_date AS report_date, "
+				+ "ri.content_id AS content_id, "
+				+ "ri.user_id AS user_id, "
+				+ "ui.user_name AS user_name,"
+				+ "ri.entry_format AS entry_format, "
+				+ "ri.entry_status AS entry_status, "
+				+ "ri.base_parent_content_id AS base_parent_content_id, "
+				+ "ri.grand_parent_content_id AS grand_parent_content_id, "
+				+ "ri.parent_content_id AS parent_content_id "
+				//+ "(SELECT COUNT(ra.id) AS read_count FROM record_content_add ra WHERE ra.content_id = ri.content_id AND ra.add_category = 1 AND ra.category_status = 1) AS read_count, "
+				//+ "(SELECT COUNT(ra.id) FROM record_content_add ra WHERE ra.content_id = ri.content_id AND ra.add_category = 1 AND ra.category_status = 1 AND ra.user_id = ?1) AS read_status, "
+				//+ "(SELECT COUNT(ri2.content_id) FROM record_content_inf ri2 WHERE ri2.parent_content_id = ri.content_id) AS comment_count, "
+				//+ "(SELECT COUNT(ra.id) FROM record_content_add ra WHERE ra.content_id = ri.content_id AND ra.add_category = 2 AND ra.category_status = 1) AS favorite_count "
 				+ "FROM record_content_inf ri LEFT JOIN user_inf ui ON ri.user_id = ui.user_id "
 				+ "WHERE ri.entry_format = 2 AND ui.user_name LIKE ?2 AND ri.report_date BETWEEN ?3 AND ?4"
 				//+ " AND ri.entry_status IN (?5)"
 				,"summary")
-				.setParameter(1, (String)map.get(Constants.KEY_USER_ID))
+				//.setParameter(1, (String)map.get(Constants.KEY_USER_ID))
 				.setParameter(2, "%" + (String)map.get(Constants.KEY_SERACH_USER) + "%")
 				.setParameter(3, sdf.parse((String)map.get(Constants.KEY_SERACH_FROM_DATE)))
 				.setParameter(4, sdf.parse((String)map.get(Constants.KEY_SERACH_TO_DATE)))

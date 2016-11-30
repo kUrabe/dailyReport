@@ -23,39 +23,39 @@ public class UserInf implements Serializable {
 	// 主キーのユーザID
 	@Id
 	@Column(name="user_id")
-	private String userId;
+	private String user_id;
 	
 	// ログインパスワード
 	@Column(name="login_password")
-	private String loginPassword;
+	private String login_password;
 	
 	// ユーザ名（漢字）
 	@Column(name="user_name")
-	private String userName;
+	private String user_name;
 	
 	// 性別
 	@Column(name="user_sex")
-	private Byte userSex;
+	private Byte user_sex;
 	
 	// ユーザ権限
 	@Column(name="user_authority")
-	private Integer userAuthority;
+	private Integer user_authority;
 
 	// 電話番号
 	@Column(name="user_tel")
-	private String userTel;
+	private String user_tel;
 	
 	// メールアドレス
 	@Column(name="user_mail")
-	private String userMail;;
+	private String user_mail;;
 	
 	// 作成日
 	@Column(name="create_date")
-	private Date createDate;
+	private Date create_date;
 
 	// 更新日
 	@Column(name="update_dated")
-	private Date updateDated;
+	private Date update_dated;
 	
 	// レコード情報（外部キーで紐づく）
 	@OneToMany
@@ -69,7 +69,7 @@ public class UserInf implements Serializable {
 	 *            ユーザID
 	 */
 	public void setUserId(String userId) {
-		this.userId = userId;
+		this.user_id = userId;
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class UserInf implements Serializable {
 	 * @return ユーザID
 	 */
 	public String getUserId() {
-		return this.userId;
+		return this.user_id;
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class UserInf implements Serializable {
 	 *            パスワード
 	 */
 	public void setLoginPassword(String loginPassword) {
-		this.loginPassword = loginPassword;
+		this.login_password = loginPassword;
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class UserInf implements Serializable {
 	 * @return パスワード
 	 */
 	public String getLoginPassword() {
-		return this.loginPassword;
+		return this.login_password;
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class UserInf implements Serializable {
 	 *            名前
 	 */
 	public void setUserName(String userName) {
-		this.userName = userName;
+		this.user_name = userName;
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class UserInf implements Serializable {
 	 * @return 名前
 	 */
 	public String getUserName() {
-		return this.userName;
+		return this.user_name;
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class UserInf implements Serializable {
 	 *            性別
 	 */
 	public void setUserSex(Byte userSex) {
-		this.userSex = userSex;
+		this.user_sex = userSex;
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class UserInf implements Serializable {
 	 * @return 性別
 	 */
 	public Byte getUserSex() {
-		return this.userSex;
+		return this.user_sex;
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class UserInf implements Serializable {
 	 *            ユーザ権限
 	 */
 	public void setUserAuthority(Integer userAuthority) {
-		this.userAuthority = userAuthority;
+		this.user_authority = userAuthority;
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class UserInf implements Serializable {
 	 * @return ユーザ権限
 	 */
 	public Integer getUserAuthority() {
-		return this.userAuthority;
+		return this.user_authority;
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class UserInf implements Serializable {
 	 *            電話番号
 	 */
 	public void setUserTel(String userTel) {
-		this.userTel = userTel;
+		this.user_tel = userTel;
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class UserInf implements Serializable {
 	 * @return 電話番号
 	 */
 	public String getUserTel() {
-		return this.userTel;
+		return this.user_tel;
 	}
 
 	/**
@@ -183,7 +183,7 @@ public class UserInf implements Serializable {
 	 *            メールアドレス
 	 */
 	public void setUserMail(String userMail) {
-		this.userMail = userMail;
+		this.user_mail = userMail;
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class UserInf implements Serializable {
 	 * @return メールアドレス
 	 */
 	public String getUserMail() {
-		return this.userMail;
+		return this.user_mail;
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class UserInf implements Serializable {
 	 *            作成日
 	 */
 	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+		this.create_date = createDate;
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class UserInf implements Serializable {
 	 * @return 作成日
 	 */
 	public Date getCreateDate() {
-		return this.createDate;
+		return this.create_date;
 	}
 
 	/**
@@ -221,7 +221,7 @@ public class UserInf implements Serializable {
 	 *            更新日
 	 */
 	public void setUpdateDated(Date updateDated) {
-		this.updateDated = updateDated;
+		this.update_dated = updateDated;
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class UserInf implements Serializable {
 	 * @return 更新日
 	 */
 	public Date getUpdateDated() {
-		return this.updateDated;
+		return this.update_dated;
 	}
 	
 	/**
@@ -260,7 +260,7 @@ public class UserInf implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
 		return result;
 	}
 
@@ -279,11 +279,11 @@ public class UserInf implements Serializable {
 			return false;
 		}
 		UserInf other = (UserInf) obj;
-		if (userId == null) {
-			if (other.userId != null) {
+		if (user_id == null) {
+			if (other.user_id != null) {
 				return false;
 			}
-		} else if (!userId.equals(other.userId)) {
+		} else if (!user_id.equals(other.user_id)) {
 			return false;
 		}
 		return true;
