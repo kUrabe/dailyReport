@@ -1,4 +1,4 @@
-package dailyReport.service;
+package dailyReport.resource;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,39 +28,6 @@ public class TopSearchContentSummary {
 	private int favorite_count;			// いいねカウント数マッピング
 	
 	// コンストラクタ（引数あり）
-	/*
-	public TopSearchContentSummary(
-			String report_date,
-			int content_id,
-			String user_id,
-			String user_name,
-			int entry_format,
-			int entry_status,
-			int base_parent_content_id,
-			int grand_parent_content_id,
-			int parent_content_id,
-			int read_count,
-			int read_status,
-			int comment_count,
-			int favorite_count
-			) {
-
-		//this.reportDate = new SimpleDateFormat(Constants.DATE_FORMAT).format(report_date);
-		this.reportDate = report_date;
-		this.contentId = content_id;
-		this.userId = user_id;
-		this.userName = user_name;
-		this.entryFormat = entry_format;
-		this.entryStatus = entry_status;
-		this.baseParentContentId = base_parent_content_id;
-		this.grandParentContentId = grand_parent_content_id;
-		this.parentContentId = parent_content_id;
-		this.read_count = read_count;
-		this.read_status = read_status;
-		this.comment_count = comment_count;
-		this.favorite_count = favorite_count;
-	}
-	*/
 	public TopSearchContentSummary(
 			Date report_date,
 			int content_id,

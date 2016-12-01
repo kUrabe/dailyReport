@@ -3,6 +3,7 @@ package dailyReport.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import dailyReport.Constants;
 import dailyReport.resource.RecordContentDetail;
 import dailyReport.resource.RecordContentInf;
+import dailyReport.resource.SearchContentDetailSummary;
+import dailyReport.resource.TopSearchContentSummary;
 
 /**
  * クラス名：	TopService
@@ -30,6 +33,28 @@ public class TopService {
 	@PersistenceContext
 	EntityManager entityManager;
 	
+	// 既読検索クエリ用の検索文字列を返すためのマップ
+	private Map<String, String> read = new HashMap<String, String>();
+	// 未読検索クエリ用の検索文字列を返すためのマップ
+	private Map<String, String> note = new HashMap<String, String>();
+	
+	// コンストラクタ
+	public TopService() {
+		// 既読検索「含んで表示」の際のクエリを登録
+		read.put(Constants.STR_READ_NOTE_IN, Constants.STR_QUERY_READ_IN);
+		// 既読検索「除いて表示」の際のクエリを登録
+		read.put(Constants.STR_READ_NOTE_OUT, Constants.STR_QUERY_READ_OUT);
+		// 既読検索「のみ表示」の際のクエリを登録
+		read.put(Constants.STR_READ_NOTE_ONLY, Constants.STR_QUERY_READ_ONLY);
+		
+		// 未読検索「含んで表示」の際のクエリを登録
+		note.put(Constants.STR_READ_NOTE_IN, Constants.STR_QUERY_NOTE_IN);
+		// 未読検索「除いて表示」の際のクエリを登録
+		note.put(Constants.STR_READ_NOTE_OUT, Constants.STR_QUERY_NOTE_OUT);
+		// 未読検索「のみ表示」の際のクエリを登録
+		note.put(Constants.STR_READ_NOTE_ONLY, Constants.STR_QUERY_NOTE_ONLY);
+	}
+	
 	/**
 	 * 関数名：	searchTopPageContent
 	 * 概要：		TOP画面の初期表示や、検索実行時に概要部分を取得する
@@ -39,123 +64,36 @@ public class TopService {
 	 * 作成者：	k.urabe
 	 * @throws ParseException 
 	 */
-	// TODO:【未実装】entityクラスはこれでよいか未検証。今はダミーとしてテーブル単体のものを指定している。
 	public List<TopSearchContentSummary> searchTopPageContent(Map<String, Object> map) throws ParseException {
+
+		String plusQuery = "";				// 既読と下書の検索条件に合わせた追加のクエリを格納
 		
-		//String query = "SELECT i FROM RecordContentInf i LEFT JOIN FETCH i.recordContentAddSet WHERE i.userInf.userId like :serach_user AND i.entryStatus IN(:serach_note) AND i.reportDate BETWEEN :serach_from_date AND :serach_to_date AND i.recordContentAddSet.categoryStatus IN(:serach_read)";
-		// TODO:【メモ】下が一応実行可能
-		//String query = "SELECT i FROM RecordContentInf i LEFT JOIN FETCH i.recordContentAddSet WHERE i.userInf.userId like :serach_user AND i.reportDate BETWEEN :serach_from_date AND :serach_to_date";
+		// 既読の検索条件を判定する
+		if(read.containsKey(map.get(Constants.KEY_SERACH_READ))) {
+			// マッピングされたクエリ文字列を追加する
+			plusQuery += read.get(map.get(Constants.KEY_SERACH_READ));
+		}
+		// 未読の検索条件を判定する
+		if(note.containsKey(map.get(Constants.KEY_SERACH_NOTE))) {
+			// マッピングされたクエリ文字列を追加する
+			plusQuery += note.get(map.get(Constants.KEY_SERACH_NOTE));
+		}
 		
 		// JSONから取得した日付をentityクラスのdate型プロパティへ格納するための日付変換インスタンスを生成する
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
-		
-		// TODO:【未実装】Countなど使用について不明点があるため保留
-		// TODO:【未実装】なお、Countなどをとることにより、Entityクラスの型から外れてしまう。その場合はどうするか
-		// 現状はCountの部分以外を実装
-		/*
-		List<TopSearchContentSummary> content = entityManager
-				.createNamedQuery("TopSearchContentQuery", RecordContentInf.class)
-				//.createQuery(query, RecordContentInf.class)
-				.setParameter("serach_user", "%" + (String)map.get(Constants.KEY_SERACH_USER) + "%")
-				//.setParameter("serach_note", map.get(Constants.KEY_SERACH_NOTE))
-				.setParameter("serach_from_date", sdf.parse((String)map.get(Constants.KEY_SERACH_FROM_DATE)))
-				.setParameter("serach_to_date", sdf.parse((String)map.get(Constants.KEY_SERACH_TO_DATE)))
-				//.setParameter("serach_read", map.get(Constants.KEY_SERACH_READ))
-				.getResultList();
-		*/
-		
-		//TODO【メモ】エラー発生中。回避のため、IN句の条件バインドと、副問い合わせ箇所をコメントアウト
+		// 検索条件を含んだ情報取得のクエリを実行する。
+		@SuppressWarnings("unchecked")
 		List<TopSearchContentSummary> content = entityManager.createNativeQuery(
-				"SELECT "
-				+ "ri.report_date AS report_date"
-				+ ", ri.content_id AS content_id"
-				+ ", ri.user_id AS user_id"
-				+ ", ui.user_name AS user_name"
-				+ ", ri.entry_format AS entry_format"
-				+ ", ri.entry_status AS entry_status"
-				+ ", ri.base_parent_content_id AS base_parent_content_id"
-				+ ", ri.grand_parent_content_id AS grand_parent_content_id"
-				+ ", ri.parent_content_id AS parent_content_id"
-				+ ", t_read_count.in_count AS read_count"
-				+ ", t_read_status.in_count AS read_status"
-				+ ", t_comment_count.in_count AS comment_count"
-				+ ", t_favorite_count.in_count AS favorite_count"
-				+ " FROM"
-				+ " record_content_inf ri"
-				+ " LEFT JOIN"
-				+ " user_inf ui"
-				+ " ON"
-				+ " ri.user_id = ui.user_id"
-				+ " LEFT JOIN"
-				+ " (SELECT "
-				+ "ra.content_id AS content_id"
-				+ ", COUNT(ra.content_id) AS in_count"
-				+ " FROM"
-				+ " record_content_add ra"
-				+ " WHERE"
-				+ " ra.add_category = 1"
-				+ " AND"
-				+ " ra.category_status = 1"
-				+ " GROUP BY"
-				+ " ra.content_id) AS t_read_count"
-				+ " ON"
-				+ " t_read_count.content_id = ri.content_id"
-				+ " LEFT JOIN"
-				+ " (SELECT ra.content_id AS content_id,"
-				+ " COUNT(ra.content_id) AS in_count"
-				+ " FROM"
-				+ " record_content_add ra"
-				+ " WHERE"
-				+ " ra.add_category = 1"
-				+ " AND"
-				+ " ra.category_status = 1"
-				+ " AND"
-				+ " ra.user_id = ?1) AS t_read_status"
-				+ " ON"
-				+ " t_read_status.content_id = ri.content_id"
-				+ " LEFT JOIN"
-				+ " (SELECT"
-				+ " ri2.parent_content_id AS parent_content_id"
-				+ ", COUNT(ri2.parent_content_id) AS in_count"
-				+ " FROM"
-				+ " record_content_inf ri2"
-				+ " GROUP BY"
-				+ " ri2.parent_content_id) AS t_comment_count"
-				+ " ON"
-				+ " t_comment_count.parent_content_id = ri.content_id"
-				+ " LEFT JOIN"
-				+ " (SELECT"
-				+ " ra.content_id AS content_id"
-				+ ", COUNT(ra.content_id) AS in_count"
-				+ " FROM"
-				+ " record_content_add ra"
-				+ " WHERE"
-				+ " ra.add_category = 2"
-				+ " AND"
-				+ " ra.category_status = 1"
-				+ " GROUP BY"
-				+ " ra.content_id) AS t_favorite_count"
-				+ " ON"
-				+ " t_favorite_count.content_id = ri.content_id"
-				+ " WHERE"
-				+ " ri.entry_format = 2"
-				+ " AND"
-				+ " ui.user_name LIKE ?2"
-				+ " AND"
-				+ " ri.report_date BETWEEN ?3 AND ?4"
-				//+ " AND"
-				//+ " t_read_status.in_count IN (?5)"
-				//+ " AND"
-				//+ " ri.entry_status IN (?6)"
-				,"summary")
+				Constants.TOP_SEARCH_CONTENT_SUMMARY
+				+ plusQuery
+				,"topSearchContentSummary")
 				.setParameter(1, (String)map.get(Constants.KEY_USER_ID))
 				.setParameter(2, "%" + (String)map.get(Constants.KEY_SERACH_USER) + "%")
 				.setParameter(3, sdf.parse((String)map.get(Constants.KEY_SERACH_FROM_DATE)))
 				.setParameter(4, sdf.parse((String)map.get(Constants.KEY_SERACH_TO_DATE)))
-				//.setParameter(5, map.get(Constants.KEY_SERACH_READ))
-				//.setParameter(6, map.get(Constants.KEY_SERACH_NOTE))
 				.getResultList();
+		
 		// 取得した情報を返す
 		return content;
 	}
@@ -169,13 +107,17 @@ public class TopService {
 	 * 作成者：	k.urabe
 	 */
 	// TODO:【未実装】entityクラスはこれでよいか未検証。今はダミーとしてテーブル単体のものを指定している。
-	public List<RecordContentDetail> searchTopPageDetailContent(Map<String, Object> map) {
+	public List<SearchContentDetailSummary> searchTopPageDetailContent(Map<String, Object> map) {
+		
+		
 		
 		// jsonから取得したコンテンツIDと登録書式で情報を取得する
-		List<RecordContentDetail> content = entityManager
-				.createNamedQuery("getContentDetailQuery", RecordContentDetail.class)
-				.setParameter("content_id", map.get(Constants.KEY_CONTENT_ID))
-				.setParameter("entry_format", map.get(Constants.KEY_ENTRY_FORMAT))
+		@SuppressWarnings("unchecked")
+		List<SearchContentDetailSummary> content = entityManager
+				.createNativeQuery(Constants.SEARCH_CONTENT_DETAIL_SUMMARY, "searchContentDetailSummary")
+				.setParameter(1, Integer.parseInt((String)map.get(Constants.KEY_CONTENT_ID)))
+				.setParameter(2, Integer.parseInt((String)map.get(Constants.KEY_ENTRY_FORMAT)))
+				.setParameter(3, Integer.parseInt((String)map.get(Constants.KEY_ENTRY_STATUS)))
 				.getResultList();
 		
 		// 取得した情報を返す

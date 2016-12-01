@@ -10,17 +10,22 @@ import javax.persistence.*;
 // getBeforePlan 前日以前の予定を取得する(未実装 1行更新)
 // updateContent 日報・コメント作成画面のアップデート前の詳細削除
 @Entity
-@NamedNativeQueries({
-	@NamedNativeQuery(name="getContentDetailQuery", 
-			query="SELECT d FROM record_content_inf i LEFT JOIN FETCH record_content_detail d ON i.content_id = d.content_id WHERE i.content_id = :content_id AND i.entry_format = :entry_format"),
-	@NamedNativeQuery(name="getReportByDayQuery", 
-			query="SELECT d FROM record_content_inf i LEFT JOIN FETCH record_content_detail d ON i.content_id = d.content_id WHERE i.user_id = :user_id AND i.report_date = :report_date"),
-	@NamedNativeQuery(name="getBeforePlanQuery",
-			query="SELECT d FROM record_content_inf i LEFT JOIN FETCH record_content_detail d ON i.content_id = d.content_id WHERE i.user_id = :user_id AND i.report_date < :report_date LIMIT 1"),
-	@NamedNativeQuery(name="updateContentQuery", 
-			query="DELETE FROM record_content_detail d WHERE d.content_id = :content_id")
-})
 @Table(name="record_content_detail")
+@SqlResultSetMappings({
+	@SqlResultSetMapping(
+			name="searchContentDetailSummary", 
+			classes = @ConstructorResult(
+					targetClass = dailyReport.resource.SearchContentDetailSummary.class, 
+					columns = {
+							@ColumnResult(name = "content_id"),
+							@ColumnResult(name = "detail_id"),
+							@ColumnResult(name = "fixed_item_id"),
+							@ColumnResult(name = "index_name"),
+							@ColumnResult(name = "main_text")
+					}
+			)
+	)
+})
 public class RecordContentDetail implements Serializable {
 
 	/** serialVersionUID. */

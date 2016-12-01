@@ -21,8 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import dailyReport.Constants;
 import dailyReport.resource.RecordContentDetail;
 import dailyReport.resource.RecordContentInf;
+import dailyReport.resource.SearchContentDetailSummary;
+import dailyReport.resource.TopSearchContentSummary;
 import dailyReport.service.CommonService;
-import dailyReport.service.TopSearchContentSummary;
 import dailyReport.service.TopService;
 
 /**
@@ -70,26 +71,15 @@ public class TopController {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
-		
-		// TODO:【未実装】entityクラスに対する0件の検証が以下であっているか不明
-		// 検索結果が1件以上取得出来ているか検証する
-		if(topSearchContentSummary == null) {
-			// 返却用メッセージとして取得できなかった旨の文言をセットしたJSON文字列を作成する
-			message = commonService.setResultMessage(Constants.STR_NO_GET);
-		} else {
-			// TODO:【未実装】entityクラスをJSON文字列にする方法が実装出来ていない。
-			// entityインスタンスをJSON文字列かしてセットする
-			// message = XXXXX;
-		}
-		
-		// 作成したJSON文字列を返却する
+
+		// 作成したJSONオブジェクトを返却する
 		return topSearchContentSummary;
 		
 	}
 	
 	/**
 	 * 関数名：	requestTopPageDetailContent
-	 * 概要：		top画面のアコーディオン内を除くコンテンツの取得（概要など）
+	 * 概要：		top画面のアコーディオン内のコンテンツの取得
 	 * 引数：		パラメータ String crud	処理の種別
 	 * 			パラメータ String json	JSON文字列
 	 * 戻り値：	String
@@ -97,7 +87,7 @@ public class TopController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "top/topPageDetailContent", method = RequestMethod.POST)
-	public List<RecordContentDetail> requestTopPageDetailContent(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+	public List<SearchContentDetailSummary> requestTopPageDetailContent(@RequestParam("crud") String crud, @RequestParam("json") String json) {
 		
 		String message = "";							// 返却用JSONにセットする文字列格納
 		
@@ -107,21 +97,10 @@ public class TopController {
 		
 		// TODO:【未実装】ここで格納する型が単純なテーブルのentityクラスではダメなはずなので要検証（こちらは詳細テーブルだけでもよいかも…）
 		// 検索を実行し、その結果をentityインスタンスへ格納する
-		List<RecordContentDetail>recordContentDetail = topService.searchTopPageDetailContent(map);
-		
-		// TODO:【未実装】entityクラスに対する0件の検証が以下であっているか不明
-		// 検索結果が1件以上取得出来ているか検証する
-		if(recordContentDetail == null) {
-			// 返却用メッセージとして取得できなかった旨の文言をセットしたJSON文字列を作成する
-			message = commonService.setResultMessage(Constants.STR_NO_COMMENT);
-		} else {
-			// TODO:【未実装】entityクラスをJSON文字列にする方法が実装出来ていない。
-			// entityインスタンスをJSON文字列かしてセットする
-			// message = XXXXX;
-		}
-		
+		List<SearchContentDetailSummary>searchContentDetailSummary = topService.searchTopPageDetailContent(map);
+
 		// 作成したJSON文字列を返却する
-		return recordContentDetail;
+		return searchContentDetailSummary;
 		
 	}
 	

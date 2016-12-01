@@ -70,44 +70,10 @@ function TopWindowDetail() {
 		jsonArray[KEY_SERACH_TO_DATE] = thisElem.getWindowItem(SELECTOR_SERACH_TO_DATE);
 		// 検索領域のユーザを取得する
 		jsonArray[KEY_SERACH_USER] = thisElem.getWindowItem(SELECTOR_SERACH_USER);
-		
-		// 既読
-		// 判定用の一時保持変数へ、検索領域から取得した値を格納する
-		readTemp = thisElem.getWindowItem(SELECTOR_SERACH_READ + MARK_SPACE + SELECTOR_OPTION);
-		// 取得した文字列が「含んで表示」か判定する
-		if(readTemp == STR_READ_IN) {
-			// 対応した検索キーに置き換える
-			readTemp = STR_READ_IN_VAL;
-		// 取得した文字列が「除いて表示」か判定する
-		} else if(readTemp == STR_READ_OUT) {
-			// 対応した検索キーに置き換える
-			readTemp = STR_READ_OUT_VAL;
-		// 取得した文字列が「のみ表示」
-		} else {
-			// 対応した検索キーに置き換える
-			readTemp = STR_READ_ONLY_VAL;
-		}
 		// 検索領域の既読を取得する
-		jsonArray[KEY_SERACH_READ] = readTemp;
-		
-		// 下書
-		// 判定用の一時保持変数へ、検索領域から取得した値を格納する
-		noteTemp = thisElem.getWindowItem(SELECTOR_SERACH_NOTE + MARK_SPACE + SELECTOR_OPTION);
-		// 取得した文字列が「含んで表示」か判定する
-		if(noteTemp == STR_NOTE_IN) {
-			// 対応した検索キーに置き換える
-			noteTemp = STR_NOTE_IN_VAL;
-		// 取得した文字列が「除いて表示」か判定する
-		} else if(noteTemp == STR_NOTE_OUT) {
-			// 対応した検索キーに置き換える
-			noteTemp = STR_NOTE_OUT_VAL;
-		// 取得した文字列が「のみ表示」
-		} else {
-			// 対応した検索キーに置き換える
-			noteTemp = STR_NOTE_ONLY_VAL;
-		}
+		jsonArray[KEY_SERACH_READ] = thisElem.getWindowItem(SELECTOR_SERACH_READ + MARK_SPACE + SELECTOR_OPTION);
 		// 検索領域の下書を取得する
-		jsonArray[KEY_SERACH_NOTE] = noteTemp;
+		jsonArray[KEY_SERACH_NOTE] = thisElem.getWindowItem(SELECTOR_SERACH_NOTE + MARK_SPACE + SELECTOR_OPTION);
 
 		// JSON連想配列を用いてDBから値を取得する
 		thisElem.getJsonData(PATH_TOP_PAGE_CONTENT, jsonArray, STR_READ);
@@ -118,6 +84,7 @@ function TopWindowDetail() {
 		// TODO:【メモ】ボタンの設置は画面初期表示（固定パーツ）と、タグ展開時（流動パーツ）で行う。ここではイベント登録のみ
 		// TODO:【メモ】↑ 現在はタグ展開時にボタンの配置までやっていない
 		// TODO:【メモ】同じタグの複数箇所に一気にイベント登録しようとしているが、これが可能か不明。場合によってはタグの展開時に1つ1つボタンの展開に合わせてイベント登録が必要かも
+		/*
 		// 流動的なパーツのイベントを登録する
 		// 新規コメントボタンのイベントを登録する
 		thisElem.setClickEvent(SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow);
@@ -132,9 +99,7 @@ function TopWindowDetail() {
 		thisElem.setClickEvent(SELECTOR_B_EDIT, this.prepareAnotherWindow);
 		// 削除ボタンのイベントを登録する
 		thisElem.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton);
-		// アコーディオン対象ボタンのイベントを登録する
-		thisElem.managementAccordion(SELECTOR_B_ACCORDION, SELECTOR_ACCORDION_AREA);
-		
+		*/
 	}
 	
 	/**

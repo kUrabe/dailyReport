@@ -28,39 +28,44 @@ function BaseWindow() {
 	this.managementAccordion = function(clickTarget, accordionTarget) {
 		
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		var thisElem = this;		// クリックイベント内でthisオブジェトを使用するために保持
 		
 		// 引数で受けたセレクタに対してクリックイベントをバインドする
 		$(clickTarget).on(CLICK, function() {
 			
+			// アコーディオンが一度でも展開済みか確認するためのセレクタを取得する
+			$_accordion = $($(this).parent(SELECTOR_PARENT_AREA)).children(SELECTOR_ACCORDION_AREA).children(SELECTOR_CONTENT_DETAIL).children(KEY_DIV);
+		
 			// アコーディオン内のレポート詳細が展開済みでなければ
-			if($(this).parent(SELECTOR_PARENT_AREA).children(SELECTOR_REPORT_DETAIL).hasClass(SELECTOR_PARENT_AREA)) {
+			if(!($_accordion.hasClass(KEY_PARENT_AREA))) {
 				// データが未展開であるため、データを展開する
-				
 				// 日報の詳細部分を展開する
 				// コンテンツIDをセットする
-				jsonArray[KEY_CONTENT_ID] = $(this).parent().children(SELECTOR_CONTENT_ID).text();
-				// 登録書式を日報でセットする
-				jsonArray[SELECTOR_CONTENT_ID] = FLAG_ENTRY_FORMAT_REPORT;
+				jsonArray[KEY_CONTENT_ID] = $(this).children(SELECTOR_CONTENT_ID).text();
+				// 登録書式を当該日報から取得してセットする
+				jsonArray[KEY_ENTRY_FORMAT] = $(this).children(SELECTOR_ENTRY_FORMAT).text();
+				// 登録状態を当該日報から取得してセットする
+				jsonArray[KEY_ENTRY_STATUS] = $(this).children(SELECTOR_ENTRY_STATUS).text();
 				// サーバから日報詳細のデータを取得する
-				this.getJsonData(PATH_TOP_PAGE_DETAIAL_CONTENT, jsonArray, STR_READ);
+				thisElem.getJsonData(PATH_TOP_PAGE_DETAIAL_CONTENT, jsonArray, STR_READ);
 				// 取得したデータを展開する
-				this.createReportDetail($(this).parent().children(SELECTOR_REPORT_DETAIL));
+				thisElem.createReportDetail($($(this).parent()).children(SELECTOR_ACCORDION_AREA).children(SELECTOR_CONTENT_DETAIL));
 				
+				
+				/*
 				// コメントの見出し部分を展開する
 				// 登録書式を日報でセットする
 				jsonArray[SELECTOR_CONTENT_ID] = FLAG_ENTRY_FORMAT_COMMENT;
 				// サーバからコメント概要のデータを取得する
-				this.getJsonData(PATH_TOP_PAGE_DETAIAL_CONTENT, jsonArray, STR_READ);
+				thisElem.getJsonData(PATH_TOP_PAGE_DETAIAL_CONTENT, jsonArray, STR_READ);
 				// 取得したデータを展開する
-				this.createContentIndex($(this).parent().children(SELECTOR_COMMENT_AREA));
+				thisElem.createContentIndex($(this).parent().children(SELECTOR_COMMENT_AREA));
 				
 				// コメントの詳細部分を展開するcreateCommentDetail
-				this.createCommentDetail($(this).parent().children(SELECTOR_COMMENT_AREA).children(SELECTOR_PARENT_AREA));
-				
+				thisElem.createCommentDetail($(this).parent().children(SELECTOR_COMMENT_AREA).children(SELECTOR_PARENT_AREA));
+				*/
 			}
 			
-			// TODO:【未実装】アコーディオン開く前に、配下にデータが展開済みか確認し、ないならデータを展開する。大元の設計は画面表示時にすべて展開する予定であったが処理の負荷も考え、アコーディオン開く際に行う
-			// TODO:【セレクタ】押下された行もしくはボタンを包括するエリア配下のアコーディオン対象を指定しないと、これでは画面全部のアコーディオンが開く
 			// 対象セレクタがクリックされた場合に、引数で受けたセレクタのアコーディオン開閉を行う。
 			$(accordionTarget).slideToggle();
 		});	
@@ -397,7 +402,7 @@ function BaseWindow() {
 	 * 作成日：	2016/11/22
 	 * 作成者：	k.urabe
 	 */
-	this.prepareAnotherWindow = function(selector) {
+	this.prepareAnotherWindow = function(selector, thisElem) {
 		
 		var parent_content_id;		// 対象の親コンテンツIDを格納
 		var content_id;				// 対象のコンテンツIDを格納
@@ -430,21 +435,21 @@ function BaseWindow() {
 			// コメント詳細画面のpathをセットする
 			path = PATH_COMMENT_VIEW;
 			// 対象のコメントを既読にする
-			this.addContentBranch(content_id, FLAG_ADD_CATEGORY_NOREAD, FLAG_CATEGORY_STATUS_DEL, selector);
+			thisElem.addContentBranch(content_id, FLAG_ADD_CATEGORY_NOREAD, FLAG_CATEGORY_STATUS_DEL, selector);
 		}
 		
 		// TODO:【未実装】HTMLをサーバから取得せず、openAnotherWindow関数から直接URLを指定する形にする方が、URLも取得できて、後続の処理が繋がると考えられる。
 		// HTML文字列を取得する
-		this.getHtmlData(path);
+		thisElem.getHtmlData(path);
 		
 		// TODO:【未実装】以下の2ステップについて。無理矢理埋めているが、別ウインドウに渡すスマートな方法を考える
 		// 取得したHTML文字列に親コンテンツIDを埋める
-		this.dom += (TAG_NEW_PAGE_PARENT_CONTENT_ID + parent_content_id + TAG_DIV_END);
+		thisElem.dom += (TAG_NEW_PAGE_PARENT_CONTENT_ID + parent_content_id + TAG_DIV_END);
 		// 取得したHTML文字列にコンテンツIDを埋める
-		this.dom += (TAG_NEW_PAGE_CONTENT_ID + content_id + TAG_DIV_END);
+		thisElem.dom += (TAG_NEW_PAGE_CONTENT_ID + content_id + TAG_DIV_END);
 		
 		// 取得したHTMLで別ウインドウを開く
-		this.openAnotherWindow(this.dom);
+		thisElem.openAnotherWindow(thisElem.dom);
 		
 	}
 	

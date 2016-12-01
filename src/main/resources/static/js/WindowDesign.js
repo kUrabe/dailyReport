@@ -50,18 +50,16 @@ function WindowDesign() {
 			// TODO:【未実装】子要素の呼び出しについて、今のままでは適切でない。
 			// JSONの行要素を走査する
 			for(var key in this.json) {
-				
-				// ブロックエリアのタグを追加する
-				$(selector + SELECTOR_LAST).append(TAG_BLOCK_AREA);
-				
-				// 行(ブロック)内のセレクタを取得する
-				$_blockSelector = $(selector + MARK_SPACE + SELECTOR_PARENT_AREA_LAST)
-				
 				// indent数分、ループしてテーブルのインデントをずらす
 				for(var i = 0; i < indent; i++) {
 					// indent用のタグを挿入する
-					$_blockSelector.append(TAG_INDENT);
+					$(selector).append(TAG_INDENT);
 				}
+				
+				// ブロックエリアのタグを追加する
+				$(selector + SELECTOR_LAST).append(TAG_BLOCK_AREA);
+				// 行(ブロック)内のセレクタを取得する
+				var $_blockSelector = $(selector + MARK_SPACE + SELECTOR_PARENT_AREA_LAST)
 				
 				// TODO:【未実装】レポートの概要を展開する際は、複数のコンテンツIDがJSONに含まれる。
 				// TODO:【未実装】それにも関わらず、受け取らなければならないので、ロジックが矛盾する
@@ -72,35 +70,28 @@ function WindowDesign() {
 					//this.createContentIndex(selector, this.json[key].parent_content_id, indent + 1)
 				//}
 				
-				
-				
 				// 行開始のタグを挿入する(アコーディオンボタンクラス名付き)
 				$_blockSelector.append(TAG_LINE_START);
 				// 追加した行開始タグにクラス名を追加する
-				$($_blockSelector + MARK_SPACE + SELECTOR_B_ACCORDION).addClass(STR_LINE + key);
+				$_blockSelector.addClass(STR_LINE + key);
 				
+				// 1行概要を追加していく箇所のセレクタを取得する
+				var $_lineSelector = $(selector + MARK_SPACE + SELECTOR_PARENT_AREA_LAST + MARK_SPACE + SELECTOR_CONTENT_INDEX);
+				// 行内の各項目のタグを追加する
+				$_lineSelector.append(TAG_REPORT_LINE);
 				
 				// JSONの列要素を走査する
 				for(var keyIn in this.json[key]) {
-					// 項目タグと値をセットする
-					$(selector + MARK_SPACE + SELECTOR_INDEX_TR).append(TAG_TD_START + this.json[key][keyIn] + TAG_TD_END).addClass(keyIn);
+					// 挿入された項目タグの名前と一致させながら値をセットする
+					$(selector + MARK_SPACE + SELECTOR_PARENT_AREA_LAST + MARK_SPACE + SELECTOR_CONTENT_INDEX + MARK_SPACE + SELECTOR_DIV_NAME_START + keyIn + SELECTOR_DIV_NAME_END).text(this.json[key][keyIn]);
 				}
-				// 行終了のタグを挿入する
-				//$(selector).append(TAG_TR_END);
-				// テーブルの終了タグを挿入する
-				//$(selector).append(TAG_REPORT_AREA_END);
-				
-				// 展開行に対するアコーディオン部分を作成する
-				$(selector).append(TAG_REPORT_ACCORDION);
-				// ブロックエリアの終了タグを挿入する
-				$(selector).append(TAG_DIV_END);
+
+				// 展開行に対するアコーディオン展開部分を作成する
+				$_blockSelector.append(TAG_REPORT_ACCORDION);
+				// アコーディオンイベントを行単位で設定する
+				this.managementAccordion(SELECTOR_LINE + key + MARK_SPACE + SELECTOR_B_ACCORDION, SELECTOR_LINE + key + MARK_SPACE + SELECTOR_ACCORDION_AREA);
 			}
-			// indentで1階層目か判定する
-			if(indent == 0) {
-				// 1階層目なのでテーブルの終了タグを追加する
-				$(selector).append(TAG_REPORT_AREA_END);
-			}
-		
+
 		// データが取得できていない旨を所定の位置に表示する
 		} else {
 			// 検索結果が0件の旨のメッセージを表示する
@@ -208,40 +199,44 @@ function WindowDesign() {
 		var userFlag = STR_FALSE;		// 本人ならtrue、他人の日報ならfalse
 		var user;						// ログイン中のユーザIDを保管
 
-		// json空でなければ処理を行う。空であれば展開するデータが無いとして何もしない。
-		if(this.json !== null | this.json !== undefined) {
+		// JSONの長さを取得
+		jsonLen = this.json.length;
+		
+		// jsonが取得出来ているか検証する
+		if(this.json !== null && this.json !== undefined && jsonLen !== 0) {
 			
 			// ユーザID（ログインユーザ）をセットする
 			user = $(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text();
-			
-			// セレクタに応じたテーブルの開始タグを取得して追加する
-			//$(selector).append(this.getIndexTag(selector));
-			
-			// ブロックエリアのタグと、テーブルの開始タグを埋める
-			$(selector).append(TAG_REPORT_AREA_START);
-			
+			// これから走査するレコードがログインユーザの日報かどうかを判定する
+			if(user == $(selector).parent().parent().children(SELECTOR_CONTENT_INDEX).children(SELECTOR_USER_ID).text()) {
+				userFlag = STR_TRUE;
+			} else {
+				userFlag = STR_FALSE;
+			}
+			false
 			// JSONの行要素を走査する
 			for(var key in this.json) {
-				// これから走査するレコードがログインユーザの日報かどうかを判定する
-				if(user == json[key].content_id) {
-					userFlag = STR_TRUE;
+				
+				// ブロックエリアのタグを埋める
+				$(selector).append(TAG_BLOCK_AREA);
+				// 行(ブロック)内のセレクタを取得する
+				var $_blockSelector = $(selector).children(SELECTOR_PARENT_AREA_LAST);
+				
+				// 追加した行開始タグにクラス名を追加する
+				$_blockSelector.addClass(STR_LINE + key);
+				// 行内の各項目のタグを追加する
+				$_blockSelector.append(TAG_REPORT_DETAIL_LINE);
+				
+				// JSONの列要素を走査する
+				for(var keyIn in this.json[key]) {
+					// 挿入された項目タグの名前と一致させながら値をセットする
+					$_blockSelector.children(SELECTOR_DIV_NAME_START + keyIn + SELECTOR_DIV_NAME_END).text(this.json[key][keyIn]);
 				}
 				
-				// 行開始のタグを挿入する
-				// TODO:【セレクタ】行の開始にも識別可能なクラス名など設けるか
-				$(selector).append(TAG_TR_REPORT_DETAIL_START);
-				// JSONの列要素を走査する
-				for(var keyIn in key) {
-					// 項目タグと値をセットする
-					$(selector).append(TAG_TD_START + key[keyIn] + TAG_TD_END).addClass(keyIn);
-				}
-				// 行終了のタグを挿入する
-				$(selector).append(TAG_TR_END);
 			}
-			// テーブルの終了タグを追加する
-			$(selector).append(TAG_TOP_TABLE_END);	
+
 			// 出力したレコードの投稿ユーザに合わせてボタンを出力する（userFlag）
-			if(userFlag) {
+			if(userFlag == STR_TRUE) {
 				// ログインユーザ = 投稿ユーザ
 				// 編集ボタンを追加する
 				$(selector).append(TAG_EDIT_BUTTON);
@@ -253,10 +248,11 @@ function WindowDesign() {
 				// 未読にするボタンを追加する
 				$(selector).append(TAG_NO_READ_BUTTON);
 			}
-			// 閉じるボタンを追加する
-			$(selector).append(TAG_ACCORDION_BUTTON);
-			// ブロックエリアの終了タグを挿入する
-			$(selector).append(TAG_DIV_END);
+			
+			// 各ボタンのイベント登録(アコーディオンの内部には、タグで追加した際にコメントするボタンと、閉じるボタンが入っている)
+			
+			// 閉じるボタンのイベントを登録する
+			this.managementAccordion($(selector).parent().children(SELECTOR_B_ACCORDION), $(selector).parent())
 			
 		}
 		

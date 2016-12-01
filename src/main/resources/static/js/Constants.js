@@ -68,6 +68,7 @@ KEY_NEW_COMMENT_VIEW = 'comment_view';			// 別ウインドウの開くボタン
 KEY_BUTTON_FUNCTION = 'button_function';		// コメント作成画面の固定機能ボタンのname属性
 KEY_DIV = 'div';								// div要素
 KEY_TEXT_AREA = 'textarea';						// textarea要素
+KEY_PARENT_AREA = 'blockArea';					// ボタンからみた親要素を囲むセレクタ(.report_areaやcomment_areaの中で、1行ごとにこれで囲む)
 
 KEY_SERACH_FROM_DATE = 'serach_from_date';		// 検索領域のfrom
 KEY_SERACH_TO_DATE = 'serach_to_date';			// 検索領域のto
@@ -116,7 +117,10 @@ SELECTOR_CONTENT_ID = '.content_id';				// コンテンツIDを管理するセ�
 SELECTOR_FAVORITE_COUNT = '.favorite_count';		// いいね集計項目のセレクタ
 SELECTOR_READ_COUNT = '.read_count';				// 既読集計項目のセレクタ
 SELECTOR_ENTRY_STATUS = '.entry_status';			// コンテンツの登録状態（下書、登録、削除）を管理するセレクタ
+SELECTOR_ENTRY_FORMAT = '.entry_format';			// コンテンツの登録様式
 SELECTOR_SERACH_MESSAGE = '.serach_message';		// 検索結果が0件の際にメッセージを表示するセレクタ
+SELECTOR_READ_STATUS = '.read_status';				// 既読未読状態項目のセレクタ
+SELECTOR_COMMENT_COUNT = '.comment_count';			// コメント集計項目のセレクタ
 
 SELECTOR_SERACH_FROM_DATE = '.serach_from_date';	// 検索領域のfrom
 SELECTOR_SERACH_TO_DATE = '.serach_to_date';		// 検索領域のto
@@ -127,11 +131,12 @@ SELECTOR_OPTION = 'option:selected';				// 既読と下書きの選択されて�
 
 SELECTOR_CONTENT_AREA = '.content_area';			// コンテンツ全体を囲む領域
 SELECTOR_REPORT_AREA = '.report_area';				// レポートの概要と詳細を囲む領域
-SELECTOR_REPORT_DETAIL = '.report_detail';			// レポートの詳細を囲む
+SELECTOR_CONTENT_DETAIL = '.content_detail';			// レポートの詳細を囲む
 SELECTOR_COMMENT_AREA = '.comment_area';			// コメントの概要と1行文を囲む領域
 SELECTOR_PARENT_AREA = '.blockArea';				// ボタンからみた親要素を囲むセレクタ(.report_areaやcomment_areaの中で、1行ごとにこれで囲む)
-SELECTOR_PARENT_AREA_LAST = '.blockArea:last';
-SELECTOR_ACCORDION_AREA = '.accordion_area'			// アコーディオンの対象を囲む領域
+SELECTOR_PARENT_AREA_LAST = '.blockArea:last';		// blockArea（行とアコーディオンを囲む1つの範囲）の最後を指定
+SELECTOR_ACCORDION_AREA = '.accordion_area';		// アコーディオンの対象を囲む領域
+SELECTOR_DIV_LAST = 'div:last';						// divの最後の要素を指定
 	
 SELECTOR_USER_ID = '.user_id';
 SELECTOR_USER_NAME = '.user_name';
@@ -175,7 +180,11 @@ SELECTOR_COMMENT_USER = '.comment_user';		// コメント詳細の当該コメ�
 SELECTOR_SEND_TO = '.sendTo';					// コメント作成画面の誰宛の何へのコメントなのか表示する領域
 SELECTOR_TABLE_INDEX = '.tableIndex';
 SELECTOR_INDEX_TR = '.indexTR';
-SELECTOR_INDEX_LINE = '.index_line';
+SELECTOR_INDEX_LINE = '.index_line';			// トップ画面の見出し項目を囲むセレクタ（報告日、報告者など）
+SELECTOR_CONTENT_INDEX = '.content_index';		// トップ画面の1行概要を囲むセレクタ。（当該タグにはb_accordionも付く）
+SELECTOR_DIV_NAME_START = 'div[name=';			// divダグのname属性をしていする際に使用するセレクタ
+SELECTOR_DIV_NAME_END = ']';					// divダグのname属性をしていする際に使用するセレクタ
+SELECTOR_LINE = '.line';							// blockAreaに付与される行番号セレクタ
 
 /*
  * path名(file名)
@@ -210,20 +219,27 @@ PATH_COMMENT_VIEW = '/createWindow/comment_view.html';			// コメント詳細�
  */
 TAG_NEW_PAGE_PARENT_CONTENT_ID = '<div class="parent_content_id">';		// 別ウインドウのHTML文字列に親コンテンツID埋めるため
 TAG_NEW_PAGE_CONTENT_ID = '<div class="content_id">';					// 別ウインドウのHTML文字列にコンテンツID埋めるため
+TAG_DIV_START = '<div>';												// divタグの開始
 TAG_DIV_END = '</div>';													// divタグの終了
 TAG_TOP_TABLE_START ='<table class="">';								// tableの開始タグ
 TAG_TOP_TABLE_END = '</table>';
 
 // トップ画面 日報概要の見出し
-TAG_REPORT_INDEX_LINE = '<div class="index_line"><span>報告日</span><span>報告者</span><span>既読者</span><span>ステータス</span><span>コメント数</span><span>いいね数</span></div>';
+TAG_REPORT_INDEX_LINE = '<div class="index_line"><div>報告日</div><div>報告者</div><div>既読者</div><div>ステータス</div><div>コメント数</div><div>いいね数</div></div>';
+// トップ画面日報概要の見出し
+TAG_REPORT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div>';
+
+// トップ画面日報詳細の1レコード文
+TAG_REPORT_DETAIL_LINE = '<div class="content_id" name="content_id"></div><div class="detail_id" name="detail_id"></div><div class="fixed_item_id" name="fixed_item_id"></div><div class="index_name" name="index_name"></div><div class="main_text" name="main_text"></div>';
+
 // 日報概要の1行とアコーディオン範囲を包むブロックエリアのタグ
 TAG_BLOCK_AREA = '<div class="blockArea"></div>';
 // 日報概要の1行を表すタグ
-TAG_LINE_START = '<div class="b_accordion"></div>';
+TAG_LINE_START = '<div class="content_index b_accordion"></div>';
 // 日報概要の行内の1項目を表すタグ
 TAG_IN_LINE_ITEM = '<span class=""></span>';
-// アコーディオンエリアのフォーマットタグを追加する
-TAG_REPORT_ACCORDION = '<div class="accordion_area"><div class="report_detail"></div><div class="comment_area"><div class="search_message"></div></div></div>';
+// アコーディオンエリアのフォーマットタグを追加する（共通のボタンも）
+TAG_REPORT_ACCORDION = '<div class="accordion_area"><div class="content_detail"></div><div class="comment_area"><div class="title">コメント一覧</div><button type="button" class="b_new_comment" name="">コメントする</button><div class="search_message"></div></div><button type="button" class="b_accordion" name="">閉じる</button></div>';
 
 
 
@@ -246,8 +262,7 @@ TAG_TR_REPORT_INDEX_START = '<tr class="indexTR b_accordion">';
 TAG_TR_REPORT_DETAIL_START = '<tr class="detailTR">';
 TAG_TR_COMMENT_START = '<tr class="commentTR">';
 TAG_TR_END = '</tr>';
-TAG_TD_START = '<td>';
-TAG_TD_END = '</td>';
+
 
 // レポート作成画面の見出し追加ボタンによって追加される一式
 TAG_REPORT_CREATE_WINDOW_INDEX = '<div class="blockArea"><div class="number"></div><textarea class="index_area"></textarea><input type="button" class="b_del_index" value="見出し削除"><textarea class="main_text"></textarea></div>';
@@ -290,8 +305,11 @@ STR_NOTE_ONLY_VAL = '1';							// 下書　のみ表示
 // トップ画面の日報概要の1行を囲むタグに付与するクラス名の一部
 STR_LINE = 'line';
 
+// セレクタで隣接要素を表すセレクタ
+STR_PLUS = ' + ';
+
 //TODO:【未実装】ダイアログのコメント系が未定義
-MESSAGE_DEL_INDEX = '見出しエリアを削除します。\n入力していたデータは消えますがよろしいですか？';
+MESSAGE_DEL_INDEX = '見出しエリアを削除	します。\n入力していたデータは消えますがよろしいですか？';
 MESSAGE_FORMAT_ERROR = '見出しが1つもないため登録できません。';
 MESSAGE_REPORT_ERROR = '内容に空白がある状態で報告は出来ません。\n下書きを保存する場合、チェックを入れてから報告してください。';
 MESSAGE_COMMENT_ERROR = '内容が空白ではコメントできません。';
