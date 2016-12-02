@@ -140,7 +140,7 @@ public class TopController {
 		Map<String, Object> map = commonService.convertJsonToMap(json);
 		
 		// パラメータのcurdから処理内容が論理削除（update）であるか検証する
-		if(crud == Constants.STR_UPDATE) {
+		if(crud.equals(Constants.STR_UPDATE)) {
 			// 論理削除の処理を実行する
 			result = topService.logcalDeleteContent(map);
 		// 論理削除でなければ物理削除

@@ -6,6 +6,13 @@ import javax.persistence.*;
 
 //TODO:【未実装】複合主キーに対する対処は未
 @Entity
+@NamedQueries({
+	@NamedQuery(
+			name="addContentSave",
+			//query="UPDATE RecordContentAdd a SET a.user_id = :user_id, a.add_category = :add_category, a.category_status = :category_status WHERE a.recoredContentInf.content_id = :content_id AND a.user_id = :user_id AND a.add_category = :add_category")
+			//query="UPDATE RecordContentInf i LEFT JOIN FETCH i.recordContentAddSet a SET a.user_id = :user_id, a.add_category = :add_category, a.category_status = :category_status WHERE a.content_id = :content_id AND a.user_id = :user_id AND a.add_category = :add_category")
+			query="SELECT a FROM RecordContentInf i LEFT JOIN i.recordContentAddSet a WHERE a.user_id = :user_id AND i.content_id = :content_id AND a.add_category = :add_category")
+})
 @Table(name="record_content_add")
 public class RecordContentAdd implements Serializable {
 
@@ -19,8 +26,8 @@ public class RecordContentAdd implements Serializable {
 	private Integer id;
 	
 	/** レコード情報. */
-	@ManyToOne
-	@JoinColumn(name="content_id", insertable=false, updatable=false)
+	@ManyToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name="content_id", insertable=true, updatable=false)
 	private RecordContentInf recoredContentInf;
 
 	/** ユーザID. */

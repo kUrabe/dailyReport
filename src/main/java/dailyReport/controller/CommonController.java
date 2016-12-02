@@ -53,7 +53,7 @@ public class CommonController {
 		Map<String, Object> map = commonService.convertJsonToMap(json);
 		
 		// パラメータのcurdから処理内容が新規登録か判定する。
-		if(crud == Constants.STR_CREATE) {
+		if(crud.equals(Constants.STR_CREATE)) {
 			// 新規登録の処理を実行する
 			result = commonService.createAddContent(map);
 		// 新規登録でなければ更新処理

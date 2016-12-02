@@ -87,6 +87,7 @@ public class TopService {
 		List<TopSearchContentSummary> content = entityManager.createNativeQuery(
 				Constants.TOP_SEARCH_CONTENT_SUMMARY
 				+ plusQuery
+				+ Constants.STR_QUERY_ORDER__REPOT_DATE
 				,"topSearchContentSummary")
 				.setParameter(1, (String)map.get(Constants.KEY_USER_ID))
 				.setParameter(2, "%" + (String)map.get(Constants.KEY_SERACH_USER) + "%")
@@ -150,16 +151,17 @@ public class TopService {
 		try {
 			// entityクラスにJSONから得た値や、固定値となる値をサーバ側でセットする
 			// 登録対象のRecordContentInfテーブルに更新対象とするレコードを読み込む
-			RecordContentInf content = entityManager.find(RecordContentInf.class, (int)map.get(Constants.KEY_CONTENT_ID));
+			RecordContentInf content = entityManager.find(RecordContentInf.class, Integer.parseInt((String) map.get(Constants.KEY_CONTENT_ID)));
 			// 更新対象となる登録状態をセットする
 			content.setEntryStatus(4);
 		
 			// TODO:【メモ】既に当該entityはfindした状態で管理状態にあるので、refreshしなくても、トランザクションが終了すれば反映される
 			// クエリを実行する
-			entityManager.refresh(content);
+			//entityManager.persist(content);
 		} catch (Exception e) {
 			// クエリの結果を反映する
 			returnBoolean = false;
+			e.getMessage();
 		}
 		// 成否を呼び出し元に返す
 		return returnBoolean;
@@ -191,13 +193,17 @@ public class TopService {
 		try {
 			// entityクラスにJSONから得た値や、固定値となる値をサーバ側でセットする
 			// 処理対象のRecordContentAddテーブルに削除対象とするレコードを読み込む
-			RecordContentInf content = entityManager.find(RecordContentInf.class, (int)map.get(Constants.KEY_CONTENT_ID));
+			RecordContentInf content = entityManager.find(RecordContentInf.class, Integer.parseInt((String) map.get(Constants.KEY_CONTENT_ID)));
+			// 対象の子のコンテンツを削除する
+			//entityManager.remove(content.getRecordContentDetailSet());
+			// 対象の子のコンテンツを削除する
+			//entityManager.remove(content.getRecordContentAddSet());
 			// 対象のコンテンツを削除する
 			entityManager.remove(content);
 		
 			// TODO:【メモ】既に当該entityはfindした状態で管理状態にあるので、refreshしなくても、トランザクションが終了すれば反映される
 			// クエリの結果を反映する
-			entityManager.refresh(content);
+			//entityManager.refresh(content);
 		} catch (Exception e) {
 			// 処理に失敗した旨を返す
 			returnBoolean = false;

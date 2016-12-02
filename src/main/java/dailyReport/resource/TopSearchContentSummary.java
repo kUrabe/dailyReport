@@ -26,6 +26,7 @@ public class TopSearchContentSummary {
 	private int read_status;			// 既読ステータス　// 未読なら0件、既読なら1件になる想定
 	private int comment_count;			// コメントカウント数マッピング
 	private int favorite_count;			// いいねカウント数マッピング
+	private int favorite_status;		// ログインユーザが対象コンテンツにいいねを付けているか
 	
 	// コンストラクタ（引数あり）
 	public TopSearchContentSummary(
@@ -41,11 +42,11 @@ public class TopSearchContentSummary {
 			Object read_count,
 			Object read_status,
 			Object comment_count,
-			Object favorite_count
+			Object favorite_count,
+			Object favorite_status
 			) {
 
 		this.report_date = new SimpleDateFormat(Constants.DATE_FORMAT).format(report_date);
-		//this.reportDate = report_date;
 		this.content_id = content_id;
 		this.user_id = user_id;
 		this.user_name = user_name;
@@ -55,9 +56,10 @@ public class TopSearchContentSummary {
 		this.grand_parent_content_id = grand_parent_content_id;
 		this.parent_content_id = parent_content_id;
 		this.read_count = read_count == null ? 0 : new Integer(read_count.toString());
-		this.read_status = read_status == null ? 0 : new Integer(read_status.toString());
+		this.read_status = read_status == null ? 2 : new Integer(read_status.toString());
 		this.comment_count = comment_count == null ? 0 : new Integer(comment_count.toString());
 		this.favorite_count = favorite_count == null ? 0 : new Integer(favorite_count.toString());
+		this.favorite_status = favorite_status == null ? 2 : new Integer(favorite_status.toString());
 	}
 	
 	// コンストラクタ（引数なし）
@@ -148,6 +150,14 @@ public class TopSearchContentSummary {
 
 	public void setRead_status(int read_status) {
 		this.read_status = read_status;
+	}
+
+	public int getFavorite_status() {
+		return favorite_status;
+	}
+
+	public void setFavorite_status(int favorite_status) {
+		this.favorite_status = favorite_status;
 	}
 	
 }

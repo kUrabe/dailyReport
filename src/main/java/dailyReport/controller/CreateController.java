@@ -99,7 +99,7 @@ public class CreateController {
 		Map<String, Object> map = commonService.convertJsonToMap(json);
 		
 		// パラメータのcurdから処理内容が新規登録であるか検証する
-		if(crud == Constants.STR_CREATE) {
+		if(crud.equals(Constants.STR_CREATE)) {
 			// 新規登録の処理を実行する
 			result = createService.createContent(map);
 		// 新規登録でなければ更新処理
@@ -180,7 +180,7 @@ public class CreateController {
 		Map<String, Object> map = commonService.convertJsonToMap(json);
 		
 		// パラメータのcurdから処理内容が新規登録であるか検証する
-		if(crud == Constants.STR_CREATE) {
+		if(crud.equals(Constants.STR_CREATE)) {
 			// 新規登録の処理を実行する
 			result = createService.createContent(map);
 		// 新規登録でなければ更新処理
@@ -201,7 +201,5 @@ public class CreateController {
 		// JSON文字列で返却用メッセージを作成し、返す。
 		return commonService.setResultMessage(message);
 	}
-	
-	
 	
 }

@@ -10,6 +10,7 @@ package dailyReport.service;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.*;
@@ -129,13 +130,46 @@ public class CommonService {
 		try {
 			// entityクラスにJSONから得た値や、固定値となる値をサーバ側でセットする
 			// 登録対象のRecordContentAddテーブルに更新対象とするレコードを読み込む
-			RecordContentAdd content = entityManager.find(RecordContentAdd.class, (int)map.get(Constants.KEY_ADD_CATEGORY));
+			//RecordContentAdd content = entityManager.find(RecordContentAdd.class, (int)map.get(Constants.KEY_ADD_CATEGORY));
 			// 更新対象となる登録状態をセットする
-			content.setCategoryStatus((int)map.get(Constants.KEY_CATEGORY_STATUS));
-		
-			// TODO:【メモ】既に当該entityはfindした状態で管理状態にあるので、refreshしなくても、トランザクションが終了すれば反映される
-			// クエリの結果を反映する
-			entityManager.refresh(content);
+			//content.setCategoryStatus((int)map.get(Constants.KEY_CATEGORY_STATUS));
+			List<RecordContentAdd> content = entityManager
+					.createNamedQuery("addContentSave", RecordContentAdd.class)
+					.setParameter("user_id", (String)map.get(Constants.KEY_USER_ID))
+					.setParameter("content_id", (int)map.get(Constants.KEY_CONTENT_ID))
+					.setParameter("add_category", (int)map.get(Constants.KEY_ADD_CATEGORY))
+					.getResultList();
+			
+			// リストが空ならば（該当するデータが存在しないならば新規登録）
+			if(content.isEmpty()) {
+				// entityクラスにJSONから得た値や、固定値となる値をサーバ側でセットする
+				// 登録対象のRecordContentAddテーブルのインスタンスを生成する
+				RecordContentAdd newContent = new RecordContentAdd();
+				// コンテンツIDとして親のテーブルを取得してセットする
+				newContent.setRecordContentInf(entityManager.find(RecordContentInf.class, (int)map.get(Constants.KEY_CONTENT_ID)));
+				// ユーザIDをセットする
+				newContent.setUserId((String)map.get(Constants.KEY_USER_ID));
+				// 追加種別をセットする
+				newContent.setAddCategory((int)map.get(Constants.KEY_ADD_CATEGORY));
+				// 登録状態をセットする
+				newContent.setCategoryStatus((int)map.get(Constants.KEY_CATEGORY_STATUS));
+				
+				// クエリを実行する
+				entityManager.persist(newContent);
+			// 取得したentityクラスにJSONの値をセットして更新する
+			} else {
+				// ユーザIDをセットする
+				content.get(0).setUserId((String)map.get(Constants.KEY_USER_ID));
+				// 追加種別をセットする
+				content.get(0).setAddCategory((int)map.get(Constants.KEY_ADD_CATEGORY));
+				// 登録状態をセットする
+				content.get(0).setCategoryStatus((int)map.get(Constants.KEY_CATEGORY_STATUS));
+				// TODO:【メモ】既に当該entityはfindした状態で管理状態にあるので、refreshしなくても、トランザクションが終了すれば反映される
+				// クエリの結果を反映する
+				//entityManager.persist(content);
+			}
+			
+			
 		} catch (Exception e) {
 			// 処理に失敗した旨を返す
 			returnBoolean = false;

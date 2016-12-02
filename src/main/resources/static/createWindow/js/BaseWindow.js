@@ -464,10 +464,9 @@ function BaseWindow() {
 			// thisElem.addContentBranch(content_id, FLAG_ADD_CATEGORY_NOREAD, FLAG_CATEGORY_STATUS_DEL, selector);
 		}
 		// 別ウインドウを開く
-		this.anotherWindow = window.open(path, name);
+		this.anotherWindow = window.open(path, name, "alwaysRaised=yes,location=no");
 		// 取得したログインユーザを開いたウインドウにセットする
-		alert(this.anotherWindow.KEY_ADD_CATEGORY);
-		this.anotherWindow.$(".base_parent_content_id").text(user);
+		this.anotherWindow.document.getElementById(KEY_USER_ID).innerText = user;
 		/*
 		// TODO:【未実装】HTMLをサーバから取得せず、openAnotherWindow関数から直接URLを指定する形にする方が、URLも取得できて、後続の処理が繋がると考えられる。
 		// HTML文字列を取得する

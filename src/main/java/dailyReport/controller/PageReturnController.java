@@ -14,8 +14,10 @@ import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import dailyReport.Constants;
 import dailyReport.service.CommonService;
@@ -62,5 +64,21 @@ public class PageReturnController {
 		return "/Top";
 	}
 	
-	
+	/**
+	 * 関数名：	requestAnotherWindow
+	 * 概要：		別ウインドウ用のHTMLを返す
+	 * 引数：		パラメータ String htmlPath
+	 * 戻り値：	String
+	 * 作成日：	2016/11/24
+	 * 作成者：	k.urabe
+	 */
+	@RequestMapping(value = "createWindow/{htmlPath}", method = RequestMethod.GET)
+	public String requestAnotherWindow(Model model, @PathVariable("htmlPath") String htmlPath, Principal principal) {
+		
+		// ユーザ情報をViewに渡す
+		model.addAttribute("user", commonService.getUserName(principal.getName()));
+		
+		// リクエストに含まれているページを返す
+		return "createWindow/" + htmlPath;
+	}
 }

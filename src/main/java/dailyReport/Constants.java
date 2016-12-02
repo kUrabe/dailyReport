@@ -15,6 +15,10 @@ public class Constants {
 	public static final String STR_NO_GET = "検索条件に一致する日報がありません。";		// 検索条件にあう日報を取得出来なかった場合の値
 	public static final String STR_NO_COMMENT = "この日報にコメントはありません。";		// 日報に紐付くコメントが取得出来なかった場合の値
 	public static final String STR_NO_BEFORE_PLAN = "前日予定の取得に失敗しました。";	// 前日以前の日報（予定）の取得に失敗
+	public static final String STR_READ_OFF = "未読";			// 未読状態の日報に対して返す
+	public static final String STR_READ_ON = "既読";				// 既読状態の日報に対して返す
+	public static final String STR_READ_MYSELF = "本人";			// ログインユーザ本人の日報に対して返す
+	public static final String STR_READ_NOTE = "下書";			// 下書状態の日報に対して返す
 	
 	// json内から値を取得するためのキー名
 	// UserInfテーブル
@@ -58,9 +62,10 @@ public class Constants {
 	public static final String STR_QUERY_READ_IN =" AND (t_read_status.in_count = 1 OR t_read_status.in_count IS NULL)";
 	public static final String STR_QUERY_READ_OUT =" AND t_read_status.in_count IS NULL";
 	public static final String STR_QUERY_READ_ONLY =" AND t_read_status.in_count = 1";
-	public static final String STR_QUERY_NOTE_IN =" AND (ri.entry_status = 1 OR ri.entry_status = 2)";
-	public static final String STR_QUERY_NOTE_OUT =" AND ri.entry_status = 2";
-	public static final String STR_QUERY_NOTE_ONLY =" AND ri.entry_status = 1";
+	public static final String STR_QUERY_NOTE_IN =" AND (((ri.entry_status = 1 OR ri.entry_status = 2) AND ri.user_id = ?1) OR (ri.user_id <> ?1 AND ri.entry_status = 2))";
+	public static final String STR_QUERY_NOTE_OUT =" AND ((ri.entry_status = 2 AND ri.user_id = ?1) OR (ri.user_id <> ?1 AND ri.entry_status = 2))";
+	public static final String STR_QUERY_NOTE_ONLY =" AND (ri.entry_status = 1 AND ri.user_id = ?1)";
+	public static final String STR_QUERY_ORDER__REPOT_DATE = " ORDER BY ri.report_date, ri.content_id";
 	
 	// その他定数
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -82,6 +87,7 @@ public class Constants {
 				+ ", t_read_status.in_count AS read_status"
 				+ ", t_comment_count.in_count AS comment_count"
 				+ ", t_favorite_count.in_count AS favorite_count"
+				+ ", t_favorite_status.in_count AS favorite_status"
 				+ " FROM"
 				+ " record_content_inf ri"
 				+ " LEFT JOIN"
@@ -112,9 +118,12 @@ public class Constants {
 				+ " AND"
 				+ " ra.category_status = 1"
 				+ " AND"
-				+ " ra.user_id = ?1) AS t_read_status"
+				+ " ra.user_id = ?1"
+				+ " GROUP BY"
+				+ " ra.content_id) AS t_read_status"
 				+ " ON"
 				+ " t_read_status.content_id = ri.content_id"
+				
 				+ " LEFT JOIN"
 				+ " (SELECT"
 				+ " ri2.parent_content_id AS parent_content_id"
@@ -125,6 +134,7 @@ public class Constants {
 				+ " ri2.parent_content_id) AS t_comment_count"
 				+ " ON"
 				+ " t_comment_count.parent_content_id = ri.content_id"
+				
 				+ " LEFT JOIN"
 				+ " (SELECT"
 				+ " ra.content_id AS content_id"
@@ -139,12 +149,32 @@ public class Constants {
 				+ " ra.content_id) AS t_favorite_count"
 				+ " ON"
 				+ " t_favorite_count.content_id = ri.content_id"
+				
+				+ " LEFT JOIN"
+				+ " (SELECT"
+				+ " ra.content_id AS content_id"
+				+ ", COUNT(ra.content_id) AS in_count"
+				+ " FROM"
+				+ " record_content_add ra"
+				+ " WHERE"
+				+ " ra.add_category = 2"
+				+ " AND"
+				+ " ra.category_status = 1"
+				+ " AND"
+				+ " ra.user_id = ?1"
+				+ " GROUP BY"
+				+ " ra.content_id) AS t_favorite_status"
+				+ " ON"
+				+ " t_favorite_count.content_id = ri.content_id"
+				
 				+ " WHERE"
 				+ " ri.entry_format = 2"
 				+ " AND"
 				+ " ui.user_name LIKE ?2"
 				+ " AND"
 				+ " ri.report_date BETWEEN ?3 AND ?4"
+				+ " AND"
+				+ " ri.entry_status <> 4"
 			;
 	
 	// トップ画面におけるコンテンツ詳細テーブルの情報取得（バインドによって登録状態を選別して取得できる）

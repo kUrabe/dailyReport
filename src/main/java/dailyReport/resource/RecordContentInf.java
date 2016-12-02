@@ -33,7 +33,8 @@ import javax.persistence.*;
 							@ColumnResult(name = "read_count"),
 							@ColumnResult(name = "read_status"),
 							@ColumnResult(name = "comment_count"),
-							@ColumnResult(name = "favorite_count")
+							@ColumnResult(name = "favorite_count"),
+							@ColumnResult(name = "favorite_status")
 					}
 			)
 	)
@@ -87,12 +88,12 @@ public class RecordContentInf implements Serializable {
 	private Date update_dated;
 
 	/** コンテンツ追加情報 一覧. */
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.ALL})
 	@JoinColumn(name="content_id", insertable=false, updatable=false)
 	private Set<RecordContentAdd> recordContentAddSet;
 
 	/** コンテンツ詳細 一覧. */
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.REMOVE})
 	@JoinColumn(name="content_id", insertable=false, updatable=false)
 	private Set<RecordContentDetail> recordContentDetailSet;
 

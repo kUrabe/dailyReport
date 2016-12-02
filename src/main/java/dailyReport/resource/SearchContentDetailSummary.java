@@ -33,39 +33,6 @@ public class SearchContentDetailSummary {
 		this.index_name = index_name;
 		this.main_text = main_text;
 	}
-	/*
-	public SearchContentDetailSummary(
-			Date report_date,
-			int content_id,
-			String user_id,
-			String user_name,
-			int entry_format,
-			int entry_status,
-			int base_parent_content_id,
-			int grand_parent_content_id,
-			int parent_content_id,
-			Object read_count,
-			Object read_status,
-			Object comment_count,
-			Object favorite_count
-			) {
-
-		this.report_date = new SimpleDateFormat(Constants.DATE_FORMAT).format(report_date);
-		//this.reportDate = report_date;
-		this.content_id = content_id;
-		this.user_id = user_id;
-		this.user_name = user_name;
-		this.entry_format = entry_format;
-		this.entry_status = entry_status;
-		this.base_parent_content_id = base_parent_content_id;
-		this.grand_parent_content_id = grand_parent_content_id;
-		this.parent_content_id = parent_content_id;
-		this.read_count = read_count == null ? 0 : new Integer(read_count.toString());
-		this.read_status = read_status == null ? 0 : new Integer(read_status.toString());
-		this.comment_count = comment_count == null ? 0 : new Integer(comment_count.toString());
-		this.favorite_count = favorite_count == null ? 0 : new Integer(favorite_count.toString());
-	}
-	*/
 
 	public int getContent_id() {
 		return content_id;

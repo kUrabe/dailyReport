@@ -120,6 +120,9 @@ div {
 .content_index .parent_content_id {
 	display:	none;
 }
+.content_index .favorite_status {
+	display:	none;
+}
 /* content_index配下（日報概要内）の表示・非表示項目 */
 .content_detail .blockArea .content_id {
 	display:	none;
@@ -137,4 +140,13 @@ div {
 .content_detail .blockArea .main_text {
 	width:		485px;
 	display:	block;
+}
+
+/* いいねボタンの登録状況 いいねしている状態（赤くする） */
+.f-on {
+	color:	red;
+}
+/* 未読にするボタンの登録状況 未読状態で押せない */
+.r-on {
+	disabled:	disabled
 }
