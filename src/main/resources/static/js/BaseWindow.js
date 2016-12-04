@@ -471,6 +471,8 @@ function BaseWindow() {
 		
 		// 子ウインドウが開くのを待ち、親のオブジェクトを渡す
 		setTimeout(function() {
+			// 子のウインドウに親ウインドウで押下されたボタンタイプを渡す
+			this.anotherWindow.parentWindowButton = button_type;
 			// 子のウインドウにデータの取得元のセレクタを渡す
 			this.anotherWindow.parentWindowDate = valueTarget;
 		}, 300);

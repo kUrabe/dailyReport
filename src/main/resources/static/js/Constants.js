@@ -289,9 +289,11 @@ TAG_REPORT_AREA_END = '</table>';
 // top画面のボタン
 TAG_EDIT_BUTTON = '<button type="button" class="b_edit" value="b_edit">編集</button>';	// 編集ボタン
 TAG_DELETE_BUTTON = '<button type="button" class="b_delete" value="b_delete">削除</button>';	// 削除ボタン
-TAG_FAVORITE_BUTTON = '<button type="button" class="b_favorite" value="2">いいね</button>';	// いいねボタン
-TAG_NO_READ_BUTTON = '<button type="button" class="b_no_read" value="1">未読にする</button>';	// ボタン
-TAG_NEW_COMMENT_BUTTON = '<button type="button" class="b_new_comment" value="b_new_comment">コメントする</button>';	// ボタン
+TAG_FAVORITE_BUTTON = '<button type="button" class="b_favorite" value="2">いいね</button>';	// いいねボタン(日報用)
+TAG_NO_READ_BUTTON = '<button type="button" class="b_no_read" value="1">未読にする</button>';	// 未読にするボタン(日報用)
+TAG_FAVORITE_BUTTON = '<button type="button" class="b_favorite" value="2"　style="display:none">いいね</button>';	// いいねボタン(コメント用)
+TAG_NO_READ_BUTTON = '<button type="button" class="b_no_read" value="1"　style="display:none">未読にする</button>';	// 未読にするボタン(コメント用)
+TAG_NEW_COMMENT_BUTTON = '<button type="button" class="b_new_comment" value="b_new_comment">コメントする</button>';	// コメントするボタン
 TAG_ACCORDION_BUTTON = '<button type="button" class="b_accordion">閉じる</button>';	// ボタン
 TAG__BUTTON = '<button type="button" class="" name=""></button>';	// ボタン
 

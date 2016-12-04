@@ -663,7 +663,6 @@ function CreateWindowsDetail() {
 			// コメントするボタンのイベントを登録する
 			this.setClickEvent(SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow);
 			
-			// TODO:【未実装】ボタンの非表示は、クラス名に追加付与して、その名称をcssで指定することにより変更する
 			// 不要なボタンを非表示にする。
 			// 編集ボタンを非表示にする
 			$(SELECTOR_B_EDIT).addClass(SRT_SHOW_HIDE);
