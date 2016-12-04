@@ -419,18 +419,9 @@ function BaseWindow() {
 		var button_type;			// 押下されたボタンのタイプを格納
 		var path;					// リクエストのpathを格納
 		var name;					// 別ウインドウの名前を格納
-		
-		// ログイン中のユーザIDを取得
-		user = $(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text();
-		
-		// 対象の親コンテンツIDを取得
-		// TODO:【メモ】引数のselectorはボタンを指している
-		// parent_content_id = parseInt($($(selector).parent() + MARK_SPACE + SELECTOR_PARENT_CONTENT_ID).text());
-		parent_content_id = $(selector).parent().children(SELECTOR_PARENT_CONTENT_ID).text();
+
 		// 対象のコンテンツIDを取得
-		// TODO:【メモ】引数のselectorはボタンを指している
-		//contentId = parseInt($($(selector).parent() + MARK_SPACE + SELECTOR_CONTENT_ID).text());
-		contentId = $(selector).parent().children(SELECTOR_CONTENT_ID).text();
+		contentId = $(valueTarget).children(SELECTOR_CONTENT_ID).text();
 		// 押下されたボタンのタイプを取得
 		button_type = $(selector).val();
 		
@@ -459,15 +450,20 @@ function BaseWindow() {
 		}
 		
 		// pathにコンテンツIDを付与する
-		path += STR_SLASH + contentId;
+		path += STR_GET_PARA_CONTENT_ID + contentId;
 		
 		// 別ウインドウを開く
 		this.anotherWindow = window.open(path, name, "location=no,alwaysRaised=yes,dependent=yes");
 		
+		// 子ウインドウが開くのを待ち、親のオブジェクトを渡す
 		setTimeout(function() {
-			alert(this.anotherWindow.KEY_ADD_CATEGORY);
-			this.anotherWindow.parentWindow = this.window;
-		}, 500);
+			// 子のウインドウに自分のオブジェクトを渡す
+			this.anotherWindow.parentWindow = window;
+			this.anotherWindow.parentWindowDate = valueTarget;
+			this.anotherWindow.$(SELECTOR_BASE_PARENT_CONTENT_ID).text("aaaaaaa");
+		}, 300);
+		
+		
 		// 取得したログインユーザを開いたウインドウにセットする
 		//this.anotherWindow.$(".base_parent_content_id").text(user);
 		/*

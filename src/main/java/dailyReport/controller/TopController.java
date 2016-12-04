@@ -141,13 +141,14 @@ public class TopController {
 	 * 作成日：	2016/11/24
 	 * 作成者：	k.urabe
 	 */
+	/*
 	// TODO:【未実装】現在は、文字列で返しているが、クライアントから直接ページURLにリクエストし、それをマッピングしてデータ取得させる方法を検討中
-	@RequestMapping(value = "createWindow/{htmlPath}", params = "anotherWidow", method = RequestMethod.POST)
-	public String requestAnotherWindow(@PathVariable("htmlPath") String htmlPath) {
+	@RequestMapping(value = "createWindow/{htmlPath}/{contentId}", params = "anotherWidow", method = RequestMethod.POST)
+	public String requestAnotherWindow(@PathVariable("htmlPath") String htmlPath, @PathVariable("contentId") String contentId) {
 		// リクエストのpathで受けたHTMLを返す。
 		return htmlPath;
 	}
-	
+	*/
 	/**
 	 * 関数名：	requestDeleteContent
 	 * 概要：		削除ボタン押下時のリクエストをマッピング

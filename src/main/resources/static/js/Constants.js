@@ -356,6 +356,14 @@ STR_PLUS = ' + ';
 
 STR_SLASH = '/';
 STR_DOT = '.';
+STR_GET_PARA_CONTENT_ID = '?contentId=';
+STR_GET_PARA_P_CONTENT_ID = '&parentContentId=';
+
+/*
+KEY_DB_BASE_PARENT_CONTENT_ID = 'baseParentContentId';
+KEY_DB_GRAND_PARENT_CONTENT_ID = 'grandParentContentId';
+KEY_DB_PARENT_CONTENT_ID = 'parentContentId';
+*/
 
 // 画面名
 STR_COMMENT_VIEW = 'コメント詳細表示画面';

@@ -138,7 +138,7 @@ function TopWindowDetail() {
 		// 検索ボタンのイベントを登録する
 		this.setClickEvent(SELECTOR_B_SERACH, this.clickSearchButton);
 		// 新規日報ボタンのイベントを登録する
-		this.setClickEvent(SELECTOR_B_NEW_REPORT, this.prepareAnotherWindow);
+		this.setClickEvent(SELECTOR_B_NEW_REPORT, this.prepareAnotherWindow, null, null);
 		
 		// TODO:【メモ】サーバから取得したHTMLには、初期表示として値が入っていることを想定
 		// 初期の検索条件にて画面項目の取得を行う。

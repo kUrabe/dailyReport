@@ -526,7 +526,6 @@ function CreateWindowsDetail() {
 	 * 作成者：	k.urabe
 	 */
 	this.createReportWindow = function() {
-		
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		
 		// TODO:【メモ】共通ボタンは初期表示のHTMLに展開されている想定
@@ -569,69 +568,6 @@ function CreateWindowsDetail() {
 			this.setClickEvent(SELECTOR_B_FIXED_TODAY_RESULT, this.getTodayResult);
 			
 		}
-		
-		/**
-		 * 関数名：	ViewCommentWindow
-		 * 概要：		コメント詳細画面を開いた時の処理
-		 * 引数：		なし
-		 * 戻り値：	なし
-		 * 作成日：	2016/11/24
-		 * 作成者：	k.urabe
-		 */
-		this.ViewCommentWindow = function() {
-			
-			var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
-			
-			// 当該コンテンツIDを取得する
-			var content_id = $(SELECTOR_CONTENT_ID).text();
-			// リクエスト用JSON連想配列にコンテンツIDをセットする
-			jsonArray[KEY_CONTENT_ID] = content_id;
-			// JSON連想配列を用いてDBに値を取得する
-			this.getJsonData(PATH_CREATE, jsonArray, STR_READ);
-			// 取得したJSONを展開する
-			this.createReportDetail(SELECTOR_MAIN);
-			
-			// TODO:【未実装】ログインユーザは所定の位置（'.user_id'）に埋め込んでいる想定だが、開かれたコメントの投稿ユーザは取得したJSONデータから取得する必要がある
-			// TODO:【未実装】JSONの結果はコメントなので1件しかないが、行ごとに結果が格納されてくる想定で記述
-			// ログインユーザとコメントの投稿者が同一人物か検証する
-			if($(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text() == this.json[1].user_id) {
-				// TODO:【メモ】画面表示時には画面のボタンが全て揃っている想定。そこからユーザ種別ごとにボタンイベント登録と、非表示設定を行う
-				// 本人用のボタンイベントを登録する
-				
-				// 編集ボタンのイベントを登録する
-				this.setClickEvent(SELECTOR_B_EDIT, this.prepareAnotherWindow);
-				// 削除ボタンのイベントを登録する
-				this.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton);
-				
-				// TODO:【未実装】ボタンの非表示は、クラス名に追加付与して、その名称をcssで指定することにより変更する
-				// 不要なボタンを非表示にする。
-				// 未読にするボタンを非表示にする
-				$(SELECTOR_B_NO_READ).addClass(SRT_SHOW_HIDE);
-				// いいねボタンを非表示にする。
-				$(SELECTOR_B_FAVORITE).addClass(SRT_SHOW_HIDE);
-				
-			} else {
-				// TODO:【メモ】画面表示時には画面のボタンが全て揃っている想定。そこからユーザ種別ごとにボタンイベント登録と、非表示設定を行う
-				// 他人用のボタンイベントを登録する
-				// 未読にするボタンのイベントを登録する
-				this.setClickEvent(SELECTOR_B_NO_READ, this.clickAddContentButton);
-				// いいねボタンのイベントを登録する
-				this.setClickEvent(SELECTOR_B_FAVORITE, this.clickAddContentButton);
-				// コメントするボタンのイベントを登録する
-				this.setClickEvent(SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow);
-				
-				// TODO:【未実装】ボタンの非表示は、クラス名に追加付与して、その名称をcssで指定することにより変更する
-				// 不要なボタンを非表示にする。
-				// 編集ボタンを非表示にする
-				$(SELECTOR_B_EDIT).addClass(SRT_SHOW_HIDE);
-				// 削除ボタンを非表示にする。
-				$(SELECTOR_B_DELETE).addClass(SRT_SHOW_HIDE);
-			}
-			// TODO:【メモ】画面設計上、ボタン名は閉じるだが、他画面との兼ね合い上、クラス名はキャンセルボタンのものを指定する想定
-			// 共通のキャンセルボタンを登録する
-			this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
-			
-		}
 
 	}
 	
@@ -644,7 +580,6 @@ function CreateWindowsDetail() {
 	 * 作成者：	k.urabe
 	 */
 	this.createCommentWindow = function() {
-		
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		
 		// TODO:【メモ】共通ボタンは初期表示のHTMLに展開されている想定
@@ -671,6 +606,70 @@ function CreateWindowsDetail() {
 			// 画面内の所定の位置に取得したコンテンツIDを埋める
 			$(SELECTOR_CONTENT_ID).text(this.json[KEY_CONTENT_ID]);
 		}
+		
+	}
+	
+	/**
+	 * 関数名：	viewCommentWindow
+	 * 概要：		コメント詳細画面を開いた時の処理
+	 * 引数：		なし
+	 * 戻り値：	なし
+	 * 作成日：	2016/11/24
+	 * 作成者：	k.urabe
+	 */
+	this.viewCommentWindow = function() {
+//		$1 = parentWindow.$(parentWindowDate).children(KEY_CONTENT_ID);
+//		alert(parentWindow.$(parentWindowDate).children(KEY_CONTENT_ID).text());
+		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		
+		// 当該コンテンツIDを取得する
+		var content_id = $(SELECTOR_CONTENT_ID).text();
+		// リクエスト用JSON連想配列にコンテンツIDをセットする
+		jsonArray[KEY_CONTENT_ID] = content_id;
+		// JSON連想配列を用いてDBに値を取得する
+		this.getJsonData(PATH_CREATE, jsonArray, STR_READ);
+		// 取得したJSONを展開する
+		this.createReportDetail(SELECTOR_MAIN);
+		
+		// TODO:【未実装】ログインユーザは所定の位置（'.user_id'）に埋め込んでいる想定だが、開かれたコメントの投稿ユーザは取得したJSONデータから取得する必要がある
+		// TODO:【未実装】JSONの結果はコメントなので1件しかないが、行ごとに結果が格納されてくる想定で記述
+		// ログインユーザとコメントの投稿者が同一人物か検証する
+		if($(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text() == this.json[1].user_id) {
+			// TODO:【メモ】画面表示時には画面のボタンが全て揃っている想定。そこからユーザ種別ごとにボタンイベント登録と、非表示設定を行う
+			// 本人用のボタンイベントを登録する
+			
+			// 編集ボタンのイベントを登録する
+			this.setClickEvent(SELECTOR_B_EDIT, this.prepareAnotherWindow);
+			// 削除ボタンのイベントを登録する
+			this.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton);
+			
+			// TODO:【未実装】ボタンの非表示は、クラス名に追加付与して、その名称をcssで指定することにより変更する
+			// 不要なボタンを非表示にする。
+			// 未読にするボタンを非表示にする
+			$(SELECTOR_B_NO_READ).addClass(SRT_SHOW_HIDE);
+			// いいねボタンを非表示にする。
+			$(SELECTOR_B_FAVORITE).addClass(SRT_SHOW_HIDE);
+			
+		} else {
+			// TODO:【メモ】画面表示時には画面のボタンが全て揃っている想定。そこからユーザ種別ごとにボタンイベント登録と、非表示設定を行う
+			// 他人用のボタンイベントを登録する
+			// 未読にするボタンのイベントを登録する
+			this.setClickEvent(SELECTOR_B_NO_READ, this.clickAddContentButton);
+			// いいねボタンのイベントを登録する
+			this.setClickEvent(SELECTOR_B_FAVORITE, this.clickAddContentButton);
+			// コメントするボタンのイベントを登録する
+			this.setClickEvent(SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow);
+			
+			// TODO:【未実装】ボタンの非表示は、クラス名に追加付与して、その名称をcssで指定することにより変更する
+			// 不要なボタンを非表示にする。
+			// 編集ボタンを非表示にする
+			$(SELECTOR_B_EDIT).addClass(SRT_SHOW_HIDE);
+			// 削除ボタンを非表示にする。
+			$(SELECTOR_B_DELETE).addClass(SRT_SHOW_HIDE);
+		}
+		// TODO:【メモ】画面設計上、ボタン名は閉じるだが、他画面との兼ね合い上、クラス名はキャンセルボタンのものを指定する想定
+		// 共通のキャンセルボタンを登録する
+		this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
 		
 	}
 	

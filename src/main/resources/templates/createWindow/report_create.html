@@ -29,9 +29,9 @@
 	<div class="user_id" style="display:none" th:text="${user.userId}"></div>
 	<div class="base_parent_content_id" style="display:none"></div>
 	<div class="parent_content_id" style="display:none"></div>
-	<div class="content_id" style="display:none"></div>
+	<div class="content_id" style="display:none" th:text="${contentId}"></div>
 	<div class="title">日報作成</div>
-	<input class="report_date" type="date" value="2016-11-28"></input><span>付日報</span>
+	<input class="report_date" type="date" value="2016-11-28" th:value="${today}"></input><span>付日報</span>
 </div>
 
 <div class="main">
@@ -50,7 +50,7 @@
 	// 作成画面用のインスタンスを生成する
 	thisElem = new CreateWindowsDetail();
 	// 初期化処理を実行する
-	thisElem.createCommentWindow();
+	thisElem.createReportWindow();
 </script>
 
 </body>
