@@ -390,6 +390,7 @@ function WindowDesign() {
 				}
 
 				// 行に対して、クリック時にコメント詳細画面を開くイベントを登録する
+				this.setClickEvent($_blockSelector.children(SELECTOR_MAIN_TEXT), this.prepareAnotherWindow, null, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
 			}
 
 		// データが取得できていない旨を所定の位置に表示する

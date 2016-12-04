@@ -176,6 +176,9 @@ div {
 .comment_area .main_text {
 	width:		490px;
 	display:	inline-block;
+	overflow:	hidden; 	/* はみ出した文字を隠す。 */
+	white-space:nowrap; 	/* 改行・連続するスペースを無視する。 */
+	text-overflow:ellipsis;	/* テキストがはみ出したら点を表示する。 */
 }
 .comment_area br {
 	hight:		0px;

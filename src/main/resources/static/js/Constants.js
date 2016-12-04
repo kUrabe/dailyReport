@@ -110,6 +110,8 @@ KEY_B_NEW_REPORT = 'b_new_report';		// 新規日報ボタン
 KEY_F_ON = '.f-on';								// いいねボタンを押下している状態のボタンに付与
 KEY_R_ON = '.r-on';								// 未読にするボタンを押下している状態（未読状態）のボタンに付与
 KEY_INDEX_LINE = 'indexLine';					// アコーディオン開閉時に押下されたのが、行なのかボタンなのか判定するためのクラス名
+KEY_B_EDIT='b_edit';							// 編集ボタン機能を持たすタグに付与するValue
+
 /*
  * セレクタ名
  * 
@@ -134,6 +136,7 @@ SELECTOR_ENTRY_FORMAT = '.entry_format';			// コンテンツの登録様式
 SELECTOR_SERACH_MESSAGE = '.serach_message';		// 検索結果が0件の際にメッセージを表示するセレクタ
 SELECTOR_READ_STATUS = '.read_status';				// 既読未読状態項目のセレクタ
 SELECTOR_COMMENT_COUNT = '.comment_count';			// コメント集計項目のセレクタ
+SELECTOR_MAIN_TEXT = '.main_text';					// コメント本文のセレクタ
 
 SELECTOR_SERACH_FROM_DATE = '.serach_from_date';	// 検索領域のfrom
 SELECTOR_SERACH_TO_DATE = '.serach_to_date';		// 検索領域のto
@@ -250,7 +253,7 @@ TAG_COMMENT_INDEX_LINE = '<div class="index_line"><div>投稿日</div><div>投�
 // トップ画面日報概要の見出し
 TAG_REPORT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div><div class="favorite_status" name="favorite_status"></div>';
 // トップ画面コメント1行分の見出し
-TAG_COMMENT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div><div class="favorite_status" name="favorite_status"></div><br /><div class="main_text" name="main_text">';
+TAG_COMMENT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div><div class="favorite_status" name="favorite_status"></div><br /><div class="main_text" name="main_text"></div>';
 
 
 // トップ画面日報詳細の1レコード文
