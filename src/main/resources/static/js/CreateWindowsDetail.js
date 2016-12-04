@@ -643,7 +643,8 @@ function CreateWindowsDetail() {
 			// 編集ボタンのイベントを登録する
 			this.setClickEvent(SELECTOR_B_EDIT, this.prepareAnotherWindow);
 			// 削除ボタンのイベントを登録する
-			this.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton);
+			//this.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton);
+			this.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton, null, this.parentWindow.$(parentWindowDate), MESSAGE_COMMENT_DELETE);
 			
 			// TODO:【未実装】ボタンの非表示は、クラス名に追加付与して、その名称をcssで指定することにより変更する
 			// 不要なボタンを非表示にする。

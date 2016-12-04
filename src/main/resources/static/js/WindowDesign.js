@@ -277,7 +277,7 @@ function WindowDesign() {
 				// 削除ボタンを追加する
 				$(selector).append(TAG_DELETE_BUTTON);
 				// 削除ボタンへイベントを登録する
-				this.setClickEvent($(selector).children(SELECTOR_B_DELETE), this.clickDeleteButton, null, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
+				this.setClickEvent($(selector).children(SELECTOR_B_DELETE), this.clickDeleteButton, null, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), MESSAGE_REPORT_DELETE);
 			} else {
 				// ログインユーザ != 投稿ユーザ
 				// いいねボタンを追加する
@@ -289,7 +289,7 @@ function WindowDesign() {
 				// 未読にするボタンを追加する
 				$(selector).append(TAG_NO_READ_BUTTON);
 				// 未読にするボタンのイベントを登録する
-				this.setClickEvent($(selector).children(SELECTOR_B_NO_READ), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
+				this.setClickEvent($(selector).children(SELECTOR_B_NO_READ), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), MESSAGE_REPORT_NOREAD);
 				// 未読にするが押された状態（未読状態）であればクラス名にフラグを追加する
 				$_contentIndex.children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_NO_READ).addClass(KEY_R_ON) : "";
 			}

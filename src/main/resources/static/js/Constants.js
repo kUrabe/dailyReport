@@ -380,6 +380,9 @@ MESSAGE_LOGOUT = 'ログアウトしますか？';
 MESSAGE_AJAX_ERROR = '通信に失敗しました。';
 MESSAGE_SEARCH_NOT_DATA = '検索条件に一致する日報がありません。';
 MESSAGE_SEARCH_NOT_COMMENT = 'この日報にコメントはありません。';
+MESSAGE_REPORT_DELETE = '当該日報を削除しますか？';
+MESSAGE_COMMENT_DELETE = 'コメントを削除します。よろしいですか？';
+MESSAGE_REPORT_NOREAD = '当該日報を未読にしますか？';
 
 MARK_SPACE = " ";		// 半角スペース
 

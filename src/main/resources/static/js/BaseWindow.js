@@ -141,12 +141,12 @@ function BaseWindow() {
 	 * 作成日：	2016/11/22
 	 * 作成者：	k.urabe
 	 */
-	this.openConfirmationDialog = function(func, message, selector) {
+	this.openConfirmationDialog = function(selector, thisElem, funcTarget, valueTarget, func, message) {
 		
 		// 確認ダイアログを開き、OKが押下されたかを検証する
 		if(window.confirm(message)) {
 			// OK押下時に引数で受けた関数を実行する
-			func(selector);
+			func(selector, thisElem, funcTarget, valueTarget);
 		} else {
 			// キャンセル時は何もしない
 		}
@@ -219,7 +219,7 @@ function BaseWindow() {
 	 * 作成日：	2016/11/22
 	 * 作成者：	k.urabe
 	 */
-	this.setClickEvent = function(target, func, funcTarget, valueTarget) {
+	this.setClickEvent = function(target, func, funcTarget, valueTarget, message = null) {
 		
 		// thisオブジェクトをボタン先の関数で使用できるよう保持する
 		var thisElem = this;
@@ -227,9 +227,14 @@ function BaseWindow() {
 		// 引数のセレクタでクリックイベントをバインドする
 		$(target).on(CLICK, function() {
 			
-			// コールバック関数を実行する
-			func(this, thisElem, funcTarget, valueTarget);
-			
+			// メッセージを受け取っているならば
+			if(message) {
+				// 確認ダイアログを表示して処理を行うか確認する。
+				thisElem.openConfirmationDialog(this, thisElem, funcTarget, valueTarget, func, message);
+			} else {
+				// コールバック関数を実行する
+				func(this, thisElem, funcTarget, valueTarget);
+			}
 		});
 		
 	}
@@ -396,8 +401,17 @@ function BaseWindow() {
 			thisElem.getJsonData(PATH_COMMON_DELETE_CONTENT, jsonArray, STR_DELETE);
 		}
 		
-		// 一覧を再描画する
-		$(SELECTOR_B_SERACH).click();
+		// 親ウインドウがいるか判定する
+		if(thisElem.parentWindow) {
+			// 親ウインドウを再描画する
+			thisElem.parentWindow.$(SELECTOR_B_SERACH).click();
+			// 子ウインドウを閉じる
+			window.close();
+		// 子ウインドウがいない
+		} else {
+			// 一覧を再描画する
+			$(SELECTOR_B_SERACH).click();
+		}
 		
 	}
 	
