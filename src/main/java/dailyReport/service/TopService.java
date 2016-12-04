@@ -17,6 +17,7 @@ import dailyReport.Constants;
 import dailyReport.resource.RecordContentDetail;
 import dailyReport.resource.RecordContentInf;
 import dailyReport.resource.SearchContentDetailSummary;
+import dailyReport.resource.TopCommentContent;
 import dailyReport.resource.TopSearchContentSummary;
 
 /**
@@ -93,6 +94,30 @@ public class TopService {
 				.setParameter(2, "%" + (String)map.get(Constants.KEY_SERACH_USER) + "%")
 				.setParameter(3, sdf.parse((String)map.get(Constants.KEY_SERACH_FROM_DATE)))
 				.setParameter(4, sdf.parse((String)map.get(Constants.KEY_SERACH_TO_DATE)))
+				.getResultList();
+		
+		// 取得した情報を返す
+		return content;
+	}
+	
+	/**
+	 * 関数名：	searchTopPageContent
+	 * 概要：		アコーディオン内のコメントデータを取得する
+	 * 引数：		Map<String, Object> json
+	 * 戻り値：	TopCommentContent
+	 * 作成日：	2016/12/04
+	 * 作成者：	k.urabe
+	 * @throws ParseException 
+	 */
+	public List<TopCommentContent> searchTopCommentContent(Map<String, Object> map) {
+
+		// 選択された日報に対するコメントのデータを取得する
+		@SuppressWarnings("unchecked")
+		List<TopCommentContent> content = entityManager.createNativeQuery(
+				Constants.TOP_COMMENT_CONTENT
+				,"topCommentContent")
+				.setParameter(1, (String)map.get(Constants.KEY_USER_ID))
+				.setParameter(2, (String)map.get(Constants.KEY_CONTENT_ID))
 				.getResultList();
 		
 		// 取得した情報を返す

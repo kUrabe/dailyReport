@@ -36,10 +36,12 @@ function BaseWindow() {
 			// アコーディオンが一度でも展開済みか確認するためのセレクタを取得する
 			$_accordion = $(accordionTarget).children(SELECTOR_CONTENT_DETAIL).children(KEY_DIV);
 								
-			// アコーディオン内のレポート詳細が展開済みでなければ
+			// アコーディオン内のレポート詳細が展開していないなら展開する
 			if(!($_accordion.hasClass(KEY_PARENT_AREA))) {
 				// データが未展開であるため、データを展開する
 				// 日報の詳細部分を展開する
+				// にユーザID（ログインユーザ）をセットする
+				jsonArray[KEY_USER_ID] = $(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text();
 				// コンテンツIDをセットする
 				jsonArray[KEY_CONTENT_ID] = $(this).children(SELECTOR_CONTENT_ID).text();
 				// 登録書式を当該日報から取得してセットする
@@ -48,22 +50,14 @@ function BaseWindow() {
 				jsonArray[KEY_ENTRY_STATUS] = $(this).children(SELECTOR_ENTRY_STATUS).text();
 				// サーバから日報詳細のデータを取得する
 				thisElem.getJsonData(PATH_TOP_PAGE_DETAIAL_CONTENT, jsonArray, STR_READ);
-				// 取得したデータを展開する
+				// 取得した日報データを展開する
 				thisElem.createReportDetail($($(this).parent()).children(SELECTOR_ACCORDION_AREA).children(SELECTOR_CONTENT_DETAIL));
 				
-				
-				/*
-				// コメントの見出し部分を展開する
-				// 登録書式を日報でセットする
-				jsonArray[SELECTOR_CONTENT_ID] = FLAG_ENTRY_FORMAT_COMMENT;
-				// サーバからコメント概要のデータを取得する
-				thisElem.getJsonData(PATH_TOP_PAGE_DETAIAL_CONTENT, jsonArray, STR_READ);
-				// 取得したデータを展開する
-				thisElem.createContentIndex($(this).parent().children(SELECTOR_COMMENT_AREA));
-				
-				// コメントの詳細部分を展開するcreateCommentDetail
-				thisElem.createCommentDetail($(this).parent().children(SELECTOR_COMMENT_AREA).children(SELECTOR_PARENT_AREA));
-				*/
+				// サーバからコメントに関するデータを取得する
+				thisElem.getJsonData(PATH_TOP_PAGE_DETAIAL_COMMENT, jsonArray, STR_READ);
+				// 取得したコメントデータを展開する
+				thisElem.createCommentDetail($($(this).parent()).children(SELECTOR_ACCORDION_AREA).children(SELECTOR_COMMENT_AREA), 0);
+
 			}
 			
 			// 対象コンテンツが未読状態ならば既読へ更新する

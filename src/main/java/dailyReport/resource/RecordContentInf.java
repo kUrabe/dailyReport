@@ -37,6 +37,29 @@ import javax.persistence.*;
 							@ColumnResult(name = "favorite_status")
 					}
 			)
+	),
+	@SqlResultSetMapping(
+			name="topCommentContent", 
+			classes = @ConstructorResult(
+					targetClass = dailyReport.resource.TopCommentContent.class, 
+					columns = {
+							@ColumnResult(name = "report_date"),
+							@ColumnResult(name = "content_id"),
+							@ColumnResult(name = "user_id"),
+							@ColumnResult(name = "user_name"),
+							@ColumnResult(name = "entry_format"),
+							@ColumnResult(name = "entry_status"),
+							@ColumnResult(name = "base_parent_content_id"),
+							@ColumnResult(name = "grand_parent_content_id"),
+							@ColumnResult(name = "parent_content_id"),
+							@ColumnResult(name = "read_count"),
+							@ColumnResult(name = "read_status"),
+							@ColumnResult(name = "comment_count"),
+							@ColumnResult(name = "favorite_count"),
+							@ColumnResult(name = "favorite_status"),
+							@ColumnResult(name = "main_text")
+					}
+			)
 	)
 })
 public class RecordContentInf implements Serializable {

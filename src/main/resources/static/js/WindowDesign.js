@@ -20,7 +20,7 @@ function WindowDesign() {
 	
 	/**
 	 * 関数名：	createContentIndex
-	 * 概要：		トップ画面の日報見出し概要とコメントの見出しと概要を展開する
+	 * 概要：		トップ画面の日報見出し概要を展開する
 	 * 引数：		selector	データの展開先
 	 * 			grand_parent_content_id		祖先のコンテンツID
 	 * 			parent_content_id			親のコンテンツID
@@ -62,7 +62,7 @@ function WindowDesign() {
 				// ブロックエリアのタグを追加する
 				$(selector + SELECTOR_LAST).append(TAG_BLOCK_AREA);
 				// 行(ブロック)内のセレクタを取得する
-				var $_blockSelector = $(selector + MARK_SPACE + SELECTOR_PARENT_AREA_LAST)
+				var $_blockSelector = $(selector + MARK_SPACE + SELECTOR_PARENT_AREA_LAST);
 				
 				// TODO:【未実装】レポートの概要を展開する際は、複数のコンテンツIDがJSONに含まれる。
 				// TODO:【未実装】それにも関わらず、受け取らなければならないので、ロジックが矛盾する
@@ -306,14 +306,102 @@ function WindowDesign() {
 	
 	/**
 	 * 関数名：	createCommentDetail
-	 * 概要：		コメント概要に紐付く詳細（最初の数行）を展開する
+	 * 概要：		アコーディオン内のコメント概要と詳細を展開する
 	 * 引数：		selector		
 	 * 戻り値：	なし
-	 * 作成日：	2016/11/23
+	 * 作成日：	2016/12/04
 	 * 作成者：	k.urabe
 	 */
-	this.createCommentDetail = function(selector) {
+	this.createCommentDetail = function(selector, parent_content_id, indent = 0) {
 		
+		var jsonLen;		// jsonの長さを保持するための変数
+		var user;			// ログイン中のユーザIDを保管
+		
+		// JSONの長さを取得
+		jsonLen = this.json.length;
+		// ユーザID（ログインユーザ）をセットする
+		user = $(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text();
+		
+		// jsonが取得出来ているか検証する
+		if(this.json !== null && this.json !== undefined && jsonLen !== 0) {
+			
+			// indentで1階層目か判定する
+			if(indent == 0) {
+				// 1階層目なので見出し行のタグ一式を追加する
+				$(selector).append(TAG_COMMENT_INDEX_LINE);
+			}
+			
+			// TODO:【未実装】子要素の呼び出しについて、今のままでは適切でない。
+			// JSONの行要素を走査する
+			for(var key in this.json) {
+				
+				// indent数分、ループしてテーブルのインデントをずらす
+				for(var i = 0; i < indent; i++) {
+					// indent用のタグを挿入する
+					$(selector).append(TAG_INDENT);
+				}
+				
+				// ブロックエリアのタグを追加する
+				$(selector).append(TAG_BLOCK_AREA);
+				// 行(ブロック)内のセレクタを取得する
+				var $_blockSelector = $(selector).children(SELECTOR_PARENT_AREA_LAST);
+				// 追加した行開始タグにクラス名を追加する
+				$_blockSelector.addClass(STR_LINE + key);
+				// 行内の各項目のタグを追加する
+				$_blockSelector.append(TAG_COMMENT_LINE);
+				
+				// TODO:【未実装】レポートの概要を展開する際は、複数のコンテンツIDがJSONに含まれる。
+				// TODO:【未実装】それにも関わらず、受け取らなければならないので、ロジックが矛盾する
+				// TODO:【未実装】暫定として0を引数として受け取り、0の際は子を検証しない動きとする
+				// 対象レコードが子要素であるか検証する
+				//if(parent_content_id < this.json[key].parent_content_id && parent_content_id !== 0) {
+					// 子要素を出力するため再帰呼び出しを行う。
+					//this.createContentIndex(selector, this.json[key].parent_content_id, indent + 1)
+				//}
+				
+				// JSONの列要素を走査する
+				for(var keyIn in this.json[key]) {
+					// 値を挿入するセレクタを取得する
+					var $_valueSetPosition = $_blockSelector.children(SELECTOR_DIV_NAME_START + keyIn + SELECTOR_DIV_NAME_END);
+					// 挿入された項目タグの名前と一致させながら値をセットする
+					$_valueSetPosition.text(this.json[key][keyIn]);
+// 共通処理候補				
+					// 既読状態を表す項目の値がセットされたら、適切な文字列に置き換えるために状態判定を行う
+					if(keyIn == KEY_READ_STATUS) {
+						// 本人投稿 かつ 下書であるか検証
+						if(user == this.json[key][KEY_DB_USER_ID] && this.json[key][KEY_DB_ENTRY_STATUS] & FLAG_ENTRY_STATUS_NOTE) {
+							// 本人かつ下書なのでステータスの文字列を下書にする
+							$_valueSetPosition.text(STR_READ_NOTE);
+						// 下書以外の本人投稿であるか
+						} else if(user == this.json[key][KEY_DB_USER_ID]) {
+							// 本人投稿なのでステータスを文字列を本人にする
+							$_valueSetPosition.text(STR_READ_MYSELF);
+						// 既読であるか検証する（本人以外）
+						} else if(this.json[key][KEY_READ_STATUS] & FLAG_CATEGORY_STATUS_REG) {
+							// 本人以外の既読なのでステータスの文字列を既読にする
+							$_valueSetPosition.text(STR_READ_ON);
+						} else {
+							// 本人以外の未読なのでステータスの文字列を未読にする
+							$_valueSetPosition.text(STR_READ_OFF);
+						}
+					}
+// ここまで
+
+				}
+
+				// 行に対して、クリック時にコメント詳細画面を開くイベントを登録する
+			}
+
+		// データが取得できていない旨を所定の位置に表示する
+		} else {
+			// 検索結果が0件の旨のメッセージを表示する
+			$(selector).children(SELECTOR_SERACH_MESSAGE).text(MESSAGE_SEARCH_NOT_COMMENT);
+		}
+		
+		
+		
+		
+		/*
 		// HTMLの対象エリア内を走査する
 		// TODO:【セレクタ】コメント概要を囲んでいるエリアがセレクタで渡される想定(blockArea?)
 		// TODO:【セレクタ】その配下の
@@ -334,7 +422,7 @@ function WindowDesign() {
 				}
 			});
 		});
-		
+		*/
 	}
 	
 	/**

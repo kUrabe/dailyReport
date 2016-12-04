@@ -109,7 +109,7 @@ KEY_B_NEW_REPORT = 'b_new_report';		// 新規日報ボタン
 
 KEY_F_ON = '.f-on';								// いいねボタンを押下している状態のボタンに付与
 KEY_R_ON = '.r-on';								// 未読にするボタンを押下している状態（未読状態）のボタンに付与
-
+KEY_INDEX_LINE = 'indexLine';					// アコーディオン開閉時に押下されたのが、行なのかボタンなのか判定するためのクラス名
 /*
  * セレクタ名
  * 
@@ -214,7 +214,9 @@ PATH_COMMON = '/common';									// 共通処理系のリクエストpath
 PATH_COMMON_SAVE_ADD_CONTENT = '/common/saveAddContent';	// 追加機能（いいね）等に対する処理リクエスト
 PATH_TOP = '/top';											// top処理系のリクエストpath
 PATH_TOP_PAGE_CONTENT = '/top/topPageContent';				// アコーディオン内を除くコンテンツの取得
-PATH_TOP_PAGE_DETAIAL_CONTENT = '/top/topPageDetailContent';// アコーディオン内のコンテンツの取得
+PATH_TOP_PAGE_DETAIAL_CONTENT = '/top/topPageDetailContent';// アコーディオン内のコンテンツの取得(コメント除く)
+PATH_TOP_PAGE_DETAIAL_COMMENT = '/top/topPageDetailComment';// アコーディオン内のコンテンツの取得（コメント）
+
 PATH_CREATE = '/create';									// create処理系のリクエストpath
 PATH_COMMON_DELETE_CONTENT = '/common/deleteContent';		// 削除ボタン押下時のリクエストPATH
 PATH_CREATE_BY_DAY = '/create/contentByDay';				// 作成画面の日付選択に応じたリクエストpath
@@ -242,8 +244,14 @@ TAG_TOP_TABLE_END = '</table>';
 
 // トップ画面 日報概要の見出し
 TAG_REPORT_INDEX_LINE = '<div class="index_line"><div>報告日</div><div>報告者</div><div>既読者</div><div>ステータス</div><div>コメント数</div><div>いいね数</div></div>';
+// トップ画面 コメントの概要の見出し
+TAG_COMMENT_INDEX_LINE = '<div class="index_line"><div>投稿日</div><div>投稿者</div><div>既読者</div><div>ステータス</div><div>コメント数</div><div>いいね数</div></div>';
+
 // トップ画面日報概要の見出し
 TAG_REPORT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div><div class="favorite_status" name="favorite_status"></div>';
+// トップ画面コメント1行分の見出し
+TAG_COMMENT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div><div class="favorite_status" name="favorite_status"></div><br /><div class="main_text" name="main_text">';
+
 
 // トップ画面日報詳細の1レコード文
 TAG_REPORT_DETAIL_LINE = '<div class="content_id" name="content_id"></div><div class="detail_id" name="detail_id"></div><div class="fixed_item_id" name="fixed_item_id"></div><div class="index_name" name="index_name"></div><div class="main_text" name="main_text"></div>';
@@ -251,11 +259,11 @@ TAG_REPORT_DETAIL_LINE = '<div class="content_id" name="content_id"></div><div c
 // 日報概要の1行とアコーディオン範囲を包むブロックエリアのタグ
 TAG_BLOCK_AREA = '<div class="blockArea"></div>';
 // 日報概要の1行を表すタグ
-TAG_LINE_START = '<div class="content_index b_accordion"></div>';
+TAG_LINE_START = '<div class="content_index b_accordion indexLine"></div>';
 // 日報概要の行内の1項目を表すタグ
 TAG_IN_LINE_ITEM = '<span class=""></span>';
 // アコーディオンエリアのフォーマットタグを追加する（共通のボタンも）
-TAG_REPORT_ACCORDION = '<div class="accordion_area"><div class="content_detail"></div><div class="comment_area"><div class="title">コメント一覧</div><button type="button" class="b_new_comment" value="b_new_comment">コメントする</button><div class="search_message"></div></div><button type="button" class="b_accordion">閉じる</button></div>';
+TAG_REPORT_ACCORDION = '<div class="accordion_area"><div class="content_detail"></div><div class="comment_area"><div class="title">コメント一覧</div><button type="button" class="b_new_comment" value="b_new_comment">コメントする</button><div class="serach_message"></div></div><button type="button" class="b_accordion">閉じる</button></div>';
 
 
 

@@ -57,7 +57,9 @@ public class PageReturnController {
 		model.addAttribute("to", simple.format(cal.getTime()));
 		// TODO:【メモ】FROMの日付は現在日時の1週間前
 		// FROMの日付をViewに渡す
-		cal.add(Calendar.DATE, -7);
+		//cal.add(Calendar.DATE, -7);
+		// デバッグ用多めの日付
+		cal.add(Calendar.DATE, -60);
 		model.addAttribute("from", simple.format(cal.getTime()));
 		
 		// トップページのURLを返す

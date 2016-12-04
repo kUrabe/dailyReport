@@ -18,13 +18,14 @@ div {
 	height:		372px;
 	display:	inline;
 	left:		145px;
+	display:	inline;
 }
 /* 画面上部メニュー領域 */
 .topMenu {
 	float:		top;
 	width:		528px;
 	height:		36px;
-	display:	inline-block;
+	display:	inline;
 	left:		145px;
 }
 
@@ -150,3 +151,61 @@ div {
 .r-on {
 	disabled:	disabled
 }
+
+/* comment_area配下（コメント表示領域）の表示・非表示項目 */
+.comment_area .report_date {
+	width:		80px;
+	display:	inline-block;
+}
+.comment_area .user_name {
+	width:		80px;
+	display:	inline-block;
+}
+.comment_area .read_count {
+	width:		80px;
+	display:	inline-block;
+}
+.comment_area .read_status {
+	width:		80px;
+	display:	inline-block;
+}
+.comment_area .comment_count {
+	width:		80px;
+	display:	inline-block;
+}
+.comment_area .main_text {
+	width:		490px;
+	display:	inline-block;
+}
+.comment_area br {
+	hight:		0px;
+}
+.comment_area .favorite_count {
+	width:		80px;
+	display:	inline-block;
+}
+.comment_area .content_id {
+	display:	none;
+}
+.comment_area .user_id {
+	display:	none;
+}
+.comment_area .entry_format {
+	display:	none;
+}
+.comment_area .entry_status {
+	display:	none;
+}
+.comment_area .base_parent_content_id {
+	display:	none;
+}
+.comment_area .grand_parent_content_id {
+	display:	none;
+}
+.comment_area .parent_content_id {
+	display:	none;
+}
+.comment_area .favorite_status {
+	display:	none;
+}
+

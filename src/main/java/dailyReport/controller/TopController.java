@@ -22,6 +22,7 @@ import dailyReport.Constants;
 import dailyReport.resource.RecordContentDetail;
 import dailyReport.resource.RecordContentInf;
 import dailyReport.resource.SearchContentDetailSummary;
+import dailyReport.resource.TopCommentContent;
 import dailyReport.resource.TopSearchContentSummary;
 import dailyReport.service.CommonService;
 import dailyReport.service.TopService;
@@ -79,7 +80,7 @@ public class TopController {
 	
 	/**
 	 * 関数名：	requestTopPageDetailContent
-	 * 概要：		top画面のアコーディオン内のコンテンツの取得
+	 * 概要：		top画面のアコーディオン内のコンテンツの取得（コメント除く）
 	 * 引数：		パラメータ String crud	処理の種別
 	 * 			パラメータ String json	JSON文字列
 	 * 戻り値：	String
@@ -101,6 +102,33 @@ public class TopController {
 
 		// 作成したJSON文字列を返却する
 		return searchContentDetailSummary;
+		
+	}
+	
+	/**
+	 * 関数名：	requestTopPageDetailComment
+	 * 概要：		top画面のアコーディオン内のコンテンツの取得（コメント除く）
+	 * 引数：		パラメータ String crud	処理の種別
+	 * 			パラメータ String json	JSON文字列
+	 * 戻り値：	String
+	 * 作成日：	2016/11/24
+	 * 作成者：	k.urabe
+	 */
+	@RequestMapping(value = "top/topPageDetailComment", method = RequestMethod.POST)
+	public List<TopCommentContent> requestTopPageDetailComment(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+		
+		String message = "";							// 返却用JSONにセットする文字列格納
+		
+		// TODO:【未実装】jacksonが使えていない。Springでは違うもの使う？　それともインポートする？
+		// パラメータのJSONをMapに変換する
+		Map<String, Object> map = commonService.convertJsonToMap(json);
+		
+		// TODO:【未実装】ここで格納する型が単純なテーブルのentityクラスではダメなはずなので要検証（こちらは詳細テーブルだけでもよいかも…）
+		// 検索を実行し、その結果をentityインスタンスへ格納する
+		List<TopCommentContent>topCommentContent = topService.searchTopCommentContent(map);
+
+		// 作成したJSON文字列を返却する
+		return topCommentContent;
 		
 	}
 	
