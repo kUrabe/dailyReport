@@ -15,7 +15,8 @@
 function CreateWindowsDetail() {
 	
 	WindowDesign.call(this);	//スーパークラスのコンストラクタを呼ぶ
-	
+	// 親ウインドウを取得する
+	this.parentWindow = window.opener;
 	/**
 	 * 関数名：	getIndexLastNumber
 	 * 概要：		指定したセレクタの個数を返す（最終番号）
@@ -618,23 +619,24 @@ function CreateWindowsDetail() {
 	 * 作成者：	k.urabe
 	 */
 	this.viewCommentWindow = function() {
-//		$1 = parentWindow.$(parentWindowDate).children(KEY_CONTENT_ID);
-//		alert(parentWindow.$(parentWindowDate).children(KEY_CONTENT_ID).text());
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
-		
-		// 当該コンテンツIDを取得する
-		var content_id = $(SELECTOR_CONTENT_ID).text();
-		// リクエスト用JSON連想配列にコンテンツIDをセットする
-		jsonArray[KEY_CONTENT_ID] = content_id;
-		// JSON連想配列を用いてDBに値を取得する
-		this.getJsonData(PATH_CREATE, jsonArray, STR_READ);
-		// 取得したJSONを展開する
-		this.createReportDetail(SELECTOR_MAIN);
+
+		// 親ウインドウの各値を自分にセットする
+		$(SELECTOR_USER_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_ID).text());
+		$(SELECTOR_BASE_PARENT_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_BASE_PARENT_CONTENT_ID).text());
+		$(SELECTOR_GRAND_PARENT_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_GRAND_PARENT_CONTENT_ID).text());
+		$(SELECTOR_PARENT_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_PARENT_CONTENT_ID).text());
+		$(SELECTOR_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_CONTENT_ID).text());
+		$(SELECTOR_FAVORITE_COUNT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_FAVORITE_COUNT).text());
+		$(SELECTOR_READ_COUNT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_READ_COUNT).text());
+		$(SELECTOR_MAIN_TEXT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_MAIN_TEXT).text());
+		$(SELECTOR_USER_NAME).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_NAME).text());
+//		$().text(this.parentWindow.$(parentWindowDate).children().text());
 		
 		// TODO:【未実装】ログインユーザは所定の位置（'.user_id'）に埋め込んでいる想定だが、開かれたコメントの投稿ユーザは取得したJSONデータから取得する必要がある
 		// TODO:【未実装】JSONの結果はコメントなので1件しかないが、行ごとに結果が格納されてくる想定で記述
 		// ログインユーザとコメントの投稿者が同一人物か検証する
-		if($(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text() == this.json[1].user_id) {
+		if($(SELECTOR_USER_ID).text() == $(SELECTOR_LOGIN_ID).text()) {
 			// TODO:【メモ】画面表示時には画面のボタンが全て揃っている想定。そこからユーザ種別ごとにボタンイベント登録と、非表示設定を行う
 			// 本人用のボタンイベントを登録する
 			

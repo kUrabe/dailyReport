@@ -75,7 +75,7 @@ public class PageReturnController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "createWindow/{htmlPath}", method = RequestMethod.GET)
-	public String requestAnotherWindow(Model model, @PathVariable("htmlPath") String htmlPath, @RequestParam("contentId") String contentId, Principal principal) {
+	public String requestAnotherWindow(Model model, @PathVariable("htmlPath") String htmlPath, Principal principal) {
 		
 		// topページへの日付返却用にCalendarインスタンスを生成する
 		Calendar cal = Calendar.getInstance();
@@ -84,8 +84,6 @@ public class PageReturnController {
 		
 		// ユーザ情報をViewに渡す
 		model.addAttribute("user", commonService.getUserName(principal.getName()));
-		// 親から受け取ったコンテンツIDをViewに渡す
-		model.addAttribute("contentId", contentId);
 		// 新規コメントや日報のために当日日付をViewに渡す
 		model.addAttribute("today", simple.format(cal.getTime()));
 		

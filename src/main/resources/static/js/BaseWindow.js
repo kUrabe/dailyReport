@@ -450,17 +450,15 @@ function BaseWindow() {
 		}
 		
 		// pathにコンテンツIDを付与する
-		path += STR_GET_PARA_CONTENT_ID + contentId;
+		//path += STR_GET_PARA_CONTENT_ID + contentId;
 		
 		// 別ウインドウを開く
 		this.anotherWindow = window.open(path, name, "location=no,alwaysRaised=yes,dependent=yes");
 		
 		// 子ウインドウが開くのを待ち、親のオブジェクトを渡す
 		setTimeout(function() {
-			// 子のウインドウに自分のオブジェクトを渡す
-			this.anotherWindow.parentWindow = window;
+			// 子のウインドウにデータの取得元のセレクタを渡す
 			this.anotherWindow.parentWindowDate = valueTarget;
-			this.anotherWindow.$(SELECTOR_BASE_PARENT_CONTENT_ID).text("aaaaaaa");
 		}, 300);
 		
 		

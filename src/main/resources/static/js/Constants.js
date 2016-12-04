@@ -165,6 +165,7 @@ SELECTOR_DIV_LAST = 'div:last';						// divの最後の要素を指定
 SELECTOR_USER_ID = '.user_id';
 SELECTOR_USER_NAME = '.user_name';
 SELECTOR_LOGIN_NAME = '.login_name';
+SELECTOR_LOGIN_ID = '.login_id';
 
 // top画面のボタンセレクタ
 SELECTOR_B_SERACH = '.b_serach';				// 検索ボタン
