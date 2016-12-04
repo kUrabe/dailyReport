@@ -57,6 +57,7 @@ KEY_ENTRY_STATUS = 'entry_status';				// コンテンツの登録状態（下書
 KEY_MAIN_TEXT = 'main_text';					// 各コンテンツの本文
 KEY_ENTRY_FORMAT = 'entry_format';				// 登録書式（日報、コメント、テンプレート）を管理するキー
 KEY_READ_STATUS = 'read_status';				// 既読未読状態項目のキー
+KEY_DETAIL_ID = 'detail_id';				// コンテンツ詳細の番号
 
 KEY_DB_USER_ID = 'userId';
 KEY_DB_ENTRY_STATUS = 'entryStatus';
@@ -347,6 +348,8 @@ STR_READ_NOTE = '下書';								// 下書状態の日報に対して返す
 
 // トップ画面の日報概要の1行を囲むタグに付与するクラス名の一部
 STR_LINE = 'line';
+
+STR_NUMBER = 'number';
 
 // セレクタで隣接要素を表すセレクタ
 STR_PLUS = ' + ';

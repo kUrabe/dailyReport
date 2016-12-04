@@ -457,6 +457,10 @@ function BaseWindow() {
 			// メモ ここは既読ボタンをクリックする形にする
 			// thisElem.addContentBranch(content_id, FLAG_ADD_CATEGORY_NOREAD, FLAG_CATEGORY_STATUS_DEL, selector);
 		}
+		
+		// pathにコンテンツIDを付与する
+		path += STR_SLASH + contentId;
+		
 		// 別ウインドウを開く
 		this.anotherWindow = window.open(path, name, "location=no,alwaysRaised=yes,dependent=yes");
 		

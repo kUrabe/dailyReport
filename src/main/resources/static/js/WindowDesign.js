@@ -76,7 +76,7 @@ function WindowDesign() {
 				// 行開始のタグを挿入する(アコーディオンボタンクラス名付き)
 				$_blockSelector.append(TAG_LINE_START);
 				// 追加した行開始タグにクラス名を追加する
-				$_blockSelector.addClass(STR_LINE + key);
+				$_blockSelector.addClass(STR_LINE + this.json[key][KEY_DB_CONTENT_ID]);
 				
 				// 1行概要を追加していく箇所のセレクタを取得する
 				var $_lineSelector = $(selector + MARK_SPACE + SELECTOR_PARENT_AREA_LAST + MARK_SPACE + SELECTOR_CONTENT_INDEX);
@@ -255,7 +255,7 @@ function WindowDesign() {
 				var $_blockSelector = $(selector).children(SELECTOR_PARENT_AREA_LAST);
 				
 				// 追加した行開始タグにクラス名を追加する
-				$_blockSelector.addClass(STR_LINE + key);
+				$_blockSelector.addClass(STR_NUMBER + this.json[key][KEY_DETAIL_ID]);
 				// 行内の各項目のタグを追加する
 				$_blockSelector.append(TAG_REPORT_DETAIL_LINE);
 				
