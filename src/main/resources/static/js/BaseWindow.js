@@ -55,8 +55,8 @@ function BaseWindow() {
 				
 				// サーバからコメントに関するデータを取得する
 				thisElem.getJsonData(PATH_TOP_PAGE_DETAIAL_COMMENT, jsonArray, STR_READ);
-				// 取得したコメントデータを展開する
-				thisElem.createCommentDetail($($(this).parent()).children(SELECTOR_ACCORDION_AREA).children(SELECTOR_COMMENT_AREA), 0);
+				// 取得したコメントデータを展開する（parentIdとして日報のコンテンツIDを渡す）
+				thisElem.createCommentDetail($($(this).parent()).children(SELECTOR_ACCORDION_AREA).children(SELECTOR_COMMENT_AREA), jsonArray[KEY_CONTENT_ID]);
 
 			}
 			
@@ -437,7 +437,7 @@ function BaseWindow() {
 		// TODO:【未実装】以下の条件判定を別関数へ定義検討
 		// 取得したボタンの種類によってリクエストのpathを判定する
 		// 日報作成画面ならば
-		if(button_type === KEY_B_NEW_REPORT) {
+		if(button_type === KEY_B_NEW_REPORT || button_type === KEY_B_EDIT) {
 			// 日報作成画面のpathをセットする
 			path = PATH_REPORT_CREATE;
 			// 画面名をセットする
@@ -458,10 +458,14 @@ function BaseWindow() {
 			// thisElem.addContentBranch(content_id, FLAG_ADD_CATEGORY_NOREAD, FLAG_CATEGORY_STATUS_DEL, selector);
 		}
 		// 別ウインドウを開く
-		this.anotherWindow = window.open(path, name);
+		this.anotherWindow = window.open(path, name, "location=no,alwaysRaised=yes,dependent=yes");
+		
+		setTimeout(function() {
+			alert(this.anotherWindow.KEY_ADD_CATEGORY);
+			this.anotherWindow.parentWindow = this.window;
+		}, 500);
 		// 取得したログインユーザを開いたウインドウにセットする
-		alert(this.anotherWindow.KEY_ADD_CATEGORY);
-		this.anotherWindow.$(".base_parent_content_id").text(user);
+		//this.anotherWindow.$(".base_parent_content_id").text(user);
 		/*
 		// TODO:【未実装】HTMLをサーバから取得せず、openAnotherWindow関数から直接URLを指定する形にする方が、URLも取得できて、後続の処理が繋がると考えられる。
 		// HTML文字列を取得する

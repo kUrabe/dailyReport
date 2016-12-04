@@ -306,6 +306,8 @@ public class Constants {
 				+ " ri.base_parent_content_id = ?2"
 				+ " AND"
 				+ " ri.entry_status = 2"
+				+ " ORDER BY"
+				+ " ri.content_id, ri.base_parent_content_id, ri.parent_content_id, ri.grand_parent_content_id"
 			;
 	
 }

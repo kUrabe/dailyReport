@@ -312,7 +312,7 @@ function WindowDesign() {
 	 * 作成日：	2016/12/04
 	 * 作成者：	k.urabe
 	 */
-	this.createCommentDetail = function(selector, parent_content_id, indent = 0) {
+	this.createCommentDetail = function(selector, parent_content_id, indent = 0, keyPosition = 0) {
 		
 		var jsonLen;		// jsonの長さを保持するための変数
 		var user;			// ログイン中のユーザIDを保管
@@ -331,66 +331,70 @@ function WindowDesign() {
 				$(selector).append(TAG_COMMENT_INDEX_LINE);
 			}
 			
-			// TODO:【未実装】子要素の呼び出しについて、今のままでは適切でない。
 			// JSONの行要素を走査する
 			for(var key in this.json) {
 				
-				// indent数分、ループしてテーブルのインデントをずらす
-				for(var i = 0; i < indent; i++) {
-					// indent用のタグを挿入する
-					$(selector).append(TAG_INDENT);
-				}
+				// この階層に入ったキーの位置以降のみ走査の対象とする、かつ展開済みデータは除外する
+				if(keyPosition <= key && !(this.json[key][KEY_OPEN] == KEY_OPEN_FLAG)) {
 				
-				// ブロックエリアのタグを追加する
-				$(selector).append(TAG_BLOCK_AREA);
-				// 行(ブロック)内のセレクタを取得する
-				var $_blockSelector = $(selector).children(SELECTOR_PARENT_AREA_LAST);
-				// 追加した行開始タグにクラス名を追加する
-				$_blockSelector.addClass(STR_LINE + key);
-				// 行内の各項目のタグを追加する
-				$_blockSelector.append(TAG_COMMENT_LINE);
-				
-				// TODO:【未実装】レポートの概要を展開する際は、複数のコンテンツIDがJSONに含まれる。
-				// TODO:【未実装】それにも関わらず、受け取らなければならないので、ロジックが矛盾する
-				// TODO:【未実装】暫定として0を引数として受け取り、0の際は子を検証しない動きとする
-				// 対象レコードが子要素であるか検証する
-				//if(parent_content_id < this.json[key].parent_content_id && parent_content_id !== 0) {
-					// 子要素を出力するため再帰呼び出しを行う。
-					//this.createContentIndex(selector, this.json[key].parent_content_id, indent + 1)
-				//}
-				
-				// JSONの列要素を走査する
-				for(var keyIn in this.json[key]) {
-					// 値を挿入するセレクタを取得する
-					var $_valueSetPosition = $_blockSelector.children(SELECTOR_DIV_NAME_START + keyIn + SELECTOR_DIV_NAME_END);
-					// 挿入された項目タグの名前と一致させながら値をセットする
-					$_valueSetPosition.text(this.json[key][keyIn]);
-// 共通処理候補				
-					// 既読状態を表す項目の値がセットされたら、適切な文字列に置き換えるために状態判定を行う
-					if(keyIn == KEY_READ_STATUS) {
-						// 本人投稿 かつ 下書であるか検証
-						if(user == this.json[key][KEY_DB_USER_ID] && this.json[key][KEY_DB_ENTRY_STATUS] & FLAG_ENTRY_STATUS_NOTE) {
-							// 本人かつ下書なのでステータスの文字列を下書にする
-							$_valueSetPosition.text(STR_READ_NOTE);
-						// 下書以外の本人投稿であるか
-						} else if(user == this.json[key][KEY_DB_USER_ID]) {
-							// 本人投稿なのでステータスを文字列を本人にする
-							$_valueSetPosition.text(STR_READ_MYSELF);
-						// 既読であるか検証する（本人以外）
-						} else if(this.json[key][KEY_READ_STATUS] & FLAG_CATEGORY_STATUS_REG) {
-							// 本人以外の既読なのでステータスの文字列を既読にする
-							$_valueSetPosition.text(STR_READ_ON);
-						} else {
-							// 本人以外の未読なのでステータスの文字列を未読にする
-							$_valueSetPosition.text(STR_READ_OFF);
+					// JSON内の親コンテンツIDと、引数で受け親コンテンツIDが一致してるか検証する（この階層に展開するデータか検証する）
+					if(this.json[key][KEY_DB_PARENT_CONTENT_ID] == parent_content_id) {
+							
+						// ブロックエリアのタグを追加する
+						$(selector).append(TAG_BLOCK_AREA);
+						// 行(ブロック)内のセレクタを取得する
+						var $_blockSelector = $(selector).children(SELECTOR_PARENT_AREA_LAST);
+						// 追加した行開始タグにクラス名を追加する
+						$_blockSelector.addClass(STR_LINE + this.json[key][KEY_DB_CONTENT_ID]);
+						// indent数分、ループしてテーブルのインデントをずらす
+						$_blockSelector.css("left", indent * 20 + "px");
+
+						// 行内の各項目のタグを追加する
+						$_blockSelector.append(TAG_COMMENT_LINE);
+					
+						// JSONの列要素を走査する
+						for(var keyIn in this.json[key]) {
+						
+							// 値を挿入するセレクタを取得する
+							var $_valueSetPosition = $_blockSelector.children(SELECTOR_DIV_NAME_START + keyIn + SELECTOR_DIV_NAME_END);
+							// 挿入された項目タグの名前と一致させながら値をセットする
+							$_valueSetPosition.text(this.json[key][keyIn]);
+	// 共通処理候補				
+							// 既読状態を表す項目の値がセットされたら、適切な文字列に置き換えるために状態判定を行う
+							if(keyIn == KEY_READ_STATUS) {
+								// 本人投稿 かつ 下書であるか検証
+								if(user == this.json[key][KEY_DB_USER_ID] && this.json[key][KEY_DB_ENTRY_STATUS] & FLAG_ENTRY_STATUS_NOTE) {
+									// 本人かつ下書なのでステータスの文字列を下書にする
+									$_valueSetPosition.text(STR_READ_NOTE);
+									// 下書以外の本人投稿であるか
+								} else if(user == this.json[key][KEY_DB_USER_ID]) {
+									// 本人投稿なのでステータスを文字列を本人にする
+									$_valueSetPosition.text(STR_READ_MYSELF);
+									// 既読であるか検証する（本人以外）
+								} else if(this.json[key][KEY_READ_STATUS] & FLAG_CATEGORY_STATUS_REG) {
+									// 本人以外の既読なのでステータスの文字列を既読にする
+									$_valueSetPosition.text(STR_READ_ON);
+								} else {
+									// 本人以外の未読なのでステータスの文字列を未読にする
+									$_valueSetPosition.text(STR_READ_OFF);
+								}
+							}
+	// ここまで
+
 						}
+						
+						// 展開したデータにフラグを追加する
+						this.json[key][KEY_OPEN] = KEY_OPEN_FLAG;
+						// 行に対して、クリック時にコメント詳細画面を開くイベントを登録する
+						this.setClickEvent($_blockSelector.children(SELECTOR_MAIN_TEXT), this.prepareAnotherWindow, null, $_blockSelector);
+					// JSON内の祖先コンテンツIDと、引数で受け親コンテンツIDが一致してる、かつJSONの親コンテンツと、検証中のコンテンツIDが一致するか検証する（次の階層のデータか検証する）
+					} else if(this.json[key][KEY_DB_GRAND_PARENT_CONTENT_ID] == parent_content_id) {
+						// 再帰的に自身を呼び出す(階層が1層深まるのでインデントを+1する)
+						thisElem.createCommentDetail($(selector).children(STR_DOT + STR_LINE + this.json[key][KEY_DB_PARENT_CONTENT_ID]), this.json[key][KEY_DB_PARENT_CONTENT_ID], indent += 1, key);
 					}
-// ここまで
-
+				
 				}
-
-				// 行に対して、クリック時にコメント詳細画面を開くイベントを登録する
-				this.setClickEvent($_blockSelector.children(SELECTOR_MAIN_TEXT), this.prepareAnotherWindow, null, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
+				
 			}
 
 		// データが取得できていない旨を所定の位置に表示する
@@ -398,32 +402,7 @@ function WindowDesign() {
 			// 検索結果が0件の旨のメッセージを表示する
 			$(selector).children(SELECTOR_SERACH_MESSAGE).text(MESSAGE_SEARCH_NOT_COMMENT);
 		}
-		
-		
-		
-		
-		/*
-		// HTMLの対象エリア内を走査する
-		// TODO:【セレクタ】コメント概要を囲んでいるエリアがセレクタで渡される想定(blockArea?)
-		// TODO:【セレクタ】その配下の
-		$(selector).each(function(index) {
-			// JSON内の走査時にHTMLのセレクタを指定出来るよう変数へ待避する
-			thisElem = this;
-			
-			// JSON内を走査して、当該コメント概要に紐付く内容を探す
-			$.each(this.json, function(key, value) {
-				// 各行のコンテンツIDとJSON内のコンテンツIDが一致するか検証(一致ならば出力対象)
-				if($(thisElem + MARK_SPACE + SELECTOR_CONTENT_ID).text() == this.json[key][KEY_CONTENT_ID]) {
-					// 行の開始としてtrを挿入する
-					$(thisElem).append(TAG_TR_COMMENT_START);
-					// 項目の要素を出力する
-					$(thisElem).append(TAG_TD_START + this.json[key][KEY_MAIN_TEXT] + TAG_TD_END).addClass(key);
-					// 行終了のタグを挿入する
-					$(thisElem).append(TAG_TR_END);
-				}
-			});
-		});
-		*/
+
 	}
 	
 	/**

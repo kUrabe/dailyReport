@@ -60,6 +60,10 @@ KEY_READ_STATUS = 'read_status';				// 既読未読状態項目のキー
 
 KEY_DB_USER_ID = 'userId';
 KEY_DB_ENTRY_STATUS = 'entryStatus';
+KEY_DB_CONTENT_ID = 'contentId';
+KEY_DB_BASE_PARENT_CONTENT_ID = 'baseParentContentId';
+KEY_DB_GRAND_PARENT_CONTENT_ID = 'grandParentContentId';
+KEY_DB_PARENT_CONTENT_ID = 'parentContentId';
 
 KEY_BASE_PARENT_CONTENT_ID = 'base_parent_content_id';
 KEY_GRAND_PARENT_CONTENT_ID = 'grand_parent_content_id';
@@ -111,6 +115,9 @@ KEY_F_ON = '.f-on';								// いいねボタンを押下している状態の�
 KEY_R_ON = '.r-on';								// 未読にするボタンを押下している状態（未読状態）のボタンに付与
 KEY_INDEX_LINE = 'indexLine';					// アコーディオン開閉時に押下されたのが、行なのかボタンなのか判定するためのクラス名
 KEY_B_EDIT='b_edit';							// 編集ボタン機能を持たすタグに付与するValue
+
+KEY_OPEN = 'open';					// 展開済みデータに与えるキー
+KEY_OPEN_FLAG = '1';				// 展開済みデータに与えるflag値
 
 /*
  * セレクタ名
@@ -201,6 +208,7 @@ SELECTOR_CONTENT_INDEX = '.content_index';		// トップ画面の1行概要を�
 SELECTOR_DIV_NAME_START = 'div[name=';			// divダグのname属性をしていする際に使用するセレクタ
 SELECTOR_DIV_NAME_END = ']';					// divダグのname属性をしていする際に使用するセレクタ
 SELECTOR_LINE = '.line';							// blockAreaに付与される行番号セレクタ
+SELECTOR_COMMENT_LINE = '.comment_line';		// コメント1行分の領域セレクタ
 
 SELECTOR_F_ON = '.f-on';								// いいねボタンを押下している状態のボタンに付与
 SELECTOR_R_ON = '.r-on';								// 未読にするボタンを押下している状態（未読状態）のボタンに付与
@@ -253,7 +261,7 @@ TAG_COMMENT_INDEX_LINE = '<div class="index_line"><div>投稿日</div><div>投�
 // トップ画面日報概要の見出し
 TAG_REPORT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div><div class="favorite_status" name="favorite_status"></div>';
 // トップ画面コメント1行分の見出し
-TAG_COMMENT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div><div class="favorite_status" name="favorite_status"></div><br /><div class="main_text" name="main_text"></div>';
+TAG_COMMENT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div><div class="favorite_status" name="favorite_status"></div><div class="main_text" name="main_text"></div>';
 
 
 // トップ画面日報詳細の1レコード文
@@ -263,6 +271,9 @@ TAG_REPORT_DETAIL_LINE = '<div class="content_id" name="content_id"></div><div c
 TAG_BLOCK_AREA = '<div class="blockArea"></div>';
 // 日報概要の1行を表すタグ
 TAG_LINE_START = '<div class="content_index b_accordion indexLine"></div>';
+// コメント1行分を表すタグ
+TAG_LINE_START_COMMENT = '<div class="comment_line"></div>';
+
 // 日報概要の行内の1項目を表すタグ
 TAG_IN_LINE_ITEM = '<span class=""></span>';
 // アコーディオンエリアのフォーマットタグを追加する（共通のボタンも）
@@ -283,7 +294,7 @@ TAG_ACCORDION_BUTTON = '<button type="button" class="b_accordion">閉じる</but
 TAG__BUTTON = '<button type="button" class="" name=""></button>';	// ボタン
 
 
-TAG_INDENT = '<span width="10"></span>';
+TAG_INDENT = '<span width="200"></span>';
 TAG_TR_START = '<tr>';
 TAG_TR_REPORT_INDEX_START = '<tr class="indexTR b_accordion">';
 TAG_TR_REPORT_DETAIL_START = '<tr class="detailTR">';
@@ -341,6 +352,7 @@ STR_LINE = 'line';
 STR_PLUS = ' + ';
 
 STR_SLASH = '/';
+STR_DOT = '.';
 
 // 画面名
 STR_COMMENT_VIEW = 'コメント詳細表示画面';
