@@ -361,6 +361,7 @@ STR_PLUS = ' + ';
 
 STR_SLASH = '/';
 STR_DOT = '.';
+STR_TIME_SEPARATOR = '-';
 STR_GET_PARA_CONTENT_ID = '?contentId=';
 STR_GET_PARA_P_CONTENT_ID = '&parentContentId=';
 

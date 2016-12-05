@@ -59,7 +59,7 @@ public class UserInf implements Serializable {
 	
 	// レコード情報（外部キーで紐づく）
 	@OneToMany
-	@JoinColumn(name="user_id", insertable=false, updatable=false)
+	@JoinColumn(name="user_id", insertable=true, updatable=true)
 	private Set<RecordContentInf> recordContentInfSet;
 	
 	/**

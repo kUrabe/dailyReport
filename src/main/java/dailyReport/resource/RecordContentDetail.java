@@ -24,6 +24,25 @@ import javax.persistence.*;
 							@ColumnResult(name = "main_text")
 					}
 			)
+	),
+	@SqlResultSetMapping(
+			name="getReportByDayQuery", 
+			classes = @ConstructorResult(
+					targetClass = dailyReport.resource.GetReportByDayQuery.class, 
+					columns = {
+							@ColumnResult(name = "content_id"),
+							@ColumnResult(name = "detail_id"),
+							@ColumnResult(name = "fixed_item_id"),
+							@ColumnResult(name = "index_name"),
+							@ColumnResult(name = "main_text"),
+							@ColumnResult(name = "item_status"),
+							@ColumnResult(name = "output_order"),
+							@ColumnResult(name = "index_name"),
+							@ColumnResult(name = "button_function"),
+							@ColumnResult(name = "button_name"),
+							@ColumnResult(name = "get_index_name")
+					}
+			)
 	)
 })
 public class RecordContentDetail implements Serializable {
@@ -39,7 +58,7 @@ public class RecordContentDetail implements Serializable {
 	
 	/** レコード情報. */
 	@ManyToOne
-	@JoinColumn(name="content_id", insertable=false, updatable=false)
+	@JoinColumn(name="content_id", insertable=true, updatable=true)
 	private RecordContentInf recordContentInf;
 
 	/** 詳細ID. */
@@ -48,7 +67,7 @@ public class RecordContentDetail implements Serializable {
 
 	/** 固定項目情報. */
 	@ManyToOne
-	@JoinColumn(name="fixed_item_id", insertable=false, updatable=false)
+	@JoinColumn(name="fixed_item_id", insertable=true, updatable=true)
 	private FixedItemInf fixedItemInf;
 
 	/** 項目名. */

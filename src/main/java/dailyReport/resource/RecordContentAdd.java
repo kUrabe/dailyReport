@@ -27,7 +27,7 @@ public class RecordContentAdd implements Serializable {
 	
 	/** レコード情報. */
 	@ManyToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name="content_id", insertable=true, updatable=false)
+	@JoinColumn(name="content_id", insertable=true, updatable=true)
 	private RecordContentInf recoredContentInf;
 
 	/** ユーザID. */

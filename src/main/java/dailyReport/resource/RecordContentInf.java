@@ -75,7 +75,7 @@ public class RecordContentInf implements Serializable {
 
 	/** ユーザ情報. */
 	@ManyToOne
-	@JoinColumn(name="user_id", insertable=false, updatable=false)
+	@JoinColumn(name="user_id", insertable=true, updatable=true)
 	private UserInf userInf;
 
 	/** 登録書式. */

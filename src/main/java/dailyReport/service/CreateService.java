@@ -1,7 +1,9 @@
 package dailyReport.service;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -69,6 +71,9 @@ public class CreateService {
 
 		boolean returnBoolean = true;			// 返却用の真偽値。失敗したらfalse返す
 		
+		// JSONから取得した日付をentityクラスのdate型プロパティへ格納するための日付変換インスタンスを生成する
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
 		/**
 		 * TODO:【未実装】値をセットする部分と、クエリ実行部分に対するメモ
 		 * entityクラスを使用しない場合、受け取ったJSONの値から
@@ -91,13 +96,13 @@ public class CreateService {
 			// （親）登録状態をセットする
 			parent_content.setEntryStatus((int)map.get(Constants.KEY_ENTRY_STATUS));
 			// （親）基底親コンテンツIDをセットする
-			parent_content.setBaseParentContentId((int)map.get(Constants.KEY_BASE_PARENT_CONTENT_ID));
+			parent_content.setBaseParentContentId(new Integer((String)map.get(Constants.KEY_BASE_PARENT_CONTENT_ID)));
 			// （親）祖先コンテンツIDをセットする
-			parent_content.setGrandParentContentId((int)map.get(Constants.KEY_GRAND_PARENT_CONTENT_ID));
+			parent_content.setGrandParentContentId(new Integer((String)map.get(Constants.KEY_GRAND_PARENT_CONTENT_ID)));
 			// （親）親コンテンツIDをセットする
-			parent_content.setParentContentId((int)map.get(Constants.KEY_PARENT_CONTENT_ID));
+			parent_content.setParentContentId(new Integer((String)map.get(Constants.KEY_PARENT_CONTENT_ID)));
 			// （親）報告日をセットする
-			parent_content.setReportDate(DateFormat.getDateInstance().parse((String)map.get(Constants.KEY_REPORT_DATE)));
+			parent_content.setReportDate(sdf.parse((String)map.get(Constants.KEY_DATE)));
 			// （親）作成日をセットする
 			parent_content.setCreateDate(new Date());
 			// （親）更新日をセットする
@@ -117,15 +122,15 @@ public class CreateService {
 				// 値がobjectか判定する
 				if(obj.getValue() instanceof Map<?, ?>) {
 					// objをmapに変換する
-					Map<String, Object> childmap = (Map<String, Object>)obj;
+					Map<String, String> childmap = (HashMap<String, String>) obj;
 					// 子要素の中を走査する
-					for(Entry<String, Object> childObj : childmap.entrySet()) {
+					for(Map.Entry<String, String> childObj : childmap.entrySet()) {
 						// コンテンツIDとして親のテーブルを取得してセットする
 						content.setRecordContentInf(parent_content);
 						// 詳細IDをセットする
-						content.setDetailId((int)childmap.get(Constants.KEY_DETAIL_ID));
+						content.setDetailId(new Integer(childmap.get(Constants.KEY_DETAIL_ID)));
 						// 固定項目IDをセットする
-						content.setFixedItemInf(entityManager.find(FixedItemInf.class, (int)childmap.get(Constants.KEY_FIXED_ITEM_ID)));
+						content.setFixedItemInf(entityManager.find(FixedItemInf.class, childmap.get(Constants.KEY_FIXED_ITEM_ID)));
 						// 項目名をセットする
 						content.setIndexName((String)childmap.get(Constants.KEY_INDEX_NAME));
 						// 内容をセットする
@@ -142,6 +147,7 @@ public class CreateService {
 		} catch (Exception e) {
 			// 処理に失敗した旨を返す
 			returnBoolean = false;
+			e.getMessage();
 		}
 		// 成否を呼び出し元に返す
 		return returnBoolean;

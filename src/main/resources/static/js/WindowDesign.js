@@ -116,9 +116,9 @@ function WindowDesign() {
 				// 展開行に対するアコーディオン展開部分を作成する
 				$_blockSelector.append(TAG_REPORT_ACCORDION);
 				// アコーディオンイベントを行単位(内部に設置しているボタンも含めて)で設定する
-				this.managementAccordion(SELECTOR_LINE + key + MARK_SPACE + SELECTOR_B_ACCORDION, SELECTOR_LINE + key + MARK_SPACE + SELECTOR_ACCORDION_AREA);
+				this.managementAccordion(SELECTOR_LINE + this.json[key][KEY_DB_CONTENT_ID] + MARK_SPACE + SELECTOR_B_ACCORDION, SELECTOR_LINE + this.json[key][KEY_DB_CONTENT_ID] + MARK_SPACE + SELECTOR_ACCORDION_AREA);
 				// コメントするボタンにイベントを登録する		
-				this.setClickEvent(SELECTOR_LINE + key + MARK_SPACE + SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow, null, $_blockSelector.children(SELECTOR_CONTENT_INDEX));
+				this.setClickEvent(SELECTOR_LINE + this.json[key][KEY_DB_CONTENT_ID] + MARK_SPACE + SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow, null, SELECTOR_LINE + this.json[key][KEY_DB_CONTENT_ID] + MARK_SPACE + SELECTOR_CONTENT_INDEX);
 				
 			}
 
@@ -273,7 +273,13 @@ function WindowDesign() {
 				// 編集ボタンを追加する
 				$(selector).append(TAG_EDIT_BUTTON);
 				// 編集ボタンへイベントを登録する
-				this.setClickEvent($(selector).children(SELECTOR_B_EDIT), this.prepareAnotherWindow, null, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
+				this.setClickEvent($(selector).children(SELECTOR_B_EDIT), this.prepareAnotherWindow, null, $_contentIndex);
+
+				
+//				this.setClickEvent(SELECTOR_LINE + this.json[key][KEY_DB_CONTENT_ID] + MARK_SPACE + SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow, null, SELECTOR_LINE + this.json[key][KEY_DB_CONTENT_ID] + MARK_SPACE + SELECTOR_CONTENT_INDEX);
+				
+				
+				
 				// 削除ボタンを追加する
 				$(selector).append(TAG_DELETE_BUTTON);
 				// 削除ボタンへイベントを登録する
@@ -285,14 +291,17 @@ function WindowDesign() {
 				// いいねボタンのイベントを登録する
 				this.setClickEvent($(selector).children(SELECTOR_B_FAVORITE), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
 				// ユーザいいねをした状態であればクラス名にフラグ名を追加する
-				$_contentIndex.children(SELECTOR_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_FAVORITE).addClass(KEY_F_ON) : "";
+				//$_contentIndex.children(SELECTOR_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_FAVORITE).addClass(KEY_F_ON) : "";
+				this.changeButtonStatus($_blockSelector.children(SELECTOR_FAVARITE_STATUS), $_blockSelector.children(SELECTOR_FAVARITE_STATUS).val(), $_contentIndex.children(SELECTOR_FAVARITE_STATUS).text());
 				// 未読にするボタンを追加する
 				$(selector).append(TAG_NO_READ_BUTTON);
 				// 未読にするボタンのイベントを登録する
 				//this.setClickEvent($(selector).children(SELECTOR_B_NO_READ), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), MESSAGE_REPORT_NOREAD);
 				this.setClickEvent($(selector).children(SELECTOR_B_NO_READ), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
 				// 未読にするが押された状態（未読状態）であればボタンを無効化する
-				$_contentIndex.children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_NO_READ).prop("disabled", true) : $(SELECTOR_B_NO_READ).prop("disabled", false);
+				//$_contentIndex.children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_NO_READ).prop("disabled", true) : $(SELECTOR_B_NO_READ).prop("disabled", false);
+				this.changeButtonStatus($_blockSelector.children(SELECTOR_B_NO_READ), $_blockSelector.children(SELECTOR_B_NO_READ).val(), $_contentIndex.children(SELECTOR_READ_STATUS).text());
+				
 			}
 			
 			// 各ボタンのイベント登録(アコーディオンの内部には、タグで追加した際にコメントするボタンと、閉じるボタンが入っている)

@@ -16,23 +16,23 @@ div {
 .topMenu {
 	float:		top;
 	width:		528px;
-	height:		36px;
-	display:	inline-block;
-}
-
-/* 画面左部メニュー領域（検索領域） */
-.leftMenu {
-	float:		left;
-	width:		144px;
-	height:		370px;
+	height:		50px;
 	display:	inline-block;
 }
 
 /* 画面メインコンテンツ領域 */
-.mainMenu {
-	float:		left;
+.main {
+	float:		top;
 	width:		528px;
-	height:		560px;
+	height:		82px;
+	display:	inline-block;
+}
+
+/* 画面下部メニュー領域（検索領域） */
+.downMenu {
+	float:		top;
+	width:		528px;
+	height:		50px;
 	display:	inline-block;
 }
 
@@ -59,4 +59,10 @@ div {
 /* 未読にするボタンの登録状況 未読状態で押せない */
 .b_no_read.r-on {
 	disabled:	disabled
+}
+/* */
+.main_text {
+	overflow-y:	auto;
+	height:		84px;
+	width:		352px;
 }

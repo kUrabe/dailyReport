@@ -24,24 +24,33 @@
 </head>
 
 <body>
+<div class="blockArea">
 
 <div class="topMenu">
 	<div class="title">コメント作成</div>
 	<div class="sendTo">YYYY/MM/DD ○○さんの△△へコメント</div>
+	<div class="user_id" name="user_id" style="display:none"></div>
+	<div class="user_name" name="user_name" style="display:none"></div>
+	<div class="report_date" name="report_date" style="display:none"></div>
 </div>
 
 <div class="main">
-
+	<div class="number" name="number" style="display:none">1</div>
+	<textarea class="index_area" name="index_area" style="display:none">コメント</textarea>
+	<textarea class="main_text" name="main_text"></textarea>
 </div>
 
 <div class="downMenu">
 	<div class="login_id" style="display:none" th:text="${user.userId}"></div>
-	<div class="base_parent_content_id" style="display:none"></div>
-	<div class="parent_content_id" style="display:none"></div>
-	<div class="content_id" style="display:none"></div>
+	<div class="base_parent_content_id" style="display:none" name="base_parent_content_id"></div>
+	<div class="grand_parent_content_id" style="display:none" name="grand_parent_content_id"></div>
+	<div class="parent_content_id" style="display:none" name="parent_content_id"></div>
+	<div class="content_id" style="display:none" name="content_id"></div>
 	
 	<button class="b_new_comment" value="b_new_comment" name="b_new_comment">コメント</button>
 	<button class="b_cancel" value="b_cancel" name="b_cancel">キャンセル</button>
+</div>
+
 </div>
 
 <script type="text/javascript">

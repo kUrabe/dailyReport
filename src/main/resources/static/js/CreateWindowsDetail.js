@@ -115,7 +115,7 @@ function CreateWindowsDetail() {
 		// 画面内のテキストエリアを走査する
 		$(KEY_TEXT_AREA).each(function(index) {
 			// 空白であるか検証する
-			if($(this).text() == "") {
+			if($(this).val() == "") {
 				// 空白があったため、返却用の変数にfalseをセットする
 				returnBoolean = false;
 				// ループを抜ける
@@ -237,7 +237,7 @@ function CreateWindowsDetail() {
 		// 見出し項目が並ぶエリアの最後に見出し項目一式のタグをセットする
 		$(SELECTOR_MAIN).append(TAG_REPORT_CREATE_WINDOW_INDEX);
 		// 追加したボタンに対してボタンイベントを登録する
-		setClickEvent($(SELECTOR_PARENT_AREA_LAST).children(SELECTOR_B_DEL_INDEX), this.deleteIndex);
+		this.setClickEvent($(SELECTOR_PARENT_AREA_LAST).children(SELECTOR_B_DEL_INDEX), this.deleteIndex);
 	}
 	
 	/**
@@ -250,40 +250,50 @@ function CreateWindowsDetail() {
 	 */
 	this.getDayContent = function() {
 		
+		// イベント内でthisオブジェクトを使用できるよう待避
+		thisElem = this;
+		
 		// 日付選択エリアをチェンジイベントでバインドする
 		$(SELECTOR_REPORT_DATE).on(CHANGE, function() {
 			
 			var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 			var user;					// ユーザ識別の値を格納するための変数
 			var date;					// 当該日の日付を格納するための変数（前日までの検索はサーバ側で行う。ここでは当該日をとる）
-			var content_id;				// 当該日報のコンテンツIDを格納するための変数
+			var jsonLen;				// jsonの長さを取得する
+			//var content_id;				// 当該日報のコンテンツIDを格納するための変数
 			
 			// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
 			// ユーザ識別の値を取得する
 			user = $(SELECTOR_USER_ID).text();
 			// 当該日の日付を取得する
-			date = $(SELECTOR_REPORT_DATE).text();
+			date = $(SELECTOR_REPORT_DATE).val();
 			// TODO:【セレクタ】コンテンツIDはページ内に埋め込まれていなければサーバへのリクエストに含まない方がよい？
 			// 当該コンテンツIDを取得する
-			content_id = $(SELECTOR_CONTENT_ID).text();
+			//content_id = $(SELECTOR_CONTENT_ID).text();
 			
 			// リクエスト用JSON連想配列に追加する
 			// ユーザIDをセット
 			jsonArray[KEY_USER_ID] = user;
 			// 日付をセット
 			jsonArray[KEY_DATE] = date;
+			// 登録様式を日報でセット
+			jsonArray[KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_REPORT;
 			// コンテンツIDをセット
-			jsonArray[KEY_CONTENT_ID] = content_id;
-			
+			//jsonArray[KEY_CONTENT_ID] = content_id;
+
 			// JSON連想配列を用いてDBの値を取得する
-			this.getJsonData(PATH_CREATE_BY_DAY, jsonArray, STR_READ);
+			thisElem.getJsonData(PATH_CREATE_BY_DAY, jsonArray, STR_READ);
 
 			// 見出しエリアをすべて削除する
 			$(SELECTOR_PARENT_AREA).remove();
-			// 紐付くデータが取得出来ているか検証する(messageが返ってきていないか)
-			if(!this.json.hasOwnProperty(STR_MESSAGE)) {
+			
+			// jsonの長さを取得する
+			jsonLen = thisElem.json.length;
+			
+			// jsonが取得出来ているか検証する
+			if(this.json !== null && this.json !== undefined && jsonLen !== 0) {
 				// 取得したJSONを展開する
-				this.createReportDetail(SELECTOR_MAIN);
+				thisElem.createReportDetail(SELECTOR_MAIN);
 				// 画面内の所定の位置に取得したコンテンツIDを埋める
 				$(SELECTOR_CONTENT_ID).text(this.json[KEY_CONTENT_ID]);
 			// 取得できなかった場合、テンプレートの取得を試みる
@@ -295,12 +305,15 @@ function CreateWindowsDetail() {
 				jsonArray[KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
 				
 				// JSON連想配列を用いてDBの値を取得する
-				this.getJsonData(PATH_CREATE_BY_DAY, jsonArray, STR_READ);
+				thisElem.getJsonData(PATH_CREATE_BY_DAY, jsonArray, STR_READ);
+				
+				// jsonの長さを取得する
+				jsonLen = thisElem.json.length;
 				
 				// 紐付くデータが取得出来ているか検証する(messageが返ってきていないか)
-				if(!this.json.hasOwnProperty(STR_MESSAGE)) {
+				if(this.json !== null && this.json !== undefined && jsonLen !== 0) {
 					// 取得したJSONを展開する
-					this.createReportDetail(SELECTOR_MAIN);
+					thisElem.createReportDetail(SELECTOR_MAIN);
 				} 
 				// 画面内の所定の位置（コンテンツID）に空白文字を埋める
 				$(SELECTOR_CONTENT_ID).text("");	
@@ -312,17 +325,18 @@ function CreateWindowsDetail() {
 	/**
 	 * 関数名：	saveFormat
 	 * 概要：		フォーマットを登録する
-	 * 引数：		なし
+	 * 引数：		selector	押下されたボタンのセレクタ
+	 * 			thisElem	ボタンの中でthisオブジェクトを使うためのオブジェ
 	 * 戻り値：	なし
 	 * 作成日：	2016/11/23
 	 * 作成者：	k.urabe
 	 */
-	this.saveFormat = function() {
+	this.saveFormat = function(selector, thisElem) {
 		
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		
 		// 見出しが1つでもあるか検証する
-		if(this.isCheckFormatIndex()) {
+		if(thisElem.isCheckFormatIndex()) {
 			// 見出しエリアの個数分走査する
 			$(SELECTOR_PARENT_AREA).each(function(index) {
 				
@@ -359,27 +373,28 @@ function CreateWindowsDetail() {
 			alert(MESSAGE_FORMAT_ERROR);
 		}
 		// JSON連想配列を用いてDBに値を登録する
-		this.getJsonData(PATH_CREATE_SAVE_TEMPLATE, jsonArray, STR_CREATE);
+		thisElem.getJsonData(PATH_CREATE_SAVE_TEMPLATE, jsonArray, STR_CREATE);
 	}
 	
 	/**
 	 * 関数名：	saveReport
 	 * 概要：		日報を登録する
-	 * 引数：		なし
+	 * 引数：		selector	押下されたボタンのセレクタ
+	 * 			thisElem	ボタンの中でthisオブジェクトを使うためのオブジェ
 	 * 戻り値：	なし
 	 * 作成日：	2016/11/23
 	 * 作成者：	k.urabe
 	 */
-	this.saveReport = function() {
+	this.saveReport = function(selector, thisElem) {
 		
 		var jsonArray = {};								// リクエストに使用するjson連想配列を作成する
 		var draftBox = FLAG_ENTRY_STATUS_REG;			// 下書チェックの結果。登録状態をどうするかを格納する。初期値は登録済みとなる
 		
 		// 見出しが1つでもあるか、空白エリアはないか検証する
-		if(this.isCheckFormatIndex() && this.isCheckTextArea) {
+		if(thisElem.isCheckFormatIndex() && thisElem.isCheckTextArea) {
 			
 			// 下書チェックボックスにチャックが付いているか
-			if(this.isCheckDraftBox) {
+			if(thisElem.isCheckDraftBox) {
 				draftBox = FLAG_ENTRY_STATUS_NOTE;
 			}
 			
@@ -423,10 +438,10 @@ function CreateWindowsDetail() {
 		if(content_id != "") {
 			jsonArray[KEY_CONTENT_ID] = content_id;
 			// JSON連想配列を用いてDBに値を更新する
-			this.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_UPDATE);
+			thisElem.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_UPDATE);
 		} else {
 			// JSON連想配列を用いてDBに値を登録する
-			this.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_CREATE);
+			thisElem.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_CREATE);
 		}
 		
 	}
@@ -434,24 +449,25 @@ function CreateWindowsDetail() {
 	/**
 	 * 関数名：	saveComment
 	 * 概要：		コメントを登録する
-	 * 引数：		なし
+	 * 引数：		selector	押下されたボタンのセレクタ
+	 * 			thisElem	ボタンの中でthisオブジェクトを使うためのオブジェ
 	 * 戻り値：	なし
 	 * 作成日：	2016/11/23
 	 * 作成者：	k.urabe
 	 */
 	// TODO:【未実装】saveReportと統合予定
-	this.saveComment = function() {
+	this.saveComment = function(selector, thisElem) {
 		
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		
 		// 見出しが1つでもあるか、空白エリアはないか検証する
-		if(this.isCheckFormatIndex() && this.isCheckTextArea) {
+		if(thisElem.isCheckFormatIndex() && thisElem.isCheckTextArea()) {
 			
 			// ユーザIDをセット
-			jsonArray[index + 1][KEY_USER_ID] = $(SELECTOR_USER_ID).text();
-			// 登録書式を日報のフラグでセット
+			jsonArray[KEY_USER_ID] = $(SELECTOR_LOGIN_ID).text();
+			// 登録書式をコメントのフラグでセット
 			jsonArray[KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_COMMENT;
-			// 登録状態を登録済み OR 下書でセット
+			// 登録状態を登録済みでセット
 			jsonArray[KEY_ENTRY_STATUS] = FLAG_ENTRY_STATUS_REG;
 			// 当該日の日報日付を取得する
 			jsonArray[KEY_DATE] = $(SELECTOR_REPORT_DATE).text();
@@ -467,32 +483,36 @@ function CreateWindowsDetail() {
 				// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
 				// TODO:【セレクタ】fixed_item_idは、固定項目を使用している
 				// リクエスト用JSON連想配列に必要な値をセットする
+				// jsonArrayの所定インデックス内をオブジェクトで宣言
+				jsonArray[index + 1] = {};
 				// 見出し番号をセット
-				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
+				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_MAIN).children(SELECTOR_NUMBER).text();
 				// 見出し文字をセット
-				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_INDEX_AREA).text();
+				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_MAIN).children(SELECTOR_INDEX_AREA).val();
 				// 本文をセット
-				jsonArray[index + 1][KEY_MAIN_TEXT] = $(this).children(SELECTOR_MAIN_TEXT).text();
+				jsonArray[index + 1][KEY_MAIN_TEXT] = $(this).children(SELECTOR_MAIN).children(SELECTOR_MAIN_TEXT).val();
 				// 固定IDをセット
-				jsonArray[index + 1][KEY_FIXED_ITEM_ID] = $(this).children(SELECTOR_FIXED_ITEM_ID).text();
+				//jsonArray[index + 1][KEY_FIXED_ITEM_ID] = $(this).children().children(SELECTOR_FIXED_ITEM_ID).text();
 			});
+			
+			// 当該コンテンツIDを取得する
+			var content_id = $(SELECTOR_CONTENT_ID).text();
+			// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
+			if(content_id != "") {
+				// リクエスト用JSON連想配列にコンテンツIDをセットする
+				jsonArray[KEY_CONTENT_ID] = content_id;
+				// JSON連想配列を用いてDBに値を更新する
+				thisElem.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_UPDATE);
+			} else {
+				// JSON連想配列を用いてDBに値を登録する
+				thisElem.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_CREATE);
+			}
+			
 		} else {
 			// 登録できない旨を表示する
 			alert(MESSAGE_COMMENT_ERROR);
 		}
-		// 当該コンテンツIDを取得する
-		var content_id = $(SELECTOR_CONTENT_ID).text();
-		// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
-		if(content_id != "") {
-			// リクエスト用JSON連想配列にコンテンツIDをセットする
-			jsonArray[KEY_CONTENT_ID] = content_id;
-			// JSON連想配列を用いてDBに値を更新する
-			this.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_UPDATE);
-		} else {
-			// JSON連想配列を用いてDBに値を登録する
-			this.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_CREATE);
-		}
-		
+
 	}
 	
 	/**
@@ -508,13 +528,35 @@ function CreateWindowsDetail() {
 		var returnBoolean = false;		// 返却用の変数に初期値としてfalseを格納する
 		
 		// 画面内の見出し項目が1つ以上あるか検証
-		if(1 <= $(SELECTOR_INDEX_AREA).length()) {
+		if(1 <= $(SELECTOR_INDEX_AREA).length) {
 			// 見出し項目が存在するため、trueをセット
 			returnBoolean = true;
 		}
 		
 		// 判定結果を返す
 		return returnBoolean;
+		
+	}
+	
+	/**
+	 * 関数名：	getChangeItem
+	 * 概要：		指定したセレクタの値が変わった際に、その値を取得、設定する
+	 * 引数：		target	イベントをバインドするセレクタ
+	 * 			change	変更した値を設定するセレクタ
+	 * 戻り値：	なし
+	 * 作成日：	2016/12/05
+	 * 作成者：	k.urabe
+	 */
+	this.getChangeItem = function(target, change) {
+		
+		// イベント内でthisオブジェクトを使用できるよう待避
+		thisElem = this;
+		
+		// ターゲットとして取得したセレクタに対してチェンジイベントをバインドする。
+		$(target).on(CHANGE, function() {
+			// 変更された値を取得してセットする。
+			$(change).text($(target).text());
+		});
 		
 	}
 	
@@ -532,16 +574,27 @@ function CreateWindowsDetail() {
 		// TODO:【メモ】共通ボタンは初期表示のHTMLに展開されている想定
 		// 画面共通のボタンイベント等を登録する
 		// 見出し追加ボタンを登録する
-		this.setClickEvent(SELECTOR_B_ADD_INDEX, this.addIndex);
+		this.setClickEvent(SELECTOR_B_ADD_INDEX, this.addIndex, null , null);
 		// フォーマット保存ボタンを登録する
-		this.setClickEvent(SELECTOR_B_ADD_TEMPLATE, this.saveFormat);
+		this.setClickEvent(SELECTOR_B_ADD_TEMPLATE, this.saveFormat, null, SELECTOR_MAIN);
 		// 報告ボタンを登録する
-		this.setClickEvent(SELECTOR_B_ADD_REPORT, this.saveReport);
+		this.setClickEvent(SELECTOR_B_ADD_REPORT, this.saveReport, null, SELECTOR_MAIN);
 		// キャンセルボタンを登録する
 		this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
 		// 日付エリアのイベントを登録する
 		this.getDayContent();
 		
+		// 親の画面に押下されたボタンを判定する(新規日報なのか、編集なのか)
+		// 編集なのか判定する
+		if(parentWindowButton == KEY_B_EDIT) {
+			// 親画面から取得した日報報告日をセットする(新規日報の場合の当日日付は、デフォルトでサーバから取得してセットしてい)
+			$(SELECTOR_REPORT_DATE).val(this.parentWindow.$(parentWindowDate).children(SELECTOR_REPORT_DATE).text());		
+		}
+		
+		// チェンジイベントを発生させ、セットした日付に紐付くデータがあれば取得・展開する
+		$(SELECTOR_REPORT_DATE).change();
+		
+		/*
 		// 当該コンテンツIDを取得する
 		var content_id = $(SELECTOR_CONTENT_ID).text();
 		// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
@@ -567,9 +620,9 @@ function CreateWindowsDetail() {
 			this.setClickEvent(SELECTOR_B_FIXED_BEORE_PLAN, this.getBeforePlan);
 			// 固定機能（当日結果継承）ボタンのイベントを登録する
 			this.setClickEvent(SELECTOR_B_FIXED_TODAY_RESULT, this.getTodayResult);
-			
+		
 		}
-
+		*/
 	}
 	
 	/**
@@ -586,26 +639,42 @@ function CreateWindowsDetail() {
 		// TODO:【メモ】共通ボタンは初期表示のHTMLに展開されている想定
 		// 画面共通のボタンイベント等を登録する
 		// コメントボタンを登録する
-		this.setClickEvent(SELECTOR_B_ADD_COMMENT, this.saveComment);
+		this.setClickEvent(SELECTOR_B_NEW_COMMENT, this.saveComment, null, SELECTOR_PARENT_AREA);
 		// キャンセルボタンを登録する
 		this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
 		
-		// 当該コンテンツIDを取得する
-		var content_id = $(SELECTOR_CONTENT_ID).text();
-		// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
-		if(content_id != "") {
-			// JSON連想配列にユーザID（ログインユーザ）をセットする
-			jsonArray[KEY_USER_ID] = $(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text();
-			// 当該日の日付を取得する
-			jsonArray[KEY_DATE] = $(SELECTOR_REPORT_DATE).text();
-			// リクエスト用JSON連想配列にコンテンツIDをセットする
-			jsonArray[KEY_CONTENT_ID] = content_id;
-			// JSON連想配列を用いてDBに値を取得する
-			this.getJsonData(PATH_CREATE_BY_DAY, jsonArray, STR_READ);
-			// 取得したJSONを展開する
-			this.createReportDetail(SELECTOR_MAIN);
-			// 画面内の所定の位置に取得したコンテンツIDを埋める
-			$(SELECTOR_CONTENT_ID).text(this.json[KEY_CONTENT_ID]);
+		// 親から取得した各値を画面にセットしていく（一部、押下されてボタンにより設定箇所が変化）
+		// ここでいうユーザIDとユーザネームはログインユーザとは限らず、コメント使用としているコンテンツの持ち主の値が入る。ログインユーザは.login_idにある
+		$(SELECTOR_USER_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_ID).text());
+		$(SELECTOR_USER_NAME).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_NAME).text());
+		$(SELECTOR_BASE_PARENT_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_BASE_PARENT_CONTENT_ID).text());
+		
+		// 親の画面に押下されたボタンを判定する(新規コメントなのか、編集なのか)
+		// 新規コメントなのか判定する
+		if(parentWindowButton == KEY_B_NEW_COMMENT) {
+			// 新規日報にあたり、本日日付を取得するためのdateオブジェクトを取得する
+			var today = new Date();
+			
+			// 新規コメントなので、親のIDを1つずつ移動し、コンテンツIDは空とする。日付は当日とする
+			$(SELECTOR_GRAND_PARENT_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_PARENT_CONTENT_ID).text());
+			$(SELECTOR_PARENT_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_CONTENT_ID).text());
+			$(SELECTOR_CONTENT_ID).text("");
+			$(SELECTOR_MAIN_TEXT).text("");
+			$(SELECTOR_REPORT_DATE).text(today.getFullYear() + STR_TIME_SEPARATOR + (today.getMonth() + 1) + STR_TIME_SEPARATOR + today.getDate());
+			// 取得したコンテンツIDが0か検証する（0とは日報に対するコメントであり、ここでコンテンツIDをベースコンテンツIDに埋める）
+			if(this.parentWindow.$(parentWindowDate).children(SELECTOR_BASE_PARENT_CONTENT_ID).text() == 0) {
+				// 日報に対するコメントであったため、ベースコンテンツIDに取得したコンテンツIDをセットする
+				$(SELECTOR_BASE_PARENT_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_CONTENT_ID).text());
+			}
+			
+		// 編集なのか判定する
+		} else if(parentWindowButton == KEY_B_COMMENT_EDIT) {
+			// 編集コメントなので、IDはずらさずにそのままにする。日付も既に報告している日付とする
+			$(SELECTOR_GRAND_PARENT_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_GRAND_PARENT_CONTENT_ID).text());
+			$(SELECTOR_PARENT_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_PARENT_CONTENT_ID).text());
+			$(SELECTOR_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_CONTENT_ID).text());
+			$(SELECTOR_MAIN_TEXT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_MAIN_TEXT).text());
+			$(SELECTOR_REPORT_DATE).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_REPORT_DATE).text());
 		}
 		
 	}
@@ -631,7 +700,7 @@ function CreateWindowsDetail() {
 		$(SELECTOR_READ_COUNT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_READ_COUNT).text());
 		$(SELECTOR_MAIN_TEXT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_MAIN_TEXT).text());
 		$(SELECTOR_USER_NAME).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_NAME).text());
-//		$().text(this.parentWindow.$(parentWindowDate).children().text());
+		$(SELECTOR_REPORT_DATE).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_REPORT_DATE).text());
 		
 		// TODO:【未実装】ログインユーザは所定の位置（'.user_id'）に埋め込んでいる想定だが、開かれたコメントの投稿ユーザは取得したJSONデータから取得する必要がある
 		// TODO:【未実装】JSONの結果はコメントなので1件しかないが、行ごとに結果が格納されてくる想定で記述
@@ -660,15 +729,18 @@ function CreateWindowsDetail() {
 			// 未読にするボタンのイベントを登録する
 			this.setClickEvent(SELECTOR_B_NO_READ, this.clickAddContentButton, null, this.parentWindow.$(parentWindowDate), MESSAGE_COMMENT_NOREAD);
 			// 未読にするが押された状態（未読状態）であればボタンを無効化する
-			$(parentWindowDate).children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $(SELECTOR_B_NO_READ).prop("disabled", true) : $(SELECTOR_B_NO_READ).prop("disabled", false);
+			//$(parentWindowDate).children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $(SELECTOR_B_NO_READ).prop("disabled", true) : $(SELECTOR_B_NO_READ).prop("disabled", false);
+			this.changeButtonStatus($(SELECTOR_B_NO_READ), $(SELECTOR_B_NO_READ).val(), $(parentWindowDate).children(SELECTOR_READ_STATUS).text());
 			// いいねボタンのイベントを登録する
 			this.setClickEvent(SELECTOR_B_FAVORITE, this.clickAddContentButton, null, this.parentWindow.$(parentWindowDate));
 			// ユーザいいねをした状態であればクラス名にフラグ名を追加する
 			$(parentWindowDate).children(SELECTOR_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $(SELECTOR_B_FAVORITE).addClass(KEY_F_ON) : "";
+			this.changeButtonStatus($(SELECTOR_B_FAVORITE), $(SELECTOR_B_FAVORITE).val(), $(parentWindowDate).children(SELECTOR_FAVARITE_STATUS).text());
+			
 			
 			// 不要なボタンを非表示にする。
 			// 編集ボタンを非表示にする
-			$(SELECTOR_B_DELETE).addClass(SRT_SHOW_HIDE);
+			$(SELECTOR_B_COMMENT_EDIT).addClass(SRT_SHOW_HIDE);
 			// 削除ボタンを非表示にする。
 			$(SELECTOR_B_DELETE).addClass(SRT_SHOW_HIDE);
 		}
