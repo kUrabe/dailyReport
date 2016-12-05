@@ -142,8 +142,8 @@ public class TopService {
 		List<SearchContentDetailSummary> content = entityManager
 				.createNativeQuery(Constants.SEARCH_CONTENT_DETAIL_SUMMARY, "searchContentDetailSummary")
 				.setParameter(1, Integer.parseInt((String)map.get(Constants.KEY_CONTENT_ID)))
-				.setParameter(2, Integer.parseInt((String)map.get(Constants.KEY_ENTRY_FORMAT)))
-				.setParameter(3, Integer.parseInt((String)map.get(Constants.KEY_ENTRY_STATUS)))
+				//.setParameter(2, Integer.parseInt((String)map.get(Constants.KEY_ENTRY_FORMAT)))
+				//.setParameter(3, Integer.parseInt((String)map.get(Constants.KEY_ENTRY_STATUS)))
 				.getResultList();
 		
 		// 取得した情報を返す

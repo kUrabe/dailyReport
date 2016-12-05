@@ -147,11 +147,11 @@ div {
 }
 
 /* いいねボタンの登録状況 いいねしている状態（赤くする） */
-.f-on {
+.b_favorite.f-on {
 	color:	red;
 }
 /* 未読にするボタンの登録状況 未読状態で押せない */
-.r-on {
+.b_no_read.r-on {
 	disabled:	disabled
 }
 

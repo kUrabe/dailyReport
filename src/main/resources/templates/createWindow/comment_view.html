@@ -24,6 +24,7 @@
 </head>
 
 <body>
+<div class="content">
 
 <div class="topMenu">
 	<div class="user_id" name="user_id" style="display:none"></div>
@@ -43,12 +44,14 @@
 	<div class="parent_content_id" style="display:none" name="parent_content_id"></div>
 	<div class="content_id" style="display:none" name="content_id"></div>
 	
-	<button class="b_no_read">未読にする</button>
-	<button class="b_favorite">いいね</button>
-	<button class="b_edit">編集</button>
-	<button class="b_delete">削除</button>
-	<button class="b_new_comment">コメントする</button>
-	<button class="b_cancel">閉じる</button>
+	<button class="b_no_read" value="1" name="b_no_read">未読にする</button>
+	<button class="b_favorite" value="2" name="b_favorite">いいね</button>
+	<button class="b_comment_edit" value="b_comment_edit" name="b_comment_edit">編集</button>
+	<button class="b_delete" value="b_delete" name="b_delete">削除</button>
+	<button class="b_new_comment" value="b_new_comment" name="b_new_comment">コメントする</button>
+	<button class="b_cancel" value="b_cancel" name="b_cancel">閉じる</button>
+</div>
+
 </div>
 
 <script type="text/javascript">

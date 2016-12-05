@@ -112,10 +112,11 @@ KEY_B_CANCEL = 'b_cancel';
 KEY_B_NEW_COMMENT = 'b_new_comment';		// コメントするボタン
 KEY_B_NEW_REPORT = 'b_new_report';		// 新規日報ボタン
 
-KEY_F_ON = '.f-on';								// いいねボタンを押下している状態のボタンに付与
-KEY_R_ON = '.r-on';								// 未読にするボタンを押下している状態（未読状態）のボタンに付与
+KEY_F_ON = 'f-on';								// いいねボタンを押下している状態のボタンに付与
+KEY_R_ON = 'r-on';								// 未読にするボタンを押下している状態（未読状態）のボタンに付与
 KEY_INDEX_LINE = 'indexLine';					// アコーディオン開閉時に押下されたのが、行なのかボタンなのか判定するためのクラス名
-KEY_B_EDIT='b_edit';							// 編集ボタン機能を持たすタグに付与するValue
+KEY_B_EDIT='b_edit';							// 編集ボタン機能を持たすタグに付与するValue 
+KEY_B_COMMENT_EDIT='b_comment_edit';			// 編集ボタン機能（コメント編集）
 
 KEY_OPEN = 'open';					// 展開済みデータに与えるキー
 KEY_OPEN_FLAG = '1';				// 展開済みデータに与えるflag値
@@ -176,6 +177,7 @@ SELECTOR_B_CLOSE = '.b_close';					// 閉じる（アコーディオン）ボタ
 SELECTOR_B_NO_READ = '.b_no_read';				// 未読にするボタン
 SELECTOR_B_FAVORITE = '.b_favorite';			// いいねボタン
 SELECTOR_B_EDIT = '.b_edit';					// 編集ボタン
+SELECTOR_B_COMMENT_EDIT='.b_comment_edit';			// 編集ボタン機能（コメント編集）
 SELECTOR_B_DELETE = '.b_delete';				// 削除ボタン
 SELECTOR_B_ACCORDION = '.b_accordion';			// アコーディオンが仕掛けられるセレクタ
 SELECTOR_B_ACCORDION_LAST = '.b_accordion:last';
@@ -291,8 +293,8 @@ TAG_EDIT_BUTTON = '<button type="button" class="b_edit" value="b_edit">編集</b
 TAG_DELETE_BUTTON = '<button type="button" class="b_delete" value="b_delete">削除</button>';	// 削除ボタン
 TAG_FAVORITE_BUTTON = '<button type="button" class="b_favorite" value="2">いいね</button>';	// いいねボタン(日報用)
 TAG_NO_READ_BUTTON = '<button type="button" class="b_no_read" value="1">未読にする</button>';	// 未読にするボタン(日報用)
-TAG_FAVORITE_BUTTON = '<button type="button" class="b_favorite" value="2"　style="display:none">いいね</button>';	// いいねボタン(コメント用)
-TAG_NO_READ_BUTTON = '<button type="button" class="b_no_read" value="1"　style="display:none">未読にする</button>';	// 未読にするボタン(コメント用)
+TAG_FAVORITE_BUTTON_COMMENT = '<button type="button" class="b_favorite" value="2" style="display:none">いいね</button>';	// いいねボタン(コメント用)
+TAG_NO_READ_BUTTON_COMMENT = '<button type="button" class="b_no_read" value="1" style="display:none">未読にする</button>';	// 未読にするボタン(コメント用)
 TAG_NEW_COMMENT_BUTTON = '<button type="button" class="b_new_comment" value="b_new_comment">コメントする</button>';	// コメントするボタン
 TAG_ACCORDION_BUTTON = '<button type="button" class="b_accordion">閉じる</button>';	// ボタン
 TAG__BUTTON = '<button type="button" class="" name=""></button>';	// ボタン
@@ -385,6 +387,7 @@ MESSAGE_SEARCH_NOT_COMMENT = 'この日報にコメントはありません。';
 MESSAGE_REPORT_DELETE = '当該日報を削除しますか？';
 MESSAGE_COMMENT_DELETE = 'コメントを削除します。よろしいですか？';
 MESSAGE_REPORT_NOREAD = '当該日報を未読にしますか？';
+MESSAGE_COMMENT_NOREAD = 'コメントを未読にします。よろしいですか？';
 
 MARK_SPACE = " ";		// 半角スペース
 

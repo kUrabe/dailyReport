@@ -289,9 +289,10 @@ function WindowDesign() {
 				// 未読にするボタンを追加する
 				$(selector).append(TAG_NO_READ_BUTTON);
 				// 未読にするボタンのイベントを登録する
-				this.setClickEvent($(selector).children(SELECTOR_B_NO_READ), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), MESSAGE_REPORT_NOREAD);
-				// 未読にするが押された状態（未読状態）であればクラス名にフラグを追加する
-				$_contentIndex.children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_NO_READ).addClass(KEY_R_ON) : "";
+				//this.setClickEvent($(selector).children(SELECTOR_B_NO_READ), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), MESSAGE_REPORT_NOREAD);
+				this.setClickEvent($(selector).children(SELECTOR_B_NO_READ), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
+				// 未読にするが押された状態（未読状態）であればボタンを無効化する
+				$_contentIndex.children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_NO_READ).prop("disabled", true) : $(SELECTOR_B_NO_READ).prop("disabled", false);
 			}
 			
 			// 各ボタンのイベント登録(アコーディオンの内部には、タグで追加した際にコメントするボタンと、閉じるボタンが入っている)
@@ -346,7 +347,7 @@ function WindowDesign() {
 						var $_blockSelector = $(selector).children(SELECTOR_PARENT_AREA_LAST);
 						// 追加した行開始タグにクラス名を追加する
 						$_blockSelector.addClass(STR_LINE + this.json[key][KEY_DB_CONTENT_ID]);
-						// indent数分、ループしてテーブルのインデントをずらす
+						// indent数分、テーブルのインデントをずらす
 						$_blockSelector.css("left", indent * 20 + "px");
 
 						// 行内の各項目のタグを追加する
@@ -387,6 +388,31 @@ function WindowDesign() {
 						this.json[key][KEY_OPEN] = KEY_OPEN_FLAG;
 						// 行に対して、クリック時にコメント詳細画面を開くイベントを登録する
 						this.setClickEvent($_blockSelector.children(SELECTOR_MAIN_TEXT), this.prepareAnotherWindow, null, $_blockSelector);
+						
+						// ここに見えないボタン配置
+						// 出力したレコードの投稿ユーザがログインユーザと異なるか検証し、いいねボタン等を出力する
+						if(user != this.json[key][KEY_DB_USER_ID]) {
+							// ログインユーザ != 投稿ユーザ
+							// いいねボタンを追加する
+							$_blockSelector.append(TAG_FAVORITE_BUTTON_COMMENT);
+							// いいねボタンのイベントを登録する
+							this.setClickEvent($_blockSelector.children(SELECTOR_B_FAVORITE), this.clickAddContentButton, null, $_blockSelector);
+							// ユーザいいねをした状態であればクラス名にフラグ名を追加する
+							$_blockSelector.children(SELECTOR_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_FAVORITE).addClass(KEY_F_ON) : "";
+							
+							// 未読にするボタンを追加する
+							$_blockSelector.append(TAG_NO_READ_BUTTON_COMMENT);
+							// 未読にするボタンのイベントを登録する
+							this.setClickEvent($_blockSelector.children(SELECTOR_B_NO_READ), this.clickAddContentButton, null, $_blockSelector);
+							// 未読にするが押された状態（未読状態）であればクラス名にフラグを追加する
+							$_blockSelector.children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_NO_READ).addClass(KEY_R_ON) : "";
+						}
+						
+						
+						
+						
+						
+						
 					// JSON内の祖先コンテンツIDと、引数で受け親コンテンツIDが一致してる、かつJSONの親コンテンツと、検証中のコンテンツIDが一致するか検証する（次の階層のデータか検証する）
 					} else if(this.json[key][KEY_DB_GRAND_PARENT_CONTENT_ID] == parent_content_id) {
 						// 再帰的に自身を呼び出す(階層が1層深まるのでインデントを+1する)

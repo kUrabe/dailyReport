@@ -641,7 +641,7 @@ function CreateWindowsDetail() {
 			// 本人用のボタンイベントを登録する
 			
 			// 編集ボタンのイベントを登録する
-			this.setClickEvent(SELECTOR_B_EDIT, this.prepareAnotherWindow);
+			this.setClickEvent(SELECTOR_B_COMMENT_EDIT, this.prepareAnotherWindow, null, this.parentWindow.$(parentWindowDate));
 			// 削除ボタンのイベントを登録する
 			//this.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton);
 			this.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton, null, this.parentWindow.$(parentWindowDate), MESSAGE_COMMENT_DELETE);
@@ -653,25 +653,30 @@ function CreateWindowsDetail() {
 			// いいねボタンを非表示にする。
 			$(SELECTOR_B_FAVORITE).addClass(SRT_SHOW_HIDE);
 			
+			
 		} else {
 			// TODO:【メモ】画面表示時には画面のボタンが全て揃っている想定。そこからユーザ種別ごとにボタンイベント登録と、非表示設定を行う
 			// 他人用のボタンイベントを登録する
 			// 未読にするボタンのイベントを登録する
-			this.setClickEvent(SELECTOR_B_NO_READ, this.clickAddContentButton);
+			this.setClickEvent(SELECTOR_B_NO_READ, this.clickAddContentButton, null, this.parentWindow.$(parentWindowDate), MESSAGE_COMMENT_NOREAD);
+			// 未読にするが押された状態（未読状態）であればボタンを無効化する
+			$(parentWindowDate).children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $(SELECTOR_B_NO_READ).prop("disabled", true) : $(SELECTOR_B_NO_READ).prop("disabled", false);
 			// いいねボタンのイベントを登録する
-			this.setClickEvent(SELECTOR_B_FAVORITE, this.clickAddContentButton);
-			// コメントするボタンのイベントを登録する
-			this.setClickEvent(SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow);
+			this.setClickEvent(SELECTOR_B_FAVORITE, this.clickAddContentButton, null, this.parentWindow.$(parentWindowDate));
+			// ユーザいいねをした状態であればクラス名にフラグ名を追加する
+			$(parentWindowDate).children(SELECTOR_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $(SELECTOR_B_FAVORITE).addClass(KEY_F_ON) : "";
 			
 			// 不要なボタンを非表示にする。
 			// 編集ボタンを非表示にする
-			$(SELECTOR_B_EDIT).addClass(SRT_SHOW_HIDE);
+			$(SELECTOR_B_DELETE).addClass(SRT_SHOW_HIDE);
 			// 削除ボタンを非表示にする。
 			$(SELECTOR_B_DELETE).addClass(SRT_SHOW_HIDE);
 		}
 		// TODO:【メモ】画面設計上、ボタン名は閉じるだが、他画面との兼ね合い上、クラス名はキャンセルボタンのものを指定する想定
 		// 共通のキャンセルボタンを登録する
 		this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
+		// コメントするボタンのイベントを登録する
+		this.setClickEvent(SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow, null, this.parentWindow.$(parentWindowDate));
 		
 	}
 	

@@ -79,27 +79,7 @@ function TopWindowDetail() {
 		thisElem.getJsonData(PATH_TOP_PAGE_CONTENT, jsonArray, STR_READ);
 		// 取得したJSONを用いてHTMLへタグを展開する
 		thisElem.createContentIndex(SELECTOR_REPORT_AREA, 0);
-		
-		// TODO:【未実装】ボタンの数だけステップが増えるので、別関数検討
-		// TODO:【メモ】ボタンの設置は画面初期表示（固定パーツ）と、タグ展開時（流動パーツ）で行う。ここではイベント登録のみ
-		// TODO:【メモ】↑ 現在はタグ展開時にボタンの配置までやっていない
-		// TODO:【メモ】同じタグの複数箇所に一気にイベント登録しようとしているが、これが可能か不明。場合によってはタグの展開時に1つ1つボタンの展開に合わせてイベント登録が必要かも
-		/*
-		// 流動的なパーツのイベントを登録する
-		// 新規コメントボタンのイベントを登録する
-		thisElem.setClickEvent(SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow);
-		// TODO:【メモ】アコーディオンと共通化するため、個別には必要ない？
-		// 閉じるボタンのイベントを登録する
-		//setClickEvent(SELECTOR_B_CLOSE, );
-		// 未読にするボタンのイベントを登録する
-		thisElem.setClickEvent(SELECTOR_B_NO_READ, this.clickAddContentButton);
-		// いいねボタンのイベントを登録する
-		thisElem.setClickEvent(SELECTOR_B_FAVORITE, this.clickAddContentButton);
-		// 編集ボタンのイベントを登録する
-		thisElem.setClickEvent(SELECTOR_B_EDIT, this.prepareAnotherWindow);
-		// 削除ボタンのイベントを登録する
-		thisElem.setClickEvent(SELECTOR_B_DELETE, this.clickDeleteButton);
-		*/
+
 	}
 	
 	/**

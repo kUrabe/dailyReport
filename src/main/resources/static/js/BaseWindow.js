@@ -63,7 +63,7 @@ function BaseWindow() {
 			// 対象コンテンツが未読状態ならば既読へ更新する
 			if($(this).children(SELECTOR_READ_STATUS).text() == STR_READ_OFF) {
 				// 未読にするボタンを押下する
-				$(SELECTOR_B_NO_READ).click();
+				$(this).parent(SELECTOR_PARENT_AREA).children(SELECTOR_ACCORDION_AREA).children(SELECTOR_CONTENT_DETAIL).children(SELECTOR_B_NO_READ).click();
 			}
 			
 			// 対象セレクタがクリックされた場合に、引数で受けたセレクタのアコーディオン開閉を行う。
@@ -121,11 +121,11 @@ function BaseWindow() {
 		} else if(FLAG_ADD_CATEGORY_NOREAD & category) {
 			// 未読機能が未読状態であるか検証する
 			if(STR_READ_OFF == value) {
-				// 未読状態のクラス名を付与する
-				$(target).addClass(KEY_R_ON);
+				// 未読状態のボタンを無効化する
+				$(target).prop("disabled", true);
 			} else {
-				// 未読状態のクラス名を削除する
-				$(target).removeClass(KEY_R_ON);
+				// 未読状態のボタンを有効化する
+				$(target).prop("disabled", false);
 			}
 		}
 	
@@ -448,7 +448,7 @@ function BaseWindow() {
 			// 画面名をセットする
 			name = STR_REPORT_CREATE;
 		// コメント作成画面ならば
-		} else if(button_type === KEY_B_NEW_COMMENT) {
+		} else if(button_type === KEY_B_NEW_COMMENT || button_type === KEY_B_COMMENT_EDIT) {
 			// コメント作成画面のpathをセットする
 			path = PATH_COMMENT_CREATE;
 			// 画面名をセットする
@@ -459,7 +459,11 @@ function BaseWindow() {
 			// 画面名をセットする
 			name = STR_COMMENT_VIEW;
 			// 対象のコメントを既読にする
-			// メモ ここは既読ボタンをクリックする形にする
+			// 対象コンテンツが未読状態ならば既読へ更新する
+			if(valueTarget.children(SELECTOR_READ_STATUS).text() == STR_READ_OFF) {
+				// 未読にするボタンを押下する
+				valueTarget.children(SELECTOR_B_NO_READ).click();
+			}
 			// thisElem.addContentBranch(content_id, FLAG_ADD_CATEGORY_NOREAD, FLAG_CATEGORY_STATUS_DEL, selector);
 		}
 		
