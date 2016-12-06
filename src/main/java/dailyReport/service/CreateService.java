@@ -4,9 +4,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -127,14 +129,15 @@ public class CreateService {
 				
 				// 値がobjectか判定する
 				if(obj.getValue() instanceof Map<?, ?>) {
-					// objをmapに変換する
-					//Map<String, String> childmap = (HashMap<String, String>) obj;
+					
+					// コンテンツIDとして親のテーブルを取得してセットする
+					content.setRecordContentInf(parent_content);
+					
 					// 子要素の中を走査する
 					//for(Map.Entry<String, String> childObj : childmap.entrySet()) {
 					for(Map.Entry<String, Object> childmap : ((Map<String, Object>) obj.getValue()).entrySet()) {
 						
-						// コンテンツIDとして親のテーブルを取得してセットする
-						content.setRecordContentInf(parent_content);
+						
 						// 現在のキー名を取得する
 						tmp = childmap.getKey();
 						// キー名がnumberであれば
@@ -156,13 +159,27 @@ public class CreateService {
 						}
 
 					}
+					entityManager.persist(content);
+					// 完成した行データをset型に納める
+					//content.add(record);
+					content = new RecordContentDetail();
+					
+					
+					// （親）クエリを実行する
+					//entityManager.persist(parent_content);
 					
 					// （子）クエリを実行する
-					entityManager.persist(content);
-					// 行単位で
+					//entityManager.persist(content);
+					// 行単位でentityを強制的にコミットする
+					//entityManager.refresh(content);
+					//entityManager.flush();
+					//System.out.println(content);
 				}
 				
 			}
+			//entityManager.persist(content);
+			//parent_content.setRecordContentDetailSet(content);
+			//entityManager.persist(parent_content);
 
 		} catch (Exception e) {
 			// 処理に失敗した旨を返す

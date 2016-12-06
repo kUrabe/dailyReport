@@ -115,7 +115,7 @@ function CreateWindowsDetail() {
 		// 画面内のテキストエリアを走査する
 		$(KEY_TEXT_AREA).each(function(index) {
 			// 空白であるか検証する
-			if($(this).text() == "") {
+			if($(this).val() == "") {
 				// 空白があったため、返却用の変数にfalseをセットする
 				returnBoolean = false;
 				// ループを抜ける
@@ -371,7 +371,7 @@ function CreateWindowsDetail() {
 				// 見出し番号をセット
 				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
 				// 見出し文字をセット
-				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_INDEX_AREA).text();
+				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_INDEX_AREA).val();
 				// 本文をセット
 				jsonArray[index + 1][KEY_MAIN_TEXT] = "";
 				// 固定IDをセット
@@ -436,9 +436,9 @@ function CreateWindowsDetail() {
 				// 行番号をセット
 				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
 				// 見出し文字をセット
-				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_INDEX_AREA).text();
+				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_INDEX_AREA).val();
 				// 本文をセット
-				jsonArray[index + 1][KEY_MAIN_TEXT] = $(this).children(SELECTOR_MAIN_TEXT).text();
+				jsonArray[index + 1][KEY_MAIN_TEXT] = $(this).children(SELECTOR_MAIN_TEXT).val();
 				// 固定IDをセット
 				jsonArray[index + 1][KEY_FIXED_ITEM_ID] = $(this).children(SELECTOR_FIXED_ITEM_ID).text();
 			});
