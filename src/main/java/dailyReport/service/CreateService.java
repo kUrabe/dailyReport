@@ -144,7 +144,7 @@ public class CreateService {
 						// キー名が固定IDであれば
 						} else if(tmp.equals(Constants.KEY_FIXED_ITEM_ID.toString())) {
 							// 固定IDをセットする
-							content.setFixedItemInf(entityManager.find(FixedItemInf.class, childmap.getValue()));
+							content.setFixedItemInf(entityManager.find(FixedItemInf.class, new Integer(childmap.getValue().toString())));
 						// キー名が項目名であれば
 						} else if(tmp.equals(Constants.KEY_INDEX_AREA.toString())) {
 							// 項目名をセットする
@@ -159,6 +159,7 @@ public class CreateService {
 					
 					// （子）クエリを実行する
 					entityManager.persist(content);
+					// 行単位で
 				}
 				
 			}
@@ -257,7 +258,7 @@ public class CreateService {
 									// キー名が固定IDであれば
 									} else if(tmp.equals(Constants.KEY_FIXED_ITEM_ID.toString())) {
 										// 固定IDをセットする
-										content.setFixedItemInf(entityManager.find(FixedItemInf.class, childmap.getValue()));
+										content.setFixedItemInf(entityManager.find(FixedItemInf.class, new Integer(childmap.getValue().toString())));
 									// キー名が項目名であれば
 									} else if(tmp.equals(Constants.KEY_INDEX_AREA.toString())) {
 										// 項目名をセットする

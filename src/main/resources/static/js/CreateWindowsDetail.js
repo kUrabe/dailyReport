@@ -115,7 +115,7 @@ function CreateWindowsDetail() {
 		// 画面内のテキストエリアを走査する
 		$(KEY_TEXT_AREA).each(function(index) {
 			// 空白であるか検証する
-			if($(this).val() == "") {
+			if($(this).text() == "") {
 				// 空白があったため、返却用の変数にfalseをセットする
 				returnBoolean = false;
 				// ループを抜ける
@@ -192,16 +192,16 @@ function CreateWindowsDetail() {
 	 * 作成日：	2016/11/23
 	 * 作成者：	k.urabe
 	 */
-	this.deleteIndex = function(selector) {
+	this.deleteIndex = function(selector, thisElem) {
 		
 		// 対象の見出しエリアが空白か検証する
-		if(this.isCheckDeleteItem(selector)) {
+		if(thisElem.isCheckDeleteItem(selector)) {
 			// 対象の見出しエリアを削除
-			this.deleteIndexDetail(selector);
+			thisElem.deleteIndexDetail(selector);
 		// 対象の見出しエリアが空白ではなかった。
 		} else {
 			// 空白でないエリアがあるため、確認ダイアログを開く
-			this.openConfirmationDialog(this.deleteIndexDetail, MESSAGE_DEL_INDEX, selector);
+			thisElem.openConfirmationDialog(selector, thisElem, null, null, thisElem.deleteIndexDetail, MESSAGE_DEL_INDEX);
 		}
 		
 	}
@@ -214,12 +214,12 @@ function CreateWindowsDetail() {
 	 * 作成日：	2016/11/23
 	 * 作成者：	k.urabe
 	 */
-	this.deleteIndexDetail = function(selector) {
+	this.deleteIndexDetail = function(selector, thisElem) {
 		
 		// 対象の見出しエリアを削除
 		$(selector).parent(SELECTOR_PARENT_AREA).remove();
 		// 各見出しの番号を振り直す
-		this.changeIndexNumber;
+		thisElem.changeIndexNumber();
 		
 	}
 	
@@ -231,13 +231,17 @@ function CreateWindowsDetail() {
 	 * 作成日：	2016/11/23
 	 * 作成者：	k.urabe
 	 */
-	this.addIndex = function(selector) {
+	this.addIndex = function(selector, thisElem) {
 		
 		// TODO:【未実装】タグの詳細はまだ詰められていない
 		// 見出し項目が並ぶエリアの最後に見出し項目一式のタグをセットする
 		$(SELECTOR_MAIN).append(TAG_REPORT_CREATE_WINDOW_INDEX);
 		// 追加したボタンに対してボタンイベントを登録する
-		this.setClickEvent($(SELECTOR_PARENT_AREA_LAST).children(SELECTOR_B_DEL_INDEX), this.deleteIndex);
+		thisElem.setClickEvent($(SELECTOR_PARENT_AREA_LAST).children(SELECTOR_B_DEL_INDEX), thisElem.deleteIndex);
+		// 追加された固定ボタンを非表示にする
+		$(SELECTOR_PARENT_AREA_LAST).children(SELECTOR_BUTTON_NAME).addClass(SRT_SHOW_HIDE);
+		// ナンバーを振り直す
+		thisElem.changeIndexNumber();
 	}
 	
 	/**
@@ -351,7 +355,7 @@ function CreateWindowsDetail() {
 				// 登録状態を下書でセット
 				jsonArray[KEY_ENTRY_STATUS] = FLAG_ENTRY_STATUS_NOTE;
 				// 当該日の日報日付を取得する
-				jsonArray[KEY_DATE] = "";
+				jsonArray[KEY_DATE] = STR_DATE_TEMP;
 				// 基底親コンテンツIDを取得してセット
 				jsonArray[KEY_BASE_PARENT_CONTENT_ID] = "";
 				// 祖先コンテンツIDを取得してセットする
@@ -362,6 +366,8 @@ function CreateWindowsDetail() {
 				// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
 				// TODO:【セレクタ】fixed_item_idは、固定項目を使用している
 				// リクエスト用JSON連想配列に必要な値をセットする
+				// jsonArrayの所定インデックス内をオブジェクトで宣言
+				jsonArray[index + 1] = {};
 				// 見出し番号をセット
 				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
 				// 見出し文字をセット
@@ -371,12 +377,15 @@ function CreateWindowsDetail() {
 				// 固定IDをセット
 				jsonArray[index + 1][KEY_FIXED_ITEM_ID] = $(this).children(SELECTOR_FIXED_ITEM_ID).text();
 			});
+			
+			// JSON連想配列を用いてDBに値を登録する
+			thisElem.getJsonData(PATH_CREATE_SAVE_TEMPLATE, jsonArray, STR_CREATE);
+			
 		} else {
 			// 見出しが1つもないため登録できない旨を表示する
 			alert(MESSAGE_FORMAT_ERROR);
 		}
-		// JSON連想配列を用いてDBに値を登録する
-		thisElem.getJsonData(PATH_CREATE_SAVE_TEMPLATE, jsonArray, STR_CREATE);
+		
 	}
 	
 	/**
@@ -393,13 +402,13 @@ function CreateWindowsDetail() {
 		var jsonArray = {};								// リクエストに使用するjson連想配列を作成する
 		var draftBox = FLAG_ENTRY_STATUS_REG;			// 下書チェックの結果。登録状態をどうするかを格納する。初期値は登録済みとなる
 		
-		// 見出しが1つでもあるか、空白エリアはないか検証する
-		if(thisElem.isCheckFormatIndex() && thisElem.isCheckTextArea) {
-			
-			// 下書チェックボックスにチャックが付いているか
-			if(thisElem.isCheckDraftBox) {
-				draftBox = FLAG_ENTRY_STATUS_NOTE;
-			}
+		// 下書チェックボックスにチャックが付いているか
+		if(thisElem.isCheckDraftBox()) {
+			draftBox = FLAG_ENTRY_STATUS_NOTE;
+		}
+		
+		// 見出しが1つでもあるか、空白エリアはないか、もしくは下書きにチェックが入っているか検証する
+		if((thisElem.isCheckFormatIndex() && thisElem.isCheckTextArea()) || (draftBox & FLAG_ENTRY_STATUS_NOTE)) {
 			
 			// リクエスト用JSON連想配列に必要な値をセットする
 			// ユーザIDをセット
@@ -409,7 +418,7 @@ function CreateWindowsDetail() {
 			// 登録状態を登録済み OR 下書でセット
 			jsonArray[KEY_ENTRY_STATUS] = draftBox;
 			// 当該日の日報日付を取得する
-			jsonArray[KEY_DATE] = $(SELECTOR_REPORT_DATE).text();
+			jsonArray[KEY_DATE] = $(SELECTOR_REPORT_DATE).val();
 			// 基底親コンテンツIDを取得してセット
 			jsonArray[KEY_BASE_PARENT_CONTENT_ID] = $(SELECTOR_BASE_PARENT_CONTENT_ID).text();
 			// 祖先コンテンツIDを取得してセットする
@@ -422,7 +431,9 @@ function CreateWindowsDetail() {
 				// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
 				// TODO:【セレクタ】fixed_item_idは、固定項目を使用している
 				// リクエスト用JSON連想配列に必要な値をセットする
-				// 見出し番号をセット
+				// jsonArrayの所定インデックス内をオブジェクトで宣言
+				jsonArray[index + 1] = {};
+				// 行番号をセット
 				jsonArray[index + 1][KEY_NUMBER] = $(this).children(SELECTOR_NUMBER).text();
 				// 見出し文字をセット
 				jsonArray[index + 1][KEY_INDEX_AREA] = $(this).children(SELECTOR_INDEX_AREA).text();
@@ -431,22 +442,24 @@ function CreateWindowsDetail() {
 				// 固定IDをセット
 				jsonArray[index + 1][KEY_FIXED_ITEM_ID] = $(this).children(SELECTOR_FIXED_ITEM_ID).text();
 			});
+			
+			// 当該コンテンツIDを取得する
+			var content_id = $(SELECTOR_CONTENT_ID).text();
+			// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
+			if(content_id != "") {
+				jsonArray[KEY_CONTENT_ID] = content_id;
+				// JSON連想配列を用いてDBに値を更新する
+				thisElem.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_UPDATE);
+			} else {
+				// JSON連想配列を用いてDBに値を登録する
+				thisElem.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_CREATE);
+			}
+			
 		} else {
 			// 登録できない旨を表示する
 			alert(MESSAGE_REPORT_ERROR);
 		}
-		// 当該コンテンツIDを取得する
-		var content_id = $(SELECTOR_CONTENT_ID).text();
-		// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
-		if(content_id != "") {
-			jsonArray[KEY_CONTENT_ID] = content_id;
-			// JSON連想配列を用いてDBに値を更新する
-			thisElem.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_UPDATE);
-		} else {
-			// JSON連想配列を用いてDBに値を登録する
-			thisElem.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_CREATE);
-		}
-		
+
 	}
 	
 	/**
@@ -551,6 +564,66 @@ function CreateWindowsDetail() {
 	}
 	
 	/**
+	 * 関数名：	fixdButtonEvent
+	 * 概要：		日報作成画面の固定項目ボタンに対して、表示・非表示の設定や、イベントの登録を行う
+	 * 引数：		selector		
+	 * 戻り値：	なし
+	 * 作成日：	2016/12/06
+	 * 作成者：	k.urabe
+	 */
+	this.fixdButtonEvent = function(selector) {
+		
+		var item_status;			// ステータス取得して保持する変数
+		var button_function;		// ボタンに対する関数を取得して保持する変数
+		
+		// 対象エリア内の固定アイテムの状態を取得する
+		item_status = $(selector).children(SELECTOR_ITEM_STATUS).text();
+		
+		// 固定アイテムのステータスが削除済みであるか検証する
+		if(item_status & FLAG_ITEM_STATUS_DEL) {
+			// 固定機能ボタンを非表示にする
+			$(selector).children(SELECTOR_BUTTON_NAME).addClass(SRT_SHOW_HIDE);
+		} else {
+			// 登録済みかつロック対象か検証する
+			if(item_status == FLAG_ITEM_STATUS_REG_LOCK) {
+				// 見出し削除ボタンを非表示にする
+				$(selector).children(SELECTOR_B_DEL_INDEX).addClass(SRT_SHOW_HIDE);
+			}
+			// 対象エリア内の固定アイテムの対象関数を取得する
+			button_function = button_function = $(selector).children(SELECTOR_BUTTON_FUNCTION).text();
+			// 対象の関数を取得してボタンイベントを登録する
+			this.setClickEvent(SELECTOR_BUTTON_NAME, this.fixdButtonFunction(button_function));
+			
+		}
+		
+	}
+	
+	/**
+	 *  関数名：	fixdButtonFunction
+	 * 概要：		日報作成画面の固定項目の機能に合わせた関数を返す
+	 * 引数：		button_function
+	 * 戻り値：	なし
+	 * 作成日：	2016/12/06
+	 * 作成者：	k.urabe
+	 */
+	this.fixdButtonFunction = function(buttonFunction) {
+		var returnFunction;			// 返却する関数を格納する変数
+		
+		// 受け取った機能に合わせた関数を返す
+		switch(buttonFunction) {
+			case FLAG_BUTTON_FUNCTION_BEFOR_PLAN:
+				returnFunction = STR_GET_BEFORE_PLAN;
+				break;
+			case FLAG_BUTTON_FUNCTION_TODAY_RESULT:
+				returnFunction = STR_GET_TODAY_RESULT;
+				break;
+		}
+		
+		// 決定した関数を返す
+		return returnFunction;
+	}
+	
+	/**
 	 * 関数名：	getChangeItem
 	 * 概要：		指定したセレクタの値が変わった際に、その値を取得、設定する
 	 * 引数：		target	イベントをバインドするセレクタ
@@ -625,8 +698,7 @@ function CreateWindowsDetail() {
 			// TODO:【メモ】↑ 現在はタグ展開時にボタンの配置までやっていない
 			// TODO:【メモ】同じタグの複数箇所に一気にイベント登録しようとしているが、これが可能か不明。場合によってはタグの展開時に1つ1つボタンの展開に合わせてイベント登録が必要かも
 			// 追加された項目に付随するボタンイベント等を登録する
-			// 見出し削除ボタンのイベントを登録する
-			this.setClickEvent(SELECTOR_B_DEL_INDEX, this.deleteIndex);
+			
 			// TODO:【未実装】固定機能は共通のイベント登録に渡すための、機能振り分け用の関数を作成するべきか
 			// 固定機能（前日予定継承）ボタンのイベントを登録する
 			this.setClickEvent(SELECTOR_B_FIXED_BEORE_PLAN, this.getBeforePlan);

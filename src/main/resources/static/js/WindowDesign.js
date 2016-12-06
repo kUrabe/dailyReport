@@ -316,7 +316,7 @@ function WindowDesign() {
 	
 	/**
 	 * 関数名：	createReportContent
-	 * 概要：		日報作成画面の
+	 * 概要：		日報作成画面に日報を展開する
 	 * 引数：		selector		
 	 * 戻り値：	なし
 	 * 作成日：	2016/11/23
@@ -352,6 +352,11 @@ function WindowDesign() {
 					$_blockSelector.children(SELECTOR_NAME_START + keyIn + SELECTOR_NAME_END).text(this.json[key][keyIn]);
 					$_blockSelector.children(SELECTOR_NAME_START + keyIn + SELECTOR_NAME_END).val(this.json[key][keyIn]);
 				}
+				
+				// 見出し削除ボタンのイベントを登録する
+				this.setClickEvent(SELECTOR_B_DEL_INDEX, this.deleteIndex);
+				// 固定アイテム関連のボタンイベント登録と表示、非表示を登録する
+				this.fixdButtonEvent($_blockSelector);
 				
 			}
 

@@ -38,8 +38,11 @@ FLAG_ENTRY_STATUS_DEL = 4;					// record_content_infテーブルの削除状態�
 FLAG_ENTRY_FORMAT_TEMPLATE = 1;				// record_content_infテーブルの書式（テンプレート）を表す
 FLAG_ENTRY_FORMAT_REPORT = 2;				// record_content_infテーブルの書式（日報）を表す
 FLAG_ENTRY_FORMAT_COMMENT = 4;				// record_content_infテーブルの書式（コメント）を表す
-FLAG_BUTTON_FUNCTION_BEFOR_PLAN = 2;		// fixed_item_infテーブルのボタン機能（前日予定）を表す
-FLAG_BUTTON_FUNCTION_TODAY_RESULT = 4;		// fixed_item_infテーブルのボタン機能（当日結果）を表す
+FLAG_BUTTON_FUNCTION_BEFOR_PLAN = '2';		// fixed_item_infテーブルのボタン機能（前日予定）を表す
+FLAG_BUTTON_FUNCTION_TODAY_RESULT = '4';		// fixed_item_infテーブルのボタン機能（当日結果）を表す
+FLAG_ITEM_STATUS_REG = 2;
+FLAG_ITEM_STATUS_REG_LOCK = 3;
+FLAG_ITEM_STATUS_DEL = 4;
 
 FLAG_EAD_STATUS_ON = 1;
 
@@ -191,6 +194,8 @@ SELECTOR_REPORT_DATE = '.report_date';			// 日報作成画面の日報報告日
 SELECTOR_NUMBER = '.number';					// 見出し番号
 SELECTOR_INDEX_AREA = '.index_area';			// 見出し文字列
 SELECTOR_FIXED_ITEM_ID = '.fixed_item_id';		// 固定ID
+SELECTOR_ITEM_STATUS = '.item_status';			// 固定アイテムのステータス
+SELECTOR_BUTTON_FUNCTION = '.button_function';		// コメント作成画面の固定機能ボタンのname属性
 SELECTOR_MAIN_TEXT = '.main_text';				// 本文
 SELECTOR_B_DEL_INDEX = '.b_del_index';			// 見出し削除ボタン
 SELECTOR_B_FIXED = '.b_fixed';					// 固定機能ボタン（前日予定、本日結果など）
@@ -213,6 +218,7 @@ SELECTOR_DIV_NAME_START = 'div[name=';			// divダグのname属性をしてい�
 SELECTOR_DIV_NAME_END = ']';					// divダグのname属性をしていする際に使用するセレクタ
 SELECTOR_NAME_START = '[name=';					// name属性で何かを指定する際
 SELECTOR_NAME_END = ']';						// name属性で何かを指定する際
+SELECTOR_BUTTON_NAME = '.button_name';
 
 SELECTOR_LINE = '.line';							// blockAreaに付与される行番号セレクタ
 SELECTOR_COMMENT_LINE = '.comment_line';		// コメント1行分の領域セレクタ
@@ -312,7 +318,7 @@ TAG_TR_END = '</tr>';
 
 
 // レポート作成画面の見出し追加ボタンによって追加される一式
-TAG_REPORT_CREATE_WINDOW_INDEX = '<div class="blockArea"><div class="number" name="detail_id"></div><div class="fixed_item_id" name="fixed_item_id" style="display:none"></div><textarea class="index_area" name="index_name"></textarea><input type="button" class="b_del_index" value="見出し削除"><textarea class="main_text" name="main_text"></textarea><div class="item_status" name="item_status" style="display:none"></div><div class="button_function" name="button_function" style="display:none"></div><input type="button" class="button_name" name="button_name"></div><div class="get_index_name" name="get_index_name" style="display:none"></div></div>';
+TAG_REPORT_CREATE_WINDOW_INDEX = '<div class="blockArea"><div class="number" name="detail_id"></div><div class="fixed_item_id" name="fixed_item_id" style="display:none"></div><textarea class="index_area" name="index_name"></textarea><input type="button" class="b_del_index" value="見出し削除"><textarea class="main_text" name="main_text"></textarea><div class="item_status" name="item_status" style="display:none"></div><div class="button_function" name="button_function" style="display:none"></div><input type="button" class="button_name" name="button_name"><div class="get_index_name" name="get_index_name" style="display:none"></div></div>';
 // レポート作成画面のデータ展開時に追加される一式
 TAG_REPORT_DATE_OPEN = '<div class="number" name="detail_id"></div><div class="fixed_item_id" name="fixed_item_id" style="display:none"></div><textarea class="index_area" name="index_name"></textarea><input type="button" class="b_del_index" value="見出し削除"><textarea class="main_text" name="main_text"></textarea><div class="item_status" name="item_status" style="display:none"></div><div class="button_function" name="button_function" style="display:none"></div><input type="button" class="button_name" name="button_name"></div><div class="get_index_name" name="get_index_name" style="display:none"></div>';
 
@@ -355,6 +361,11 @@ STR_READ_ON = '既読';								// 既読状態の日報に対して返す
 STR_READ_MYSELF = '本人';							// ログインユーザ本人の日報に対して返す
 STR_READ_NOTE = '下書';								// 下書状態の日報に対して返す
 
+// 固定ボタンで返されるファンクション名
+STR_GET_BEFORE_PLAN = 'this.getBeforePlan';
+STR_GET_TODAY_RESULT = 'this.getTodayResult';
+
+
 // トップ画面の日報概要の1行を囲むタグに付与するクラス名の一部
 STR_LINE = 'line';
 
@@ -388,7 +399,7 @@ STR_COMMENT_CREATE = 'コメント作成画面';
 STR_REPORT_CREATE = '日報作成画面';
 
 //TODO:【未実装】ダイアログのコメント系が未定義
-MESSAGE_DEL_INDEX = '見出しエリアを削除	します。\n入力していたデータは消えますがよろしいですか？';
+MESSAGE_DEL_INDEX = '見出しエリアを削除します。\n入力していたデータは消えますがよろしいですか？';
 MESSAGE_FORMAT_ERROR = '見出しが1つもないため登録できません。';
 MESSAGE_REPORT_ERROR = '内容に空白がある状態で報告は出来ません。\n下書きを保存する場合、チェックを入れてから報告してください。';
 MESSAGE_COMMENT_ERROR = '内容が空白ではコメントできません。';

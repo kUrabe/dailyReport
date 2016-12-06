@@ -304,7 +304,7 @@ public class Constants {
 				+ " GROUP BY"
 				+ " ra.content_id) AS t_favorite_status"
 				+ " ON"
-				+ " t_favorite_count.content_id = ri.content_id"
+				+ " t_favorite_status.content_id = ri.content_id"
 				
 				+ " WHERE"
 				+ " ri.base_parent_content_id = ?2"
