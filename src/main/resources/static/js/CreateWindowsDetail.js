@@ -291,18 +291,21 @@ function CreateWindowsDetail() {
 			jsonLen = thisElem.json.length;
 			
 			// jsonが取得出来ているか検証する
-			if(this.json !== null && this.json !== undefined && jsonLen !== 0) {
+			if(thisElem.json !== null && thisElem.json !== undefined && jsonLen !== 0) {
 				// 取得したJSONを展開する
-				thisElem.createReportDetail(SELECTOR_MAIN);
+				thisElem.createReportContent(SELECTOR_MAIN);
 				// 画面内の所定の位置に取得したコンテンツIDを埋める
-				$(SELECTOR_CONTENT_ID).text(this.json[KEY_CONTENT_ID]);
+				$(SELECTOR_CONTENT_ID).text(thisElem.json[0][KEY_CONTENT_ID]);
 			// 取得できなかった場合、テンプレートの取得を試みる
 			} else {
 				// 新たなリクエストを作成するためJSON連想配列を初期化する
 				jsonArray = {};
 				// リクエスト用JSON連想配列に追加する
 				jsonArray[KEY_USER_ID] = user;
+				// 様式をテンプレートでセット
 				jsonArray[KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
+				// 日付をセット（テンプレートは0000-00-00）
+				jsonArray[KEY_DATE] = STR_DATE_TEMP;
 				
 				// JSON連想配列を用いてDBの値を取得する
 				thisElem.getJsonData(PATH_CREATE_BY_DAY, jsonArray, STR_READ);
@@ -311,9 +314,9 @@ function CreateWindowsDetail() {
 				jsonLen = thisElem.json.length;
 				
 				// 紐付くデータが取得出来ているか検証する(messageが返ってきていないか)
-				if(this.json !== null && this.json !== undefined && jsonLen !== 0) {
+				if(thisElem.json !== null && thisElem.json !== undefined && jsonLen !== 0) {
 					// 取得したJSONを展開する
-					thisElem.createReportDetail(SELECTOR_MAIN);
+					thisElem.createReportContent(SELECTOR_MAIN);
 				} 
 				// 画面内の所定の位置（コンテンツID）に空白文字を埋める
 				$(SELECTOR_CONTENT_ID).text("");	
@@ -508,6 +511,15 @@ function CreateWindowsDetail() {
 				thisElem.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_CREATE);
 			}
 			
+			// 自分と親画面（あれば）を閉じる
+			// 親が2ついるか検証（直近の親のみ閉じる）
+			if(thisElem.parentWindow.parentWindowDate) {
+				// 親を閉じる
+				thisElem.parentWindow.close();
+			}
+			// 自分を閉じる
+			thisElem.closeWindow();
+			
 		} else {
 			// 登録できない旨を表示する
 			alert(MESSAGE_COMMENT_ERROR);
@@ -517,7 +529,7 @@ function CreateWindowsDetail() {
 	
 	/**
 	 * 関数名：	isCheckFormatIndex
-	 * 概要：		コメントを登録する
+	 * 概要：		見出し項目が1つ以上あるかチェックする（主として日報報告で使用）
 	 * 引数：		なし
 	 * 戻り値：	なし
 	 * 作成日：	2016/11/23
@@ -635,6 +647,7 @@ function CreateWindowsDetail() {
 	 */
 	this.createCommentWindow = function() {
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		var title = "";				// ページのタイトルを格納する変数
 		
 		// TODO:【メモ】共通ボタンは初期表示のHTMLに展開されている想定
 		// 画面共通のボタンイベント等を登録する
@@ -648,6 +661,7 @@ function CreateWindowsDetail() {
 		$(SELECTOR_USER_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_ID).text());
 		$(SELECTOR_USER_NAME).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_NAME).text());
 		$(SELECTOR_BASE_PARENT_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_BASE_PARENT_CONTENT_ID).text());
+		$(SELECTOR_ENTRY_FORMAT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_ENTRY_FORMAT).text());
 		
 		// 親の画面に押下されたボタンを判定する(新規コメントなのか、編集なのか)
 		// 新規コメントなのか判定する
@@ -677,6 +691,16 @@ function CreateWindowsDetail() {
 			$(SELECTOR_REPORT_DATE).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_REPORT_DATE).text());
 		}
 		
+		// 取得した各値でページのタイトルを作成し、セットする
+		// 日付を連結する
+		title += this.parentWindow.$(parentWindowDate).children(SELECTOR_REPORT_DATE).text() + MARK_SPACE;
+		// ユーザの名前を連結する
+		title += $(SELECTOR_USER_NAME).text() + STR_TITLES;
+		// コンテンツの種類を連結する
+		title += $(SELECTOR_ENTRY_FORMAT).text() == FLAG_ENTRY_FORMAT_REPORT ? STR_REPORT_COMMENT : STR_COMMENT_COMMENT;
+		// 作成したタイトルをセットする
+		$(SELECTOR_SEND_TO).text(title);
+		
 	}
 	
 	/**
@@ -701,6 +725,7 @@ function CreateWindowsDetail() {
 		$(SELECTOR_MAIN_TEXT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_MAIN_TEXT).text());
 		$(SELECTOR_USER_NAME).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_NAME).text());
 		$(SELECTOR_REPORT_DATE).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_REPORT_DATE).text());
+		$(SELECTOR_ENTRY_FORMAT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_ENTRY_FORMAT).text());
 		
 		// TODO:【未実装】ログインユーザは所定の位置（'.user_id'）に埋め込んでいる想定だが、開かれたコメントの投稿ユーザは取得したJSONデータから取得する必要がある
 		// TODO:【未実装】JSONの結果はコメントなので1件しかないが、行ごとに結果が格納されてくる想定で記述

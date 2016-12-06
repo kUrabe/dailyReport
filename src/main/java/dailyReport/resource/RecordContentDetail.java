@@ -37,7 +37,6 @@ import javax.persistence.*;
 							@ColumnResult(name = "main_text"),
 							@ColumnResult(name = "item_status"),
 							@ColumnResult(name = "output_order"),
-							@ColumnResult(name = "index_name"),
 							@ColumnResult(name = "button_function"),
 							@ColumnResult(name = "button_name"),
 							@ColumnResult(name = "get_index_name")

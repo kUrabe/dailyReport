@@ -20,6 +20,7 @@ import dailyReport.Constants;
 import dailyReport.resource.RecordContentDetail;
 import dailyReport.service.CommonService;
 import dailyReport.service.CreateService;
+import dailyReport.resource.GetReportByDayQuery;
 
 
 /**
@@ -50,7 +51,7 @@ public class CreateController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "create/contentByDay", method = RequestMethod.POST)
-	public String requestContentByDay(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+	public List<GetReportByDayQuery> requestContentByDay(@RequestParam("crud") String crud, @RequestParam("json") String json) {
 		
 		String message = "";							// 返却用JSONにセットする文字列格納
 		
@@ -60,21 +61,10 @@ public class CreateController {
 		
 		// TODO:【未実装】ここで格納する型が単純なテーブルのentityクラスではダメなはずなので要検証（こちらは詳細テーブルだけでもよいかも…）
 		// 検索を実行し、その結果をentityインスタンスへ格納する
-		List<RecordContentDetail> recordContentDetail = createService.getContentByDay(map);
-		
-		// TODO:【未実装】entityクラスに対する0件の検証が以下であっているか不明
-		// 検索結果が1件以上取得出来ているか検証する
-		if(recordContentDetail == null) {
-			// 返却用メッセージとして取得できなかった旨(失敗した)の文言をセットしたJSON文字列を作成する
-			message = commonService.setResultMessage(Constants.STR_FAILURE);
-		} else {
-			// TODO:【未実装】entityクラスをJSON文字列にする方法が実装出来ていない。
-			// entityインスタンスをJSON文字列かしてセットする
-			// message = XXXXX;
-		}
+		List<GetReportByDayQuery> getReportByDayQuery = createService.getContentByDay(map);
 		
 		// 作成したJSON文字列を返却する
-		return message;
+		return getReportByDayQuery;
 		
 	}
 	
@@ -141,7 +131,7 @@ public class CreateController {
 	
 		// TODO:【未実装】ここで格納する型が単純なテーブルのentityクラスではダメなはずなので要検証（こちらは詳細テーブルだけでもよいかも…）
 		// 検索を実行し、その結果をentityインスタンスへ格納する
-		List<RecordContentDetail> recordContentDetail = createService.getContentByDay(map);
+		List<RecordContentDetail> recordContentDetail = null;//createService.getContentByDay(map);
 		
 		// TODO:【未実装】entityクラスに対する0件の検証が以下であっているか不明
 		// 検索結果が1件以上取得出来ているか検証する

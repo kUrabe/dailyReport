@@ -48,6 +48,10 @@ public class Constants {
 	public static final String KEY_MAIN_TEXT = "main_text";
 	// record_content_detailテーブル(日付検索時)
 	public static final String KEY_DATE = "date";
+	// record_content_detailテーブル(detail_idが実際にクライアントから送られてくる時)
+	public static final String KEY_NUMBER = "number";
+	// record_content_detailテーブル(index_nameが実際にクライアントから送られてくる時)
+	public static final String KEY_INDEX_AREA = "index_area";
 	// fixed_item_infテーブル
 	public static final String KEY_FIXED_ITEM_ID = "fixed_item_id";
 	public static final String KEY_ITEM_STATUS = "item_status";
@@ -65,7 +69,7 @@ public class Constants {
 	public static final String STR_QUERY_NOTE_IN =" AND (((ri.entry_status = 1 OR ri.entry_status = 2) AND ri.user_id = ?1) OR (ri.user_id <> ?1 AND ri.entry_status = 2))";
 	public static final String STR_QUERY_NOTE_OUT =" AND ((ri.entry_status = 2 AND ri.user_id = ?1) OR (ri.user_id <> ?1 AND ri.entry_status = 2))";
 	public static final String STR_QUERY_NOTE_ONLY =" AND (ri.entry_status = 1 AND ri.user_id = ?1)";
-	public static final String STR_QUERY_ORDER__REPOT_DATE = " ORDER BY ri.report_date, ri.content_id";
+	public static final String STR_QUERY_ORDER__REPOT_DATE = " ORDER BY ri.report_date, ri.content_id, ri.parent_content_id, ri.grand_parent_content_id";
 	
 	// その他定数
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -198,7 +202,7 @@ public class Constants {
 //				+ " AND"
 //				+ " ri.entry_status = ?3"
 				+ " ORDER BY"
-				+ " rd.content_id, rd.detail_id"
+				+ " ri.content_id, ri.parent_content_id, ri.grand_parent_content_id, rd.detail_id"
 			;
 	
 	// トップ画面のアコーディオン内のコメント内容
@@ -310,4 +314,54 @@ public class Constants {
 				+ " ri.content_id, ri.base_parent_content_id, ri.parent_content_id, ri.grand_parent_content_id"
 			;
 	
+	// コンテンツ詳細更新前の削除クエリ
+	public static final String CONTENT_DELETE = 
+			"DELETE"
+				+ " rd"
+				+ " FROM"
+				+ " record_content_detail rd"
+				+ " LEFT JOIN"
+				+ " record_content_inf ri"
+				+ " ON"
+				+ " rd.content_id = ri.content_id"
+				+ " WHERE"
+				+ " ri.content_id = ?1"
+				+ " AND"
+				+ " ri.entry_format = ?2"
+		;
+	
+	// 日報作成画面の日付に応じたデータの取得（テンプレート取得にも使用）
+	public static final String GET_REPORT_BY_DYA = 
+			"SELECT "
+			+ "ri.content_id AS content_id"
+			+ ", rd.detail_id AS detail_id"
+			+ ", rd.fixed_item_id AS fixed_item_id"
+			+ ", rd.index_name AS index_name,"
+			+ " rd.main_text AS main_text,"
+			+ " fi.item_status AS item_status,"
+			+ " fi.output_order AS output_order,"
+			+ " fi.button_function AS button_function,"
+			+ " fi.button_name AS button_name,"
+			+ " fi.get_index_name AS get_index_name"
+			+ " FROM"
+			+ " record_content_detail rd"
+			+ " LEFT JOIN"
+			+ " record_content_inf ri"
+			+ " ON"
+			+ " rd.content_id = ri.content_id"
+			+ " LEFT JOIN"
+			+ " fixed_item_inf fi"
+			+ " ON"
+			+ " rd.fixed_item_id = fi.fixed_item_id"
+			+ " WHERE"
+			+ " ri.user_id = ?1"
+			+ " AND"
+			+ " ri.entry_format = ?2"
+			+ " AND"
+			+ " ri.entry_status IN(1, 2)"
+			+ " AND"
+			+ " ri.report_date = ?3"
+			+ " ORDER BY"
+			+ " ri.content_id, rd.detail_id"
+			;
 }

@@ -16,7 +16,9 @@ public class GetReportByDayQuery {
 	private String main_text;			// 本文マッピング
 	private int item_status;			// 固定アイテムの状態マッピング
 	private int output_order;			// 固定アイテムの出力順序マッピング
-	private String 
+	private int button_function;		// 固定アイテムの関数マッピング
+	private String button_name;			// 固定アイテムのボタン名
+	private String get_index_name;		// 固定アイテムの取得項目名マッピング
 	
 	// コンストラクタ（引数あり）
 	public GetReportByDayQuery(
@@ -24,13 +26,23 @@ public class GetReportByDayQuery {
 			int detail_id,
 			Integer fixed_item_id,
 			String index_name,
-			String main_text
+			String main_text,
+			int item_status,
+			int output_order,
+			int button_function,
+			String button_name,
+			String get_index_name
 			) {
 		this.content_id = content_id;
 		this.detail_id = detail_id;
 		this.fixed_item_id = fixed_item_id == null ? 0 : new Integer(fixed_item_id);
-		this.index_name = index_name;
-		this.main_text = main_text;
+		this.index_name = index_name == null ? "" : index_name;
+		this.main_text = main_text == null ? "" : main_text;
+		this.item_status = item_status;
+		this.output_order = output_order;
+		this.button_function = button_function;
+		this.button_name = button_name == null ? "" : button_name;
+		this.get_index_name = get_index_name == null ? "" : get_index_name;
 	}
 
 	public int getContent_id() {
@@ -71,6 +83,46 @@ public class GetReportByDayQuery {
 
 	public void setMain_text(String main_text) {
 		this.main_text = main_text;
+	}
+
+	public int getItem_status() {
+		return item_status;
+	}
+
+	public void setItem_status(int item_status) {
+		this.item_status = item_status;
+	}
+
+	public int getOutput_order() {
+		return output_order;
+	}
+
+	public void setOutput_order(int output_order) {
+		this.output_order = output_order;
+	}
+
+	public int getButton_function() {
+		return button_function;
+	}
+
+	public void setButton_function(int button_function) {
+		this.button_function = button_function;
+	}
+
+	public String getButton_name() {
+		return button_name;
+	}
+
+	public void setButton_name(String button_name) {
+		this.button_name = button_name;
+	}
+
+	public String getGet_index_name() {
+		return get_index_name;
+	}
+
+	public void setGet_index_name(String get_index_name) {
+		this.get_index_name = get_index_name;
 	}
 
 }

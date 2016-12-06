@@ -245,7 +245,7 @@ function WindowDesign() {
 			} else {
 				userFlag = STR_FALSE;
 			}
-			false
+
 			// JSONの行要素を走査する
 			for(var key in this.json) {
 				
@@ -303,6 +303,58 @@ function WindowDesign() {
 				this.changeButtonStatus($_blockSelector.children(SELECTOR_B_NO_READ), $_blockSelector.children(SELECTOR_B_NO_READ).val(), $_contentIndex.children(SELECTOR_READ_STATUS).text());
 				
 			}
+			
+			// 各ボタンのイベント登録(アコーディオンの内部には、タグで追加した際にコメントするボタンと、閉じるボタンが入っている)
+			
+			// TODO:【メモ】閉じるボタンへのセレクタは同じセレクタを使用しているため、概要行生成時にこのボタンに対する設定も行われている。ここでイベント登録するとボタン側だけ二重のイベント登録になる
+			// 閉じるボタンのイベントを登録する
+			//this.managementAccordion($(selector).parent().children(SELECTOR_B_ACCORDION), $(selector).parent())
+			
+		}
+		
+	}
+	
+	/**
+	 * 関数名：	createReportContent
+	 * 概要：		日報作成画面の
+	 * 引数：		selector		
+	 * 戻り値：	なし
+	 * 作成日：	2016/11/23
+	 * 作成者：	k.urabe
+	 */
+	this.createReportContent = function(selector) {
+		
+		var userFlag = STR_FALSE;		// 本人ならtrue、他人の日報ならfalse
+		var user;						// ログイン中のユーザIDを保管
+
+		// JSONの長さを取得
+		jsonLen = this.json.length;
+		
+		// jsonが取得出来ているか検証する
+		if(this.json !== null && this.json !== undefined && jsonLen !== 0) {
+			
+			// JSONの行要素を走査する
+			for(var key in this.json) {
+				
+				// ブロックエリアのタグを埋める
+				$(selector).append(TAG_BLOCK_AREA);
+				// 行(ブロック)内のセレクタを取得する
+				var $_blockSelector = $(selector).children(SELECTOR_PARENT_AREA_LAST);
+				
+				// 追加した行開始タグにクラス名を追加する
+				$_blockSelector.addClass(STR_NUMBER + this.json[key][KEY_DETAIL_ID]);
+				// 行内の各項目のタグを追加する
+				$_blockSelector.append(TAG_REPORT_DATE_OPEN);
+				
+				// JSONの列要素を走査する
+				for(var keyIn in this.json[key]) {
+					// 挿入された項目タグの名前と一致させながら値をセットする(textとvalueにそれぞれ)
+					$_blockSelector.children(SELECTOR_NAME_START + keyIn + SELECTOR_NAME_END).text(this.json[key][keyIn]);
+					$_blockSelector.children(SELECTOR_NAME_START + keyIn + SELECTOR_NAME_END).val(this.json[key][keyIn]);
+				}
+				
+			}
+
 			
 			// 各ボタンのイベント登録(アコーディオンの内部には、タグで追加した際にコメントするボタンと、閉じるボタンが入っている)
 			
@@ -417,15 +469,14 @@ function WindowDesign() {
 							$_blockSelector.children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_NO_READ).addClass(KEY_R_ON) : "";
 						}
 						
-						
-						
-						
-						
-						
 					// JSON内の祖先コンテンツIDと、引数で受け親コンテンツIDが一致してる、かつJSONの親コンテンツと、検証中のコンテンツIDが一致するか検証する（次の階層のデータか検証する）
 					} else if(this.json[key][KEY_DB_GRAND_PARENT_CONTENT_ID] == parent_content_id) {
-						// 再帰的に自身を呼び出す(階層が1層深まるのでインデントを+1する)
-						thisElem.createCommentDetail($(selector).children(STR_DOT + STR_LINE + this.json[key][KEY_DB_PARENT_CONTENT_ID]), this.json[key][KEY_DB_PARENT_CONTENT_ID], indent += 1, key);
+						// 階層が1層深まるのでインデントを+1する
+						indent += 1;
+						// 再帰的に自身を呼び出す
+						thisElem.createCommentDetail($(selector).children(STR_DOT + STR_LINE + this.json[key][KEY_DB_PARENT_CONTENT_ID]), this.json[key][KEY_DB_PARENT_CONTENT_ID], indent, key);
+						// 階層が戻ってきたのでインデントを-1する
+						indent -= 1;
 					}
 				
 				}

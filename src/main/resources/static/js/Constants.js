@@ -211,6 +211,9 @@ SELECTOR_INDEX_LINE = '.index_line';			// トップ画面の見出し項目を�
 SELECTOR_CONTENT_INDEX = '.content_index';		// トップ画面の1行概要を囲むセレクタ。（当該タグにはb_accordionも付く）
 SELECTOR_DIV_NAME_START = 'div[name=';			// divダグのname属性をしていする際に使用するセレクタ
 SELECTOR_DIV_NAME_END = ']';					// divダグのname属性をしていする際に使用するセレクタ
+SELECTOR_NAME_START = '[name=';					// name属性で何かを指定する際
+SELECTOR_NAME_END = ']';						// name属性で何かを指定する際
+
 SELECTOR_LINE = '.line';							// blockAreaに付与される行番号セレクタ
 SELECTOR_COMMENT_LINE = '.comment_line';		// コメント1行分の領域セレクタ
 
@@ -309,8 +312,9 @@ TAG_TR_END = '</tr>';
 
 
 // レポート作成画面の見出し追加ボタンによって追加される一式
-TAG_REPORT_CREATE_WINDOW_INDEX = '<div class="blockArea"><div class="number"></div><textarea class="index_area"></textarea><input type="button" class="b_del_index" value="見出し削除"><textarea class="main_text"></textarea></div>';
-
+TAG_REPORT_CREATE_WINDOW_INDEX = '<div class="blockArea"><div class="number" name="detail_id"></div><div class="fixed_item_id" name="fixed_item_id" style="display:none"></div><textarea class="index_area" name="index_name"></textarea><input type="button" class="b_del_index" value="見出し削除"><textarea class="main_text" name="main_text"></textarea><div class="item_status" name="item_status" style="display:none"></div><div class="button_function" name="button_function" style="display:none"></div><input type="button" class="button_name" name="button_name"></div><div class="get_index_name" name="get_index_name" style="display:none"></div></div>';
+// レポート作成画面のデータ展開時に追加される一式
+TAG_REPORT_DATE_OPEN = '<div class="number" name="detail_id"></div><div class="fixed_item_id" name="fixed_item_id" style="display:none"></div><textarea class="index_area" name="index_name"></textarea><input type="button" class="b_del_index" value="見出し削除"><textarea class="main_text" name="main_text"></textarea><div class="item_status" name="item_status" style="display:none"></div><div class="button_function" name="button_function" style="display:none"></div><input type="button" class="button_name" name="button_name"></div><div class="get_index_name" name="get_index_name" style="display:none"></div>';
 
 
 
@@ -365,6 +369,13 @@ STR_TIME_SEPARATOR = '-';
 STR_GET_PARA_CONTENT_ID = '?contentId=';
 STR_GET_PARA_P_CONTENT_ID = '&parentContentId=';
 
+// コメント作成画面のタイトル作成用の固定文字列
+STR_TITLES = 'さんの';
+STR_REPORT_COMMENT = '日報へのコメント';
+STR_COMMENT_COMMENT = 'コメントへのコメント';
+
+// テンプレート用日付
+STR_DATE_TEMP = '0000-00-00';
 /*
 KEY_DB_BASE_PARENT_CONTENT_ID = 'baseParentContentId';
 KEY_DB_GRAND_PARENT_CONTENT_ID = 'grandParentContentId';
