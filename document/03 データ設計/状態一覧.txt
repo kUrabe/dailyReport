@@ -1,0 +1,44 @@
+0001 1
+0010 2
+0100 4
+1000 8
+
+【user_inf】
+user_authority　：　ユーザ権限
+ 0001　会員
+ 0010　管理
+
+【record_content_inf】
+entry_format　：　登録書式
+ 0001　テンプレート
+ 0010　日報
+ 0100　コメント
+
+【record_content_inf】
+entry_status　：　登録状態
+ 0001　下書
+ 0010　登録済み
+ 0100　削除
+
+【record_content_add】
+add_category　：　追加種別
+ 0001　既読
+ 0010　いいね
+
+【record_content_add】
+category_status　：　登録状態
+ 0001　登録
+ 0010　削除
+
+【fixed_item_inf】
+item_status　：　固定項目状態
+ 0001　ロック状態（他のbitとの組み合わせで使用）（本bitは他のビットと組み合わせて使用する）
+ 0010　使用中
+ 0100　未使用
+
+【fixed_item_inf】
+button_function　：　ボタン機能
+ 0001　なし
+ 0010　当日日報を検索対象
+ 0100　前日以前を検索対象
+

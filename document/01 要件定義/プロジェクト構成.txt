@@ -1,0 +1,21 @@
+プロジェクト名
+　dailyReport
+
+システム要件
+　java1.8
+　Spring Boot 1.4.2
+　　AOP
+　　JPA
+　　Security
+　　Thymeleaf
+　　Web（MVC）
+　　MyBatis
+　　MySQL
+
+データベース名
+　daily-report-ddthink
+
+パッケージ構成
+　dailyReport
+　　|
+　　

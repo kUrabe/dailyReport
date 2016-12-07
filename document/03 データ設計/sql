@@ -1,0 +1,634 @@
+SELECT new TopSearchContentSummary(i.contentId, i.userInf.userId, i.entryFormat, i.entryStatus, i.baseParentContentId, i.grandParentContentId, i.parentContentId, i.reportDate, ) FROM RecordContentInf i LEFT JOIN FETCH i.recordContentAddSet WHERE i.userInf.userId like :serach_user AND i.reportDate BETWEEN :serach_from_date AND :serach_to_date
+
+
+既読数
+//(SELECT COUNT(a.id) FROM RecordContentAdd a LEFT JOIN FETCH a.recordContentInf WHERE a.recordContentInf.contentId = i.contentId AND a.addCategory = '1' AND a.categoryStatus = '1')
+(SELECT COUNT(a.id) FROM RecordContentAdd a WHERE a.recordContentInf.contentId = i.contentId AND a.addCategory = '1' AND a.categoryStatus = '1')
+
+いいね数
+//(SELECT COUNT(a.id) FROM RecordContentAdd a LEFT JOIN FETCH a.recordContentInf WHERE a.recordContentInf.contentId = i.contentId AND a.addCategory = '2' AND a.categoryStatus = '1')
+(SELECT COUNT(a.id) FROM RecordContentAdd a WHERE a.recordContentInf.contentId = i.contentId AND a.addCategory = '2' AND a.categoryStatus = '1')
+
+コメント数
+
+
+
+
+
+取得情報まとめ
+報告日			：対象日報が投稿された日付	：表示
+コンテンツID		：対象日報のコンテンツID		：非表示
+ユーザID			：対象日報を投稿したユーザID	：非表示
+ユーザ名			：対象日報を投稿したユーザ名	：表示
+登録書式			：対象日報の登録書式（すべて日報のはず）	：非表示
+登録状態			：対象日報の登録状態（下書き、登録）		：非表示
+基底親コンテンツID	：対象日報の基底親コンテンツID			：非表示
+祖先コンテンツID		：対象日報の祖先コンテンツID			：非表示
+親コンテンツID		：対象日報の親コンテンツID				：非表示
+既読者数			：対象日報の既読者数				：表示
+ステータス			：対象日報をログインユーザからみた状態		：表示（本人の場合は本人とでる）
+コメント数			：対象日報につくコメント数				：表示（副問い合わせ？）
+いいね数			：対象日報につくいいね数				：表示
+
+
+
+トップ画面（検索機能）
+※バインド変数なしのデフォルト動作版
+SELECT 
+	ri.report_date AS report_date
+	, ri.content_id AS content_id
+	, ri.user_id AS user_id
+	, ui.user_name AS user_name
+	, ri.entry_format AS entry_format
+	, ri.entry_status AS entry_status
+	, ri.base_parent_content_id AS base_parent_content_id
+	, ri.grand_parent_content_id AS grand_parent_content_id
+	, ri.parent_content_id AS parent_content_id
+	, (SELECT
+		COUNT(ra.id)
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.content_id = ri.content_id
+	AND
+		ra.add_category = 1
+	AND
+		ra.category_status = 1
+		) AS read_count
+	, (SELECT
+		COUNT(ri2.content_id)
+	FROM
+		record_content_inf ri2
+	WHERE
+		ri2.parent_content_id = ri.content_id
+		) AS comment_count
+	, (SELECT
+		COUNT(ra.id)
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.content_id = ri.content_id
+	AND
+		ra.add_category = 2
+	AND
+		ra.category_status = 1
+		) AS favorite_count
+FROM
+	record_content_inf ri
+LEFT JOIN
+	user_inf ui
+ON
+	ri.user_id = ui.user_id
+WHERE
+	ri.entry_format = 2
+;
+
+
+トップ画面（検索機能）
+※バインド変数あり。
+SELECT 
+	ri.report_date AS report_date
+	, ri.content_id AS content_id
+	, ri.user_id AS user_id
+	, ui.user_name AS user_name
+	, ri.entry_format AS entry_format
+	, ri.entry_status AS entry_status
+	, ri.base_parent_content_id AS base_parent_content_id
+	, ri.grand_parent_content_id AS grand_parent_content_id
+	, ri.parent_content_id AS parent_content_id
+	, (SELECT
+		COUNT(ra.id)
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.content_id = ri.content_id
+	AND
+		ra.add_category = 1
+	AND
+		ra.category_status = 1
+		) AS read_count
+
+	, (SELECT
+		COUNT(ra.id)
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.content_id = ri.content_id
+	AND
+		ra.add_category = 1
+	AND
+		ra.category_status = 1
+	AND
+		ra.user_id = ?1
+		) AS read_status
+
+	, (SELECT
+		COUNT(ri2.content_id)
+	FROM
+		record_content_inf ri2
+	WHERE
+		ri2.parent_content_id = ri.content_id
+		) AS comment_count
+
+	, (SELECT
+		COUNT(ra.id)
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.content_id = ri.content_id
+	AND
+		ra.add_category = 2
+	AND
+		ra.category_status = 1
+		) AS favorite_count
+FROM
+	record_content_inf ri
+LEFT JOIN
+	user_inf ui
+ON
+	ri.user_id = ui.user_id
+WHERE
+	ri.entry_format = 2
+AND
+	ui.user_name LIKE ?2
+AND
+	ri.report_date
+BETWEEN
+	?3
+AND
+	?4
+AND
+	ri.entry_status
+IN
+	?5
+;
+
+トップ画面（検索機能）
+※登録用
+※バインド変数あり。
+SELECT ri.report_date AS report_date, ri.content_id AS content_id, ri.user_id AS user_id, ui.user_name AS user_name, ri.entry_format AS entry_format, ri.entry_status AS entry_status, ri.base_parent_content_id AS base_parent_content_id, ri.grand_parent_content_id AS grand_parent_content_id, ri.parent_content_id AS parent_content_id, (SELECT COUNT(ra.id) FROM record_content_add ra WHERE ra.content_id = ri.content_id AND ra.add_category = 1 AND ra.category_status = 1) AS read_count, (SELECT COUNT(ra.id) FROM record_content_add ra WHERE ra.content_id = ri.content_id AND ra.add_category = 1 AND ra.category_status = 1 AND ra.user_id = ?1) AS read_status, (SELECT COUNT(ri2.content_id) FROM record_content_inf ri2 WHERE ri2.parent_content_id = ri.content_id) AS comment_count, (SELECT COUNT(ra.id) FROM record_content_add ra WHERE ra.content_id = ri.content_id AND ra.add_category = 2 AND ra.category_status = 1) AS favorite_count FROM record_content_inf ri LEFT JOIN user_inf ui ON ri.user_id = ui.user_id WHERE ri.entry_format = 2 AND ui.user_name LIKE ?2 AND ri.report_date BETWEEN ?3 AND ?4 AND ri.entry_status IN ?5
+
+【修正版】
+トップ画面（検索機能）
+※バインド変数なしのデフォルト動作版
+SELECT 
+	ri.report_date AS report_date
+	, ri.content_id AS content_id
+	, ri.user_id AS user_id
+	, ui.user_name AS user_name
+	, ri.entry_format AS entry_format
+	, ri.entry_status AS entry_status
+	, ri.base_parent_content_id AS base_parent_content_id
+	, ri.grand_parent_content_id AS grand_parent_content_id
+	, ri.parent_content_id AS parent_content_id
+	, t_read_count.in_count AS read_count
+	, t_comment_count.in_count AS comment_count
+	, t_favorite_count.in_count AS favorite_count
+FROM
+	record_content_inf ri
+LEFT JOIN
+	user_inf ui
+ON
+	ri.user_id = ui.user_id
+LEFT JOIN
+	(SELECT
+		ra.content_id AS content_id
+		, COUNT(ra.content_id) AS in_count
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.add_category = 1
+	AND
+		ra.category_status = 1
+	GROUP BY
+		ra.content_id
+		) AS t_read_count
+	ON
+		t_read_count.content_id = ri.content_id
+LEFT JOIN
+	(SELECT
+		ri2.parent_content_id AS parent_content_id
+		, COUNT(ri2.parent_content_id) AS in_count
+	FROM
+		record_content_inf ri2
+	GROUP BY
+		ri2.parent_content_id
+		) AS t_comment_count
+	ON
+		t_comment_count.parent_content_id = ri.content_id
+LEFT JOIN
+	(SELECT
+		ra.content_id AS content_id
+		, COUNT(ra.content_id) AS in_count
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.add_category = 2
+	AND
+		ra.category_status = 1
+	GROUP BY
+		ra.content_id
+		) AS t_favorite_count
+	ON
+		t_favorite_count.content_id = ri.content_id
+WHERE
+	ri.entry_format = 2
+;
+
+【修正版】
+トップ画面（検索機能）
+※バインド変数あり
+SELECT 
+	ri.report_date AS report_date
+	, ri.content_id AS content_id
+	, ri.user_id AS user_id
+	, ui.user_name AS user_name
+	, ri.entry_format AS entry_format
+	, ri.entry_status AS entry_status
+	, ri.base_parent_content_id AS base_parent_content_id
+	, ri.grand_parent_content_id AS grand_parent_content_id
+	, ri.parent_content_id AS parent_content_id
+	, t_read_count.in_count AS read_count
+	, t_read_status.in_count AS read_status
+	, t_comment_count.in_count AS comment_count
+	, t_favorite_count.in_count AS favorite_count
+FROM
+	record_content_inf ri
+LEFT JOIN
+	user_inf ui
+ON
+	ri.user_id = ui.user_id
+LEFT JOIN
+	(SELECT
+		ra.content_id AS content_id
+		, COUNT(ra.content_id) AS in_count
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.add_category = 1
+	AND
+		ra.category_status = 1
+	GROUP BY
+		ra.content_id
+		) AS t_read_count
+	ON
+		t_read_count.content_id = ri.content_id
+LEFT JOIN
+	(SELECT
+		ra.content_id AS content_id
+		, COUNT(ra.content_id) AS in_count
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.add_category = 1
+	AND
+		ra.category_status = 1
+	AND
+		ra.user_id = ?1
+		) AS t_read_status
+	ON
+		t_read_status.content_id = ri.content_id
+LEFT JOIN
+	(SELECT
+		ri2.parent_content_id AS parent_content_id
+		, COUNT(ri2.parent_content_id) AS in_count
+	FROM
+		record_content_inf ri2
+	GROUP BY
+		ri2.parent_content_id
+		) AS t_comment_count
+	ON
+		t_comment_count.parent_content_id = ri.content_id
+LEFT JOIN
+	(SELECT
+		ra.content_id AS content_id
+		, COUNT(ra.content_id) AS in_count
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.add_category = 2
+	AND
+		ra.category_status = 1
+	GROUP BY
+		ra.content_id
+		) AS t_favorite_count
+	ON
+		t_favorite_count.content_id = ri.content_id
+WHERE
+	ri.entry_format = 2
+AND
+	ui.user_name LIKE ?2
+AND
+	ri.report_date
+BETWEEN
+	?3
+AND
+	?4
+AND
+	t_read_status.in_count
+IN
+	?5
+AND
+	ri.entry_status
+IN
+	?6
+;
+
+SELECT ri.report_date AS report_date, ri.content_id AS content_id, ri.user_id AS user_id, ui.user_name AS user_name, ri.entry_format AS entry_format, ri.entry_status AS entry_status, ri.base_parent_content_id AS base_parent_content_id, ri.grand_parent_content_id AS grand_parent_content_id, ri.parent_content_id AS parent_content_id, t_read_count.in_count AS read_count, t_read_status.in_count AS read_status, t_comment_count.in_count AS comment_count, t_favorite_count.in_count AS favorite_count FROM record_content_inf ri LEFT JOIN user_inf ui ON ri.user_id = ui.user_id LEFT JOIN (SELECT ra.content_id AS content_id, COUNT(ra.content_id) AS in_count FROM record_content_add ra WHERE ra.add_category = 1 AND ra.category_status = 1 GROUP BY ra.content_id) AS t_read_count ON t_read_count.content_id = ri.content_id LEFT JOIN (SELECT ra.content_id AS content_id, COUNT(ra.content_id) AS in_count FROM record_content_add ra WHERE ra.add_category = 1 AND ra.category_status = 1 AND ra.user_id = ?1) AS t_read_status ON t_read_status.content_id = ri.content_id LEFT JOIN (SELECT ri2.parent_content_id AS parent_content_id, COUNT(ri2.parent_content_id) AS in_count FROM record_content_inf ri2 GROUP BY ri2.parent_content_id) AS t_comment_count ON t_comment_count.parent_content_id = ri.content_id LEFT JOIN (SELECT ra.content_id AS content_id, COUNT(ra.content_id) AS in_count FROM record_content_add ra WHERE ra.add_category = 2 AND ra.category_status = 1 GROUP BY ra.content_id) AS t_favorite_count ON t_favorite_count.content_id = ri.content_id WHERE ri.entry_format = 2 AND ui.user_name LIKE ?2 AND ri.report_date BETWEEN ?3 AND ?4 AND t_read_status.in_count IN ?5 AND ri.entry_status IN ?6
+
+
+トップ画面（検索機能）
+※バインド変数なしのデフォルト動作版
+
+SELECT
+	rd.content_id AS content_id
+	, rd.detail_id AS detail_id
+	, rd.fixed_item_id AS fixed_item_id
+	, rd.index_name AS index_name
+	, rd.main_text AS main_text
+FROM
+	record_content_inf ri
+LEFT JOIN
+	record_content_detail rd
+ON
+	ri.content_id = rd.content_id
+WHERE
+	rd.content_id = ?1
+AND
+	ri.entry_format = ?2
+AND
+	ri.entry_status = ?3
+ORDER BY
+	rd.content_id, rd.detail_id
+;
+
+SELECT rd.content_id AS content_id, rd.detail_id AS detail_id, rd.fixed_item_id AS fixed_item_id, rd.index_name AS index_name, rd.main_text AS main_text FROM record_content_inf ri LEFT JOIN record_content_detail rd ON ri.content_id = rd.content_id WHERE rd.content_id = ?1 AND ri.entry_format = ?2 AND ri.entry_status = ?3 ORDER BY rd.content_id, rd.detail_id
+;
+
+
+
+トップ画面（アコーディオン内機能（コメント関連））
+※バインド変数なしのデフォルト動作版
+SELECT
+	ri.report_date AS report_date
+	, ri.content_id AS content_id
+	, ri.user_id AS user_id
+	, ui.user_name AS user_name
+	, ri.entry_format AS entry_format
+	, ri.entry_status AS entry_status
+	, ri.base_parent_content_id AS base_parent_content_id
+	, ri.grand_parent_content_id AS grand_parent_content_id
+	, ri.parent_content_id AS parent_content_id
+	, t_read_count.in_count AS read_count
+	, t_read_status.in_count AS read_status
+	, t_comment_count.in_count AS comment_count
+	, t_favorite_count.in_count AS favorite_count
+	, rd.main_text AS main_text
+FROM
+	record_content_inf ri
+LEFT JOIN
+	record_content_detail rd
+ON
+	ri.content_id = rd.content_id
+
+LEFT JOIN
+	user_inf ui
+ON
+	ri.user_id = ui.user_id
+LEFT JOIN
+	(SELECT
+		ra.content_id AS content_id
+		, COUNT(ra.content_id) AS in_count
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.add_category = 1
+	AND
+		ra.category_status = 1
+	GROUP BY
+		ra.content_id
+		) AS t_read_count
+	ON
+		t_read_count.content_id = ri.content_id
+LEFT JOIN
+	(SELECT
+		ra.content_id AS content_id
+		, COUNT(ra.content_id) AS in_count
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.add_category = 1
+	AND
+		ra.category_status = 1
+	AND
+		ra.user_id = 'user3'
+		) AS t_read_status
+	ON
+		t_read_status.content_id = ri.content_id
+LEFT JOIN
+	(SELECT
+		ri2.parent_content_id AS parent_content_id
+		, COUNT(ri2.parent_content_id) AS in_count
+	FROM
+		record_content_inf ri2
+	GROUP BY
+		ri2.parent_content_id
+		) AS t_comment_count
+	ON
+		t_comment_count.parent_content_id = ri.content_id
+LEFT JOIN
+	(SELECT
+		ra.content_id AS content_id
+		, COUNT(ra.content_id) AS in_count
+	FROM 
+		record_content_add ra
+	WHERE
+		ra.add_category = 2
+	AND
+		ra.category_status = 1
+	GROUP BY
+		ra.content_id
+		) AS t_favorite_count
+	ON
+		t_favorite_count.content_id = ri.content_id
+
+WHERE
+	ri.base_parent_content_id = 1
+AND
+	ri.entry_status = 2
+;
+
+
+
+コンテンツ詳細の更新前削除
+※バインド変数なしのデフォルト動作版
+DELETE
+	rd
+FROM
+	record_content_detail rd
+LEFT JOIN
+	record_content_inf ri
+ON
+	rd.content_id = ri.content_id
+WHERE
+	ri.content_id = ?1
+AND
+	ri.entry_format = ?2
+;
+
+DELETE
+	rd
+FROM
+	record_content_detail rd
+LEFT JOIN
+	record_content_inf ri
+ON
+	rd.content_id = ri.content_id
+WHERE
+	ri.content_id = 26
+AND
+	ri.entry_format = 4
+;
+
+
+
+コンテンツ詳細(日報の日付変動による)
+※バインド変数なしのデフォルト動作版
+/* 日付に対する日報（or テンプレート）を検索する(テンプレートは0000-00-00で検索できる) */
+SELECT
+	ri.content_id AS content_id
+	, rd.detail_id AS detail_id
+	, rd.fixed_item_id AS fixed_item_id
+	, rd.index_name AS index_name
+	, rd.main_text AS main_text
+	, fi.item_status AS item_status
+	, fi.output_order AS output_order
+	, fi.button_function AS button_function
+	, fi.button_name AS button_name
+	, fi.get_index_name AS get_index_name
+FROM
+	record_content_detail rd
+LEFT JOIN
+	record_content_inf ri
+ON
+	rd.content_id = ri.content_id
+LEFT JOIN
+	fixed_item_inf fi
+ON
+	rd.fixed_item_id = fi.fixed_item_id
+WHERE
+	ri.user_id = ?1
+AND
+	ri.entry_format = ?2
+AND
+	ri.entry_status IN(1, 2)
+AND
+	ri.report_date = ?3
+ORDER BY
+	ri.content_id, rd.detail_id
+;
+
+
+LEFT JOIN
+	(SELECT item_status AS in_item_status FROM fixed_item_inf WHERE item_status IN(2, 3)) AS t_fixed_item_inf
+
+
+SELECT ri.content_id AS content_id, rd.detail_id AS detail_id, rd.fixed_item_id AS fixed_item_id, rd.index_name AS index_name, rd.main_text AS main_text, fi.item_status AS item_status, fi.output_order AS output_order, fi.button_function AS button_function, fi.button_name AS button_name, fi.get_index_name AS get_index_name FROM record_content_detail rd LEFT JOIN record_content_inf ri ON rd.content_id = ri.content_id LEFT JOIN fixed_item_inf fi ON rd.fixed_item_id = fi.fixed_item_id WHERE ri.user_id = ?1 AND ri.entry_format = ?2 AND ri.entry_status IN(1, 2) AND ri.report_date = ?3 ORDER BY ri.content_id, rd.detail_id
+;
+
+SELECT
+	ri.content_id AS content_id
+	, rd.detail_id AS detail_id
+	, rd.fixed_item_id AS fixed_item_id
+	, rd.index_name AS index_name
+	, rd.main_text AS main_text
+	, fi.item_status AS item_status
+	, fi.output_order AS output_order
+	, fi.button_function AS button_function
+	, fi.button_name AS button_name
+	, fi.get_index_name AS get_index_name
+	, ri.report_date
+FROM
+	record_content_detail rd
+LEFT JOIN
+	record_content_inf ri
+ON
+	rd.content_id = ri.content_id
+LEFT JOIN
+	fixed_item_inf fi
+ON
+	rd.fixed_item_id = fi.fixed_item_id
+WHERE
+	ri.user_id = 'user1'
+AND
+	ri.entry_format = 1
+AND
+	ri.entry_status IN(1, 2)
+AND
+	ri.report_date = '0000-00-00'
+ORDER BY
+	ri.content_id, rd.detail_id
+;
+
+
+コンテンツ詳細の前日（以前）日報の
+※バインド変数なしのデフォルト動作版
+SELECT
+	rd.main_text AS main_text
+FROM
+	record_content_detail rd
+LEFT JOIN
+	record_content_inf ri
+ON
+	rd.content_id = ri.content_id
+LEFT JOIN
+	user_inf ui
+ON
+	ri.user_id = ui.user_id
+WHERE
+	ri.user_id = ?1
+AND
+	ri.report_date < ?2
+AND
+	rd.index_name = ?3
+AND
+	ri.entry_format = 2
+AND
+	ri.entry_status = 2
+ORDER BY
+	ri.report_date DESC
+LIMIT 1
+;
+
+
+
+SELECT
+	rd.main_text AS main_text
+FROM
+	record_content_detail rd
+LEFT JOIN
+	record_content_inf ri
+ON
+	rd.content_id = ri.content_id
+LEFT JOIN
+	user_inf ui
+ON
+	ri.user_id = ui.user_id
+WHERE
+	ri.user_id = 'user1'
+AND
+	ri.report_date < '2016-11-07'
+AND
+	rd.index_name = '進捗'
+AND
+	ri.entry_format = 2
+AND
+	ri.entry_status = 2
+ORDER BY
+	ri.report_date DESC
+LIMIT 1
+;
+
+
+SELECT rd.main_text AS main_text FROM record_content_detail rd LEFT JOIN record_content_inf ri ON rd.content_id = ri.content_id LEFT JOIN user_inf ui ON ri.user_id = ui.user_id WHERE ri.user_id = ?1 AND ri.report_date < ?2 AND rd.index_name = ?3 AND ri.entry_format = 2 AND ri.entry_status = 2 ORDER BY ri.report_date DESC LIMIT 1
+;

@@ -1,0 +1,31 @@
+TopController
+　①top画面のアコーディオン内を除くコンテンツの取得（概要（コメント見出し）など）
+	top/topPageContent
+　②top画面のアコーディオン内のコンテンツの取得（詳細やコメントなど）
+	top/topPageDetailContent
+　③別ウインドウ用のHTMLを返す
+	createWindow/{htmlPath}
+　④削除ボタン押下時のリクエストをマッピング
+	common/deleteContent
+
+PageReturnController
+　①topページへのリクエスト
+	/
+
+LoginController
+　①loginFormに対するリクエストをマッピングして、ログインフォームのURLを返す
+	loginForm
+
+CreateController
+　①日報作成画面の日付に合わせた内容の取得
+	create/contentByDay
+　②コンテンツ（日報、コメント）の新規・更新リクエストをマッピング
+	create/saveContent
+　③前日以前の日報（予定）の値を取得する
+	create/beforeContent
+　④テンプレートの新規・更新リクエストをマッピング
+	create/saveTemplate
+
+CommonController
+　①追加コンテンツ（いいね、未読にする）へのリクエストをマッピングする。
+	common/saveAddContent

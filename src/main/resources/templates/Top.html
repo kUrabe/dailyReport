@@ -56,7 +56,7 @@
 	<button class="b_new_report" value="b_new_report">新規日報</button>
 	<div class="user_id" style="display:none" th:text="${user.userId}"></div>
 	<div class="user_name" th:text="${user.userName}"></div>
-	<div class="" style="display:none" th:text="${user.userAuthority}"></div>
+	<div class="user_authority" style="display:none" th:text="${user.userAuthority}"></div>
 	<form th:action="@{/logout}" method="post">
 		<button class="b_logout">ログアウト</button>
 	</form>
