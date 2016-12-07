@@ -479,7 +479,7 @@ function BaseWindow() {
 			this.anotherWindow.parentWindowButton = button_type;
 			// 子のウインドウにデータの取得元のセレクタを渡す
 			this.anotherWindow.parentWindowDate = valueTarget;
-		}, 300);
+		}, 200);
 		
 		
 		// 取得したログインユーザを開いたウインドウにセットする
