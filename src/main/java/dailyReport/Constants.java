@@ -364,4 +364,33 @@ public class Constants {
 			+ " ORDER BY"
 			+ " ri.content_id, rd.detail_id"
 			;
+	
+	// 日報作成画面の前日以前の指定見出し項目の内容取得
+	public static final String GET_CONTENT_BY_DAY =
+			"SELECT"
+			+ " rd.main_text AS main_text"
+			+ " FROM"
+			+ " record_content_detail rd"
+			+ " LEFT JOIN"
+			+ " record_content_inf ri"
+			+ " ON"
+			+ " rd.content_id = ri.content_id"
+			+ " LEFT JOIN"
+			+ " user_inf ui"
+			+ " ON"
+			+ " ri.user_id = ui.user_id"
+			+ " WHERE"
+			+ " ri.user_id = ?1"
+			+ " AND"
+			+ " ri.report_date < ?2"
+			+ " AND"
+			+ " rd.index_name = ?3"
+			+ " AND"
+			+ " ri.entry_format = 2"
+			+ " AND"
+			+ " ri.entry_status = 2"
+			+ " ORDER BY"
+			+ " ri.report_date DESC"
+			+ " LIMIT 1"
+			;
 }

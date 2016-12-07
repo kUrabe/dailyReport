@@ -7,6 +7,7 @@
 
 package dailyReport.controller;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import dailyReport.Constants;
 import dailyReport.resource.RecordContentDetail;
 import dailyReport.service.CommonService;
 import dailyReport.service.CreateService;
+import dailyReport.resource.GetContentByDayQuery;
 import dailyReport.resource.GetReportByDayQuery;
 
 
@@ -119,9 +121,10 @@ public class CreateController {
 	 * 戻り値：	String
 	 * 作成日：	2016/11/24
 	 * 作成者：	k.urabe
+	 * @throws ParseException 
 	 */
 	@RequestMapping(value = "create/beforeContent", method = RequestMethod.POST)
-	public String requestBeforeContent(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+	public List<GetContentByDayQuery> requestBeforeContent(@RequestParam("crud") String crud, @RequestParam("json") String json) throws ParseException {
 	
 		String message = "";							// 返却用JSONにセットする文字列格納
 		
@@ -131,21 +134,10 @@ public class CreateController {
 	
 		// TODO:【未実装】ここで格納する型が単純なテーブルのentityクラスではダメなはずなので要検証（こちらは詳細テーブルだけでもよいかも…）
 		// 検索を実行し、その結果をentityインスタンスへ格納する
-		List<RecordContentDetail> recordContentDetail = null;//createService.getContentByDay(map);
-		
-		// TODO:【未実装】entityクラスに対する0件の検証が以下であっているか不明
-		// 検索結果が1件以上取得出来ているか検証する
-		if(recordContentDetail == null) {
-			// 返却用メッセージとして取得できなかった旨(失敗した)の文言をセットしたJSON文字列を作成する
-			message = commonService.setResultMessage(Constants.STR_NO_BEFORE_PLAN);
-		} else {
-			// TODO:【未実装】entityクラスをJSON文字列にする方法が実装出来ていない。
-			// entityインスタンスをJSON文字列かしてセットする
-			// message = XXXXX;
-		}
-		
+		List<GetContentByDayQuery> getContentByDayQuery = createService.getBeforeContent(map);
+
 		// 作成したJSON文字列を返却する
-		return message;
+		return getContentByDayQuery;
 	
 	}
 	

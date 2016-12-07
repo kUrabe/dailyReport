@@ -354,7 +354,7 @@ function WindowDesign() {
 				}
 				
 				// 見出し削除ボタンのイベントを登録する
-				this.setClickEvent(SELECTOR_B_DEL_INDEX, this.deleteIndex);
+				this.setClickEvent($_blockSelector.children(SELECTOR_B_DEL_INDEX), this.deleteIndex);
 				// 固定アイテム関連のボタンイベント登録と表示、非表示を登録する
 				this.fixdButtonEvent($_blockSelector);
 				

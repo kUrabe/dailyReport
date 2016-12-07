@@ -42,6 +42,15 @@ import javax.persistence.*;
 							@ColumnResult(name = "get_index_name")
 					}
 			)
+	),
+	@SqlResultSetMapping(
+			name="getContentByDayQuery", 
+			classes = @ConstructorResult(
+					targetClass = dailyReport.resource.GetContentByDayQuery.class, 
+					columns = {
+							@ColumnResult(name = "main_text")
+					}
+			)
 	)
 })
 public class RecordContentDetail implements Serializable {

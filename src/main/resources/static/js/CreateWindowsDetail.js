@@ -136,17 +136,22 @@ function CreateWindowsDetail() {
 	 * 作成者：	k.urabe
 	 */
 	// TODO:【未実装】取得失敗した際のメッセージが未実装
-	this.getBeforePlan = function(selector) {
+	this.getBeforePlan = function(selector, thisElem) {
 		
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		var jsonLen;		// jsonの長さを保持するための変数
 		var user;					// ユーザ識別の値を格納するための変数
 		var date;					// 当該日の日付を格納するための変数（前日までの検索はサーバ側で行う。ここでは当該日をとる）
+		var getTitle;				// 当該ボタンが取得したい見出し名を保持するための変数
+		
+		// 押下されたボタンが取得したい見出し名を取得する
+		getTitle = $(selector).parent().children(SELECTOR_GET_INDEX_NAME).val();
 		
 		// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
 		// ユーザ識別の値を取得する
 		user = $(SELECTOR_USER_ID).text();
 		// 当該日の日付を取得する
-		date = $(SELECTOR_REPORT_DATE).text();
+		date = $(SELECTOR_REPORT_DATE).val();
 		
 		// リクエスト用JSON連想配列に追加する
 		// ユーザIDをセット
@@ -154,14 +159,20 @@ function CreateWindowsDetail() {
 		// 日付をセット
 		jsonArray[KEY_DATE] = date;
 		// 取得対象の項目名をセット
-		jsonArray[KEY_INDEX_NAME] = STR_PLAN;
+		jsonArray[KEY_INDEX_NAME] = getTitle;
 		
 		// JSON連想配列を用いてDBの値を取得する
-		this.getJsonData(PATH_CREATE_BEFORE_CONTENT, jsonArray, STR_READ);
-		
-		// 対象のテキストエリアに取得した値をセットする
-		$(selector).parent(SELECTOR_PARENT_AREA).children(SELECTOR_MAIN_TEXT).text(this.json[KEY_MAIN_TEXT]);
-		
+		thisElem.getJsonData(PATH_CREATE_BEFORE_CONTENT, jsonArray, STR_READ);
+		// JSONの長さを取得
+		jsonLen = thisElem.json.length;
+		// jsonが取得出来ているか、および取得したテキストの内容が空白でないか検証する
+		if(thisElem.json !== null && thisElem.json !== undefined && jsonLen !== 0 && thisElem.json[0][KEY_MAIN_TEXT] != "") {
+			// 対象のテキストエリアに取得した値をセットする
+			$(selector).parent().children(SELECTOR_MAIN_TEXT).val(thisElem.json[0][KEY_MAIN_TEXT]);
+		} else {
+			// 取得出来ていない旨のメッセージを表示する
+			thisElem.openWarnigDialog(MESSAGE_NOT_BEFORE_CONTENT);
+		}
 	}
 	
 	/**
@@ -173,14 +184,38 @@ function CreateWindowsDetail() {
 	 * 作成者：	k.urabe
 	 */
 	// TODO:【未実装】取得失敗した際のメッセージが未実装
-	this.getTodayResult = function(selector) {
+	this.getTodayResult = function(selector, thisElem) {
 		
 		var getText;			// 取得したテキストを保持するための変数
+		var getTitle;			// 当該ボタンが取得したい見出し名を保持するための変数
+		var getFlag = false;	// 値が取得できたかのflag（初期はfalse）
+		
+		// 押下されたボタンが取得したい見出し名を取得する
+		getTitle = $(selector).parent().children(SELECTOR_GET_INDEX_NAME).val();
+		
+		// 各項目の塊があるblockAreaを走査する
+		$(SELECTOR_PARENT_AREA).each(function(index) {
+			// 取得した見出し名が一致し、かつそのblockAreaの内容が空白でないか判定する
+			if($(this).children(SELECTOR_INDEX_AREA).val() == getTitle && !($(this).children(SELECTOR_MAIN_TEXT).val() == "")) {
+				// 対象項目の内容をボタンが押下されたblockの内容にコピーする
+				$(selector).parent().children(SELECTOR_MAIN_TEXT).val($(this).children(SELECTOR_MAIN_TEXT).val());
+				// 値が取得出来たことを示すフラグを有効にする
+				getFlag = true;
+				// jQueryのeachを抜ける
+				return false;
+			}
 
+		});
+		// 値が取得できたか検証する
+		if(!getFlag) {
+			// 値が取得出来なかった旨のメッセージを出力する
+			thisElem.openWarnigDialog(MESSAGE_NOT_TODAY_CONTENT);
+		}
+		
 		// 当日の結果からテキストを取得してセットする
-		getText = $(selector).parent(SELECTOR_MAIN).children(SELECTOR_INDEX_AREA).next(SELECTOR_MAIN_TEXT).text();
+		//getText = $(selector).parent(SELECTOR_MAIN).children(SELECTOR_INDEX_AREA).next(SELECTOR_MAIN_TEXT).val();
 		// 押されたボタンが管理するテキストエリアに、取得した値をセットする
-		$(selector).prev(SELECTOR_MAIN_TEXT).text(getText);
+		//$(selector).prev(SELECTOR_MAIN_TEXT).val(getText);
 
 	}
 	
@@ -352,16 +387,16 @@ function CreateWindowsDetail() {
 				jsonArray[KEY_USER_ID] = $(SELECTOR_USER_ID).text();
 				// 登録書式を日報のフラグでセット
 				jsonArray[KEY_ENTRY_FORMAT] = FLAG_ENTRY_FORMAT_TEMPLATE;
-				// 登録状態を下書でセット
-				jsonArray[KEY_ENTRY_STATUS] = FLAG_ENTRY_STATUS_NOTE;
+				// 登録状態を登録済みでセット
+				jsonArray[KEY_ENTRY_STATUS] = FLAG_ENTRY_STATUS_REG;
 				// 当該日の日報日付を取得する
 				jsonArray[KEY_DATE] = STR_DATE_TEMP;
 				// 基底親コンテンツIDを取得してセット
-				jsonArray[KEY_BASE_PARENT_CONTENT_ID] = "";
+				jsonArray[KEY_BASE_PARENT_CONTENT_ID] = $(SELECTOR_BASE_PARENT_CONTENT_ID).text();
 				// 祖先コンテンツIDを取得してセットする
-				jsonArray[KEY_GRAND_PARENT_CONTENT_ID] = "";
+				jsonArray[KEY_GRAND_PARENT_CONTENT_ID] = $(SELECTOR_GRAND_PARENT_CONTENT_ID).text();
 				// 親コンテンツIDを取得してセットする
-				jsonArray[KEY_PARENT_CONTENT_ID] = "";
+				jsonArray[KEY_PARENT_CONTENT_ID] = $(SELECTOR_PARENT_CONTENT_ID).text();
 				
 				// TODO:【セレクタ】画面にセットするユーザ識別子が未定のため、現状はuser_idをセット
 				// TODO:【セレクタ】fixed_item_idは、固定項目を使用している
@@ -380,6 +415,9 @@ function CreateWindowsDetail() {
 			
 			// JSON連想配列を用いてDBに値を登録する
 			thisElem.getJsonData(PATH_CREATE_SAVE_TEMPLATE, jsonArray, STR_CREATE);
+			
+			// 自分を閉じる
+			thisElem.closeWindow();
 			
 		} else {
 			// 見出しが1つもないため登録できない旨を表示する
@@ -454,6 +492,9 @@ function CreateWindowsDetail() {
 				// JSON連想配列を用いてDBに値を登録する
 				thisElem.getJsonData(PATH_CREATE_SAVE_CONTENT, jsonArray, STR_CREATE);
 			}
+			
+			// 自分を閉じる
+			thisElem.closeWindow();
 			
 		} else {
 			// 登録できない旨を表示する
@@ -592,7 +633,7 @@ function CreateWindowsDetail() {
 			// 対象エリア内の固定アイテムの対象関数を取得する
 			button_function = button_function = $(selector).children(SELECTOR_BUTTON_FUNCTION).text();
 			// 対象の関数を取得してボタンイベントを登録する
-			this.setClickEvent(SELECTOR_BUTTON_NAME, this.fixdButtonFunction(button_function));
+			this.setClickEvent($(selector).children(SELECTOR_BUTTON_NAME), this.fixdButtonFunction(button_function));
 			
 		}
 		
@@ -612,10 +653,12 @@ function CreateWindowsDetail() {
 		// 受け取った機能に合わせた関数を返す
 		switch(buttonFunction) {
 			case FLAG_BUTTON_FUNCTION_BEFOR_PLAN:
-				returnFunction = STR_GET_BEFORE_PLAN;
+				//returnFunction = STR_GET_BEFORE_PLAN;
+				returnFunction = this.getBeforePlan;
 				break;
 			case FLAG_BUTTON_FUNCTION_TODAY_RESULT:
-				returnFunction = STR_GET_TODAY_RESULT;
+				//returnFunction = STR_GET_TODAY_RESULT;
+				returnFunction = this.getTodayResult;
 				break;
 		}
 		
@@ -679,34 +722,6 @@ function CreateWindowsDetail() {
 		// チェンジイベントを発生させ、セットした日付に紐付くデータがあれば取得・展開する
 		$(SELECTOR_REPORT_DATE).change();
 		
-		/*
-		// 当該コンテンツIDを取得する
-		var content_id = $(SELECTOR_CONTENT_ID).text();
-		// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
-		if(content_id != "") {
-			// リクエスト用JSON連想配列にコンテンツIDをセットする
-			jsonArray[KEY_CONTENT_ID] = content_id;
-			// JSON連想配列を用いてDBに値を取得する
-			this.getJsonData(PATH_CREATE_BY_DAY, jsonArray, STR_READ);
-			// 取得したJSONを展開する
-			this.createReportDetail(SELECTOR_MAIN);
-			// 画面内の所定の位置に取得したコンテンツIDを埋める
-			$(SELECTOR_CONTENT_ID).text(this.json[KEY_CONTENT_ID]);
-			
-			// TODO:【未実装】ボタンの数だけステップが増えるので、別関数検討
-			// TODO:【メモ】ボタンの設置は画面初期表示（固定パーツ）と、タグ展開時（流動パーツ）で行う。ここではイベント登録のみ
-			// TODO:【メモ】↑ 現在はタグ展開時にボタンの配置までやっていない
-			// TODO:【メモ】同じタグの複数箇所に一気にイベント登録しようとしているが、これが可能か不明。場合によってはタグの展開時に1つ1つボタンの展開に合わせてイベント登録が必要かも
-			// 追加された項目に付随するボタンイベント等を登録する
-			
-			// TODO:【未実装】固定機能は共通のイベント登録に渡すための、機能振り分け用の関数を作成するべきか
-			// 固定機能（前日予定継承）ボタンのイベントを登録する
-			this.setClickEvent(SELECTOR_B_FIXED_BEORE_PLAN, this.getBeforePlan);
-			// 固定機能（当日結果継承）ボタンのイベントを登録する
-			this.setClickEvent(SELECTOR_B_FIXED_TODAY_RESULT, this.getTodayResult);
-		
-		}
-		*/
 	}
 	
 	/**

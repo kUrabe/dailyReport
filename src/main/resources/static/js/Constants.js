@@ -199,6 +199,7 @@ SELECTOR_BUTTON_FUNCTION = '.button_function';		// コメント作成画面の�
 SELECTOR_MAIN_TEXT = '.main_text';				// 本文
 SELECTOR_B_DEL_INDEX = '.b_del_index';			// 見出し削除ボタン
 SELECTOR_B_FIXED = '.b_fixed';					// 固定機能ボタン（前日予定、本日結果など）
+SELECTOR_GET_INDEX_NAME = '.get_index_name';
 SELECTOR_B_FIXED_BEORE_PLAN = '.b_fixed[name="' + FLAG_BUTTON_FUNCTION_BEFOR_PLAN + '"]';		// 固定機能ボタン（前日予定）を表すname属性
 SELECTOR_B_FIXED_TODAY_RESULT = '.b_fixed[name="' + FLAG_BUTTON_FUNCTION_TODAY_RESULT + '"]';	// 固定機能ボタン（当日結果）を表すname属性
 SELECTOR_B_ADD_INDEX = '.b_add_index';			// 見出し追加ボタン
@@ -386,7 +387,7 @@ STR_REPORT_COMMENT = '日報へのコメント';
 STR_COMMENT_COMMENT = 'コメントへのコメント';
 
 // テンプレート用日付
-STR_DATE_TEMP = '0000-00-00';
+STR_DATE_TEMP = '0002-11-30';
 /*
 KEY_DB_BASE_PARENT_CONTENT_ID = 'baseParentContentId';
 KEY_DB_GRAND_PARENT_CONTENT_ID = 'grandParentContentId';
@@ -411,6 +412,8 @@ MESSAGE_REPORT_DELETE = '当該日報を削除しますか？';
 MESSAGE_COMMENT_DELETE = 'コメントを削除します。よろしいですか？';
 MESSAGE_REPORT_NOREAD = '当該日報を未読にしますか？';
 MESSAGE_COMMENT_NOREAD = 'コメントを未読にします。よろしいですか？';
+MESSAGE_NOT_TODAY_CONTENT = '結果の情報がありません。';
+MESSAGE_NOT_BEFORE_CONTENT = '前日予定の取得に失敗しました。';
 
 MARK_SPACE = " ";		// 半角スペース
 

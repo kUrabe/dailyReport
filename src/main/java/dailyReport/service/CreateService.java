@@ -1,6 +1,7 @@
 package dailyReport.service;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dailyReport.Constants;
 import dailyReport.resource.FixedItemInf;
+import dailyReport.resource.GetContentByDayQuery;
 import dailyReport.resource.GetReportByDayQuery;
 import dailyReport.resource.RecordContentAdd;
 import dailyReport.resource.RecordContentDetail;
@@ -109,8 +111,12 @@ public class CreateService {
 			parent_content.setGrandParentContentId(new Integer((String)map.get(Constants.KEY_GRAND_PARENT_CONTENT_ID)));
 			// （親）親コンテンツIDをセットする
 			parent_content.setParentContentId(new Integer((String)map.get(Constants.KEY_PARENT_CONTENT_ID)));
-			// （親）報告日をセットする
-			parent_content.setReportDate(sdf.parse((String)map.get(Constants.KEY_DATE)));
+			
+			//if(!(map.get(Constants.KEY_DATE).toString().equals("0000-00-00"))) {
+				// （親）報告日をセットする
+				parent_content.setReportDate(sdf.parse((String)map.get(Constants.KEY_DATE)));
+			//}
+			
 			// （親）作成日をセットする
 			parent_content.setCreateDate(new Date());
 			// （親）更新日をセットする
@@ -159,27 +165,14 @@ public class CreateService {
 						}
 
 					}
-					entityManager.persist(content);
-					// 完成した行データをset型に納める
-					//content.add(record);
-					content = new RecordContentDetail();
-					
-					
-					// （親）クエリを実行する
-					//entityManager.persist(parent_content);
-					
 					// （子）クエリを実行する
-					//entityManager.persist(content);
-					// 行単位でentityを強制的にコミットする
-					//entityManager.refresh(content);
-					//entityManager.flush();
-					//System.out.println(content);
+					entityManager.persist(content);
+					// （子）次レコード用の新規entityインスタンスを作成する。
+					content = new RecordContentDetail();
+
 				}
 				
 			}
-			//entityManager.persist(content);
-			//parent_content.setRecordContentDetailSet(content);
-			//entityManager.persist(parent_content);
 
 		} catch (Exception e) {
 			// 処理に失敗した旨を返す
@@ -198,15 +191,20 @@ public class CreateService {
 	 * 戻り値：	RecordContentDetail
 	 * 作成日：	2016/11/25
 	 * 作成者：	k.urabe
+	 * @throws ParseException 
 	 */
 	// TODO:【未実装】entityクラスはこれでよいか未検証。今はダミーとしてテーブル単体のものを指定している。
-	public List<RecordContentDetail> getBeforeContent(Map<String, Object> map) {
+	public List<GetContentByDayQuery> getBeforeContent(Map<String, Object> map) throws ParseException {
 		
-		// クライアントから受けたユーザIDを日付で日報があるか検索する
-		List<RecordContentDetail> content = entityManager
-				.createNamedQuery("getBeforePlanQuery", RecordContentDetail.class)
-				.setParameter("user_id", map.get(Constants.KEY_USER_ID))
-				.setParameter("report_date", map.get(Constants.KEY_DATE))
+		// JSONから取得した日付をentityクラスのdate型プロパティへ格納するための日付変換インスタンスを生成する
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+		// jsonから取得したコンテンツIDと登録書式で情報を取得する
+		List<GetContentByDayQuery> content = entityManager
+				.createNativeQuery(Constants.GET_CONTENT_BY_DAY, "getContentByDayQuery")
+				.setParameter(1, (String)map.get(Constants.KEY_USER_ID))
+				.setParameter(2, sdf.parse((String)map.get(Constants.KEY_DATE)))
+				.setParameter(3, (String)map.get(Constants.KEY_INDEX_NAME))
 				.getResultList();
 		
 		// 検索結果を返す
@@ -290,13 +288,11 @@ public class CreateService {
 								
 								// （子）クエリを実行する
 								entityManager.persist(content);
+								// （子）次レコード用の新規entityインスタンスを作成する。
+								content = new RecordContentDetail();
 							}
 							
 						}
-
-			// TODO:【メモ】こちらのentityは管理状態になっていないはずなので、persistが動くはず。
-			// （子）クエリを実行する
-			entityManager.persist(content);
 			
 		} catch (Exception e) {
 			// 処理に失敗した旨を返す
