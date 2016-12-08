@@ -629,6 +629,8 @@ function CreateWindowsDetail() {
 			if(item_status == FLAG_ITEM_STATUS_REG_LOCK) {
 				// 見出し削除ボタンを非表示にする
 				$(selector).children(SELECTOR_B_DEL_INDEX).addClass(SRT_SHOW_HIDE);
+				// 見出し文字を編集不可にする
+				$(selector).children(SELECTOR_INDEX_AREA).prop("disabled", true);
 			}
 			// 対象エリア内の固定アイテムの対象関数を取得する
 			button_function = button_function = $(selector).children(SELECTOR_BUTTON_FUNCTION).text();
