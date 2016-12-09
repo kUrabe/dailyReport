@@ -124,10 +124,10 @@ function BaseWindow() {
 			// 未読機能が未読状態であるか検証する
 			if(STR_READ_OFF == value) {
 				// 未読状態のボタンを無効化する
-				$(target).prop("disabled", true);
+				$(target).prop(KEY_DISABLED, true);
 			} else {
 				// 未読状態のボタンを有効化する
-				$(target).prop("disabled", false);
+				$(target).prop(KEY_DISABLED, false);
 			}
 		}
 	

@@ -88,6 +88,7 @@ KEY_METHOD = 'method';							// method属性
 KEY_ACTION = 'action';							// action属性
 KEY_TEXT_AREA = 'textarea';						// textarea要素
 KEY_DISPLAY = 'display';						// display属性
+KEY_DISABLED = 'disabled';						// disabled属性
 KEY_PARENT_AREA = 'blockArea';					// ボタンからみた親要素を囲むセレクタ(.report_areaやcomment_areaの中で、1行ごとにこれで囲む)
 
 KEY_SERACH_FROM_DATE = 'serach_from_date';		// 検索領域のfrom

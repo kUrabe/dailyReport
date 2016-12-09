@@ -291,17 +291,12 @@ function WindowDesign() {
 				// いいねボタンのイベントを登録する
 				this.setClickEvent($(selector).children(SELECTOR_B_FAVORITE), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
 				// ユーザいいねをした状態であればクラス名にフラグ名を追加する
-				//$_contentIndex.children(SELECTOR_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_FAVORITE).addClass(KEY_F_ON) : "";
-				this.changeButtonStatus($_blockSelector.children(SELECTOR_FAVARITE_STATUS), $_blockSelector.children(SELECTOR_FAVARITE_STATUS).val(), $_contentIndex.children(SELECTOR_FAVARITE_STATUS).text());
+				this.changeButtonStatus($(selector).children(SELECTOR_B_FAVORITE), $(selector).children(SELECTOR_B_FAVORITE).val(), $_contentIndex.children(SELECTOR_FAVARITE_STATUS).text());
+				
 				// 未読にするボタンを追加する
 				$(selector).append(TAG_NO_READ_BUTTON);
 				// 未読にするボタンのイベントを登録する
 				this.setClickEvent($(selector).children(SELECTOR_B_NO_READ), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), MESSAGE_REPORT_NOREAD);
-				//this.setClickEvent($(selector).children(SELECTOR_B_NO_READ), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
-				// 未読にするが押された状態（未読状態）であればボタンを無効化する
-				//$_contentIndex.children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_NO_READ).prop("disabled", true) : $(SELECTOR_B_NO_READ).prop("disabled", false);
-				this.changeButtonStatus($_blockSelector.children(SELECTOR_B_NO_READ), $_blockSelector.children(SELECTOR_B_NO_READ).val(), $_contentIndex.children(SELECTOR_READ_STATUS).text());
-				
 			}
 			
 			// 各ボタンのイベント登録(アコーディオンの内部には、タグで追加した際にコメントするボタンと、閉じるボタンが入っている)
