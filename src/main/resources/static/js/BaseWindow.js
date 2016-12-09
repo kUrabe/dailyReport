@@ -60,10 +60,12 @@ function BaseWindow() {
 
 			}
 			
-			// 対象コンテンツが未読状態ならば既読へ更新する
-			if($(this).children(SELECTOR_READ_STATUS).text() == STR_READ_OFF) {
+			// 対象コンテンツが未読状態かつ、アコーディオンが閉じているならば既読へ更新する
+			if($(this).children(SELECTOR_READ_STATUS).text() == STR_READ_OFF && ($(this).parent(SELECTOR_PARENT_AREA).children(SELECTOR_ACCORDION_AREA).css(KEY_DISPLAY) == STR_NONE)) {
 				// 未読にするボタンを押下する
-				$(this).parent(SELECTOR_PARENT_AREA).children(SELECTOR_ACCORDION_AREA).children(SELECTOR_CONTENT_DETAIL).children(SELECTOR_B_NO_READ).click();
+				// $(this).parent(SELECTOR_PARENT_AREA).children(SELECTOR_ACCORDION_AREA).children(SELECTOR_CONTENT_DETAIL).children(SELECTOR_B_NO_READ).click();
+				// 未読にするボタンが押下された際の関数をコールする
+				thisElem.clickAddContentButton($(this).parent(SELECTOR_PARENT_AREA).children(SELECTOR_ACCORDION_AREA).children(SELECTOR_CONTENT_DETAIL).children(SELECTOR_B_NO_READ), thisElem, null, $(this));
 			}
 			
 			// 対象セレクタがクリックされた場合に、引数で受けたセレクタのアコーディオン開閉を行う。
