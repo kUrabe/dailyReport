@@ -234,6 +234,18 @@ public class CreateService {
 			
 			// クライアントから受けたコンテンツIDで紐付くコンテンツ情報を取得する
 			RecordContentInf parent_content = entityManager.find(RecordContentInf.class, new Integer(map.get(Constants.KEY_CONTENT_ID).toString()));
+			
+			// （親）登録書式をセットする
+			parent_content.setEntryFormat((int)map.get(Constants.KEY_ENTRY_FORMAT));
+			// （親）登録状態をセットする
+			parent_content.setEntryStatus((int)map.get(Constants.KEY_ENTRY_STATUS));
+			// （親）基底親コンテンツIDをセットする
+			parent_content.setBaseParentContentId(new Integer((String)map.get(Constants.KEY_BASE_PARENT_CONTENT_ID)));
+			// （親）祖先コンテンツIDをセットする
+			parent_content.setGrandParentContentId(new Integer((String)map.get(Constants.KEY_GRAND_PARENT_CONTENT_ID)));
+			// （親）親コンテンツIDをセットする
+			parent_content.setParentContentId(new Integer((String)map.get(Constants.KEY_PARENT_CONTENT_ID)));
+			
 			// （親）更新日をセットする
 			parent_content.setUpdateDated(new Date());	
 			// （親）クエリを実行する
