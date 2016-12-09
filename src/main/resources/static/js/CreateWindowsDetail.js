@@ -842,11 +842,11 @@ function CreateWindowsDetail() {
 			this.setClickEvent(SELECTOR_B_NO_READ, this.clickAddContentButton, null, this.parentWindow.$(parentWindowDate), MESSAGE_COMMENT_NOREAD);
 			// 未読にするが押された状態（未読状態）であればボタンを無効化する
 			//$(parentWindowDate).children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $(SELECTOR_B_NO_READ).prop("disabled", true) : $(SELECTOR_B_NO_READ).prop("disabled", false);
-			this.changeButtonStatus($(SELECTOR_B_NO_READ), $(SELECTOR_B_NO_READ).val(), $(parentWindowDate).children(SELECTOR_READ_STATUS).text());
+			//this.changeButtonStatus($(SELECTOR_B_NO_READ), $(SELECTOR_B_NO_READ).val(), $(parentWindowDate).children(SELECTOR_READ_STATUS).text());
 			// いいねボタンのイベントを登録する
 			this.setClickEvent(SELECTOR_B_FAVORITE, this.clickAddContentButton, null, this.parentWindow.$(parentWindowDate));
 			// ユーザいいねをした状態であればクラス名にフラグ名を追加する
-			$(parentWindowDate).children(SELECTOR_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $(SELECTOR_B_FAVORITE).addClass(KEY_F_ON) : "";
+			//$(parentWindowDate).children(SELECTOR_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $(SELECTOR_B_FAVORITE).addClass(KEY_F_ON) : "";
 			this.changeButtonStatus($(SELECTOR_B_FAVORITE), $(SELECTOR_B_FAVORITE).val(), $(parentWindowDate).children(SELECTOR_FAVARITE_STATUS).text());
 			
 			
