@@ -94,11 +94,14 @@ function TopWindowDetail() {
 		// 確認ダイアログを表示
 		if(window.confirm(MESSAGE_LOGOUT)){
 			// 「OK」時は送信を実行
-			return true;
-		}
-		// 「キャンセル」時の処理
-		else{
-			return false; // 送信を中止
+			// logout用のリクエストform要素を作成する
+			var form = document.createElement(KEY_FORM);
+			// 作成したformのmethod属性にPOSTを指定する
+			form.setAttribute(KEY_METHOD, STR_POST);
+			// 作成したformのaction属性にログアウト用のpathを指定する
+			form.setAttribute(KEY_ACTION, STR_LOGOUT_PATH);
+			// formの内容を送信する
+			form.submit();
 		}
 	}
 	

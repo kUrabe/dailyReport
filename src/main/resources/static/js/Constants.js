@@ -83,6 +83,9 @@ KEY_NEW_COMMENT_CREATE = 'comment_create';		// 別ウインドウの開くボタ
 KEY_NEW_COMMENT_VIEW = 'comment_view';			// 別ウインドウの開くボタンのname属性（コメント詳細画面）
 KEY_BUTTON_FUNCTION = 'button_function';		// コメント作成画面の固定機能ボタンのname属性
 KEY_DIV = 'div';								// div要素
+KEY_FORM = 'form';								// form要素
+KEY_METHOD = 'method';							// method属性
+KEY_ACTION = 'action';							// action属性
 KEY_TEXT_AREA = 'textarea';						// textarea要素
 KEY_PARENT_AREA = 'blockArea';					// ボタンからみた親要素を囲むセレクタ(.report_areaやcomment_areaの中で、1行ごとにこれで囲む)
 
@@ -333,6 +336,9 @@ TAG_REPORT_DATE_OPEN = '<div class="number" name="detail_id"></div><div class="f
  * 単語 → STR + _ + 内容
  * 区切り等 → MARK + _ + 内容
  */
+STR_POST = 'post';									// POST
+STR_LOGOUT_PATH = '/logout';						// ログアウト用path
+
 STR_TRUE = 'true';
 STR_FALSE = 'false';
 STR_CREATE = 'create';								// サーバへ渡すパラメータにリクエストする処理をマッピングさせるための単語
