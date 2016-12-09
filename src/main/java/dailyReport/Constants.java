@@ -78,7 +78,8 @@ public class Constants {
 	// トップ画面の初期表示および検索実行時に使用するクエリ
 	public static final String TOP_SEARCH_CONTENT_SUMMARY = 
 			"SELECT "
-				+ "ri.report_date AS report_date"
+				+ " DISTINCT"
+				+ " ri.report_date AS report_date"
 				+ ", ri.content_id AS content_id"
 				+ ", ri.user_id AS user_id"
 				+ ", ui.user_name AS user_name"
