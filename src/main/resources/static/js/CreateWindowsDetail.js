@@ -50,7 +50,7 @@ function CreateWindowsDetail() {
 		$_parentArea = $(selector).parent(SELECTOR_PARENT_AREA);
 		
 		// 見出しエリアとテキストエリアが空白ではないか検証
-		if($_parentArea.children(SELECTOR_INDEX_AREA).text() == "" && $_parentArea.children(SELECTOR_MAIN_TEXT).text() == "") {
+		if($_parentArea.children(SELECTOR_INDEX_AREA).val() == "" && $_parentArea.children(SELECTOR_MAIN_TEXT).val() == "") {
 			// 空白なので、trueをセットする
 			returnBoolean = true;
 		}
@@ -135,7 +135,6 @@ function CreateWindowsDetail() {
 	 * 作成日：	2016/11/23
 	 * 作成者：	k.urabe
 	 */
-	// TODO:【未実装】取得失敗した際のメッセージが未実装
 	this.getBeforePlan = function(selector, thisElem) {
 		
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
@@ -183,7 +182,6 @@ function CreateWindowsDetail() {
 	 * 作成日：	2016/11/23
 	 * 作成者：	k.urabe
 	 */
-	// TODO:【未実装】取得失敗した際のメッセージが未実装
 	this.getTodayResult = function(selector, thisElem) {
 		
 		var getText;			// 取得したテキストを保持するための変数
@@ -232,7 +230,7 @@ function CreateWindowsDetail() {
 		// 対象の見出しエリアが空白か検証する
 		if(thisElem.isCheckDeleteItem(selector)) {
 			// 対象の見出しエリアを削除
-			thisElem.deleteIndexDetail(selector);
+			thisElem.deleteIndexDetail(selector, thisElem);
 		// 対象の見出しエリアが空白ではなかった。
 		} else {
 			// 空白でないエリアがあるため、確認ダイアログを開く
