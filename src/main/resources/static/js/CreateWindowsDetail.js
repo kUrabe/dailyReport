@@ -323,6 +323,10 @@ function CreateWindowsDetail() {
 
 			// 見出しエリアをすべて削除する
 			$(SELECTOR_PARENT_AREA).remove();
+			// 画面内の所定の位置（コンテンツID）に空白文字を埋める
+			$(SELECTOR_CONTENT_ID).text("");
+			// 画面内の所定の位置（テンプレート用コンテンツID）に空白文字を埋める
+			$(SELECTOR_TEMP_CONTENT_ID).text("");
 			
 			// jsonの長さを取得する
 			jsonLen = thisElem.json.length;
@@ -354,9 +358,10 @@ function CreateWindowsDetail() {
 				if(thisElem.json !== null && thisElem.json !== undefined && jsonLen !== 0) {
 					// 取得したJSONを展開する
 					thisElem.createReportContent(SELECTOR_MAIN);
+					// 画面内の所定の位置に取得したコンテンツIDを埋める（テンプレート用）
+					$(SELECTOR_TEMP_CONTENT_ID).text(thisElem.json[0][KEY_CONTENT_ID]);
 				} 
-				// 画面内の所定の位置（コンテンツID）に空白文字を埋める
-				$(SELECTOR_CONTENT_ID).text("");	
+					
 			}
 		});
 		
@@ -411,8 +416,18 @@ function CreateWindowsDetail() {
 				jsonArray[index + 1][KEY_FIXED_ITEM_ID] = $(this).children(SELECTOR_FIXED_ITEM_ID).text();
 			});
 			
-			// JSON連想配列を用いてDBに値を登録する
-			thisElem.getJsonData(PATH_CREATE_SAVE_TEMPLATE, jsonArray, STR_CREATE);
+			
+			// 当該コンテンツIDを取得する
+			var content_id = $(SELECTOR_TEMP_CONTENT_ID).text();
+			// 画面内にコンテンツIDがあるか検証(存在するなら更新リクエスト)
+			if(content_id != "") {
+				jsonArray[KEY_CONTENT_ID] = content_id;
+				// JSON連想配列を用いてDBに値を更新する
+				thisElem.getJsonData(PATH_CREATE_SAVE_TEMPLATE, jsonArray, STR_UPDATE);
+			} else {
+				// JSON連想配列を用いてDBに値を登録する
+				thisElem.getJsonData(PATH_CREATE_SAVE_TEMPLATE, jsonArray, STR_CREATE);
+			}
 			
 			// 自分を閉じる
 			thisElem.closeWindow();

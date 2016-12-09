@@ -145,6 +145,7 @@ SELECTOR_BASE_PARENT_CONTENT_ID = '.base_parent_content_id';
 SELECTOR_GRAND_PARENT_CONTENT_ID = '.grand_parent_content_id';
 SELECTOR_PARENT_CONTENT_ID = '.parent_content_id';	// 親コンテンツIDを管理するセレクタ
 SELECTOR_CONTENT_ID = '.content_id';				// コンテンツIDを管理するセレクタ
+SELECTOR_TEMP_CONTENT_ID = '.temp_content_id';		// テンプレート用コンテンツIDを管理するセレクタ	
 SELECTOR_FAVORITE_COUNT = '.favorite_count';		// いいね集計項目のセレクタ
 SELECTOR_FAVARITE_STATUS = '.favorite_status';		// 対象記事に対してその人がいいねを付けているか。1は付けてる。0は付けてない
 SELECTOR_READ_COUNT = '.read_count';				// 既読集計項目のセレクタ
