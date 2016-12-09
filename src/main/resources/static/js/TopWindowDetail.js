@@ -54,32 +54,46 @@ function TopWindowDetail() {
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		var readTemp;				// サーバに渡す値に置き換えるために一時的に保持する変数
 		var noteTemp;				// サーバに渡す値に置き換えるために一時的に保持する変数
+		var fromTime;				// 時間チェックのためfromの値を格納する変数
+		var toTime;					// 時間チェックのためtoの値を格納する変数
 		
-		// 日報の描画領域をすべて削除する
-		$(KEY_DIV).remove(SELECTOR_PARENT_AREA);
-		// 件数取得なしのメッセージを削除する
-		$(SELECTOR_SERACH_MESSAGE).text("");
-		// 行の見出しを削除する
-		$(KEY_DIV).remove(SELECTOR_INDEX_LINE);
-		
-		// JSON連想配列にユーザID（ログインユーザ）をセットする
-		jsonArray[KEY_USER_ID] = $(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text();
 		// 検索領域のfromを取得する
-		jsonArray[KEY_SERACH_FROM_DATE] = thisElem.getWindowItem(SELECTOR_SERACH_FROM_DATE);
+		fromTime = thisElem.getWindowItem(SELECTOR_SERACH_FROM_DATE);
 		// 検索領域のtoを取得する
-		jsonArray[KEY_SERACH_TO_DATE] = thisElem.getWindowItem(SELECTOR_SERACH_TO_DATE);
-		// 検索領域のユーザを取得する
-		jsonArray[KEY_SERACH_USER] = thisElem.getWindowItem(SELECTOR_SERACH_USER);
-		// 検索領域の既読を取得する
-		jsonArray[KEY_SERACH_READ] = thisElem.getWindowItem(SELECTOR_SERACH_READ + MARK_SPACE + SELECTOR_OPTION);
-		// 検索領域の下書を取得する
-		jsonArray[KEY_SERACH_NOTE] = thisElem.getWindowItem(SELECTOR_SERACH_NOTE + MARK_SPACE + SELECTOR_OPTION);
+		toTime = thisElem.getWindowItem(SELECTOR_SERACH_TO_DATE);
+		
+		// fromとtoの入力値がfrom<=toとなっているか検証する
+		if(thisElem.isCheckDateFromTo(fromTime, toTime)) {
 
-		// JSON連想配列を用いてDBから値を取得する
-		thisElem.getJsonData(PATH_TOP_PAGE_CONTENT, jsonArray, STR_READ);
-		// 取得したJSONを用いてHTMLへタグを展開する
-		thisElem.createContentIndex(SELECTOR_REPORT_AREA, 0);
+			// 日報の描画領域をすべて削除する
+			$(KEY_DIV).remove(SELECTOR_PARENT_AREA);
+			// 件数取得なしのメッセージを削除する
+			$(SELECTOR_SERACH_MESSAGE).text("");
+			// 行の見出しを削除する
+			$(KEY_DIV).remove(SELECTOR_INDEX_LINE);
+		
+			// JSON連想配列にユーザID（ログインユーザ）をセットする
+			jsonArray[KEY_USER_ID] = $(SELECTOR_TOP_MENU + MARK_SPACE + SELECTOR_USER_ID).text();
+			// 検索領域のfromを取得する
+			jsonArray[KEY_SERACH_FROM_DATE] = fromTime;
+			// 検索領域のtoを取得する
+			jsonArray[KEY_SERACH_TO_DATE] = toTime;
+			// 検索領域のユーザを取得する
+			jsonArray[KEY_SERACH_USER] = thisElem.getWindowItem(SELECTOR_SERACH_USER);
+			// 検索領域の既読を取得する
+			jsonArray[KEY_SERACH_READ] = thisElem.getWindowItem(SELECTOR_SERACH_READ + MARK_SPACE + SELECTOR_OPTION);
+			// 検索領域の下書を取得する
+			jsonArray[KEY_SERACH_NOTE] = thisElem.getWindowItem(SELECTOR_SERACH_NOTE + MARK_SPACE + SELECTOR_OPTION);
 
+			// JSON連想配列を用いてDBから値を取得する
+			thisElem.getJsonData(PATH_TOP_PAGE_CONTENT, jsonArray, STR_READ);
+			// 取得したJSONを用いてHTMLへタグを展開する
+			thisElem.createContentIndex(SELECTOR_REPORT_AREA, 0);
+
+		} else {
+			// fromとtoの値が正しく入力されていない旨のメッセージを出力する
+			thisElem.openWarnigDialog(MASSAGE_FROM_TO_ERROR);
+		}
 	}
 	
 	/**

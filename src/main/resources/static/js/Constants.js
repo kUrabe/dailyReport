@@ -423,6 +423,7 @@ MESSAGE_REPORT_NOREAD = '当該日報を未読にしますか？';
 MESSAGE_COMMENT_NOREAD = 'コメントを未読にします。よろしいですか？';
 MESSAGE_NOT_TODAY_CONTENT = '結果の情報がありません。';
 MESSAGE_NOT_BEFORE_CONTENT = '前日予定の取得に失敗しました。';
+MASSAGE_FROM_TO_ERROR = '日付はFROM <= TOで指定してください。';
 
 MARK_SPACE = " ";		// 半角スペース
 
