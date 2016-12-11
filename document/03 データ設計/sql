@@ -632,3 +632,15 @@ LIMIT 1
 
 SELECT rd.main_text AS main_text FROM record_content_detail rd LEFT JOIN record_content_inf ri ON rd.content_id = ri.content_id LEFT JOIN user_inf ui ON ri.user_id = ui.user_id WHERE ri.user_id = ?1 AND ri.report_date < ?2 AND rd.index_name = ?3 AND ri.entry_format = 2 AND ri.entry_status = 2 ORDER BY ri.report_date DESC LIMIT 1
 ;
+
+
+
+
+
+
+SELECT ri2.content_id, parent_content_id, COUNT(ri2.parent_content_id) AS in_count FROM record_content_inf ri2 WHERE ri2.entry_status = 2 GROUP BY ri2.parent_content_id;
+
+
+SELECT ri2.parent_content_id, COUNT(ri2.parent_content_id) AS in_count FROM record_content_inf ri2 GROUP BY ri2.parent_content_id;
+
+

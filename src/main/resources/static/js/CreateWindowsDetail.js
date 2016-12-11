@@ -682,23 +682,23 @@ function CreateWindowsDetail() {
 	}
 	
 	/**
-	 * 関数名：	getChangeItem
-	 * 概要：		指定したセレクタの値が変わった際に、その値を取得、設定する
-	 * 引数：		target	イベントをバインドするセレクタ
-	 * 			change	変更した値を設定するセレクタ
+	 * 関数名：	getChangeParentItem
+	 * 概要：		親画面の指定したセレクタの値が変わった際に、その値を取得、設定する
+	 * 引数：		targetButton	イベントをバインドするボタン
+	 * 			targetSelector	親から値を取得して変更したいセレクタ
+	 * 			getParentSelector	値を取得する親のセレクタ
 	 * 戻り値：	なし
-	 * 作成日：	2016/12/05
+	 * 作成日：	2016/12/11
 	 * 作成者：	k.urabe
 	 */
-	this.getChangeItem = function(target, change) {
+	this.getChangeParentItem = function(targetButton, targetSelector, getParentSelector) {
 		
-		// イベント内でthisオブジェクトを使用できるよう待避
+		// コールバックの中でthisを使用できるよう待避
 		thisElem = this;
-		
-		// ターゲットとして取得したセレクタに対してチェンジイベントをバインドする。
-		$(target).on(CHANGE, function() {
-			// 変更された値を取得してセットする。
-			$(change).text($(target).text());
+		// clickイベントバインドして親の画面から所定の値を取得する
+		$(targetButton).on(CLICK, function() {
+				$(targetSelector).text(thisElem.parentWindow.$(parentWindowDate).children(getParentSelector).text());
+
 		});
 		
 	}
@@ -863,8 +863,13 @@ function CreateWindowsDetail() {
 			// ユーザいいねをした状態であればクラス名にフラグ名を追加する
 			//$(parentWindowDate).children(SELECTOR_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $(SELECTOR_B_FAVORITE).addClass(KEY_F_ON) : "";
 			this.changeButtonStatus($(SELECTOR_B_FAVORITE), $(SELECTOR_B_FAVORITE).val(), $(parentWindowDate).children(SELECTOR_FAVARITE_STATUS).text());
-			
-			
+
+			// 未読にするボタンのイベント後に、親の所定位置から値を取得するようにする。
+			this.getChangeParentItem(SELECTOR_B_NO_READ, SELECTOR_READ_COUNT, SELECTOR_READ_COUNT);
+			// いいねボタンのイベント後に、親の所定位置から値を取得するようにする。
+			this.getChangeParentItem(SELECTOR_B_FAVORITE, SELECTOR_FAVORITE_COUNT, SELECTOR_FAVORITE_COUNT);
+
+
 			// 不要なボタンを非表示にする。
 			// 編集ボタンを非表示にする
 			$(SELECTOR_B_COMMENT_EDIT).addClass(SRT_SHOW_HIDE);
