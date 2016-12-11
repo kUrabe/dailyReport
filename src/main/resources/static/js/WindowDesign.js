@@ -267,8 +267,8 @@ function WindowDesign() {
 				
 			}
 
-			// 出力したレコードの投稿ユーザに合わせてボタンを出力する（userFlag）
-			if(userFlag == STR_TRUE) {
+			// 出力したレコードの投稿ユーザに合わせてボタンを出力する（userFlag） もしくは管理者権限を有している
+			if(userFlag == STR_TRUE || this.getUserAuth() == STR_SUCCESS) {
 				// ログインユーザ = 投稿ユーザ
 				// 編集ボタンを追加する
 				$(selector).append(TAG_EDIT_BUTTON);

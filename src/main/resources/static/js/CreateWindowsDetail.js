@@ -831,8 +831,8 @@ function CreateWindowsDetail() {
 		
 		// TODO:【未実装】ログインユーザは所定の位置（'.user_id'）に埋め込んでいる想定だが、開かれたコメントの投稿ユーザは取得したJSONデータから取得する必要がある
 		// TODO:【未実装】JSONの結果はコメントなので1件しかないが、行ごとに結果が格納されてくる想定で記述
-		// ログインユーザとコメントの投稿者が同一人物か検証する
-		if($(SELECTOR_USER_ID).text() == $(SELECTOR_LOGIN_ID).text()) {
+		// ログインユーザとコメントの投稿者が同一人物か検証する もしくは管理者権限を有している
+		if($(SELECTOR_USER_ID).text() == $(SELECTOR_LOGIN_ID).text() || this.getUserAuth() == STR_SUCCESS) {
 			// TODO:【メモ】画面表示時には画面のボタンが全て揃っている想定。そこからユーザ種別ごとにボタンイベント登録と、非表示設定を行う
 			// 本人用のボタンイベントを登録する
 			

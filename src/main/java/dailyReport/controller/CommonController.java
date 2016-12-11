@@ -7,6 +7,7 @@
 
 package dailyReport.controller;
 
+import java.security.Principal;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dailyReport.Constants;
+import dailyReport.resource.UserInf;
 import dailyReport.service.CommonService;
 
 
@@ -32,6 +34,36 @@ public class CommonController {
 	@Autowired
 	CommonService commonService;
 	
+	
+	/**
+	 * 関数名：	requestUserAuth
+	 * 概要：		クライアントから送られてくるユーザが管理権限が付いているか検証する
+	 * 引数：		パラメータ String crud	処理の種別
+	 * 			パラメータ String json	JSON文字列
+	 * 戻り値：	String
+	 * 作成日：	2016/12/12
+	 * 作成者：	k.urabe
+	 */
+	@RequestMapping(value = "common/userAuth", method = RequestMethod.POST)
+	public String requestUserAuth(Principal principal) {
+		
+		int getAuth = 0;					// DB上から取得したログインユーザに紐付く権限を取得する
+		String result = "";					// 処理結果の判定を格納するための変数
+		
+		// ログイン中のユーザ情報を取得する
+		UserInf user = commonService.userAuth(principal.getName());
+		// ログインユーザに紐付くユーザの権限を得る
+		getAuth = user.getUserAuthority();
+		// 取得したユーザの権限が管理者か検証する
+		if((getAuth & Constants.FLAG_USER_AUTH_MASTER) != 0) {
+			// 返却用Stringに成功判定文字を入れる
+			result = Constants.STR_SUCCESS;
+		}
+		
+		// 
+		return result;
+		
+	}
 	
 	/**
 	 * 関数名：	requestSaveAddContent

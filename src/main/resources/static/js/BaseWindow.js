@@ -17,6 +17,43 @@ function BaseWindow() {
 	this.anotherWindow;			// 別Windowを格納する変数
 	
 	/**
+	 * 関数名：	getUserAuth
+	 * 概要：		ログインユーザが管理者権限を有しているか取得する
+	 * 引数：		なし
+	 * 戻り値：	String
+	 * 作成日：	2016/12/12
+	 * 作成者：	k.urabe
+	 */
+	this.getUserAuth = function() {
+		var tmp;		// サーバからの返却値を格納して返す
+
+		// ajax通信を行う
+		$.ajax({
+			// リクエストURL
+			url: PATH_USER_AUTH,
+			// postメソッドで通信する
+			type: 'POST',
+			// 同期通信を行う
+			async: false,
+			// キャッシュを無効にする
+			cache: false,
+			// 通信成功時の処理
+			success: function(auth) {
+				// 取得したjsonをメンバへ格納する
+				tmp = auth;
+			},
+			error: function(xhr, status, error) {
+				// TODO:【未実装】メッセージおよび例外処理について未実装
+				// 処理失敗の旨を出力する
+				alert(MESSAGE_AJAX_ERROR);
+			}
+		});
+		
+		return tmp;
+	}
+	
+	
+	/**
 	 * 関数名：	managementAccordion
 	 * 概要：		アコーディオンの開閉を管理する
 	 * 引数：		String:clickTarget	クリックイベント対象のセレクタ

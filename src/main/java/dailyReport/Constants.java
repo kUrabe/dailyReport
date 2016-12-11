@@ -2,6 +2,9 @@ package dailyReport;
 
 public class Constants {
 	
+	// 状態関連
+	public static final int FLAG_USER_AUTH_MASTER = 2;
+	
 	// パラメータ内のcrud判定用
 	public static final String STR_CREATE = "create";
 	public static final String STR_READ = "read";
