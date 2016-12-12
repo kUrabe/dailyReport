@@ -274,16 +274,29 @@ function WindowDesign() {
 				$(selector).append(TAG_EDIT_BUTTON);
 				// 編集ボタンへイベントを登録する
 				this.setClickEvent($(selector).children(SELECTOR_B_EDIT), this.prepareAnotherWindow, null, $_contentIndex);
-
-				
-//				this.setClickEvent(SELECTOR_LINE + this.json[key][KEY_DB_CONTENT_ID] + MARK_SPACE + SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow, null, SELECTOR_LINE + this.json[key][KEY_DB_CONTENT_ID] + MARK_SPACE + SELECTOR_CONTENT_INDEX);
-				
-				
 				
 				// 削除ボタンを追加する
 				$(selector).append(TAG_DELETE_BUTTON);
 				// 削除ボタンへイベントを登録する
 				this.setClickEvent($(selector).children(SELECTOR_B_DELETE), this.clickDeleteButton, null, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), MESSAGE_REPORT_DELETE);
+				
+				// 管理者権限ならばいいねボタンと未読にするボタンも追加する。
+				if(this.getUserAuth() == STR_SUCCESS) {
+					// いいねボタンを追加する
+					$(selector).append(TAG_FAVORITE_BUTTON);
+					// いいねボタンのイベントを登録する
+					this.setClickEvent($(selector).children(SELECTOR_B_FAVORITE), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
+					// ユーザいいねをした状態であればクラス名にフラグ名を追加する
+					this.changeButtonStatus($(selector).children(SELECTOR_B_FAVORITE), $(selector).children(SELECTOR_B_FAVORITE).val(), $_contentIndex.children(SELECTOR_FAVARITE_STATUS).text());
+					
+					// 未読にするボタンを追加する
+					$(selector).append(TAG_NO_READ_BUTTON);
+					// 未読にするボタンのイベントを登録する
+					this.setClickEvent($(selector).children(SELECTOR_B_NO_READ), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), MESSAGE_REPORT_NOREAD);
+
+				}
+				
+				
 			} else {
 				// ログインユーザ != 投稿ユーザ
 				// いいねボタンを追加する
