@@ -354,6 +354,7 @@ STR_MESSAGE = 'message';
 STR_PLAN = '予定';
 SRT_SHOW_HIDE = 'ShowHide';							// 非表示にしたい要素のクラス名に付与する
 STR_SUCCESS = 'success';
+STR_NONE_EDIT = 'noneEdit';							// 非活性にしたい要素のクラス名に付与する
 
 STR_READ_IN = '含んで表示';							// 既読　含んで表示
 STR_READ_OUT = '除いて表示';							// 既読　除いて表示

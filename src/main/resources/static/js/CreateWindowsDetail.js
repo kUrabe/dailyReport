@@ -731,7 +731,16 @@ function CreateWindowsDetail() {
 		// 編集なのか判定する
 		if(parentWindowButton == KEY_B_EDIT) {
 			// 親画面から取得した日報報告日をセットする(新規日報の場合の当日日付は、デフォルトでサーバから取得してセットしてい)
-			$(SELECTOR_REPORT_DATE).val(this.parentWindow.$(parentWindowDate).children(SELECTOR_REPORT_DATE).text());		
+			$(SELECTOR_REPORT_DATE).val(this.parentWindow.$(parentWindowDate).children(SELECTOR_REPORT_DATE).text());
+			
+			// ログインユーザが管理者権限を有しているか検証する（管理人の場合は、当該日報の編集に限定する）
+			if(this.getUserAuth() == STR_SUCCESS) {
+				// 所定のユーザIDに日報の報告者のIDをセットする
+				$(SELECTOR_USER_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_ID).text());
+				// 日報報告日を非活性化し、編集できないようにする
+				$(SELECTOR_REPORT_DATE).prop(KEY_DISABLED, true);
+			}
+			
 		}
 		
 		// チェンジイベントを発生させ、セットした日付に紐付くデータがあれば取得・展開する

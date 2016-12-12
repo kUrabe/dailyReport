@@ -51,7 +51,10 @@ div {
 .ShowHide {
 	display:	none;
 }
-
+/* 非活性領域（管理人時、編集で画面を開いたときに日付を固定） */
+.noneEdit {
+	disabled:	disabled
+}
 /* */
 .main_text {
 	overflow-y:	auto;
