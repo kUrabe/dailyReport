@@ -42,7 +42,7 @@ public class PageReturnController {
 	 * 作成日：	2016/11/24
 	 * 作成者：	k.urabe
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/Top", method = RequestMethod.GET)
 	public String requestTopPage(Model model, Principal principal) {
 		
 		// topページへの日付返却用にCalendarインスタンスを生成する
@@ -89,5 +89,20 @@ public class PageReturnController {
 		
 		// リクエストに含まれているページを返す
 		return "createWindow/" + htmlPath;
+	}
+	
+	/**
+	 * 関数名：	requestIndexPage
+	 * 概要：		indexページへのリクエスト
+	 * 引数：		なし
+	 * 戻り値：	String
+	 * 作成日：	2016/12/12
+	 * 作成者：	k.urabe
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String requestIndexPage(Model model, Principal principal) {
+
+		// indexページのURLを返す
+		return "/index";
 	}
 }

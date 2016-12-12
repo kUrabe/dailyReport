@@ -30,12 +30,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// ｊｓとcss以下へのアクセスは常に許可
+		// トップ階層はindexページを出すので常に許可
 		// それ以外のアクセスは認証必要
 		// ログインフォームを認証に使う
 		// 成功時は/roomsへ遷移する
 		// 失敗時の遷移先を常にアクセス許可する
 		http.authorizeRequests()
-				.antMatchers("/js/**", "/css/**", "/img/**")
+				.antMatchers("/js/**", "/css/**", "/img/**", "/")
 				.permitAll()
 				//.antMatchers("/**", "/**/**")
 				.anyRequest()
@@ -48,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginProcessingUrl("/login")
 				.usernameParameter("username")
 				.passwordParameter("password")
-				.defaultSuccessUrl("/", true)
+				.defaultSuccessUrl("/Top", true)
 				.failureUrl("/loginForm?error=true")
 				.permitAll();
 	}
