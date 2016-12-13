@@ -100,7 +100,7 @@ public class PageReturnController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String requestIndexPage(Model model, Principal principal) {
+	public String requestIndexPage() {
 
 		// indexページのURLを返す
 		return "/index";
