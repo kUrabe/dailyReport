@@ -52,7 +52,7 @@ public class TopController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "top/topPageContent", method = RequestMethod.POST)
-	public List<TopSearchContentSummary> requestTopPageContent(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+	public String requestTopPageContent(@RequestParam("crud") String crud, @RequestParam("json") String json) {
 		
 		String message = "";							// 返却用JSONにセットする文字列格納
 		
@@ -65,7 +65,7 @@ public class TopController {
 		
 		// TODO:【未実装】ここで格納する型が単純なテーブルのentityクラスではダメなはずなので要検証
 		// 検索を実行し、その結果をentityインスタンスへ格納する
-		List<TopSearchContentSummary> topSearchContentSummary = null;
+		String topSearchContentSummary = null;
 		try {
 			topSearchContentSummary = topService.searchTopPageContent(map);
 		} catch (ParseException e) {

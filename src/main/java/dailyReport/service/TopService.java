@@ -13,6 +13,8 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dailyReport.Constants;
 import dailyReport.resource.RecordContentDetail;
 import dailyReport.resource.RecordContentInf;
@@ -65,7 +67,7 @@ public class TopService {
 	 * 作成者：	k.urabe
 	 * @throws ParseException 
 	 */
-	public List<TopSearchContentSummary> searchTopPageContent(Map<String, Object> map) throws ParseException {
+	public String searchTopPageContent(Map<String, Object> map) throws ParseException {
 
 		String plusQuery = "";				// 既読と下書の検索条件に合わせた追加のクエリを格納
 		
@@ -96,8 +98,31 @@ public class TopService {
 				.setParameter(4, sdf.parse((String)map.get(Constants.KEY_SERACH_TO_DATE)))
 				.getResultList();
 		
+		Object dummy = entityManager.createNativeQuery(
+				Constants.TOP_SEARCH_CONTENT_SUMMARY
+				+ plusQuery
+				+ Constants.STR_QUERY_ORDER__REPOT_DATE)
+				.setParameter(1, (String)map.get(Constants.KEY_USER_ID))
+				.setParameter(2, "%" + (String)map.get(Constants.KEY_SERACH_USER) + "%")
+				.setParameter(3, sdf.parse((String)map.get(Constants.KEY_SERACH_FROM_DATE)))
+				.setParameter(4, sdf.parse((String)map.get(Constants.KEY_SERACH_TO_DATE)))
+				.getResultList();
+		
+		System.out.println(dummy);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(dummy);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(json);
+		
 		// 取得した情報を返す
-		return content;
+		return json;
 	}
 	
 	/**
