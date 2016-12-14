@@ -67,6 +67,21 @@ public class PageReturnController {
 	}
 	
 	/**
+	 * 関数名：	requestTopEditPage
+	 * 概要：		topページへのリクエスト
+	 * 引数：		なし
+	 * 戻り値：	String
+	 * 作成日：	2016/11/24
+	 * 作成者：	k.urabe
+	 */
+	@RequestMapping(value = "/editWindow", method = RequestMethod.GET)
+	public String requestTopEditPage() {
+
+		// トップページのURLを返す
+		return "/editWindow";
+	}
+	
+	/**
 	 * 関数名：	requestAnotherWindow
 	 * 概要：		別ウインドウ用のHTMLを返す
 	 * 引数：		パラメータ String htmlPath
