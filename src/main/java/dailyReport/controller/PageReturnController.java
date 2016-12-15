@@ -76,7 +76,7 @@ public class PageReturnController {
 	public String requestTopEditPage() {
 
 		// トップページのURLを返す
-		return "/editWindow";
+		return "/userEditWindow";
 	}
 	
 	/**
