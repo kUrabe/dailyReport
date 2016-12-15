@@ -37,17 +37,17 @@ public class UserInf implements Serializable {
 	@Column(name="user_sex")
 	private Byte user_sex;
 	
+	// 誕生日
+	@Column(name="user_birthday")
+	private Date user_birthday;
+	
 	// ユーザ権限
 	@Column(name="user_authority")
 	private Integer user_authority;
-
-	// 電話番号
-	@Column(name="user_tel")
-	private String user_tel;
 	
-	// メールアドレス
-	@Column(name="user_mail")
-	private String user_mail;;
+	// ユーザステータス
+	@Column(name="user_status")
+	private Integer user_status;	
 	
 	// 作成日
 	@Column(name="create_date")
@@ -137,6 +137,26 @@ public class UserInf implements Serializable {
 	public Byte getUserSex() {
 		return this.user_sex;
 	}
+	
+	/**
+	 * 誕生日 を設定します.
+	 * 
+	 * @param createDate
+	 *            作成日
+	 */
+	public void setUserBirthday(Date UserBirthday) {
+		this.user_birthday = UserBirthday;
+	}
+
+	/**
+	 * 誕生日 を取得します.
+	 * 
+	 * @return 作成日
+	 */
+	public Date getUserBirthday() {
+		return this.user_birthday;
+	}
+	
 
 	/**
 	 * ユーザ権限 を設定します.
@@ -157,42 +177,24 @@ public class UserInf implements Serializable {
 		return this.user_authority;
 	}
 
+	
 	/**
-	 * 電話番号 を設定します.
+	 * ユーザステータス を設定します.
 	 * 
-	 * @param userTel
-	 *            電話番号
+	 * @param userAuthority
+	 *            ユーザ権限
 	 */
-	public void setUserTel(String userTel) {
-		this.user_tel = userTel;
+	public void setUserStatus(Integer UserStatus) {
+		this.user_status = UserStatus;
 	}
 
 	/**
-	 * 電話番号 を取得します.
+	 * ユーザステータス を取得します.
 	 * 
-	 * @return 電話番号
+	 * @return ユーザ権限
 	 */
-	public String getUserTel() {
-		return this.user_tel;
-	}
-
-	/**
-	 * メールアドレス を設定します.
-	 * 
-	 * @param userMail
-	 *            メールアドレス
-	 */
-	public void setUserMail(String userMail) {
-		this.user_mail = userMail;
-	}
-
-	/**
-	 * メールアドレス を取得します.
-	 * 
-	 * @return メールアドレス
-	 */
-	public String getUserMail() {
-		return this.user_mail;
+	public Integer getUserStatus() {
+		return this.user_status;
 	}
 
 	/**
