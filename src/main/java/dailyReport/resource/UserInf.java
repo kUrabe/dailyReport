@@ -33,6 +33,10 @@ public class UserInf implements Serializable {
 	@Column(name="user_name")
 	private String user_name;
 	
+	// ユーザ名（カナ）
+	@Column(name="user_name_kana")
+	private String user_name_kana;
+	
 	// 性別
 	@Column(name="user_sex")
 	private Byte user_sex;
@@ -118,6 +122,27 @@ public class UserInf implements Serializable {
 	public String getUserName() {
 		return this.user_name;
 	}
+	
+	
+	/**
+	 * 名前 を設定します.
+	 * 
+	 * @param userName
+	 *            名前
+	 */
+	public void setUserNameKana(String userNameKana) {
+		this.user_name_kana = userNameKana;
+	}
+
+	/**
+	 * 名前 を取得します.user_name_kana
+	 * 
+	 * @return 名前
+	 */
+	public String getUserNameKana() {
+		return this.user_name_kana;
+	}
+	
 
 	/**
 	 * 性別 を設定します.
@@ -128,6 +153,8 @@ public class UserInf implements Serializable {
 	public void setUserSex(Byte userSex) {
 		this.user_sex = userSex;
 	}
+	
+	
 
 	/**
 	 * 性別 を取得します.

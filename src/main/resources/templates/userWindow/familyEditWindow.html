@@ -19,13 +19,22 @@
   <script src="js/WindowDesign.js"></script>
   <!-- 作成画面クラスを読み込む。 -->
   <script src="js/CreateWindowsDetail.js"></script>
-  <!-- トップ画面用クラスを読み込む。 -->
-  <script src="js/TopWindowDetail.js"></script>
+  <!-- 家族構成編集画面用クラスを読み込む。 -->
+  <script src="js/FamilyEditWindowDetail.js"></script>
 </head>
 
 <body>
 
-<p>編集画面</p>
+<p>ユーザ一覧画面</p>
+
+<script type="text/javascript">
+	setTimeout(function() {
+		// ユーザ一覧用のインスタンスを生成する
+		thisElem = new FamilyEditWindowDetail();
+		// 初期化処理を実行する
+		thisElem.createFamilyEditWindow();
+	}, 200);
+</script>
 
 </body>
 

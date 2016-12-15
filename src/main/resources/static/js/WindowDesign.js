@@ -531,6 +531,138 @@ function WindowDesign() {
 		return returnTag;
 	}
 	
+	/**
+	 * 関数名：	createUserList
+	 * 概要：		ユーザ一覧画面の内容を展開する
+	 * 引数：		selector
+	 * 戻り値：	なし
+	 * 作成日：	2016/12/15
+	 * 作成者：	k.urabe
+	 */
+	this.createUserList = function(selector) {
+		
+		var jsonLen;		// jsonの長さを保持するための変数
+		
+		// 取得したデータの長さを取得する
+		jsonLen = this.json.length;
+		
+		// jsonが取得出来ているか検証する
+		if(this.json !== null && this.json !== undefined && jsonLen !== 0) {
+			
+			// 見出し行を追加する
+			$(selector).append(TAG_USER_INDEX_LINE);
+			
+			// json内の行を走査する
+			for(var key in this.json) {
+				
+				// ブロックエリアのタグを追加する
+				$(selector).append(TAG_BLOCK_AREA);
+				// 行(ブロック)内のセレクタを取得する
+				var $_blockSelector = $(selector).children(SELECTOR_PARENT_AREA_LAST);
+
+				// 行内の各項目のタグを追加する
+				$_blockSelector.append(TAG_USER_LINE);
+				// 追加した行開始タグのvalueにキー名を追加する
+				$_blockSelector.val(KEY_USER_LINE);
+				
+				// json内の列要素を走査する
+				for(var keyIn in this.json[key]) {
+					// 値を挿入するセレクタを取得する
+					var $_valueSetPosition = $_blockSelector.children(SELECTOR_DIV_NAME_START + keyIn + SELECTOR_DIV_NAME_END);
+					// 挿入された項目タグの名前と一致させながら値をセットする
+					$_valueSetPosition.text(this.json[key][keyIn]);
+				}
+				// 挿入した行に対してイベントを登録する
+				this.setClickEvent($_blockSelector, this.prepareAnotherWindow, null, $_blockSelector);
+				
+			}
+			
+			
+		// データが取得できていない旨を所定の位置に表示する
+		} else {
+			// 検索結果が0件の旨のメッセージを表示する
+			$(SELECTOR_SERACH_MESSAGE).text(MASSAGE_SEARCH_NOT_USER);
+		}
+		
+	}
+	
+	/**
+	 * 関数名：	createUserEdit
+	 * 概要：		ユーザ編集画面のベース情報を展開する
+	 * 引数：		なし
+	 * 戻り値：	なし
+	 * 作成日：	2016/12/15
+	 * 作成者：	k.urabe
+	 */
+	this.createUserEdit = function() {
+		
+		// 関数内でthisが使用できるように退避する
+		thisElem = this;
+		/* 【TODO】一旦ループで回すのは保留。
+		// 増減コンテンツ以外の入力エリアを走査する
+		$(SELECTOR_NOMAL_CONTENT).each(function(index, elem){
+			// 取得データの列要素を走査する
+			for(var keyIn in thisElem.json[0]) {
+				// 値を挿入するセレクタを取得する
+				var $_valueSetPosition = $(this).children(SELECTOR_DIV_NAME_START + keyIn + SELECTOR_DIV_NAME_END);
+				// 挿入された項目タグの名前と一致させながら値をセットする
+				$_valueSetPosition.text(thisElem.json[0][keyIn]);
+			}
+		});
+		*/
+		
+		// user_idを取得する
+		$(SELECTOR_USER_ID).val(jsonArray[0][KEY_USER_ID]);
+		// login_passwordを取得する
+		//$(SELECTOR_LOGIN_PASSWORD).val(jsonArray[0][KEY_LOGIN_PASSWORD]);
+		// user_nameを取得する
+		$(SELECTOR_USER_NAME).val(jsonArray[0][KEY_USER_NAME]);
+		// user_birthdayを取得する
+		$(SELECTOR_USER_BIRTHDAY).val(jsonArray[0][KEY_USER_BIRTHDAY]);
+		// user_sexを取得する
+		$(SELECTOR_USER_SEX).val(jsonArray[0][KEY_USER_SEX]);
+		// campany_idを取得する
+		$(SELECTOR_CAMPANY_ID).val(jsonArray[0][KEY_CAMPANY_ID]);
+		// department_idを取得する
+		$(SELECTOR_DEPARTMENT_ID).val(jsonArray[0][KEY_DEPARTMENT_ID]);
+		// postion_idを取得する
+		$(SELECTOR_POSITION_ID).val(jsonArray[0][KEY_POSITION_ID]);
+		// user_statusを取得する
+		$(SELECTOR_USER_SATTUS).val(jsonArray[0][KEY_USER_SATTUS]);
+		
+	}
+	
+	/**
+	 * 関数名：	createUserEditContent
+	 * 概要：		ユーザ編集画面の追加情報（増減項目）を展開する
+	 * 引数：		selector
+	 * 戻り値：	なし
+	 * 作成日：	2016/12/15
+	 * 作成者：	k.urabe
+	 */
+	this.createUserEditContent = function(selector) {
+		
+		// json内の行要素を走査する
+		for(var key in this.json) {
+			// selector配下の○○追加ボタンを押下する
+			$(selector).children(KEY_BUTTON).click();
+			// 値をセットしていくblockAreaを取得する
+			$_blockSelector = $(selector).children(SELECTOR_PARENT_AREA_LAST);
+			
+			// json内の列要素を走査する
+			for(var keyIn in this.json[key]) {
+				// 値を挿入するセレクタを取得する
+				var $_valueSetPosition = $_blockSelector.children(SELECTOR_NAME_START + keyIn + SELECTOR_NAME_END);
+				// 挿入された項目タグの名前と一致させながら値をセットする
+				$_valueSetPosition.text(this.json[key][keyIn]);
+			}
+			
+			
+		}
+		
+		
+	}
+	
 }
 
 WindowDesign.prototype = new BaseWindow();

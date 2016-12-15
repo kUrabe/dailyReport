@@ -19,23 +19,22 @@
   <script src="js/WindowDesign.js"></script>
   <!-- 作成画面クラスを読み込む。 -->
   <script src="js/CreateWindowsDetail.js"></script>
-  <!-- ユーザ一覧画面用クラスを読み込む。 -->
-  <script src="js/UserListWindowDetail.js"></script>
+  <!-- ユーザ編集画面用クラスを読み込む。 -->
+  <script src="js/UserEditWindowDetail.js"></script>
 </head>
 
 <body>
 
-<p>ユーザ一覧画面</p>
+<p>編集画面</p>
 
 <script type="text/javascript">
 	setTimeout(function() {
 		// ユーザ一覧用のインスタンスを生成する
-		thisElem = new UserListWindowDetail();
+		thisElem = new UserEditWindowDetail();
 		// 初期化処理を実行する
-		thisElem.createUserListWindow();
+		thisElem.createUserEditWindow();
 	}, 200);
 </script>
-
 </body>
 
 </html>

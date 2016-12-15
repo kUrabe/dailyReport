@@ -40,9 +40,14 @@ FLAG_ENTRY_FORMAT_REPORT = 2;				// record_content_infテーブルの書式（�
 FLAG_ENTRY_FORMAT_COMMENT = 4;				// record_content_infテーブルの書式（コメント）を表す
 FLAG_BUTTON_FUNCTION_BEFOR_PLAN = '2';		// fixed_item_infテーブルのボタン機能（前日予定）を表す
 FLAG_BUTTON_FUNCTION_TODAY_RESULT = '4';		// fixed_item_infテーブルのボタン機能（当日結果）を表す
-FLAG_ITEM_STATUS_REG = 2;
-FLAG_ITEM_STATUS_REG_LOCK = 3;
-FLAG_ITEM_STATUS_DEL = 4;
+FLAG_ITEM_STATUS_REG = 2;					// fixed_item_infテーブルの固定項目登録状態
+FLAG_ITEM_STATUS_REG_LOCK = 3;				// fixed_item_infテーブルの固定項目登録かつロック状態
+FLAG_ITEM_STATUS_DEL = 4;					// fixed_item_infテーブルの固定項目削除状態
+
+FLAG_USER_STATUS_REG = 1;					// user_infテーブルのユーザが登録状態
+FLAG_USER_STATUS_DEL = 2;					// user_infテーブルのユーザが削除状態
+FLAG_USER_STATUS_TMP = 4;					// user_infテーブルのユーザが未承認状態
+
 
 FLAG_EAD_STATUS_ON = 1;
 
@@ -89,6 +94,7 @@ KEY_ACTION = 'action';							// action属性
 KEY_TEXT_AREA = 'textarea';						// textarea要素
 KEY_DISPLAY = 'display';						// display属性
 KEY_DISABLED = 'disabled';						// disabled属性
+KEY_BUTTON = 'button';							// button要素
 KEY_PARENT_AREA = 'blockArea';					// ボタンからみた親要素を囲むセレクタ(.report_areaやcomment_areaの中で、1行ごとにこれで囲む)
 
 KEY_SERACH_FROM_DATE = 'serach_from_date';		// 検索領域のfrom
@@ -102,6 +108,8 @@ KEY_USER_NAME = 'user_name';
 KEY_LOGIN_NAME = 'login_name';					// ログイン
 KEY_INDEX_NAME = 'index_name';					// 見出し項目の値が入るのクラス名（ここに「予定」とか「結果」とか入る）。
 KEY_DATE = 'date';
+KEY_LOGIN_PASSWORD = 'login_password';
+KEY_USER_BIRTHDAY = 'user_birthday';
 
 //日報作成画面のキー
 KEY_MAIN = 'main';
@@ -120,6 +128,34 @@ KEY_B_CANCEL = 'b_cancel';
 KEY_B_NEW_COMMENT = 'b_new_comment';		// コメントするボタン
 KEY_B_NEW_REPORT = 'b_new_report';		// 新規日報ボタン
 
+// ユーザ一覧・編集画面（以下のボタン以外は、他画面の名称を流用）
+KEY_USER_LINE = 'user_line';					// ユーザ一覧1行ごとにセットされている別ウインドウオープン用判別value
+KEY_MIN = 'min';								// 検索項目のminキー名
+KEY_MAX = 'max';								// 検索項目のmaxキー名
+KEY_USER_SEX = 'user_sex';						// 検索項目の性別キー名
+KEY_B_NEW_USER = 'b_new_user';					// 登録ボタン
+KEY_B_APPROVAL_USER = 'b_approval_user';		// 承認ボタン
+KEY_B_OVER_LAP = 'b_over_lap';					// 重複チェックボタン
+KEY_B_ADD_MAIL = 'b_add_mail';					// メールアドレス追加ボタン
+KEY_B_DEL_MAIL = 'b_del_mail';					// メールアドレス削除ボタン
+KEY_B_ADD_ADDRESS = 'b_add_address';				// 住所追加ボタン
+KEY_B_DEL_ADDRESS = 'b_del_address';				// 住所削除ボタン
+KEY_B_ADD_TEL = 'b_add_tel';						// 電話番号加ボタン
+KEY_B_DEL_TEL = 'b_del_tel';						// 電話番号削除ボタン
+KEY_B_ADD_QUALIFICATION = 'b_add_qualification';	// 住所追加ボタン
+KEY_B_DEL_QUALIFICATION = 'b_del_qualification';	// 住所削除ボタン
+KEY_B_ADD_FAMILY = 'b_add_family';					// 家族構成追加ボタン
+KEY_EDIT_FAMILY = 'edit_family';					// 家族の行（対象を編集）
+KEY_B_CONTENT_DEL = 'b_content_del';				// 追加コンテンツの削除ボタン
+KEY_CAMPANY_ID = 'campany_id';
+KEY_DEPARTMENT_ID = 'department_id';
+KEY_POSITION_ID = 'position_id';
+KEY_USER_SATTUS = 'user_status';
+KEY_FAMILY_NAME = '.family_name';
+KEY_FAMILY_NAME_KANA = 'family_name_kana';
+KEY_FAMILY_RELATION = 'family_relation';
+KEY_FAMILY_SUPPORT = 'family_support';
+
 KEY_F_ON = 'f-on';								// いいねボタンを押下している状態のボタンに付与
 KEY_R_ON = 'r-on';								// 未読にするボタンを押下している状態（未読状態）のボタンに付与
 KEY_INDEX_LINE = 'indexLine';					// アコーディオン開閉時に押下されたのが、行なのかボタンなのか判定するためのクラス名
@@ -135,9 +171,10 @@ KEY_OPEN_FLAG = '1';				// 展開済みデータに与えるflag値
  * 命名規則
  * SELECTOR + _ + キー名
  */
-SELECTOR_LEFT_MENU = ".leftMenu";			// トップ画面の左領域
-SELECTOR_TOP_MENU = ".topMenu";				// トップ画面の上領域
-SELECTOR_MAIN_MENU = ".mainMenu";			// トップ画面のメイン領域
+SELECTOR_LEFT_MENU = '.leftMenu';			// トップ画面の左領域
+SELECTOR_TOP_MENU = '.topMenu';				// トップ画面の上領域
+SELECTOR_MAIN_MENU = '.mainMenu';			// トップ画面のメイン領域
+SELECTOR_DOWN_MENU = '.downMenu';			// 下領域
 
 
 SELECTOR_CATEGORY_STATUS = '.category_status';		// いいね、既読数の登録状態を管理するセレクタ
@@ -176,6 +213,43 @@ SELECTOR_USER_ID = '.user_id';
 SELECTOR_USER_NAME = '.user_name';
 SELECTOR_LOGIN_NAME = '.login_name';
 SELECTOR_LOGIN_ID = '.login_id';
+SELECTOR_LOGIN_PASSWORD = '.login_password';
+SELECTOR_USER_BIRTHDAY = '.user_birthday';
+
+
+// ユーザ一覧・編集画面系（以下のボタン以外は、他画面の名称を流用）
+SELECTOR_USER_LINE = '.user_line';					// ユーザ一覧1行ごとにセットされている別ウインドウオープン用判別value
+SELECTOR_MIN = '.min';								// 検索項目のminセレクター名
+SELECTOR_MAX = '.max';								// 検索項目のmaxセレクター名
+SELECTOR_USER_SEX = '.user_sex';					// 検索項目の性別キー名
+SELECTOR_B_NEW_USER = '.b_new_user';					// 登録ボタン
+SELECTOR_B_APPROVAL_USER = '.b_approval_user';		// 承認ボタン
+SELECTOR_B_OVER_LAP = '.b_over_lap';					// 重複チェックボタン
+SELECTOR_B_ADD_MAIL = '.b_add_mail';					// メールアドレス追加ボタン
+SELECTOR_B_DEL_MAIL = '.b_del_mail';					// メールアドレス削除ボタン
+SELECTOR_B_ADD_ADDRESS = '.b_add_address';				// 住所追加ボタン
+SELECTOR_B_DEL_ADDRESS = '.b_del_address';				// 住所削除ボタン
+SELECTOR_B_ADD_TEL = '.b_add_tel';						// 電話番号加ボタン
+SELECTOR_B_DEL_TEL = '.b_del_tel';						// 電話番号削除ボタン
+SELECTOR_B_ADD_QUALIFICATION = '.b_add_qualification';	// 資格追加ボタン
+SELECTOR_B_DEL_QUALIFICATION = '.b_del_qualification';	// 資格削除ボタン
+SELECTOR_B_ADD_FAMILY = '.b_add_family';					// 家族構成追加ボタン
+SELECTOR_EDIT_FAMILY = '.edit_family';					// 家族の行（対象を編集）
+SELECTOR_ADD_CONTENT = '.add_content';				// 増減コンテンツ識別用のクラス名
+SELECTOR_NOMAL_CONTENT = '.nomal_content';			// 増減コンテンツ以外の識別用クラス名
+SELECTOR__B_CONTENT_DEL = '.b_content_del';				// 追加コンテンツの削除ボタン
+SELECTOR_CAMPANY_ID = '.campany_id';					// 会社ID
+SELECTOR_DEPARTMENT_ID = '.department_id';				// 部署ID
+SELECTOR_POSITION_ID = '.position_id';					// 役職ID
+SELECTOR_USER_STATUS = '.user_status';				// ユーザステータス（登録、削除、未承認）
+
+SELECTOR_FAMILY_NAME = '.family_name';
+SELECTOR_FAMILY_NAME_KANA = '.family_name_kana';
+SELECTOR_FAMILY_RELATION = '.family_relation';
+SELECTOR_FAMILY_SUPPORT = '.family_support';
+SELECTOR_B_UPDATE = '.b_update';
+
+
 
 // top画面のボタンセレクタ
 SELECTOR_B_SERACH = '.b_serach';				// 検索ボタン
@@ -261,6 +335,20 @@ PATH_REPORT_CREATE = '/createWindow/report_create.html';			// 日報作成画面
 PATH_COMMENT_CREATE = '/createWindow/comment_create.html';		// コメント作成画面のPATH
 PATH_COMMENT_VIEW = '/createWindow/comment_view.html';			// コメント詳細画面のPATH
 
+PATH_USER_GET_BASE_INF = '/user/getBaseInf';					// ユーザ編集画面（ユーザ指定時）開いた際のベース情報取得
+PATH_USER_GET_ADD_INF = '/user/getAddInf';						// ユーザ編集画面（ユーザ指定時）開いた際の追加（ユーザに対して複数紐付く）情報取得
+PATH_USER_SAVE_BASE_INF = '/user/saveBaseInf';					// ユーザ編集画面のユーザ新規登録時（ベース）
+PATH_USER_UPDATE_BASE_INF = '/user/updateBaseInf';				// ユーザ編集画面のユーザ承認・更新時（ベース）
+PATH_USER_SAVE_ADD_INF = '/user/saveAddInf';					// ユーザ編集画面の登録・承認・更新時（追加情報）
+PATH_USER_DELETE_INF = '/user/deleteUserInf';					// ユーザ編集画面の削除時
+PATH_USER_MATCH_INF = '/user/matchUserInf';						// ユーザ一覧画面の検索結果取得
+
+PATH_USER_WINDOW_EDIT = '/userWindow/userEditWindow.html';		// ユーザ編集画面のPATH(認証済み)
+PATH_USER_WINDOW_FAMILY = '/userWindow/familyEditWindow.html';	// 家族構成編集画面のPATH
+PATH_USER_WINDOW_LIST = '/userWindow/userListWindow.html';		// ユーザ一覧画面のPATH
+PATH_USRE_CHACK = 'common/userId';								// ユーザID存在チェックのPATH
+
+
 /*
  * tag名
  * 
@@ -325,6 +413,37 @@ TAG_TR_COMMENT_START = '<tr class="commentTR">';
 TAG_TR_END = '</tr>';
 
 
+
+// レポート編集、一覧画面
+// ユーザ一覧画面の見出し
+TAG_USER_INDEX_LINE = '<div class="index_line"><div>続柄</div><div>氏名（漢字）</div><div>氏名（カナ）</div><div>扶養</div></div>';
+// ユーザ一覧画面の1行タグ
+TAG_USER_LINE = '<div class="user_id" name="userId" style="display:none"></div><div class="user_name" name="userName"></div><div class="user_birthday" name="UserBirthday"></div><div class="user_sex" name="userSex"></div><div class="department_id" name="department_id"></div><div class="position_id" name="position_id"></div><div class="user_status" name="UserStatus"></div>';
+// 家族構成の1行
+TAG_FAMILY_LINE = '<div class="blockArea"><div class="family_relation" value="family_relation"></div><div class="family_name" value="family_name"></div><div class="family_name_kana" value="family_name_kana"></div><div class="family_support" value="family_support"></div></div>';
+TAG_APPROVAL_BUTTON = '<button type="button" class="b_approval_user" value="b_approval_user">承認</button>';		// 承認ボタン
+TAG_UPDATE_BUTTON = '<button type="button" class="b_edit" value="b_edit">編集</button>';							// 更新ボタン
+TAG_NEW_USER = '<button type="button" class="b_new_user" value="b_new_user">登録</button>';						// 登録ボタン
+//メールアドレス
+TAG_MAIL_BLOCK = '<div class="blockArea"><span>名称</span><input class="mail_title" type="text"></input><span>アドレス</span><input class="mail" type="text"></input><button type="button" class="b_content_del" value="b_content_del">削除</button></div>';
+// 住所
+TAG_ADDRESS_BLOCK = '<div class="blockArea"><span>名称</span><input class="address_title" type="text"></input><span>郵便番号</span><input class="post_number" type="text"></input><span>住所</span><input class="address" type="text"></input><button type="button" class="b_content_del" value="b_content_del">削除</button></div>';
+// 電話番号
+TAG_TEL_BLOCK = '<div class="blockArea"><span>名称</span><input class="tel_title" type="text"></input><span>番号</span><input class="tel" type="text"></input><button type="button" class="b_content_del" value="b_content_del">削除</button></div>';
+// 所持資格
+TAG_QUA_BLOCK = '';
+/*
+<div class="blockArea">
+	<select class="qualification_title" type="text">
+	<option value="">含んで表示</option>
+	</select>
+	<button type="button" class="b_del_qualification" value="b_del_qualification">削除</button>
+</div>
+*/
+
+// 家族構成
+
+
 // レポート作成画面の見出し追加ボタンによって追加される一式
 TAG_REPORT_CREATE_WINDOW_INDEX = '<div class="blockArea"><div class="number" name="detail_id"></div><div class="fixed_item_id" name="fixed_item_id" style="display:none">0</div><textarea class="index_area" name="index_name"></textarea><input type="button" class="b_del_index" value="見出し削除"><textarea class="main_text" name="main_text"></textarea><div class="item_status" name="item_status" style="display:none"></div><div class="button_function" name="button_function" style="display:none"></div><input type="button" class="button_name" name="button_name"><div class="get_index_name" name="get_index_name" style="display:none"></div></div>';
 // レポート作成画面のデータ展開時に追加される一式
@@ -355,6 +474,8 @@ STR_PLAN = '予定';
 SRT_SHOW_HIDE = 'ShowHide';							// 非表示にしたい要素のクラス名に付与する
 STR_SUCCESS = 'success';
 STR_NONE_EDIT = 'noneEdit';							// 非活性にしたい要素のクラス名に付与する
+
+STR_CONTENT_TYPE = 'contentType';					// 増減コンテンツのコンテンツタイプを格納するためのキー名
 
 STR_READ_IN = '含んで表示';							// 既読　含んで表示
 STR_READ_OUT = '除いて表示';							// 既読　除いて表示
@@ -411,6 +532,9 @@ KEY_DB_PARENT_CONTENT_ID = 'parentContentId';
 STR_COMMENT_VIEW = 'コメント詳細表示画面';
 STR_COMMENT_CREATE = 'コメント作成画面';
 STR_REPORT_CREATE = '日報作成画面';
+STR_USER_EDIT = 'ユーザ編集画面';
+STR_USER_LIST = 'ユーザ一覧画面';
+STR_FAMILY_EDIT = '家族構成編集画面';
 
 //TODO:【未実装】ダイアログのコメント系が未定義
 MESSAGE_DEL_INDEX = '見出しエリアを削除します。\n入力していたデータは消えますがよろしいですか？';
@@ -428,6 +552,9 @@ MESSAGE_COMMENT_NOREAD = 'コメントを未読にします。よろしいです
 MESSAGE_NOT_TODAY_CONTENT = '結果の情報がありません。';
 MESSAGE_NOT_BEFORE_CONTENT = '前日予定の取得に失敗しました。';
 MASSAGE_FROM_TO_ERROR = '日付はFROM <= TOで指定してください。';
+MASSAGE_OVER_LAP_OK = 'このIDは使用可能です。';
+MASSAGE_OVER_LAP_NG = 'ユーザIDが重複しています。<br>別の値を入力してください。';
+MASSAGE_SEARCH_NOT_USER = '検索条件に一致するユーザがいません。';
 
 MARK_SPACE = " ";		// 半角スペース
 

@@ -15,7 +15,43 @@
 function BaseWindow() {
 	
 	this.anotherWindow;			// 別Windowを格納する変数
-	
+	/**
+	 * 関数名：	chackUser
+	 * 概要：		入力されたユーザIDが存在するかチェックする
+	 * 引数：		なし
+	 * 戻り値：	String
+	 * 作成日：	2016/12/12
+	 * 作成者：	k.urabe
+	 */
+	this.chackUser = function(valueTarget) {
+		var tmp;		// サーバからの返却値を格納して返す
+
+		// ajax通信を行う
+		$.ajax({
+			// リクエストURL
+			url: PATH_USER_AUTH,
+			// postメソッドで通信する
+			type: 'POST',
+			// 同期通信を行う
+			async: false,
+			// サーバへ渡すデータを連想配列にする
+			data: {user:valueTarget},
+			// キャッシュを無効にする
+			cache: false,
+			// 通信成功時の処理
+			success: function(user) {
+				// 取得したjsonをメンバへ格納する
+				tmp = user;
+			},
+			error: function(xhr, status, error) {
+				// TODO:【未実装】メッセージおよび例外処理について未実装
+				// 処理失敗の旨を出力する
+				alert(MESSAGE_AJAX_ERROR);
+			}
+		});
+		
+		return tmp;
+	}
 	/**
 	 * 関数名：	getUserAuth
 	 * 概要：		ログインユーザが管理者権限を有しているか取得する
@@ -189,6 +225,28 @@ function BaseWindow() {
 		} else {
 			// キャンセル時は何もしない
 		}
+		
+	}
+	
+	/**
+	 * 関数名：	compareValue
+	 * 概要：		二値の重複チェックを行う
+	 * 引数：		なし
+	 * 戻り値：	真偽値
+	 * 作成日：	2016/12/15
+	 * 作成者：	k.urabe
+	 */
+	this.compareValue = function(val1, val2) {
+		var returnBoolean = false;		// 返却用の真偽値を格納するための変数
+		
+		// 二値が等しいか検証する
+		if(val1 === val2) {
+			// 等しいのでtrueをセットする
+			returnBoolean = true;
+		}
+		
+		// 真偽値を返す
+		return returnBoolean;
 		
 	}
 	
@@ -492,6 +550,18 @@ function BaseWindow() {
 			path = PATH_COMMENT_CREATE;
 			// 画面名をセットする
 			name = STR_COMMENT_CREATE;
+		// ユーザ編集画面ならば
+		} else if(button_type === KEY_USER_LINE) {
+			// ユーザ編集画面のpathをセットする
+			path = PATH_USER_WINDOW_LIST;
+			// 画面名をセットする
+			name = STR_USER_EDIT;
+		// 家族構成画面ならば
+		} else if(button_type === KEY_B_ADD_FAMILY || button_type === KEY_EDIT_FAMILY) {
+			// 家族構成編集画面のpathをセットする
+			path = PATH_USER_WINDOW_FAMILY;
+			// 画面名をセットする
+			name = STR_FAMILY_EDIT;
 		} else {
 			// コメント詳細画面のpathをセットする
 			path = PATH_COMMENT_VIEW;
