@@ -1,0 +1,37 @@
+@CHARSET "UTF-8";
+
+body {
+	font-size: 11px;		/* フォントサイズを11ptにする */
+    line-height:1.4;        /* 1行の間を1.4行分にする */
+	font-family: 'Osaka', 'メイリオ', 'ＭＳ Ｐゴシック';		/* font-familyを指定 */
+	color: #555;			/* ベースのフォントカラー */
+    background: white;  	/* 背景色を白にする。 */
+}
+
+div {
+	border:		1px solid #AAA;
+}
+
+/* 画面上部メニュー領域 */
+.topMenu {
+	float:		top;
+	width:		528px;
+	height:		50px;
+	display:	inline-block;
+}
+
+/* 画面メインコンテンツ領域 */
+.main {
+	float:		top;
+	width:		528px;
+	height:		82px;
+	display:	inline-block;
+}
+
+/* 画面下部メニュー領域（検索領域） */
+.downMenu {
+	float:		top;
+	width:		528px;
+	height:		50px;
+	display:	inline-block;
+}

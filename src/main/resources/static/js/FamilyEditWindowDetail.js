@@ -15,6 +15,8 @@
 function FamilyEditWindowDetail() {
 	
 	WindowDesign.call(this);	//スーパークラスのコンストラクタを呼ぶ
+	// 親ウインドウを取得する
+	this.parentWindow = window.opener;
 	
 	/**
 	 * 関数名：	createFamilyEditWindow

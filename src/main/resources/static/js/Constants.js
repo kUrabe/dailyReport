@@ -105,10 +105,12 @@ KEY_SERACH_NOTE = 'serach_note';				// 検索領域の下書
 
 KEY_USER_ID = 'user_id';
 KEY_USER_NAME = 'user_name';
+KEY_USER_NAME_KANA = 'user_name_kana';
 KEY_LOGIN_NAME = 'login_name';					// ログイン
 KEY_INDEX_NAME = 'index_name';					// 見出し項目の値が入るのクラス名（ここに「予定」とか「結果」とか入る）。
 KEY_DATE = 'date';
 KEY_LOGIN_PASSWORD = 'login_password';
+KEY_LOGIN_PASSWORD_SAI = 'login_password_sai';
 KEY_USER_BIRTHDAY = 'user_birthday';
 
 //日報作成画面のキー
@@ -214,9 +216,11 @@ SELECTOR_DIV_LAST = 'div:last';						// divの最後の要素を指定
 	
 SELECTOR_USER_ID = '.user_id';
 SELECTOR_USER_NAME = '.user_name';
+SELECTOR_USER_NAME_KANA = '.user_name_kana';
 SELECTOR_LOGIN_NAME = '.login_name';
 SELECTOR_LOGIN_ID = '.login_id';
 SELECTOR_LOGIN_PASSWORD = '.login_password';
+SELECTOR_LOGIN_PASSWORD_SAI = '.login_password_sai';
 SELECTOR_USER_BIRTHDAY = '.user_birthday';
 
 
@@ -506,6 +510,22 @@ STR_READ_OFF = '未読';								// 未読状態の日報に対して返す
 STR_READ_ON = '既読';								// 既読状態の日報に対して返す
 STR_READ_MYSELF = '本人';							// ログインユーザ本人の日報に対して返す
 STR_READ_NOTE = '下書';								// 下書状態の日報に対して返す
+
+// 性別判定用連想配列の要素一式
+STR_SEX_MAN_NUM = 1;
+STR_SEX_WOMAN_NUM = 2;
+STR_SEX_OTHER_NUM = 3;
+STR_SEX_MAN = '男性';
+STR_SEX_WOMAN = '女性';
+STR_SEX_OTHER = 'その他';
+
+//ユーザステータス判定用連想配列の要素一式
+STR_STATUS_REG_NUM = 1;
+STR_STATUS_DEL_NUM = 2;
+STR_STATUS_TNP_NUM = 4;
+STR_STATUS_REG = '登録済み';
+STR_STATUS_DEL = '削除済み';
+STR_STATUS_TNP = '未承認';
 
 // 固定ボタンで返されるファンクション名
 STR_GET_BEFORE_PLAN = 'this.getBeforePlan';

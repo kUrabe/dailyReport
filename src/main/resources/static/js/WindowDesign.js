@@ -17,6 +17,17 @@ function WindowDesign() {
 	
 	this.json;				// 取得したjsonを格納
 	this.dom;				// 取得したTHMLを格納
+	this.sexJudge = {};		// 性別判定用の連想配列を用意
+	this.statusJudge = {};	// ユーザステータス判定用の連想配列を用意
+	
+	// 性別判定用の連想配列を作成する
+	this.sexJudge[STR_SEX_MAN_NUM] = STR_SEX_MAN;
+	this.sexJudge[STR_SEX_WOMAN_NUM] = STR_SEX_WOMAN;
+	this.sexJudge[STR_SEX_OTHER_NUM] = STR_SEX_OTHER;
+	// ユーザステータス判定用の連想配列を作成する
+	this.statusJudge[STR_STATUS_REG_NUM] = STR_STATUS_REG;
+	this.statusJudge[STR_STATUS_DEL_NUM] = STR_STATUS_DEL;
+	this.statusJudge[STR_STATUS_TNP_NUM] = STR_STATUS_TNP;
 	
 	/**
 	 * 関数名：	createContentIndex
@@ -571,6 +582,22 @@ function WindowDesign() {
 					var $_valueSetPosition = $_blockSelector.children(SELECTOR_DIV_NAME_START + keyIn + SELECTOR_DIV_NAME_END);
 					// 挿入された項目タグの名前と一致させながら値をセットする
 					$_valueSetPosition.text(this.json[key][keyIn]);
+					
+					
+					// 性別を表す項目が出たら
+					if(keyIn == KEY_USER_SEX) {
+						// 取得値に合わせた日本語表記をセットする
+						$_valueSetPosition.text(this.sexJudge[this.json[key][keyIn]]);
+					}
+					
+					// 承認状態を表す項目が出たら
+					if(keyIn == KEY_USER_SATTUS) {
+						// 取得値に合わせた日本語表記をセットする
+						$_valueSetPosition.text(this.statusJudge[this.json[key][keyIn]]);
+					}
+					
+					
+					
 				}
 				// 挿入した行に対してイベントを登録する
 				this.setClickEvent($_blockSelector, this.prepareAnotherWindow, null, $_blockSelector);
@@ -612,23 +639,23 @@ function WindowDesign() {
 		*/
 		
 		// user_idを取得する
-		$(SELECTOR_USER_ID).val(jsonArray[0][KEY_USER_ID]);
+		$(SELECTOR_USER_ID).val(this.json[0][KEY_USER_ID]);
 		// login_passwordを取得する
 		//$(SELECTOR_LOGIN_PASSWORD).val(jsonArray[0][KEY_LOGIN_PASSWORD]);
 		// user_nameを取得する
-		$(SELECTOR_USER_NAME).val(jsonArray[0][KEY_USER_NAME]);
+		$(SELECTOR_USER_NAME).val(this.json[0][KEY_USER_NAME]);
 		// user_birthdayを取得する
-		$(SELECTOR_USER_BIRTHDAY).val(jsonArray[0][KEY_USER_BIRTHDAY]);
+		$(SELECTOR_USER_BIRTHDAY).val(this.json[0][KEY_USER_BIRTHDAY]);
 		// user_sexを取得する
-		$(SELECTOR_USER_SEX).val(jsonArray[0][KEY_USER_SEX]);
+		$(SELECTOR_USER_SEX).val(this.json[0][KEY_USER_SEX]);
 		// campany_idを取得する
-		$(SELECTOR_CAMPANY_ID).val(jsonArray[0][KEY_CAMPANY_ID]);
+		$(SELECTOR_CAMPANY_ID).val(this.json[0][KEY_CAMPANY_ID]);
 		// department_idを取得する
-		$(SELECTOR_DEPARTMENT_ID).val(jsonArray[0][KEY_DEPARTMENT_ID]);
+		$(SELECTOR_DEPARTMENT_ID).val(this.json[0][KEY_DEPARTMENT_ID]);
 		// postion_idを取得する
-		$(SELECTOR_POSITION_ID).val(jsonArray[0][KEY_POSITION_ID]);
+		$(SELECTOR_POSITION_ID).val(this.json[0][KEY_POSITION_ID]);
 		// user_statusを取得する
-		$(SELECTOR_USER_SATTUS).val(jsonArray[0][KEY_USER_SATTUS]);
+		$(SELECTOR_USER_SATUS).val(this.json[0][KEY_USER_SATTUS]);
 		
 	}
 	

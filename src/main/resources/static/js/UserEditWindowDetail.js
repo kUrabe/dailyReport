@@ -15,6 +15,8 @@
 function UserEditWindowDetail() {
 	
 	WindowDesign.call(this);	//スーパークラスのコンストラクタを呼ぶ
+	// 親ウインドウを取得する
+	this.parentWindow = window.opener;
 	
 	// タグ判定用の配列を作成する
 	this.tagArray = {};

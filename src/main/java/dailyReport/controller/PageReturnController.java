@@ -69,8 +69,15 @@ public class PageReturnController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "/editWindow", method = RequestMethod.GET)
-	public String requestTopEditPage() {
+	public String requestTopEditPage(Model model) {
 
+		// 画面に渡すmodelに会社情報のリストを渡す
+		model.addAttribute("companyList", userService.searchCompanyList());
+		// 画面に渡すmodelに部署情報のリストを渡す
+		model.addAttribute("departmentList", userService.searchDepartmentList());
+		// 画面に渡すmodelに役職情報のリストを渡す
+		model.addAttribute("positionList", userService.searchPositionList());
+		
 		// トップページのURLを返す
 		return "/userEditWindow";
 	}
