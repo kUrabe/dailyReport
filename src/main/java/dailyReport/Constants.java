@@ -33,6 +33,9 @@ public class Constants {
 	public static final String KEY_USER_BIRTHDAY = "user_birthday";
 	public static final String KEY_USER_AUTHORITY = "user_authority";
 	public static final String KEY_USER_STATUS = "user_status";
+	// UserInfテーブル(検索時クライアントからのキー名)
+	public static final String MIN = "min";
+	public static final String MAX = "max";
 	// RecordContentInfテーブル
 	public static final String KEY_CONTENT_ID = "content_id";
 	public static final String KEY_ENTRY_FORMAT = "entry_format";
@@ -84,6 +87,8 @@ public class Constants {
 	public static final String STR_QUERY_NOTE_OUT =" AND ((ri.entry_status = 2 AND ri.user_id = ?1) OR (ri.user_id <> ?1 AND ri.entry_status = 2))";
 	public static final String STR_QUERY_NOTE_ONLY =" AND (ri.entry_status = 1 AND ri.user_id = ?1)";
 	public static final String STR_QUERY_ORDER__REPOT_DATE = " ORDER BY ri.report_date, ri.content_id, ri.parent_content_id, ri.grand_parent_content_id";
+	public static final String STR_MIN_DATE = " AND ui.user_birthday >= ";
+	public static final String STR_MAX_DATE = " AND ui.user_birthday <= ";
 	
 	// その他定数
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -94,6 +99,7 @@ public class Constants {
 	public static final String STR_TEL = "tel";							// 増減情報（tel）
 	public static final String STR_QUALIFICATION = "qualification";		// 増減情報（qualification）
 	public static final String STR_FAMILY = "family";					// 増減情報（family）
+	public static final String STR_SINGLE = "'";
 	
 	// クエリ
 	// トップ画面の初期表示および検索実行時に使用するクエリ
@@ -441,6 +447,31 @@ public class Constants {
 			+ " WHERE"
 			+ " ui.user_id = ?1"
 			;
-			
+	
+	// ユーザ一覧画面の検索取得用
+	public static final String GET_USER_SEARCH_INF = 
+			"SELECT"
+			+ " ui.user_id AS user_id"
+			+ ", ui.user_name AS user_name"
+			+ ", ui.user_name_kana AS user_name_kana"
+			+ ", ui.user_sex AS user_sex"
+			+ ", ui.user_birthday AS user_birthday"
+			+ ", ui.user_status AS user_status"
+			+ ", cs.campany_id AS campany_id"
+			+ ", cs.department_id AS department_id"
+			+ ", cs.position_id AS position_id"
+			+ " FROM"
+			+ " user_inf ui"
+			+ " LEFT JOIN"
+			+ " company_status cs"
+			+ " ON"
+			+ " ui.user_id = cs.user_id"
+			+ " WHERE"
+			+ " ui.user_id = ?1"
+			+ " AND"
+			+ " ui.user_name = ?2"
+			+ " AND"
+			+ " ui.user_sex = ?3"
+			;		
 				
 }

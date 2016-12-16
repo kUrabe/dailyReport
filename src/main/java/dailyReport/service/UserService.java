@@ -2,6 +2,7 @@ package dailyReport.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -139,7 +140,7 @@ public class UserService {
 	public String saveBaseInf(Map<String, Object> map) throws ParseException {
 		
 		// JSONから取得した日付をentityクラスのdate型プロパティへ格納するための日付変換インスタンスを生成する
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
 		
 		// 親のユーザ情報登録用のインスタンスを取得する
 		UserInf parentContent = new UserInf();
@@ -197,9 +198,9 @@ public class UserService {
 	public String updateBaseInf(Map<String, Object> map) throws ParseException {
 		
 		// JSONから取得した日付をentityクラスのdate型プロパティへ格納するための日付変換インスタンスを生成する
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
 				
-		// 親のユーザ情報登録用のインスタンスを取得する
+		// 親のUserIdに紐付く情報を取得する
 		UserInf parentContent = entityManager.find(UserInf.class, map.get(Constants.KEY_USER_ID).toString());
 		// ユーザ情報テーブルに各値をセットしていく
 		// ユーザIDをセットする
@@ -346,7 +347,16 @@ public class UserService {
 	 * 作成者：	k.urabe
 	 */
 	public String deleteBaseInf(Map<String, Object> map) {
+		// 親のUserIdに紐付く情報を取得する
+		UserInf parentContent = entityManager.find(UserInf.class, map.get(Constants.KEY_USER_ID).toString());
+		// ユーザ情報テーブルに各値をセットしていく
+		// 登録状態をセットする
+		parentContent.setUserStatus((int)map.get(Constants.KEY_USER_STATUS));
+		// 更新日をセットする
+		parentContent.setUpdateDated(new Date());
 		
+		// entityを管理状態にする
+		entityManager.persist(parentContent);		
 		return "";
 	}
 	
@@ -358,10 +368,42 @@ public class UserService {
 	 * 作成日：	2016/12/16
 	 * 作成者：	k.urabe
 	 */
-	public String macthBaseInf(Map<String, Object> map) {
+	public List<GetUserBaseInfQuery> macthBaseInf(Map<String, Object> map) {
 		
-		return "";
-	}
+		String query = Constants.GET_USER_SEARCH_INF;		// 検索用クエリの固定部分をセットする
+		
+		// JSONから取得した日付をentityクラスのdate型プロパティへ格納するための日付変換インスタンスを生成する
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
+		
+		// 本日日付を所定フォーマットで取得する
+		Calendar today = sdf.getCalendar();
+		
+		// 年齢のmin値がセットされている
+		if(map.get(Constants.MIN) != "") {
+			// 現在日付より入力値を差し引く
+			today.add(Calendar.YEAR, -(int)map.get(Constants.MIN));
+			// 検索条件を追加する
+			query += Constants.STR_MIN_DATE + Constants.STR_SINGLE + today.toString() + Constants.STR_SINGLE;
+		}
+		
+		// 年齢のmin値がセットされている
+		if(map.get(Constants.MAX) != "") {
+			// 現在日付より入力値を差し引く
+			today.add(Calendar.YEAR, -(int)map.get(Constants.MAX));
+			// 検索条件を追加する
+			query += Constants.STR_MAX_DATE + Constants.STR_SINGLE + today.toString() + Constants.STR_SINGLE;
+		}
+		
+		// jsonから取得したコンテンツIDで情報を取得する
+		@SuppressWarnings("unchecked")
+		List<GetUserBaseInfQuery> content = entityManager
+				.createNativeQuery(query, "getUserBaseInfQuery")
+				.setParameter(1, map.get(Constants.KEY_USER_ID).toString())
+				.setParameter(2, map.get(Constants.KEY_USER_NAME).toString())
+				.setParameter(3, (Byte)map.get(Constants.KEY_USER_SEX))
+				.getResultList();
+		// 取得した情報を返す
+		return content;	}
 	
 	/**
 	 * 関数名：	searchCompanyList

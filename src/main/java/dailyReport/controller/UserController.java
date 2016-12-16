@@ -180,13 +180,13 @@ public class UserController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "user/matchUserInf", method = RequestMethod.POST)
-	public String requestMatchUserInf(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+	public List<GetUserBaseInfQuery> requestMatchUserInf(@RequestParam("crud") String crud, @RequestParam("json") String json) {
 		
 		// パラメータのJSONをMapに変換する
 		Map<String, Object> map = commonService.convertJsonToMap(json);
 		
 		// 登録を実行し、その結果文字列を得る
-		String getUserAddInf = userService.macthBaseInf(map);
+		List<GetUserBaseInfQuery> getUserAddInf = userService.macthBaseInf(map);
 		
 		// 結果を返却する
 		return getUserAddInf;
