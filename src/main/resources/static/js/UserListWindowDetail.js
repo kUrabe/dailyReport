@@ -66,7 +66,8 @@ function UserListWindowDetail() {
 		// JSON連想配列に検索対象のmaxをセットする
 		jsonArray[KEY_MAX] = thisElem.getWindowItem(SELECTOR_LEFT_MENU + MARK_SPACE + SELECTOR_MAX);
 		// JSON連想配列に検索対象の性別をセットする
-		jsonArray[KEY_USER_SEX] = thisElem.getWindowItem(SELECTOR_LEFT_MENU + MARK_SPACE + SELECTOR_USER_SEX);
+		//jsonArray[KEY_USER_SEX] = thisElem.getWindowItem(SELECTOR_LEFT_MENU + MARK_SPACE + SELECTOR_USER_SEX);
+		jsonArray[KEY_USER_SEX] = $(SELECTOR_LEFT_MENU + MARK_SPACE + SELECTOR_USER_SEX).val();
 		
 		// JSON連想配列を用いてDBから値を取得する
 		thisElem.getJsonData(PATH_USER_MATCH_INF, jsonArray, STR_READ);

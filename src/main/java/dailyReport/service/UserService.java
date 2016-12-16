@@ -154,7 +154,7 @@ public class UserService {
 		// ユーザ名（カナ）をセットする
 		parentContent.setUserNameKana(map.get(Constants.KEY_USER_NAME_KANA).toString());
 		// 性別をセットする
-		parentContent.setUserSex((Byte)map.get(Constants.KEY_USER_SEX));
+		parentContent.setUserSex((int)map.get(Constants.KEY_USER_SEX));
 		// 誕生日をセットする
 		parentContent.setUserBirthday(sdf.parse((String)map.get(Constants.KEY_USER_BIRTHDAY)));
 		// 権限をセットする
@@ -215,7 +215,7 @@ public class UserService {
 		// ユーザ名（カナ）をセットする
 		parentContent.setUserNameKana(map.get(Constants.KEY_USER_NAME_KANA).toString());
 		// 性別をセットする
-		parentContent.setUserSex((Byte)map.get(Constants.KEY_USER_SEX));
+		parentContent.setUserSex((int)map.get(Constants.KEY_USER_SEX));
 		// 誕生日をセットする
 		parentContent.setUserBirthday(sdf.parse((String)map.get(Constants.KEY_USER_BIRTHDAY)));
 		// 権限をセットする
@@ -380,16 +380,18 @@ public class UserService {
 		
 		// 年齢のmin値がセットされている
 		if(map.get(Constants.MIN) != "") {
+			int min = new Integer(map.get(Constants.MIN).toString());
 			// 現在日付より入力値を差し引く
-			today.add(Calendar.YEAR, -(int)map.get(Constants.MIN));
+			today.add(Calendar.YEAR, -min);
 			// 検索条件を追加する
 			query += Constants.STR_MIN_DATE + Constants.STR_SINGLE + today.toString() + Constants.STR_SINGLE;
 		}
 		
 		// 年齢のmin値がセットされている
 		if(map.get(Constants.MAX) != "") {
+			int max = new Integer(map.get(Constants.MIN).toString());
 			// 現在日付より入力値を差し引く
-			today.add(Calendar.YEAR, -(int)map.get(Constants.MAX));
+			today.add(Calendar.YEAR, -max);
 			// 検索条件を追加する
 			query += Constants.STR_MAX_DATE + Constants.STR_SINGLE + today.toString() + Constants.STR_SINGLE;
 		}
@@ -398,12 +400,13 @@ public class UserService {
 		@SuppressWarnings("unchecked")
 		List<GetUserBaseInfQuery> content = entityManager
 				.createNativeQuery(query, "getUserBaseInfQuery")
-				.setParameter(1, map.get(Constants.KEY_USER_ID).toString())
-				.setParameter(2, map.get(Constants.KEY_USER_NAME).toString())
-				.setParameter(3, (Byte)map.get(Constants.KEY_USER_SEX))
+				.setParameter(1, "%" + map.get(Constants.KEY_USER_ID).toString() + "%")
+				.setParameter(2, "%" + map.get(Constants.KEY_USER_NAME).toString() + "%")
+				.setParameter(3, "%" + map.get(Constants.KEY_USER_SEX).toString() + "%")
 				.getResultList();
 		// 取得した情報を返す
-		return content;	}
+		return content;
+	}
 	
 	/**
 	 * 関数名：	searchCompanyList

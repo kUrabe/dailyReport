@@ -16,7 +16,7 @@ public class GetUserBaseInfQuery {
 
 		private String user_name_kana;
 
-		private Byte user_sex;
+		private Integer user_sex;
 
 		private Date user_birthday;
 
@@ -32,7 +32,7 @@ public class GetUserBaseInfQuery {
 			String user_id,
 			String user_name,
 			String user_name_kana,
-			Byte user_sex,
+			Integer user_sex,
 			Date user_birthday,
 			Integer user_status,
 			Integer campany_id,
@@ -42,7 +42,7 @@ public class GetUserBaseInfQuery {
 		this.user_id = user_id;
 		this.user_name = user_name == null ? "" : user_name;
 		this.user_name_kana = user_name_kana == null ? "" : user_name_kana;
-		this.user_sex = (byte) (user_sex == null ? 0 : new Integer(user_sex));
+		this.user_sex = user_sex == null ? 0 : new Integer(user_sex);
 		this.user_birthday = user_birthday;
 		this.user_status = user_status == null ? 0 : new Integer(user_status);
 		this.campany_id = campany_id == null ? 0 : new Integer(campany_id);
@@ -74,11 +74,11 @@ public class GetUserBaseInfQuery {
 		this.user_name_kana = user_name_kana;
 	}
 
-	public Byte getUser_sex() {
+	public Integer getUser_sex() {
 		return user_sex;
 	}
 
-	public void setUser_sex(Byte user_sex) {
+	public void setUser_sex(Integer user_sex) {
 		this.user_sex = user_sex;
 	}
 

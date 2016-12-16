@@ -58,7 +58,7 @@ public class UserInf implements Serializable {
 	
 	// 性別
 	@Column(name="user_sex")
-	private Byte user_sex;
+	private Integer user_sex;
 	
 	// 誕生日
 	@Column(name="user_birthday")
@@ -169,7 +169,7 @@ public class UserInf implements Serializable {
 	 * @param userSex
 	 *            性別
 	 */
-	public void setUserSex(Byte userSex) {
+	public void setUserSex(Integer userSex) {
 		this.user_sex = userSex;
 	}
 	
@@ -180,7 +180,7 @@ public class UserInf implements Serializable {
 	 * 
 	 * @return 性別
 	 */
-	public Byte getUserSex() {
+	public Integer getUserSex() {
 		return this.user_sex;
 	}
 	

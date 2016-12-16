@@ -706,8 +706,21 @@ AND
 " AND ui.user_birthday >= "
 " AND ui.user_birthday <= "
 
+
+
 SELECT ui.user_id AS user_id, ui.user_name AS user_name, ui.user_name_kana AS user_name_kana, ui.user_sex AS user_sex, ui.user_birthday AS user_birthday, ui.user_status AS user_status, cs.campany_id AS campany_id, cs.department_id AS department_id, cs.position_id AS position_id FROM user_inf ui LEFT JOIN company_status cs ON ui.user_id = cs.user_id WHERE ui.user_id = ?1 AND ui.user_name = ?2 AND ui.user_sex = ?3
 
 
-
+LEFT JOIN
+	campany_detail cd
+ON
+	cs.campany_id = cd.campany_id
+LEFT JOIN
+	department_detail dd
+ON
+	cs.campany_id = dd.campany_id
+LEFT JOIN
+	position_detail pd
+ON
+	cs.campany_id = pd.campany_id
 

@@ -467,11 +467,13 @@ public class Constants {
 			+ " ON"
 			+ " ui.user_id = cs.user_id"
 			+ " WHERE"
-			+ " ui.user_id = ?1"
+			+ " ui.user_id LIKE ?1"
 			+ " AND"
-			+ " ui.user_name = ?2"
+			+ " ui.user_name LIKE ?2"
 			+ " AND"
-			+ " ui.user_sex = ?3"
+			+ " ui.user_sex LIKE ?3"
+			+ " AND"
+			+ " ui.user_authority <> 2"
 			;		
 				
 }
