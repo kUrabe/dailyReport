@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -16,6 +18,11 @@ import javax.persistence.Table;
  * @version $Id$
  */
 @Entity
+@NamedQueries({
+	@NamedQuery(
+			name="searchUserCompanyStatus",
+			query="SELECT c FROM CompanyStatus c WHERE c.user_id = :user_id")
+})
 @Table(name="company_status")
 public class CompanyStatus implements Serializable {
 

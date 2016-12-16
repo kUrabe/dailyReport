@@ -179,6 +179,9 @@ public class UserService {
 		// 役職IDをセットする
 		content.setPositionId((int)map.get(Constants.KEY_POSITION_ID));
 		
+		// entityを管理状態にする
+		entityManager.persist(content);
+		
 		return "";
 	}
 	
@@ -189,8 +192,55 @@ public class UserService {
 	 * 戻り値：	
 	 * 作成日：	2016/12/16
 	 * 作成者：	k.urabe
+	 * @throws ParseException 
 	 */
-	public String updateBaseInf(Map<String, Object> map) {
+	public String updateBaseInf(Map<String, Object> map) throws ParseException {
+		
+		// JSONから取得した日付をentityクラスのdate型プロパティへ格納するための日付変換インスタンスを生成する
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				
+		// 親のユーザ情報登録用のインスタンスを取得する
+		UserInf parentContent = entityManager.find(UserInf.class, map.get(Constants.KEY_USER_ID).toString());
+		// ユーザ情報テーブルに各値をセットしていく
+		// ユーザIDをセットする
+		parentContent.setUserId(map.get(Constants.KEY_USER_ID).toString());
+		// パスワードに入力があれば
+		if(map.get(Constants.KEY_LOGIN_PASSWORD).toString() != "") {
+			// パスワードをセットする
+			parentContent.setLoginPassword(map.get(Constants.KEY_LOGIN_PASSWORD).toString());
+		}
+		// ユーザ名をセットする
+		parentContent.setUserName(map.get(Constants.KEY_USER_NAME).toString());
+		// ユーザ名（カナ）をセットする
+		parentContent.setUserNameKana(map.get(Constants.KEY_USER_NAME_KANA).toString());
+		// 性別をセットする
+		parentContent.setUserSex((Byte)map.get(Constants.KEY_USER_SEX));
+		// 誕生日をセットする
+		parentContent.setUserBirthday(sdf.parse((String)map.get(Constants.KEY_USER_BIRTHDAY)));
+		// 権限をセットする
+		parentContent.setUserAuthority((int)map.get(Constants.KEY_USER_AUTHORITY));
+		// 登録状態をセットする
+		parentContent.setUserStatus((int)map.get(Constants.KEY_USER_STATUS));
+		// 更新日をセットする
+		parentContent.setUpdateDated(new Date());
+		
+		// entityを管理状態にする
+		entityManager.persist(parentContent);
+
+		// userIdに紐付く会社ステータスを取得する
+		CompanyStatus content = entityManager
+			.createNamedQuery("searchUserCompanyStatus", CompanyStatus.class)
+			.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
+			.getSingleResult();
+		// 会社IDをセットする
+		content.setCampanyId((int)map.get(Constants.KEY_CAMPANY_ID));
+		// 部署IDをセットする
+		content.setDepartmentId((int)map.get(Constants.KEY_DEPARTMENT_ID));
+		// 役職IDをセットする
+		content.setPositionId((int)map.get(Constants.KEY_POSITION_ID));
+		
+		// entityを管理状態にする
+		entityManager.persist(content);
 		
 		return "";
 	}

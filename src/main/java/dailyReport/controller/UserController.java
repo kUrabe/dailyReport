@@ -111,7 +111,7 @@ public class UserController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "user/updateBaseInf", method = RequestMethod.POST)
-	public String requestUpdateBaseUserInf(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+	public String requestUpdateBaseUserInf(@RequestParam("crud") String crud, @RequestParam("json") String json) throws ParseException {
 		
 		// 登録を実行し、その結果文字列を得る
 		Map<String, Object> map = commonService.convertJsonToMap(json);
