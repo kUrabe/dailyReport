@@ -116,12 +116,12 @@ public class UserService {
 		// 家族情報か判定
 		} else if(target.equals(Constants.STR_FAMILY)) {
 			// userIdに紐付くfamily情報を取得する
-			List<FamilyInf> qualificationInf = entityManager
+			List<FamilyInf> familyInf = entityManager
 					.createNamedQuery("searchUserFamily", FamilyInf.class)
 					.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
 					.getResultList();
 			// Map型に変換する
-			content = (Map<String, Object>)qualificationInf;
+			content = (Map<String, Object>)familyInf;
 		}
 		
 		return commonService.convertMapToJson(content);
@@ -254,6 +254,85 @@ public class UserService {
 	 * 作成者：	k.urabe
 	 */
 	public String saveAddInf(Map<String, Object> map) {
+		
+		String target = "";						// 処理対象とする追加情報が何かを保持する
+		Map<String, Object> content = null;		// 
+		
+		target = (String) map.get(Constants.STR_CONTENT_TYPE);
+		
+		// mailか判定
+		if(target.equals(Constants.STR_MAIL)) {
+			// userIdに紐付く情報を削除する
+			entityManager
+				.createNamedQuery("deleteUserMail", MailInf.class)
+				.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
+				.executeUpdate();
+			// userIdに紐付くmail情報を取得する
+			List<MailInf> mailInf = entityManager
+					.createNamedQuery("searchUserMail", MailInf.class)
+					.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
+					.getResultList();
+			// Map型に変換する
+			content = (Map<String, Object>)mailInf;
+		// 住所か判定
+		} else if(target.equals(Constants.STR_ADDRESS)) {
+			// userIdに紐付く情報を削除する
+			entityManager
+				.createNamedQuery("deleteUserAddress", AddressInf.class)
+				.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
+				.executeUpdate();
+			// userIdに紐付くaddress情報を取得する
+			List<AddressInf> addressInf = entityManager
+					.createNamedQuery("searchUserAddress", AddressInf.class)
+					.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
+					.getResultList();
+			// Map型に変換する
+			content = (Map<String, Object>)addressInf;
+		// 電話番号か判定
+		} else if(target.equals(Constants.STR_TEL)) {
+			// userIdに紐付く情報を削除する
+			entityManager
+				.createNamedQuery("deleteUserTel", TelInf.class)
+				.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
+				.executeUpdate();
+			// userIdに紐付くaddress情報を取得する
+			List<TelInf> telInf = entityManager
+					.createNamedQuery("searchUserTel", TelInf.class)
+					.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
+					.getResultList();
+			// Map型に変換する
+			content = (Map<String, Object>)telInf;
+		// 資格か判定
+		} else if(target.equals(Constants.STR_QUALIFICATION)) {
+			// userIdに紐付く情報を削除する
+			entityManager
+				.createNamedQuery("deleteUserQualification", QualificationInf.class)
+				.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
+				.executeUpdate();
+			// userIdに紐付くqualification情報を取得する
+			List<QualificationInf> qualificationInf = entityManager
+					.createNamedQuery("searchUserQualification", QualificationInf.class)
+					.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
+					.getResultList();
+			// Map型に変換する
+			content = (Map<String, Object>)qualificationInf;
+		// 家族情報か判定
+		} else if(target.equals(Constants.STR_FAMILY)) {
+			// userIdに紐付く情報を削除する
+			entityManager
+				.createNamedQuery("deleteUserFamily", FamilyInf.class)
+				.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
+				.executeUpdate();
+
+			// userIdに紐付くfamily情報を取得する
+			List<FamilyInf> familyInf = entityManager
+					.createNamedQuery("searchUserFamily", FamilyInf.class)
+					.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
+					.getResultList();
+			// Map型に変換する
+			content = (Map<String, Object>)familyInf;
+		}
+		
 		
 		return "";
 	}

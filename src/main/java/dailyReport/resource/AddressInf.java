@@ -21,7 +21,10 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(
 			name="searchUserAddress",
-			query="SELECT a FROM AddressInf a WHERE a.user_id = :user_id")
+			query="SELECT a FROM AddressInf a WHERE a.user_id = :user_id"),
+	@NamedQuery(
+			name="deleteUserAddress",
+			query="DELETE FROM AddressInf a WHERE a.user_id = :user_id")
 })
 @Table(name="address_inf")
 public class AddressInf implements Serializable {

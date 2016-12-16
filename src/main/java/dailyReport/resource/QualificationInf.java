@@ -21,7 +21,10 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(
 			name="searchUserQualification",
-			query="SELECT q FROM QualificationInf q WHERE q.user_id = :user_id")
+			query="SELECT q FROM QualificationInf q WHERE q.user_id = :user_id"),
+	@NamedQuery(
+			name="deleteUserQualification",
+			query="DELETE FROM QualificationInf q WHERE q.user_id = :user_id")
 })
 @Table(name="qualification_inf")
 public class QualificationInf implements Serializable {

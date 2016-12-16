@@ -21,7 +21,10 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(
 			name="searchUserFamily",
-			query="SELECT f FROM FamilyInf f WHERE f.user_id = :user_id")
+			query="SELECT f FROM FamilyInf f WHERE f.user_id = :user_id"),
+	@NamedQuery(
+			name="deleteUserFamily",
+			query="DELETE FROM FamilyInf f WHERE f.user_id = :user_id")
 })
 @Table(name="family_inf")
 public class FamilyInf implements Serializable {
