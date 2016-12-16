@@ -28,8 +28,11 @@ import javax.persistence.*;
 							@ColumnResult(name = "user_birthday"),
 							@ColumnResult(name = "user_status"),
 							@ColumnResult(name = "campany_id"),
+							@ColumnResult(name = "campany_title"),
 							@ColumnResult(name = "department_id"),
-							@ColumnResult(name = "position_id")
+							@ColumnResult(name = "department_title"),
+							@ColumnResult(name = "position_id"),
+							@ColumnResult(name = "position_title")
 					}
 			)
 	)
