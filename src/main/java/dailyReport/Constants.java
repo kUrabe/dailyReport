@@ -26,6 +26,13 @@ public class Constants {
 	// json内から値を取得するためのキー名
 	// UserInfテーブル
 	public static final String KEY_USER_ID = "user_id";
+	public static final String KEY_LOGIN_PASSWORD = "login_password";
+	public static final String KEY_USER_NAME = "user_name";
+	public static final String KEY_USER_NAME_KANA = "user_name_kana";
+	public static final String KEY_USER_SEX = "user_sex";
+	public static final String KEY_USER_BIRTHDAY = "user_birthday";
+	public static final String KEY_USER_AUTHORITY = "user_authority";
+	public static final String KEY_USER_STATUS = "user_status";
 	// RecordContentInfテーブル
 	public static final String KEY_CONTENT_ID = "content_id";
 	public static final String KEY_ENTRY_FORMAT = "entry_format";
@@ -62,6 +69,10 @@ public class Constants {
 	public static final String KEY_BUTTON_FUNCTION = "button_function";
 	public static final String KEY_BUTTON_NAME = "button_name";
 	public static final String KEY_GET_INDEX_NAME = "get_index_name";
+	// campany_statusテーブル
+	public static final String KEY_CAMPANY_ID = "campany_id";
+	public static final String KEY_DEPARTMENT_ID = "department_id";
+	public static final String KEY_POSITION_ID = "position_id";
 	// 検索用キー名等
 	public static final String STR_READ_NOTE_IN = "含んで表示";				// 既読・下書　含んで表示
 	public static final String STR_READ_NOTE_OUT = "除いて表示";				// 既読・下書　除いて表示

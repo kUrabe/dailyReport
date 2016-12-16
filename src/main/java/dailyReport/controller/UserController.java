@@ -1,5 +1,6 @@
 package dailyReport.controller;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -84,9 +85,10 @@ public class UserController {
 	 * 戻り値：	String
 	 * 作成日：	2016/11/24
 	 * 作成者：	k.urabe
+	 * @throws ParseException 
 	 */
 	@RequestMapping(value = "user/saveBaseInf", method = RequestMethod.POST)
-	public String requestSaveBaseUserInf(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+	public String requestSaveBaseUserInf(@RequestParam("crud") String crud, @RequestParam("json") String json) throws ParseException {
 		
 		// パラメータのJSONをMapに変換する
 		Map<String, Object> map = commonService.convertJsonToMap(json);

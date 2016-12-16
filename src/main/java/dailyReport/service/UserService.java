@@ -1,11 +1,15 @@
 package dailyReport.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import dailyReport.Constants;
 import dailyReport.resource.AddressInf;
 import dailyReport.resource.CampanyDetail;
+import dailyReport.resource.CompanyStatus;
 import dailyReport.resource.DepartmentDetail;
 import dailyReport.resource.FamilyInf;
 import dailyReport.resource.GetUserBaseInfQuery;
@@ -20,6 +25,7 @@ import dailyReport.resource.MailInf;
 import dailyReport.resource.PositionDetail;
 import dailyReport.resource.QualificationInf;
 import dailyReport.resource.TelInf;
+import dailyReport.resource.UserInf;
 
 /**
  * クラス名：	UserService
@@ -128,10 +134,50 @@ public class UserService {
 	 * 戻り値：	
 	 * 作成日：	2016/12/16
 	 * 作成者：	k.urabe
+	 * @throws ParseException 
 	 */
-	public String saveBaseInf(Map<String, Object> map) {
+	public String saveBaseInf(Map<String, Object> map) throws ParseException {
 		
+		// JSONから取得した日付をentityクラスのdate型プロパティへ格納するための日付変換インスタンスを生成する
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
+		// 親のユーザ情報登録用のインスタンスを取得する
+		UserInf parentContent = new UserInf();
+		// ユーザ情報テーブルに各値をセットしていく
+		// ユーザIDをセットする
+		parentContent.setUserId(map.get(Constants.KEY_USER_ID).toString());
+		// パスワードをセットする
+		parentContent.setLoginPassword(map.get(Constants.KEY_LOGIN_PASSWORD).toString());
+		// ユーザ名をセットする
+		parentContent.setUserName(map.get(Constants.KEY_USER_NAME).toString());
+		// ユーザ名（カナ）をセットする
+		parentContent.setUserNameKana(map.get(Constants.KEY_USER_NAME_KANA).toString());
+		// 性別をセットする
+		parentContent.setUserSex((Byte)map.get(Constants.KEY_USER_SEX));
+		// 誕生日をセットする
+		parentContent.setUserBirthday(sdf.parse((String)map.get(Constants.KEY_USER_BIRTHDAY)));
+		// 権限をセットする
+		parentContent.setUserAuthority(1);
+		// 登録状態をセットする
+		parentContent.setUserStatus(4);
+		// 作成日をセットする
+		parentContent.setCreateDate(new Date());
+		// 更新日をセットする
+		parentContent.setUpdateDated(new Date());
+		
+		// entityを管理状態にする
+		entityManager.persist(parentContent);
+		
+		// 所属情報登録用のインスタンスを取得する
+		CompanyStatus content = new CompanyStatus();
+		// ユーザIDをセットする
+		content.setUserId(map.get(Constants.KEY_USER_ID).toString());
+		// 会社IDをセットする
+		content.setCampanyId((int)map.get(Constants.KEY_CAMPANY_ID));
+		// 部署IDをセットする
+		content.setDepartmentId((int)map.get(Constants.KEY_DEPARTMENT_ID));
+		// 役職IDをセットする
+		content.setPositionId((int)map.get(Constants.KEY_POSITION_ID));
 		
 		return "";
 	}
