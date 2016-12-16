@@ -10,7 +10,7 @@
 		<right_margin>30</right_margin>
 	</page_setting>
 	<category_index>0</category_index>
-	<zoom>0.75</zoom>
+	<zoom>1.0</zoom>
 	<x>0</x>
 	<y>0</y>
 	<default_color>
@@ -95,10 +95,10 @@
 				<is_open_after_saved>true</is_open_after_saved>
 			</export_image_setting>
 			<export_java_setting>
-				<java_output></java_output>
+				<java_output>C:\Users\k.urabe\Documents\デジタルデザインシンク\日報システム開発\新しいフォルダー</java_output>
 				<package_name></package_name>
 				<class_name_suffix></class_name_suffix>
-				<src_file_encoding></src_file_encoding>
+				<src_file_encoding>UTF-8</src_file_encoding>
 				<with_hibernate>false</with_hibernate>
 			</export_java_setting>
 			<export_testdata_setting>
@@ -138,7 +138,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2016-12-15 08:17:01</creation_date>
-			<updated_date>2016-12-15 19:27:36</updated_date>
+			<updated_date>2016-12-16 08:57:12</updated_date>
 			<model_property>
 				<name>プロジェクト名</name>
 				<value></value>

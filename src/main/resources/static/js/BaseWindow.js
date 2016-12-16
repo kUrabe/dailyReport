@@ -551,11 +551,17 @@ function BaseWindow() {
 			// 画面名をセットする
 			name = STR_COMMENT_CREATE;
 		// ユーザ編集画面ならば
-		} else if(button_type === KEY_USER_LINE) {
+		} else if(button_type === KEY_USER_LINE || button_type === KEY_B_USER_EDIT_WINDOW) {
+			// ユーザ編集画面のpathをセットする
+			path = PATH_USER_WINDOW_EDIT;
+			// 画面名をセットする
+			name = STR_USER_EDIT;
+		// ユーザ一覧画面ならば
+		} else if(button_type === KEY_B_USER_LIST_WINDOW) {
 			// ユーザ編集画面のpathをセットする
 			path = PATH_USER_WINDOW_LIST;
 			// 画面名をセットする
-			name = STR_USER_EDIT;
+			name = STR_USER_LIST;
 		// 家族構成画面ならば
 		} else if(button_type === KEY_B_ADD_FAMILY || button_type === KEY_EDIT_FAMILY) {
 			// 家族構成編集画面のpathをセットする

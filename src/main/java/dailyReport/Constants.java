@@ -76,6 +76,13 @@ public class Constants {
 	
 	// その他定数
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
+	public static final String USER_EDIT_WINDOW = "userEditWindow";		// ユーザ編集画面のpath名
+	public static final String STR_CONTENT_TYPE = "contentType";		// 増減情報の種別が格納されているキー名
+	public static final String STR_MAIL = "mail";						// 増減情報（mail）
+	public static final String STR_ADDRESS = "address";					// 増減情報（address）
+	public static final String STR_TEL = "tel";							// 増減情報（tel）
+	public static final String STR_QUALIFICATION = "qualification";		// 増減情報（qualification）
+	public static final String STR_FAMILY = "family";					// 増減情報（family）
 	
 	// クエリ
 	// トップ画面の初期表示および検索実行時に使用するクエリ
@@ -401,4 +408,28 @@ public class Constants {
 			+ " ri.report_date DESC"
 			+ " LIMIT 1"
 			;
+	
+	// ユーザ編集画面のユーザIDに紐付くBase情報取得用
+	public static final String GET_USER_BASE_INF = 
+			"SELECT"
+			+ " ui.user_id AS user_id"
+			+ ", ui.user_name AS user_name"
+			+ ", ui.user_name_kana AS user_name_kana"
+			+ ", ui.user_sex AS user_sex"
+			+ ", ui.user_birthday AS user_birthday"
+			+ ", ui.user_status AS user_status"
+			+ ", cs.campany_id AS campany_id"
+			+ ", cs.department_id AS department_id"
+			+ ", cs.position_id AS position_id"
+			+ " FROM"
+			+ " user_inf ui"
+			+ " LEFT JOIN"
+			+ " company_status cs"
+			+ " ON"
+			+ " ui.user_id = cs.user_id"
+			+ " WHERE"
+			+ " ui.user_id = ?1"
+			;
+			
+				
 }

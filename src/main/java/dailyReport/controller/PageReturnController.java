@@ -1,10 +1,3 @@
-/**
- * ファイル名：	PageReturnController.java
- * 作成日：	2016/11/24
- * 作成者：	k.urabe
- * パッケージ：	dailyReport/controller
- */
-
 package dailyReport.controller;
 
 import java.security.Principal;
@@ -19,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import dailyReport.Constants;
 import dailyReport.service.CommonService;
+import dailyReport.service.UserService;
 
 /**
  * クラス名：	PageReturnController
@@ -31,6 +25,8 @@ public class PageReturnController {
 
 	@Autowired
 	CommonService commonService;
+	@Autowired
+	UserService userService;
 	
 	/**
 	 * 関数名：	requestTopPage
@@ -118,4 +114,30 @@ public class PageReturnController {
 		// indexページのURLを返す
 		return "/index";
 	}
+	
+	/**
+	 * 関数名：	requestUserWindow
+	 * 概要：		ユーザ関連の別ウインドウリクエストのマッピングクラス
+	 * 引数：		なし
+	 * 戻り値：	String
+	 * 作成日：	2016/12/12
+	 * 作成者：	k.urabe
+	 */
+	@RequestMapping(value = "/userWindow/{htmlPath}", method = RequestMethod.GET)
+	public String requestUserWindow(Model model, @PathVariable("htmlPath") String htmlPath, Principal principal) {
+
+		// pathが編集画面か検証
+		if(htmlPath.equals(Constants.USER_EDIT_WINDOW)) {
+			// 画面に渡すmodelに会社情報のリストを渡す
+			model.addAttribute("companyList", userService.searchCompanyList());
+			// 画面に渡すmodelに部署情報のリストを渡す
+			model.addAttribute("departmentList", userService.searchDepartmentList());
+			// 画面に渡すmodelに役職情報のリストを渡す
+			model.addAttribute("positionList", userService.searchPositionList());
+		}
+		
+		// リクエストに含まれているページを返す
+		return "userWindow/" + htmlPath;
+	}
+	
 }

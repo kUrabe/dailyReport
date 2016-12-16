@@ -137,6 +137,19 @@ function TopWindowDetail() {
 		// 新規日報ボタンのイベントを登録する
 		this.setClickEvent(SELECTOR_B_NEW_REPORT, this.prepareAnotherWindow, null, null);
 		
+		// ログインユーザが管理者であるか検証する
+		if(this.getUserAuth() == STR_SUCCESS) {
+			// ユーザ一覧画面へのボタンを配置する
+			$(SELECTOR_TOP_MENU).append(TAG_USER_LIST_WINDOW_BUTTON);
+			// ボタンへイベントを登録する
+			this.setClickEvent(SELECTOR_B_USER_LIST_WINDOW, this.prepareAnotherWindow, null, null);
+		} else {
+			// ユーザ編集画面へのボタンを配置する
+			$(SELECTOR_TOP_MENU).append(TAG_USER_EDIT_WINDOW_BUTTON);
+			// ボタンイベントを登録する
+			this.setClickEvent(SELECTOR_B_USER_EDIT_WINDOW, this.prepareAnotherWindow, null, null);
+		}
+		
 		// TODO:【メモ】サーバから取得したHTMLには、初期表示として値が入っていることを想定
 		// 初期の検索条件にて画面項目の取得を行う。
 		$(SELECTOR_B_SERACH).click();

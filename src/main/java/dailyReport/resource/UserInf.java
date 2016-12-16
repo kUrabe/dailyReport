@@ -15,6 +15,25 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="user_inf")
+@SqlResultSetMappings({
+	@SqlResultSetMapping(
+			name="getUserBaseInfQuery", 
+			classes = @ConstructorResult(
+					targetClass = dailyReport.resource.GetUserBaseInfQuery.class, 
+					columns = {
+							@ColumnResult(name = "user_id"),
+							@ColumnResult(name = "user_name"),
+							@ColumnResult(name = "user_name_kana"),
+							@ColumnResult(name = "user_sex"),
+							@ColumnResult(name = "user_birthday"),
+							@ColumnResult(name = "user_status"),
+							@ColumnResult(name = "campany_id"),
+							@ColumnResult(name = "department_id"),
+							@ColumnResult(name = "position_id")
+					}
+			)
+	)
+})
 public class UserInf implements Serializable {
 	
 	/** serialVersionUID. */

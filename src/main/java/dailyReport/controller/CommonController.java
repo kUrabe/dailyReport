@@ -108,4 +108,36 @@ public class CommonController {
 
 	}
 	
+	/**
+	 * 関数名：	requestUserIdCheck
+	 * 概要：		クライアントから送られてくるユーザIDが存在するかチェックする
+	 * 引数：		パラメータ String crud	処理の種別
+	 * 			パラメータ String json	JSON文字列
+	 * 戻り値：	String
+	 * 作成日：	2016/12/16
+	 * 作成者：	k.urabe
+	 */
+	@RequestMapping(value = "common/userId", method = RequestMethod.POST)
+	public String requestUserIdCheck(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+		
+		int getAuth = 0;					// DB上から取得したログインユーザに紐付く権限を取得する
+		String result = "";					// 処理結果の判定を格納するための変数
+		
+		// パラメータのJSONをMapに変換する
+		Map<String, Object> map = commonService.convertJsonToMap(json);
+		
+		// ログイン中のユーザ情報を取得する
+		UserInf user = commonService.getUserName(map.get(Constants.KEY_USER_ID).toString());
+		
+		// ユーザが存在していないことを確認する
+		if(user == null) {
+			// 返却用Stringに成功判定文字を入れる
+			result = Constants.STR_SUCCESS;
+		}
+		
+		// 判定結果を返却する
+		return result;
+		
+	}
+	
 }

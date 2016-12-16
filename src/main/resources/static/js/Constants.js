@@ -156,6 +156,9 @@ KEY_FAMILY_NAME_KANA = 'family_name_kana';
 KEY_FAMILY_RELATION = 'family_relation';
 KEY_FAMILY_SUPPORT = 'family_support';
 
+KEY_B_USER_LIST_WINDOW = 'b_user_list_window';
+KEY_B_USER_EDIT_WINDOW = 'b_user_edit_window';
+
 KEY_F_ON = 'f-on';								// いいねボタンを押下している状態のボタンに付与
 KEY_R_ON = 'r-on';								// 未読にするボタンを押下している状態（未読状態）のボタンに付与
 KEY_INDEX_LINE = 'indexLine';					// アコーディオン開閉時に押下されたのが、行なのかボタンなのか判定するためのクラス名
@@ -249,6 +252,8 @@ SELECTOR_FAMILY_RELATION = '.family_relation';
 SELECTOR_FAMILY_SUPPORT = '.family_support';
 SELECTOR_B_UPDATE = '.b_update';
 
+SELECTOR_B_USER_LIST_WINDOW = '.b_user_list_window';
+SELECTOR_B_USER_EDIT_WINDOW = '.b_user_edit_window';
 
 
 // top画面のボタンセレクタ
@@ -402,6 +407,10 @@ TAG_FAVORITE_BUTTON_COMMENT = '<button type="button" class="b_favorite" value="2
 TAG_NO_READ_BUTTON_COMMENT = '<button type="button" class="b_no_read" value="1" style="display:none">未読にする</button>';	// 未読にするボタン(コメント用)
 TAG_NEW_COMMENT_BUTTON = '<button type="button" class="b_new_comment" value="b_new_comment">コメントする</button>';	// コメントするボタン
 TAG_ACCORDION_BUTTON = '<button type="button" class="b_accordion">閉じる</button>';	// ボタン
+
+TAG_USER_LIST_WINDOW_BUTTON = '<button type="button" class="b_user_list_window" name="b_user_list_window" value="b_user_list_window">ユーザ一覧画面</button>';	// ボタン
+TAG_USER_EDIT_WINDOW_BUTTON = '<button type="button" class="b_user_edit_window" name="b_user_edit_window" value="b_user_edit_window">ユーザ編集画面</button>';	// ボタン
+
 TAG__BUTTON = '<button type="button" class="" name=""></button>';	// ボタン
 
 
