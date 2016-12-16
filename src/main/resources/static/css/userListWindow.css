@@ -87,21 +87,24 @@ div {
 	display:	inline-block;
 }
 .blockArea .campany_id {
-	display:	none;
+	width:		80px;
+	display:	inline-block;
 }
 .blockArea .campany_title {
 	width:		80px;
 	display:	inline-block;
 }
 .blockArea .department_id {
-	display:	none;
+	width:		80px;
+	display:	inline-block;
 }
 .blockArea .department_title {
 	width:		80px;
 	display:	inline-block;
 }
 .blockArea .position_id {
-	display:	none;
+	width:		80px;
+	display:	inline-block;
 }
 .blockArea .position_title {
 	width:		80px;

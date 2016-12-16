@@ -429,7 +429,9 @@ TAG_TR_END = '</tr>';
 TAG_USER_INDEX_LINE = '<div class="index_line"><div>氏名</div><div>生年月日</div><div>性別</div><div>会社</div><div>部署</div><div>役職</div><div>承認</div></div>';
 
 // ユーザ一覧画面の1行タグ
-TAG_USER_LINE = '<div class="user_id" name="user_id"></div><div class="user_name" name="user_name"></div><div class="user_birthday" name="user_birthday"></div><div class="user_sex" name="user_sex"></div><div class="campany_id" name="campany_id"><div class="campany_title" name="campany_title"></div><div class="department_id" name="department_id"></div><div class="department_title" name="department_title"></div><div class="position_id" name="position_id"></div><div class="position_title" name="position_title"></div><div class="user_status" name="user_status"></div>';
+//TAG_USER_LINE = '<div class="user_id" name="user_id"></div><div class="user_name" name="user_name"></div><div class="user_birthday" name="user_birthday"></div><div class="user_sex" name="user_sex"></div><div class="campany_id" name="campany_id"><div class="campany_title" name="campany_title"></div><div class="department_id" name="department_id"></div><div class="department_title" name="department_title"></div><div class="position_id" name="position_id"></div><div class="position_title" name="position_title"></div><div class="user_status" name="user_status"></div>';
+TAG_USER_LINE = '<div class="user_id" name="user_id"></div><div class="user_name" name="user_name"></div><div class="user_birthday" name="user_birthday"></div><div class="user_sex" name="user_sex"></div><div class="campany_id" name="campany_id"></div><div class="department_id" name="department_id"></div><div class="position_id" name="position_id"></div><div class="user_status" name="user_status"></div>';
+
 // 家族構成の1行
 TAG_FAMILY_LINE = '<div class="blockArea"><div class="family_relation" value="family_relation"></div><div class="family_name" value="family_name"></div><div class="family_name_kana" value="family_name_kana"></div><div class="family_support" value="family_support"></div></div>';
 TAG_APPROVAL_BUTTON = '<button type="button" class="b_approval_user" value="b_approval_user">承認</button>';		// 承認ボタン
