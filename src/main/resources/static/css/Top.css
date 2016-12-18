@@ -218,3 +218,6 @@ div {
 .comment_line {
 	display:	inline;
 }
+.b_logout_auto {
+	display:	none;
+}

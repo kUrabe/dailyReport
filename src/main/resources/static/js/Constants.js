@@ -267,6 +267,7 @@ SELECTOR_B_USER_EDIT_WINDOW = '.b_user_edit_window';
 SELECTOR_B_SERACH = '.b_serach';				// 検索ボタン
 SELECTOR_B_NEW_REPORT = '.b_new_report';		// 新規日報ボタン
 SELECTOR_B_LOGOUT = '.b_logout';				// ログアウトボタン
+SELECTOR_B_LOGOUT_AUTO = '.b_logout_auto';
 SELECTOR_B_NEW_COMMENT = '.b_new_comment';		// コメントするボタン
 SELECTOR_B_CLOSE = '.b_close';					// 閉じる（アコーディオン）ボタン
 SELECTOR_B_NO_READ = '.b_no_read';				// 未読にするボタン

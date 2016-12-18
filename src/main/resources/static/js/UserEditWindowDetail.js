@@ -329,7 +329,7 @@ function UserEditWindowDetail() {
 		// ログインしているユーザかどうか判定する
 		if(!(thisElem.getUserAuth() == STR_SUCCESS)) {
 			// ログアウトさせる
-			thisElem.parentWindow.$(SELECTOR_B_LOGOUT).click();
+			thisElem.parentWindow.$(SELECTOR_B_LOGOUT_AUTO).click();
 		}
 		
 		// ウインドウを閉じる

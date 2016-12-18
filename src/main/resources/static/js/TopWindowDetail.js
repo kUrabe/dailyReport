@@ -120,6 +120,27 @@ function TopWindowDetail() {
 	}
 	
 	/**
+	 * 関数名：	logoutAuto
+	 * 概要：		logout処理を実行する
+	 * 引数：		なし
+	 * 戻り値：	なし
+	 * 作成日：	2016/11/23
+	 * 作成者：	k.urabe
+	 */
+	this.logoutAuto = function() {
+
+		// 「OK」時は送信を実行
+		// logout用のリクエストform要素を作成する
+		var form = document.createElement(KEY_FORM);
+		// 作成したformのmethod属性にPOSTを指定する
+		form.setAttribute(KEY_METHOD, STR_POST);
+		// 作成したformのaction属性にログアウト用のpathを指定する
+		form.setAttribute(KEY_ACTION, STR_LOGOUT_PATH);
+		// formの内容を送信する
+		form.submit();
+	}
+	
+	/**
 	 * 関数名：	createTopWindow
 	 * 概要：		Top画面を開いた時の処理
 	 * 引数：		なし
@@ -132,6 +153,7 @@ function TopWindowDetail() {
 		// 画面共通部分のボタンにイベントを登録する
 		// ログアウトボタンのイベントを登録する(/logoutへリクエストするとSpringが制御する)
 		this.setClickEvent(SELECTOR_B_LOGOUT, this.logout);
+		this.setClickEvent(SELECTOR_B_LOGOUT_AUTO, this.logoutAuto);
 		// 検索ボタンのイベントを登録する
 		this.setClickEvent(SELECTOR_B_SERACH, this.clickSearchButton);
 		// 新規日報ボタンのイベントを登録する
