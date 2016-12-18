@@ -18,6 +18,12 @@ function FamilyEditWindowDetail() {
 	// 親ウインドウを取得する
 	this.parentWindow = window.opener;
 	
+	this.familySupport = {};	// 扶養判定用の連想配列を用意
+
+	// 扶養判定用の連想配列を作成する
+	this.familySupport[STR_SUPPORT_ON_NUM] = STR_SUPPORT_ON;
+	this.familySupport[STR_SUPPORT_OFF_NUM] = STR_SUPPORT_OFF;
+	
 	/**
 	 * 関数名：	createFamilyEditWindow
 	 * 概要：		家族構成編集画面の初期表示機能
@@ -85,22 +91,21 @@ function FamilyEditWindowDetail() {
 			$_target = thisElem.parentWindow.$(parentWindowDate);
 		} else {
 			// 行の追加を行うボタンをクリックする
-			thisElem.parentWindow.$(parentWindowDate).parent().children(KEY_BUTTON).click();
+			thisElem.parentWindow.$(parentWindowDate).parent().parent().children(KEY_BUTTON).click();
 			// 追加した最終行を入力エリアの対象とする
-			$_target = thisElem.parentWindow.$(parentWindowDate).parent().children(SELECTOR_PARENT_AREA_LAST);
+			$_target = thisElem.parentWindow.$(parentWindowDate).parent().parent().children(SELECTOR_PARENT_AREA_LAST);
 		}
 		
-		// 親にタグをセットする
-		thisElem.parentWindow.$(parentWindowDate).parent().children(SELECTOR_PARENT_AREA_LAST).append(TAG_FAMILY_LINE);
-		// 追加した親のタグに値をセットする
 		// 家族の名前をセットする
-		thisElem.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_NAME).val($(SELECTOR_FAMILY_NAME).val());
+		$_target.children(SELECTOR_FAMILY_NAME).val($(SELECTOR_FAMILY_NAME).val());
 		// 家族の名前（カナ）をセットする
-		thisElem.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_NAME_KANA).val($(SELECTOR_FAMILY_NAME_KANA).val());
+		$_target.children(SELECTOR_FAMILY_NAME_KANA).val($(SELECTOR_FAMILY_NAME_KANA).val());
 		// 続柄をセットする
-		thisElem.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_RELATION).val($(SELECTOR_FAMILY_RELATION).val());
+		$_target.children(SELECTOR_FAMILY_RELATION).val($(SELECTOR_FAMILY_RELATION).val());
 		// 扶養をセットする
-		thisElem.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_SUPPORT).val($(SELECTOR_FAMILY_SUPPORT).val);
+		$_target.children(SELECTOR_FAMILY_SUPPORT).val($(SELECTOR_FAMILY_SUPPORT).val());
+		// 扶養の日本語表記をセットする
+		$_target.children(SELECTOR_FAMILY_SUPPORT_TITLE).val(thisElem.familySupport[$(SELECTOR_FAMILY_SUPPORT).val()]);
 		
 		// ウインドウを閉じる
 		thisElem.closeWindow();
