@@ -222,6 +222,30 @@ public class CommonService {
 	}
 	
 	/**
+	 * 関数名：	convertListToJson
+	 * 概要：		MAPをJSON文字列に変換する
+	 * 引数：		MAP
+	 * 戻り値：	String
+	 * 作成日：	2016/11/25
+	 * 作成者：	k.urabe
+	 * 参考:		http://blog.pepese.com/entry/20130915/1379222428
+	 */
+	public String convertListToJson(List list) {
+		
+		//Map<String,String> map = new LinkedHashMap<>();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		return json;
+	}
+	
+	/**
 	 * 関数名：	convertJsonToMap
 	 * 概要：		JSON文字列をMAPに変換する
 	 * 引数：		String

@@ -35,3 +35,33 @@ div {
 	height:		50px;
 	display:	inline-block;
 }
+/* index_line配下のdiv幅 */
+.index_line div {
+	width:		80px;
+	display:	inline-block;
+}
+.user_status {
+	display:	none;
+}
+.b_add_family_hidden {
+	display:	none;
+}
+.family_relation {
+	width:		80px;
+ readonly:	readonly;
+}
+.family_name {
+	width:		80px;
+ readonly:	readonly;
+}
+.family_name_kana {
+	width:		80px;
+ readonly:	readonly;
+}
+.family_support {
+	display:	none;
+}
+.family_support_title {
+	width:		80px;
+ readonly:	readonly;
+}

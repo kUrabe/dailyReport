@@ -147,7 +147,7 @@ function TopWindowDetail() {
 			// ユーザ編集画面へのボタンを配置する
 			$(SELECTOR_TOP_MENU).append(TAG_USER_EDIT_WINDOW_BUTTON);
 			// ボタンイベントを登録する
-			this.setClickEvent(SELECTOR_B_USER_EDIT_WINDOW, this.prepareAnotherWindow, null, null);
+			this.setClickEvent(SELECTOR_B_USER_EDIT_WINDOW, this.prepareAnotherWindow, null, SELECTOR_TOP_MENU);
 		}
 		
 		// TODO:【メモ】サーバから取得したHTMLには、初期表示として値が入っていることを想定

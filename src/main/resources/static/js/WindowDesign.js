@@ -19,6 +19,7 @@ function WindowDesign() {
 	this.dom;				// 取得したTHMLを格納
 	this.sexJudge = {};		// 性別判定用の連想配列を用意
 	this.statusJudge = {};	// ユーザステータス判定用の連想配列を用意
+	this.familySupport = {};	// 扶養判定用の連想配列を用意
 	
 	// 性別判定用の連想配列を作成する
 	this.sexJudge[STR_SEX_MAN_NUM] = STR_SEX_MAN;
@@ -28,6 +29,10 @@ function WindowDesign() {
 	this.statusJudge[STR_STATUS_REG_NUM] = STR_STATUS_REG;
 	this.statusJudge[STR_STATUS_DEL_NUM] = STR_STATUS_DEL;
 	this.statusJudge[STR_STATUS_TNP_NUM] = STR_STATUS_TNP;
+	// 扶養判定用の連想配列を作成する
+	this.familySupport[STR_SUPPORT_ON_NUM] = STR_SUPPORT_ON;
+	this.familySupport[STR_SUPPORT_OFF_NUM] = STR_SUPPORT_OFF;
+	
 	
 	/**
 	 * 関数名：	createContentIndex
@@ -644,6 +649,8 @@ function WindowDesign() {
 		//$(SELECTOR_LOGIN_PASSWORD).val(jsonArray[0][KEY_LOGIN_PASSWORD]);
 		// user_nameを取得する
 		$(SELECTOR_USER_NAME).val(this.json[0][KEY_USER_NAME]);
+		// user_name_kanaを取得する
+		$(SELECTOR_USER_NAME_KANA).val(this.json[0][KEY_USER_NAME_KANA]);
 		// user_birthdayを取得する
 		$(SELECTOR_USER_BIRTHDAY).val(this.json[0][KEY_USER_BIRTHDAY]);
 		// user_sexを取得する
@@ -655,7 +662,7 @@ function WindowDesign() {
 		// postion_idを取得する
 		$(SELECTOR_POSITION_ID).val(this.json[0][KEY_POSITION_ID]);
 		// user_statusを取得する
-		$(SELECTOR_USER_SATUS).val(this.json[0][KEY_USER_SATTUS]);
+		$(SELECTOR_USER_STATUS).val(this.json[0][KEY_USER_SATTUS]);
 		
 	}
 	
@@ -681,7 +688,14 @@ function WindowDesign() {
 				// 値を挿入するセレクタを取得する
 				var $_valueSetPosition = $_blockSelector.children(SELECTOR_NAME_START + keyIn + SELECTOR_NAME_END);
 				// 挿入された項目タグの名前と一致させながら値をセットする
-				$_valueSetPosition.text(this.json[key][keyIn]);
+				$_valueSetPosition.val(this.json[key][keyIn]);
+				
+				// 扶養を表す項目が出たら
+				if(keyIn == KEY_DB_FAMILY_SUPPORT) {
+					// 取得値に合わせた日本語表記をセットする
+					$_blockSelector.children(SELECTOR_FAMILY_SUPPORT_TITLE).val(this.familySupport[this.json[key][keyIn]]);
+				}
+				
 			}
 			
 			

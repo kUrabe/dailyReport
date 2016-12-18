@@ -6,7 +6,7 @@
   <meta charset="UTF-8" />
   <title>Topページ</title>
   <!-- Top画面用CSSを読み込む。 -->
-  <link href="css/Top.css" rel="stylesheet" type="text/css" />
+  <link href="css/userEditWindow.css" rel="stylesheet" type="text/css" />
   <!-- Queryの本体を読み込む。 -->
   <script src="js/jquery-1.11.0.min.js"></script>
   <!-- jQueryUIを読み込む。 -->
@@ -52,28 +52,72 @@
 
 		<p class="index">メールアドレス</p>
 		<div class="mail_area add_content">
-			<button class="b_add_mail">メールアドレスの追加</button>
+			<button class="b_add_mail" value="b_add_mail">メールアドレスの追加</button>
 		</div>
 		
 		<p class="index">住所</p>
 		<div class="address_area add_content">
-			<button class="b_add_address">住所の追加</button>
+			<button class="b_add_address" value="b_add_address">住所の追加</button>
 		</div>
 		
 		<p class="index">電話番号</p>
 		<div class="tel_area add_content">
-			<button class="b_add_tel">電話番号の追加</button>
+			<button class="b_add_tel" value="b_add_tel">電話番号の追加</button>
 		</div>
 		
 		<p class="index">所属会社</p>
 		<select class="campany_id nomal_content" type="text" name="campany_id">
-			<option th:each="list : ${companyList}" th:value="${list.campany_id}" th:text="${list.campany_title}"></option>
+			<option value="0"></option>
+			<option value="1">デジタルデザインシンク</option>
+			<option value="2">1株式会社</option>
+			<option value="3">2株式会社</option>
+			<option value="4">3株式会社</option>
+			<option value="5">4株式会社</option>
+			<option value="6">5株式会社</option>
+			<option value="7">6株式会社</option>
+			<option value="8">7株式会社</option>
+			<option value="9">8株式会社</option>
+			<option value="10">9株式会社</option>
 		</select>
-	
+		
+		<p class="index">所属部署</p>
+		<select class="department_id nomal_content" type="text" name="department_id">
+			<option value="0"></option>
+			<option value="1">人事</option>
+			<option value="2">総務</option>
+			<option value="3">調達</option>
+			<option value="4">施設</option>
+			<option value="5">管理</option>
+		</select>
+		
+		<p class="index">役職</p>
+		<select class="position_id nomal_content" type="text" name="position_id">
+			<option value="0"></option>
+			<option value="1">一般</option>
+			<option value="2">主任</option>
+			<option value="3">係長</option>
+			<option value="4">部長</option>
+			<option value="5">課長</option>
+		</select>
+		
+		<p class="index">所持資格</p>
+		<div class="qualification_area add_content">
+			<button class="b_add_qualification" value="b_add_qualification">資格の追加</button>
+		</div>
+		
+		<p class="index">家族構成</p>
+		<div class="qualification_area add_content">
+			<div class="index_line">
+				<div>続柄</div><div>氏名（漢字）</div><div>氏名（カナ）</div><div>扶養</div>
+			</div>
+			<button class="b_add_family" value="b_add_family">家族構成の追加</button>
+		</div>
+		
 	</div>
 </div>
 <div class="downMenu">
 
+	<button class="b_cancel" value="b_cancel">戻る</button>
 </div>
 
 

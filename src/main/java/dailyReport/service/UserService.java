@@ -14,6 +14,8 @@ import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import dailyReport.Constants;
 import dailyReport.resource.AddressInf;
@@ -43,6 +45,8 @@ public class UserService {
 	EntityManager entityManager;
 	@Autowired
 	CommonService commonService;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	/**
 	 * 関数名：	searchBaseInf
@@ -74,7 +78,7 @@ public class UserService {
 	public String searchAddInf(Map<String, Object> map) {
 		
 		String target = "";						// 処理対象とする追加情報が何かを保持する
-		Map<String, Object> content = null;		// 
+		List<Map<String, Object>> content = null;		// 
 		
 		target = (String) map.get(Constants.STR_CONTENT_TYPE);
 		
@@ -86,7 +90,7 @@ public class UserService {
 					.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
 					.getResultList();
 			// Map型に変換する
-			content = (Map<String, Object>)mailInf;
+			content = (List)mailInf;
 		// 住所か判定
 		} else if(target.equals(Constants.STR_ADDRESS)) {
 			// userIdに紐付くaddress情報を取得する
@@ -95,7 +99,7 @@ public class UserService {
 					.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
 					.getResultList();
 			// Map型に変換する
-			content = (Map<String, Object>)addressInf;
+			content = (List)addressInf;
 		// 電話番号か判定
 		} else if(target.equals(Constants.STR_TEL)) {
 			// userIdに紐付くaddress情報を取得する
@@ -104,7 +108,7 @@ public class UserService {
 					.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
 					.getResultList();
 			// Map型に変換する
-			content = (Map<String, Object>)telInf;
+			content = (List)telInf;
 		// 資格か判定
 		} else if(target.equals(Constants.STR_QUALIFICATION)) {
 			// userIdに紐付くqualification情報を取得する
@@ -113,7 +117,7 @@ public class UserService {
 					.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
 					.getResultList();
 			// Map型に変換する
-			content = (Map<String, Object>)qualificationInf;
+			content = (List)qualificationInf;
 		// 家族情報か判定
 		} else if(target.equals(Constants.STR_FAMILY)) {
 			// userIdに紐付くfamily情報を取得する
@@ -122,10 +126,10 @@ public class UserService {
 					.setParameter("user_id", map.get(Constants.KEY_USER_ID).toString())
 					.getResultList();
 			// Map型に変換する
-			content = (Map<String, Object>)familyInf;
+			content = (List)familyInf;
 		}
 		
-		return commonService.convertMapToJson(content);
+		return commonService.convertListToJson(content);
 	}
 	
 	/**
@@ -148,7 +152,7 @@ public class UserService {
 		// ユーザIDをセットする
 		parentContent.setUserId(map.get(Constants.KEY_USER_ID).toString());
 		// パスワードをセットする
-		parentContent.setLoginPassword(map.get(Constants.KEY_LOGIN_PASSWORD).toString());
+		parentContent.setLoginPassword(passwordEncoder.encode(map.get(Constants.KEY_LOGIN_PASSWORD).toString()));
 		// ユーザ名をセットする
 		parentContent.setUserName(map.get(Constants.KEY_USER_NAME).toString());
 		// ユーザ名（カナ）をセットする
@@ -208,7 +212,7 @@ public class UserService {
 		// パスワードに入力があれば
 		if(map.get(Constants.KEY_LOGIN_PASSWORD).toString() != "") {
 			// パスワードをセットする
-			parentContent.setLoginPassword(map.get(Constants.KEY_LOGIN_PASSWORD).toString());
+			parentContent.setLoginPassword(passwordEncoder.encode(map.get(Constants.KEY_LOGIN_PASSWORD).toString()));
 		}
 		// ユーザ名をセットする
 		parentContent.setUserName(map.get(Constants.KEY_USER_NAME).toString());

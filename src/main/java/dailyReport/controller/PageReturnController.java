@@ -147,4 +147,19 @@ public class PageReturnController {
 		return "userWindow/" + htmlPath;
 	}
 	
+	/**
+	 * 関数名：	requestFamilyWindow
+	 * 概要：		ユーザ関連の別ウインドウリクエストのマッピングクラス
+	 * 引数：		なし
+	 * 戻り値：	String
+	 * 作成日：	2016/12/12
+	 * 作成者：	k.urabe
+	 */
+	@RequestMapping(value = "/editWindow/{htmlPath}", method = RequestMethod.GET)
+	public String requestFamilyWindow(@PathVariable("htmlPath") String htmlPath) {
+
+		// リクエストに含まれているページを返す
+		return "userWindow/" + htmlPath;
+	}
+	
 }

@@ -25,6 +25,7 @@ function UserEditWindowDetail() {
 	this.tagArray[KEY_B_ADD_ADDRESS] = TAG_ADDRESS_BLOCK;
 	this.tagArray[KEY_B_ADD_TEL] = TAG_TEL_BLOCK;
 	this.tagArray[KEY_B_ADD_QUALIFICATION] = TAG_QUA_BLOCK;
+	this.tagArray[KEY_B_ADD_FAMILY_H] = TAG_FAMILY_LINE;
 	
 	/**
 	 * 関数名：	createUserEditWindow
@@ -46,23 +47,25 @@ function UserEditWindowDetail() {
 			// 親から取得したuser_idを取得する
 			selectUserId = this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_ID).text();
 		
-			// 共通の各ボタンへイベントを登録する
-			// 重複チェックボタンへイベントを登録する
-			this.setClickEvent(SELECTOR_B_OVER_LAP, this.clickOverLapButton, null, $(SELECTOR_USER_ID).text());
-			// メールアドレス追加ボタンへイベントを登録する
-			this.setClickEvent(SELECTOR_B_ADD_MAIL, this.clickAddContentButton);
-			// 住所追加ボタンへイベントを登録する
-			this.setClickEvent(SELECTOR_B_ADD_ADDRESS, this.clickAddContentButton);
-			// 電話番号追加ボタンへイベントを登録する
-			this.setClickEvent(SELECTOR_B_ADD_TEL, this.clickAddContentButton);
-			// 資格追加ボタンへイベントを登録する
-			this.setClickEvent(SELECTOR_B_ADD_QUALIFICATION, this.clickAddContentButton);
-			// 家族構成追加ボタンへイベントを登録する
-			this.setClickEvent(SELECTOR_B_ADD_FAMILY, this.clickFamliyEditButton);
-			// 画面上の閉じるボタンに対して押下時に実行されるイベントを登録する。
-			this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
-		
 		}
+		
+		// 共通の各ボタンへイベントを登録する
+		// 重複チェックボタンへイベントを登録する
+		this.setClickEvent(SELECTOR_B_OVER_LAP, this.clickOverLapButton, null, $(SELECTOR_USER_ID).text());
+		// メールアドレス追加ボタンへイベントを登録する
+		this.setClickEvent(SELECTOR_B_ADD_MAIL, this.clickAddContentButton);
+		// 住所追加ボタンへイベントを登録する
+		this.setClickEvent(SELECTOR_B_ADD_ADDRESS, this.clickAddContentButton);
+		// 電話番号追加ボタンへイベントを登録する
+		this.setClickEvent(SELECTOR_B_ADD_TEL, this.clickAddContentButton);
+		// 資格追加ボタンへイベントを登録する
+		this.setClickEvent(SELECTOR_B_ADD_QUALIFICATION, this.clickAddContentButton);
+		// 家族構成追加ボタン(隠し)へイベントを登録する
+		this.setClickEvent(SELECTOR_B_ADD_FAMILY_H, this.clickAddContentButton);
+		// 家族構成追加ボタンへイベントを登録する
+		this.setClickEvent(SELECTOR_B_ADD_FAMILY, this.clickFamliyEditButton);
+		// 画面上の閉じるボタンに対して押下時に実行されるイベントを登録する。
+		this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
 		
 		// ユーザIDが取得出来ているか（編集として開くのか、新規登録としてひらくのか）判定する
 		if(selectUserId != "" && selectUserId !== null && selectUserId !== undefined) {
@@ -80,7 +83,7 @@ function UserEditWindowDetail() {
 			// 増減コンテンツ（メールアドレス等）のデータを展開するため、コンテンツを走査する
 			$(SELECTOR_ADD_CONTENT).each(function(index, elem){
 				// 現在の増減コンテンツが何を示しているか取得してリクエスト用連想配列にセットする
-				jsonArray[STR_CONTENT_TYPE] = $(this).val();
+				jsonArray[STR_CONTENT_TYPE] = $(this).attr("value");
 				// 現在の増減コンテンツをDBから取得する
 				thisElem.getJsonData(PATH_USER_GET_ADD_INF, jsonArray, STR_READ);
 				
@@ -94,7 +97,7 @@ function UserEditWindowDetail() {
 			});
 			
 			// 管理者権限を有している、かつ対象ユーザの認証状態が未承認か検証
-			if(this.getUserAuth() == STR_SUCCESS && $(SELECTOR_USER_STATUS).text() & FLAG_USER_STATUS_TMP) {
+			if(this.getUserAuth() == STR_SUCCESS && $(SELECTOR_USER_STATUS).val() & FLAG_USER_STATUS_TMP) {
 				// 承認ボタンを設置する
 				$(SELECTOR_DOWN_MENU).append(TAG_APPROVAL_BUTTON);
 				// 承認ボタンにイベントを登録する
@@ -156,8 +159,17 @@ function UserEditWindowDetail() {
 		
 		// セレクタに応じたタグ一式を追加ボタンの上に追加する
 		 $(selector).before(thisElem.tagArray[$(selector).val()]);
-		 // 追加したタグ一式に含まれる削除ボタンに対してイベントを設定する
-		 thisElem.setClickEvent(SELECTOR__B_CONTENT_DEL, this.clickDeleteContentButton);
+		 
+		 // 家族構成追加ボタン（隠し）か判定する
+		 if(KEY_B_ADD_FAMILY_H == $(selector).attr("class")) {
+			 // 行に対して家族構成編集画面を開くイベントを登録する
+			 thisElem.setClickEvent(SELECTOR_EDIT_FAMILY, thisElem.clickFamliyEditButton, null, $(selector).parent().children(SELECTOR_PARENT_AREA_LAST));
+		 // それ以外のボタンなのでイベントを削除ボタンのイベントを登録する
+		 } else {
+			 // 追加したタグ一式に含まれる削除ボタンに対してイベントを設定する
+			 thisElem.setClickEvent(SELECTOR__B_CONTENT_DEL, thisElem.clickDeleteContentButton);
+		 }
+		 
 	}
 	
 	/**
@@ -272,22 +284,7 @@ function UserEditWindowDetail() {
 	 */
 	this.clickUpdateButton = function(selector, thisElem) {
 		
-		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		
-		// user_idを取得する
-		jsonArray[KEY_USER_ID] = $(SELECTOR_USER_ID).val();
-		// user_statusを削除みに設定する
-		jsonArray[KEY_USER_SATTUS] = FLAG_USER_STATUS_DEL;
-		// DBに削除のリクエストを送信する。
-		thisElem.getJsonData(PATH_USER_DELETE_INF, jsonArray, STR_DELETE);
-		// ログインしているユーザかどうか判定する
-		if(!(thisElem.chackUser(valueTarget) == STR_SUCCESS)) {
-			// ログアウトさせる
-			thisElem.parentWindow.$(SELECTOR_B_LOGOUT).click();
-		}
-		
-		// ウインドウを閉じる
-		thisElem.closeWindow();
 		
 	}
 	
@@ -313,7 +310,22 @@ function UserEditWindowDetail() {
 	 * 作成者：	k.urabe
 	 */
 	this.clickApprovalButton = function() {
+		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		
+		// user_idを取得する
+		jsonArray[KEY_USER_ID] = $(SELECTOR_USER_ID).val();
+		// user_statusを削除みに設定する
+		jsonArray[KEY_USER_SATTUS] = FLAG_USER_STATUS_DEL;
+		// DBに削除のリクエストを送信する。
+		thisElem.getJsonData(PATH_USER_DELETE_INF, jsonArray, STR_DELETE);
+		// ログインしているユーザかどうか判定する
+		if(!(thisElem.chackUser(valueTarget) == STR_SUCCESS)) {
+			// ログアウトさせる
+			thisElem.parentWindow.$(SELECTOR_B_LOGOUT).click();
+		}
+		
+		// ウインドウを閉じる
+		thisElem.closeWindow();
 	}
 	
 	/**

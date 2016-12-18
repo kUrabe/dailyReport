@@ -146,6 +146,7 @@ KEY_B_ADD_TEL = 'b_add_tel';						// 電話番号加ボタン
 KEY_B_DEL_TEL = 'b_del_tel';						// 電話番号削除ボタン
 KEY_B_ADD_QUALIFICATION = 'b_add_qualification';	// 住所追加ボタン
 KEY_B_DEL_QUALIFICATION = 'b_del_qualification';	// 住所削除ボタン
+KEY_B_ADD_FAMILY_H = 'b_add_family_hidden';			// 家族構成追加ボタン
 KEY_B_ADD_FAMILY = 'b_add_family';					// 家族構成追加ボタン
 KEY_EDIT_FAMILY = 'edit_family';					// 家族の行（対象を編集）
 KEY_B_CONTENT_DEL = 'b_content_del';				// 追加コンテンツの削除ボタン
@@ -157,6 +158,7 @@ KEY_FAMILY_NAME = '.family_name';
 KEY_FAMILY_NAME_KANA = 'family_name_kana';
 KEY_FAMILY_RELATION = 'family_relation';
 KEY_FAMILY_SUPPORT = 'family_support';
+KEY_DB_FAMILY_SUPPORT = 'familySupport';
 
 KEY_B_USER_LIST_WINDOW = 'b_user_list_window';
 KEY_B_USER_EDIT_WINDOW = 'b_user_edit_window';
@@ -240,6 +242,7 @@ SELECTOR_B_ADD_TEL = '.b_add_tel';						// 電話番号加ボタン
 SELECTOR_B_DEL_TEL = '.b_del_tel';						// 電話番号削除ボタン
 SELECTOR_B_ADD_QUALIFICATION = '.b_add_qualification';	// 資格追加ボタン
 SELECTOR_B_DEL_QUALIFICATION = '.b_del_qualification';	// 資格削除ボタン
+SELECTOR_B_ADD_FAMILY_H = '.b_add_family_hidden';					// 家族構成追加ボタン
 SELECTOR_B_ADD_FAMILY = '.b_add_family';					// 家族構成追加ボタン
 SELECTOR_EDIT_FAMILY = '.edit_family';					// 家族の行（対象を編集）
 SELECTOR_ADD_CONTENT = '.add_content';				// 増減コンテンツ識別用のクラス名
@@ -309,6 +312,7 @@ SELECTOR_DIV_NAME_END = ']';					// divダグのname属性をしていする際�
 SELECTOR_NAME_START = '[name=';					// name属性で何かを指定する際
 SELECTOR_NAME_END = ']';						// name属性で何かを指定する際
 SELECTOR_BUTTON_NAME = '.button_name';
+SELECTOR_FAMILY_SUPPORT_TITLE = '.family_support_title';
 
 SELECTOR_LINE = '.line';							// blockAreaに付与される行番号セレクタ
 SELECTOR_COMMENT_LINE = '.comment_line';		// コメント1行分の領域セレクタ
@@ -353,7 +357,8 @@ PATH_USER_DELETE_INF = '/user/deleteUserInf';					// ユーザ編集画面の削
 PATH_USER_MATCH_INF = '/user/matchUserInf';						// ユーザ一覧画面の検索結果取得
 
 PATH_USER_WINDOW_EDIT = '/userWindow/userEditWindow.html';		// ユーザ編集画面のPATH(認証済み)
-PATH_USER_WINDOW_FAMILY = '/userWindow/familyEditWindow.html';	// 家族構成編集画面のPATH
+//PATH_USER_WINDOW_FAMILY = '/userWindow/familyEditWindow.html';	// 家族構成編集画面のPATH
+PATH_USER_WINDOW_FAMILY = '/editWindow/familyEditWindow.html';
 PATH_USER_WINDOW_LIST = '/userWindow/userListWindow.html';		// ユーザ一覧画面のPATH
 PATH_USRE_CHACK = 'common/userId';								// ユーザID存在チェックのPATH
 
@@ -435,18 +440,20 @@ TAG_USER_INDEX_LINE = '<div class="index_line"><div>氏名</div><div>生年月�
 // ユーザ一覧画面の1行タグ
 TAG_USER_LINE = '<div class="user_id" name="user_id"></div><div class="user_name" name="user_name"></div><div class="user_birthday" name="user_birthday"></div><div class="user_sex" name="user_sex"></div><div class="campany_id" name="campany_id"></div><div class="campany_title" name="campany_title"></div><div class="department_id" name="department_id"></div><div class="department_title" name="department_title"></div><div class="position_id" name="position_id"></div><div class="position_title" name="position_title"></div><div class="user_status" name="user_status"></div>';
 // 家族構成の1行
-TAG_FAMILY_LINE = '<div class="blockArea"><div class="family_relation" value="family_relation"></div><div class="family_name" value="family_name"></div><div class="family_name_kana" value="family_name_kana"></div><div class="family_support" value="family_support"></div></div>';
+TAG_FAMILY_LINE = '<div class="edit_family blockArea" value="edit_family"><input class="family_relation" value="family_relation" name="familyRelation" type="text" readonly="readonly"></input><input class="family_name" value="family_name" name="familyName" type="text" readonly="readonly"></input><input class="family_name_kana" value="family_name_kana" name="familyNameKana" type="text" readonly="readonly"></input><input class="family_support" value="family_support" name="familySupport" type="text"></input><input class="family_support_title" value="family_support_title" type="text" readonly="readonly"></input></div>';
 TAG_APPROVAL_BUTTON = '<button type="button" class="b_approval_user" value="b_approval_user">承認</button>';		// 承認ボタン
 TAG_UPDATE_BUTTON = '<button type="button" class="b_edit" value="b_edit">編集</button>';							// 更新ボタン
 TAG_NEW_USER = '<button type="button" class="b_new_user" value="b_new_user">登録</button>';						// 登録ボタン
 //メールアドレス
-TAG_MAIL_BLOCK = '<div class="blockArea"><span>名称</span><input class="mail_title" type="text"></input><span>アドレス</span><input class="mail" type="text"></input><button type="button" class="b_content_del" value="b_content_del">削除</button></div>';
+TAG_MAIL_BLOCK = '<div class="blockArea"><span>名称</span><input class="mail_title" type="text" name="mailTitle"></input><span>アドレス</span><input class="mail" type="text" name="mail"></input><button type="button" class="b_content_del" value="b_content_del">削除</button></div>';
 // 住所
-TAG_ADDRESS_BLOCK = '<div class="blockArea"><span>名称</span><input class="address_title" type="text"></input><span>郵便番号</span><input class="post_number" type="text"></input><span>住所</span><input class="address" type="text"></input><button type="button" class="b_content_del" value="b_content_del">削除</button></div>';
+TAG_ADDRESS_BLOCK = '<div class="blockArea"><span>名称</span><input class="address_title" type="text" name="addressTitle"></input><span>郵便番号</span><input class="post_number" type="text" name="postNumber"></input><span>住所</span><input class="address" type="text" name="address"></input><button type="button" class="b_content_del" value="b_content_del">削除</button></div>';
 // 電話番号
-TAG_TEL_BLOCK = '<div class="blockArea"><span>名称</span><input class="tel_title" type="text"></input><span>番号</span><input class="tel" type="text"></input><button type="button" class="b_content_del" value="b_content_del">削除</button></div>';
+TAG_TEL_BLOCK = '<div class="blockArea"><span>名称</span><input class="tel_title" type="text" name="telTitle"></input><span>番号</span><input class="tel" type="text" name="tel"></input><button type="button" class="b_content_del" value="b_content_del">削除</button></div>';
 // 所持資格
-TAG_QUA_BLOCK = '';
+TAG_QUA_BLOCK = '<div class="blockArea"><select class="qualification_id nomal_content" type="text" name="qualificationId"><option value="0"></option><option value="1">基本情報技術者</option><option value="2">応用情報技術者</option><option value="3">ITパスポート</option><option value="4">4番目のダミー</option><option value="5">Oracle</option></select><button type="button" class="b_content_del" value="b_content_del">削除</button></div>';
+
+
 /*
 <div class="blockArea">
 	<select class="qualification_title" type="text">
@@ -526,6 +533,14 @@ STR_STATUS_TNP_NUM = 4;
 STR_STATUS_REG = '登録済み';
 STR_STATUS_DEL = '削除済み';
 STR_STATUS_TNP = '未承認';
+
+// 扶養判定用連想配列の要素一式
+STR_SUPPORT_ON_NUM = 1;
+STR_SUPPORT_OFF_NUM = 0;
+STR_SUPPORT_ON = '対象';
+STR_SUPPORT_OFF = '非対象';
+
+
 
 // 固定ボタンで返されるファンクション名
 STR_GET_BEFORE_PLAN = 'this.getBeforePlan';
