@@ -96,7 +96,7 @@ public class UserController {
 		String getUserAddInf = userService.saveBaseInf(map);
 		
 		// 結果を返却する
-		return getUserAddInf;
+		return commonService.setResultMessage(getUserAddInf);
 		
 	}
 	
@@ -119,7 +119,7 @@ public class UserController {
 		String getUserAddInf = userService.updateBaseInf(map);
 		
 		// 結果を返却する
-		return getUserAddInf;
+		return commonService.setResultMessage(getUserAddInf);
 		
 	}
 	
@@ -142,7 +142,7 @@ public class UserController {
 		String getUserAddInf = userService.saveAddInf(map);
 		
 		// 結果を返却する
-		return getUserAddInf;
+		return commonService.setResultMessage(getUserAddInf);
 		
 	}
 	
@@ -165,7 +165,7 @@ public class UserController {
 		String getUserAddInf = userService.deleteBaseInf(map);
 		
 		// 結果を返却する
-		return getUserAddInf;
+		return commonService.setResultMessage(getUserAddInf);
 		
 	}
 	

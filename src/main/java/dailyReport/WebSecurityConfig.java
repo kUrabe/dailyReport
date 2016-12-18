@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// 成功時は/roomsへ遷移する
 		// 失敗時の遷移先を常にアクセス許可する
 		http.authorizeRequests()
-				.antMatchers("/js/**", "/css/**", "/img/**", "/", "/editWindow", "/editWindow/**")
+				.antMatchers("/js/**", "/css/**", "/img/**", "/", "/editWindow", "/editWindow/**", "/user/**")
 				.permitAll()
 				//.antMatchers("/**", "/**/**")
 				.anyRequest()

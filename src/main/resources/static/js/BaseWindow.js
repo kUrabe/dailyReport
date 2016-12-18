@@ -536,6 +536,10 @@ function BaseWindow() {
 		// 押下されたボタンのタイプを取得
 		//button_type = $(selector).val();
 		button_type = $(selector).attr("value");
+		// button_typeが取得出来ていなかったら
+		if(button_type == null && button_type == undefined) {
+			button_type = $(selector).val();
+		}
 		
 		// TODO:【未実装】以下の条件判定を別関数へ定義検討
 		// 取得したボタンの種類によってリクエストのpathを判定する

@@ -3,7 +3,9 @@ package dailyReport;
 public class Constants {
 	
 	// 状態関連
+	public static final int FLAG_USER_AUTH_USER = 1;
 	public static final int FLAG_USER_AUTH_MASTER = 2;
+	public static final int FLAG_USER_STATUS_REG = 1;
 	
 	// パラメータ内のcrud判定用
 	public static final String STR_CREATE = "create";
@@ -76,6 +78,23 @@ public class Constants {
 	public static final String KEY_CAMPANY_ID = "campany_id";
 	public static final String KEY_DEPARTMENT_ID = "department_id";
 	public static final String KEY_POSITION_ID = "position_id";
+	// mail_infテーブル
+	public static final String KEY_MAIL_TITLE = "mail_title";
+	public static final String KEY_MAIL = "mail";
+	// address_infテーブル
+	public static final String KEY_ADDRESS_TITLE = "address_title"; 
+	public static final String KEY_POST_NUMBER = "post_number";
+	public static final String KEY_ADDRESS = "address";
+	// tel_infテーブル
+	public static final String KEY_TEL_TITLE = "tel_title";
+	public static final String KEY_TEL = "tel";
+	// qualification_infテーブル
+	public static final String KEY_QUALIFICATION_ID = "qualification_id";
+	// family_infテーブル
+	public static final String KEY_FAMILY_NAME = "family_name";
+	public static final String KEY_FAMILY_NAME_KANA = "family_name_kana";
+	public static final String KEY_FAMILY_RELATION = "family_relation";
+	public static final String KEY_FAMILY_SUPPORT = "family_support";
 	// 検索用キー名等
 	public static final String STR_READ_NOTE_IN = "含んで表示";				// 既読・下書　含んで表示
 	public static final String STR_READ_NOTE_OUT = "除いて表示";				// 既読・下書　除いて表示

@@ -118,6 +118,8 @@ function UserEditWindowDetail() {
 			$(SELECTOR_DOWN_MENU).append(TAG_NEW_USER);
 			// 登録ボタンにイベントをセットする
 			this.setClickEvent(SELECTOR_B_NEW_USER, this.clickEntryButton);
+			// ユーザステータスに承認ステータスをセットする
+			$(SELECTOR_USER_STATUS).val(STR_STATUS_TNP_NUM);
 		}
 	}
 	
@@ -209,6 +211,7 @@ function UserEditWindowDetail() {
 	this.clickEntryButton = function(selector, thisElem) {
 		
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
+		var path;
 		
 		// ユーザIDの重複チェックを行う。
 		
@@ -221,6 +224,8 @@ function UserEditWindowDetail() {
 		jsonArray[KEY_LOGIN_PASSWORD] = $(SELECTOR_LOGIN_PASSWORD).val();
 		// user_nameを取得する
 		jsonArray[KEY_USER_NAME] = $(SELECTOR_USER_NAME).val();
+		// user_nameを取得する
+		jsonArray[KEY_USER_NAME_KANA] = $(SELECTOR_USER_NAME_KANA).val();
 		// user_birthdayを取得する
 		jsonArray[KEY_USER_BIRTHDAY] = $(SELECTOR_USER_BIRTHDAY).val();
 		// user_sexを取得する
@@ -232,7 +237,7 @@ function UserEditWindowDetail() {
 		// postion_idを取得する
 		jsonArray[KEY_POSITION_ID] = $(SELECTOR_POSITION_ID).val();
 		// user_statusを取得する
-		jsonArray[KEY_USER_SATTUS] = $(SELECTOR_USER_SATTUS).val();
+		jsonArray[KEY_USER_SATTUS] = $(SELECTOR_USER_STATUS).val();
 		
 		// 押下されているボタンが承認ボタンか検証する
 		if($(selector).val() === KEY_B_APPROVAL_USER) {
@@ -240,8 +245,16 @@ function UserEditWindowDetail() {
 			jsonArray[KEY_USER_SATTUS] = FLAG_USER_STATUS_REG;
 		}
 		
+		// 新規登録ボタンかどうかを検証する
+		if($(selector).val() === KEY_B_NEW_USER) {
+			// 登録リクエストURLをセットする
+			path = PATH_USER_SAVE_BASE_INF;
+		} else {
+			// 更新リクエストURLをセットする
+			path = PATH_USER_UPDATE_BASE_INF;
+		}
 		// ベース情報をDBに登録する
-		thisElem.getJsonData(PATH_USER_SAVE_BASE_INF, jsonArray, STR_CREATE);
+		thisElem.getJsonData(path, jsonArray, STR_CREATE);
 		
 		// 増減コンテンツ（メールアドレス等）のデータを取得するため、コンテンツを走査する
 		$(SELECTOR_ADD_CONTENT).each(function(index, elem){
@@ -249,21 +262,27 @@ function UserEditWindowDetail() {
 			// 増減コンテンツの登録に備えて、jsonArrayを初期化する
 			jsonArray = {};
 			// リクエスト用連想配列に増減コンテンツの種類をセットする
-			jsonArray[STR_CONTENT_TYPE] = $(this).val();
+			jsonArray[STR_CONTENT_TYPE] = $(this).attr("value");
+			// ユーザIDをセットする
+			jsonArray[KEY_USER_ID] = $(SELECTOR_USER_ID).val();
 			
 			// 増減コンテンツ毎のblockareaを走査する
-			$(SELECTOR_PARENT_AREA).each(function(index, elem) {
+			$(this).children(SELECTOR_PARENT_AREA).each(function(index, elem) {
 				// 行に対してjsonの連想配列を拡張する
 				jsonArray[index] = {}
 				// ユーザIDをセットする
 				jsonArray[index][KEY_USER_ID] = $(SELECTOR_USER_ID).val();
 			
 				// それぞれのblockarea内のinput要素を走査する
-				$(input).each(function(index_in, elem_in) {
+				$(this).children("input").each(function(index_in, elem_in) {
 					// 順番にinputの要素を取得していく
-					json[index][index_in] = $(elem_in).val();
+					jsonArray[index][$(elem_in).attr("class")] = $(elem_in).val();
 				});
-				
+				// それぞれのblockarea内のselect要素を走査する
+				$(this).children("select").each(function(index_in, elem_in) {
+					// 順番にinputの要素を取得していく
+					jsonArray[index][$(elem_in).get(0).className.split(" ")[0]] = $(elem_in).val();
+				});
 			});
 			
 			// 増減コンテンツの塊をDBに登録する
@@ -271,6 +290,8 @@ function UserEditWindowDetail() {
 
 		});
 		
+		// ウインドウを閉じる
+		thisElem.closeWindow();
 		
 	}
 	
@@ -296,8 +317,23 @@ function UserEditWindowDetail() {
 	 * 作成日：	2016/12/15
 	 * 作成者：	k.urabe
 	 */
-	this.clickDeleteButton = function() {
+	this.clickDeleteButton = function(selector, thisElem) {
+		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		
+		// user_idを取得する
+		jsonArray[KEY_USER_ID] = $(SELECTOR_USER_ID).val();
+		// user_statusを削除みに設定する
+		jsonArray[KEY_USER_SATTUS] = FLAG_USER_STATUS_DEL;
+		// DBに削除のリクエストを送信する。
+		thisElem.getJsonData(PATH_USER_DELETE_INF, jsonArray, STR_DELETE);
+		// ログインしているユーザかどうか判定する
+		if(!(thisElem.getUserAuth() == STR_SUCCESS)) {
+			// ログアウトさせる
+			thisElem.parentWindow.$(SELECTOR_B_LOGOUT).click();
+		}
+		
+		// ウインドウを閉じる
+		thisElem.closeWindow();
 	}
 	
 	
@@ -310,22 +346,7 @@ function UserEditWindowDetail() {
 	 * 作成者：	k.urabe
 	 */
 	this.clickApprovalButton = function() {
-		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
-		
-		// user_idを取得する
-		jsonArray[KEY_USER_ID] = $(SELECTOR_USER_ID).val();
-		// user_statusを削除みに設定する
-		jsonArray[KEY_USER_SATTUS] = FLAG_USER_STATUS_DEL;
-		// DBに削除のリクエストを送信する。
-		thisElem.getJsonData(PATH_USER_DELETE_INF, jsonArray, STR_DELETE);
-		// ログインしているユーザかどうか判定する
-		if(!(thisElem.chackUser(valueTarget) == STR_SUCCESS)) {
-			// ログアウトさせる
-			thisElem.parentWindow.$(SELECTOR_B_LOGOUT).click();
-		}
-		
-		// ウインドウを閉じる
-		thisElem.closeWindow();
+
 	}
 	
 	/**

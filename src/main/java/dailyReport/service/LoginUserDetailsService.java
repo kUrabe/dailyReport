@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import dailyReport.Constants;
 import dailyReport.resource.UserInf;
 
 @Service
@@ -17,7 +18,7 @@ public class LoginUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// ユーザ取得処理はUserRepositoryに委譲する
 		UserInf user = commonService.userAuth(username);
-		if (user == null) {
+		if (user == null || (user.getUserStatus() & Constants.FLAG_USER_STATUS_REG) != 1) {
 			throw new UsernameNotFoundException(username + " is not found.");
 		}
 		return new LoginUserDetails(user);

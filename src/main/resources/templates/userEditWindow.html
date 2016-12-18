@@ -30,6 +30,7 @@
 </div>
 <div class="main">
 	<div class="content_area">
+		<input class="user_status nomal_content" type="text"></input>
 		<p class="index">ユーザID</p>
 		<input class="user_id nomal_content" type="text"></input>
 		<button class="b_over_lap">重複チェック</button>
@@ -51,17 +52,17 @@
 		</select>
 
 		<p class="index">メールアドレス</p>
-		<div class="mail_area add_content">
+		<div class="mail_area add_content" value="mail">
 			<button class="b_add_mail" value="b_add_mail">メールアドレスの追加</button>
 		</div>
 		
 		<p class="index">住所</p>
-		<div class="address_area add_content">
+		<div class="address_area add_content" value="address">
 			<button class="b_add_address" value="b_add_address">住所の追加</button>
 		</div>
 		
 		<p class="index">電話番号</p>
-		<div class="tel_area add_content">
+		<div class="tel_area add_content" value="tel">
 			<button class="b_add_tel" value="b_add_tel">電話番号の追加</button>
 		</div>
 		
@@ -101,16 +102,19 @@
 		</select>
 		
 		<p class="index">所持資格</p>
-		<div class="qualification_area add_content">
+		<div class="qualification_area add_content" value="qualification">
 			<button class="b_add_qualification" value="b_add_qualification">資格の追加</button>
 		</div>
 		
 		<p class="index">家族構成</p>
-		<div class="qualification_area add_content">
+		<div class="family_area add_content" value="family">
 			<div class="index_line">
 				<div>続柄</div><div>氏名（漢字）</div><div>氏名（カナ）</div><div>扶養</div>
 			</div>
-			<button class="b_add_family" value="b_add_family">家族構成の追加</button>
+			<button class="b_add_family_hidden" value="b_add_family_hidden">家族構成の追加</button>
+			<div>
+				<button class="b_add_family" value="b_add_family">家族構成の追加</button>
+			</div>
 		</div>
 		
 	</div>
