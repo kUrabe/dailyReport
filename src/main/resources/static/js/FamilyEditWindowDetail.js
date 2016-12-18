@@ -31,7 +31,7 @@ function FamilyEditWindowDetail() {
 		// 
 		
 		// 親から受け取ったデータがあれば展開する
-		if(this.parentWindow.$(parentWindowButton) === KEY_EDIT_FAMILY) {
+		if(parentWindowButton === KEY_EDIT_FAMILY) {
 			// 親から受け取ったデータを展開する
 			this.createFamilyEditContent();
 			// 削除ボタンを設置する
@@ -57,13 +57,13 @@ function FamilyEditWindowDetail() {
 	 */
 	this.createFamilyEditContent = function() {
 		// 親から家族の名前を取得する
-		$(SELECTOR_FAMILY_NAME).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_NAME).text());
+		$(SELECTOR_FAMILY_NAME).val(this.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_NAME).val());
 		// 親から家族（カナ）の名前を取得する
-		$(SELECTOR_FAMILY_NAME_KANA).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_NAME_KANA).text());
+		$(SELECTOR_FAMILY_NAME_KANA).val(this.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_NAME_KANA).val());
 		// 親から家族の続柄を取得する
-		$(SELECTOR_FAMILY_RELATION).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_RELATION).text());
+		$(SELECTOR_FAMILY_RELATION).val(this.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_RELATION).val());
 		// 親から家族の扶養を取得する
-		$(SELECTOR_FAMILY_SUPPORT).val(this.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_SUPPORT).text());
+		$(SELECTOR_FAMILY_SUPPORT).val(this.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_SUPPORT).val());
 		
 	}
 	
@@ -76,17 +76,31 @@ function FamilyEditWindowDetail() {
 	 * 作成者：	k.urabe
 	 */
 	this.clickUpdateButton = function(selector, thisElem) {
+		
+		var $_target;
+		
+		// 親のデータがあるか検証する
+		if(parentWindowButton === KEY_EDIT_FAMILY) {
+			// 親で選択された入力エリアを対象とする
+			$_target = thisElem.parentWindow.$(parentWindowDate);
+		} else {
+			// 行の追加を行うボタンをクリックする
+			thisElem.parentWindow.$(parentWindowDate).parent().children(KEY_BUTTON).click();
+			// 追加した最終行を入力エリアの対象とする
+			$_target = thisElem.parentWindow.$(parentWindowDate).parent().children(SELECTOR_PARENT_AREA_LAST);
+		}
+		
 		// 親にタグをセットする
 		thisElem.parentWindow.$(parentWindowDate).parent().children(SELECTOR_PARENT_AREA_LAST).append(TAG_FAMILY_LINE);
 		// 追加した親のタグに値をセットする
 		// 家族の名前をセットする
-		thisElem.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_NAME).text($(SELECTOR_FAMILY_NAME).text());
+		thisElem.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_NAME).val($(SELECTOR_FAMILY_NAME).val());
 		// 家族の名前（カナ）をセットする
-		thisElem.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_NAME_KANA).text($(SELECTOR_FAMILY_NAME_KANA).text());
+		thisElem.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_NAME_KANA).val($(SELECTOR_FAMILY_NAME_KANA).val());
 		// 続柄をセットする
-		thisElem.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_RELATION).text($(SELECTOR_FAMILY_RELATION).text());
+		thisElem.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_RELATION).val($(SELECTOR_FAMILY_RELATION).val());
 		// 扶養をセットする
-		thisElem.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_SUPPORT).text($(SELECTOR_FAMILY_SUPPORT).val);
+		thisElem.parentWindow.$(parentWindowDate).children(SELECTOR_FAMILY_SUPPORT).val($(SELECTOR_FAMILY_SUPPORT).val);
 		
 		// ウインドウを閉じる
 		thisElem.closeWindow();

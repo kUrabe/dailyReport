@@ -6,7 +6,7 @@
   <meta charset="UTF-8" />
   <title>Topページ</title>
   <!-- Top画面用CSSを読み込む。 -->
-  <link href="../css/Top.css" rel="stylesheet" type="text/css" />
+  <link href="../css/familyEditWindow.css" rel="stylesheet" type="text/css" />
   <!-- Queryの本体を読み込む。 -->
   <script src="../js/jquery-1.11.0.min.js"></script>
   <!-- jQueryUIを読み込む。 -->
@@ -24,8 +24,25 @@
 </head>
 
 <body>
-
-<p>家族構成編集画面</p>
+<div class="topMenu">
+	<p>家族構成編集画面</p>
+</div>
+<div class="main">
+	<div class="content_area">
+		<p class="index">氏名（漢字）</p>
+		<input class="family_name" type="text"></input>
+		<p class="index">氏名（カナ）</p>
+		<input class="family_name_kana" type="text"></input>
+		<p class="index">続柄</p>
+		<input class="family_relation" type="text"></input>
+		<p class="index">扶養</p>
+		<input class="family_support" type="text"></input>
+	</div>
+</div>
+<div class="downMenu">
+	<button class="b_update" value="b_update">更新</button>
+	<button class="b_cancel" value="b_cancel">戻る</button>
+</div>
 
 <script type="text/javascript">
 	setTimeout(function() {

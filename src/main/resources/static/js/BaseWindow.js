@@ -593,12 +593,14 @@ function BaseWindow() {
 		// 別ウインドウを開く
 		this.anotherWindow = window.open(path, name, "location=no,alwaysRaised=yes,dependent=yes");
 		
+		thisElem = this;
+		
 		// 子ウインドウが開くのを待ち、親のオブジェクトを渡す
 		setTimeout(function() {
 			// 子のウインドウに親ウインドウで押下されたボタンタイプを渡す
-			this.anotherWindow.parentWindowButton = button_type;
+			thisElem.anotherWindow.parentWindowButton = button_type;
 			// 子のウインドウにデータの取得元のセレクタを渡す
-			this.anotherWindow.parentWindowDate = valueTarget;
+			thisElem.anotherWindow.parentWindowDate = valueTarget;
 		}, 200);
 		
 		

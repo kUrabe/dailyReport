@@ -165,7 +165,7 @@ function UserEditWindowDetail() {
 		 // 家族構成追加ボタン（隠し）か判定する
 		 if(KEY_B_ADD_FAMILY_H == $(selector).attr("class")) {
 			 // 行に対して家族構成編集画面を開くイベントを登録する
-			 thisElem.setClickEvent(SELECTOR_EDIT_FAMILY, thisElem.clickFamliyEditButton, null, $(selector).parent().children(SELECTOR_PARENT_AREA_LAST));
+			 thisElem.setClickEvent($(selector).parent().children(SELECTOR_PARENT_AREA_LAST), thisElem.clickFamliyEditButton, null, $(selector).parent().children(SELECTOR_PARENT_AREA_LAST));
 		 // それ以外のボタンなのでイベントを削除ボタンのイベントを登録する
 		 } else {
 			 // 追加したタグ一式に含まれる削除ボタンに対してイベントを設定する
