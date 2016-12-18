@@ -70,6 +70,10 @@ function UserEditWindowDetail() {
 		// ユーザIDが取得出来ているか（編集として開くのか、新規登録としてひらくのか）判定する
 		if(selectUserId != "" && selectUserId !== null && selectUserId !== undefined) {
 			
+			// 登録済みユーザのため、ユーザID入力欄を入力不可にする
+			$(SELECTOR_USER_ID).prop('disabled', true);
+			// 登録済みユーザのため、重複チェックボタンを押下不可にする
+			$(SELECTOR_B_OVER_LAP).prop('disabled', true);
 			// ユーザに紐付くベース情報を取得するためのリクエスト用連想配列にuser_idをセットする
 			jsonArray[KEY_USER_ID] = selectUserId;
 			// JSON連想配列を用いてDBから値を取得する
