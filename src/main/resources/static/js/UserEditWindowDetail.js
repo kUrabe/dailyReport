@@ -40,27 +40,32 @@ function UserEditWindowDetail() {
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		var jsonLen;				// jsonの長さを取得するための変数
 		
-		// 親から取得したuser_idを取得する
-		selectUserId = this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_ID).text();
+		// 親の画面が存在するか判定する
+		if(this.parentWindow !== null && this.parentWindow !== undefined) {
+
+			// 親から取得したuser_idを取得する
+			selectUserId = this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_ID).text();
 		
-		// 共通の各ボタンへイベントを登録する
-		// 重複チェックボタンへイベントを登録する
-		this.setClickEvent(SELECTOR_B_OVER_LAP, this.clickOverLapButton, null, $(SELECTOR_USER_ID).text());
-		// メールアドレス追加ボタンへイベントを登録する
-		this.setClickEvent(SELECTOR_B_ADD_MAIL, this.clickAddContentButton);
-		// 住所追加ボタンへイベントを登録する
-		this.setClickEvent(SELECTOR_B_ADD_ADDRESS, this.clickAddContentButton);
-		// 電話番号追加ボタンへイベントを登録する
-		this.setClickEvent(SELECTOR_B_ADD_TEL, this.clickAddContentButton);
-		// 資格追加ボタンへイベントを登録する
-		this.setClickEvent(SELECTOR_B_ADD_QUALIFICATION, this.clickAddContentButton);
-		// 家族構成追加ボタンへイベントを登録する
-		this.setClickEvent(SELECTOR_B_ADD_FAMILY, this.clickFamliyEditButton);
-		// 画面上の閉じるボタンに対して押下時に実行されるイベントを登録する。
-		this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
+			// 共通の各ボタンへイベントを登録する
+			// 重複チェックボタンへイベントを登録する
+			this.setClickEvent(SELECTOR_B_OVER_LAP, this.clickOverLapButton, null, $(SELECTOR_USER_ID).text());
+			// メールアドレス追加ボタンへイベントを登録する
+			this.setClickEvent(SELECTOR_B_ADD_MAIL, this.clickAddContentButton);
+			// 住所追加ボタンへイベントを登録する
+			this.setClickEvent(SELECTOR_B_ADD_ADDRESS, this.clickAddContentButton);
+			// 電話番号追加ボタンへイベントを登録する
+			this.setClickEvent(SELECTOR_B_ADD_TEL, this.clickAddContentButton);
+			// 資格追加ボタンへイベントを登録する
+			this.setClickEvent(SELECTOR_B_ADD_QUALIFICATION, this.clickAddContentButton);
+			// 家族構成追加ボタンへイベントを登録する
+			this.setClickEvent(SELECTOR_B_ADD_FAMILY, this.clickFamliyEditButton);
+			// 画面上の閉じるボタンに対して押下時に実行されるイベントを登録する。
+			this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
+		
+		}
 		
 		// ユーザIDが取得出来ているか（編集として開くのか、新規登録としてひらくのか）判定する
-		if(selectUserId != "") {
+		if(selectUserId != "" && selectUserId !== null && selectUserId !== undefined) {
 			
 			// ユーザに紐付くベース情報を取得するためのリクエスト用連想配列にuser_idをセットする
 			jsonArray[KEY_USER_ID] = selectUserId;

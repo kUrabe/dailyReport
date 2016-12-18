@@ -25,7 +25,58 @@
 
 <body>
 
-<p>編集画面</p>
+<div class="topMenu">
+	<p>ユーザ登録・編集画面</p>
+</div>
+<div class="main">
+	<div class="content_area">
+		<p class="index">ユーザID</p>
+		<input class="user_id nomal_content" type="text"></input>
+		<button class="b_over_lap">重複チェック</button>
+		<p class="index">パスワード</p>
+		<input class="login_password nomal_content" type="password"></input>
+		<p class="index">パスワード（再）</p>
+		<input class="login_password_sai" type="password"></input>
+		<p class="index">氏名（漢字）</p>
+		<input class="user_name nomal_content" type="text"></input>
+		<p class="index">氏名（カナ）</p>
+		<input class="user_name_kana nomal_content" type="text"></input>
+		<p class="index">生年月日</p>
+		<input class="user_birthday nomal_content" type="date"></input>
+		<p class="index">性別</p>
+		<select class="user_sex nomal_content" type="text">
+			<option value="1">男性</option>
+			<option value="2">女性</option>
+			<option value="3">その他</option>
+		</select>
+
+		<p class="index">メールアドレス</p>
+		<div class="mail_area add_content">
+			<button class="b_add_mail">メールアドレスの追加</button>
+		</div>
+		
+		<p class="index">住所</p>
+		<div class="address_area add_content">
+			<button class="b_add_address">住所の追加</button>
+		</div>
+		
+		<p class="index">電話番号</p>
+		<div class="tel_area add_content">
+			<button class="b_add_tel">電話番号の追加</button>
+		</div>
+		
+		<p class="index">所属会社</p>
+		<select class="campany_id nomal_content" type="text" name="campany_id">
+			<option th:each="list : ${companyList}" th:value="${list.campany_id}" th:text="${list.campany_title}"></option>
+		</select>
+	
+	</div>
+</div>
+<div class="downMenu">
+
+</div>
+
+
 
 <script type="text/javascript">
 	setTimeout(function() {

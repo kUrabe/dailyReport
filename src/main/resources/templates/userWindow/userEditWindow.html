@@ -51,10 +51,24 @@
 		</select>
 
 		<p class="index">メールアドレス</p>
-		<div class=" add_content">
+		<div class="mail_area add_content">
 			<button class="b_add_mail">メールアドレスの追加</button>
 		</div>
-
+		
+		<p class="index">住所</p>
+		<div class="address_area add_content">
+			<button class="b_add_address">住所の追加</button>
+		</div>
+		
+		<p class="index">電話番号</p>
+		<div class="tel_area add_content">
+			<button class="b_add_tel">電話番号の追加</button>
+		</div>
+		
+		<p class="index">所属会社</p>
+		<select class="campany_id nomal_content" type="text" name="campany_id">
+			<option th:each="list : ${companyList}" th:value="${list.campany_id}" th:inline="text">[[${list.campany_title}]]</option>
+		</select>
 	
 	</div>
 </div>
