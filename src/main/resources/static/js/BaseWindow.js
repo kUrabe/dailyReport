@@ -29,7 +29,7 @@ function BaseWindow() {
 		// ajax通信を行う
 		$.ajax({
 			// リクエストURL
-			url: PATH_USER_AUTH,
+			url: PATH_USRE_CHACK,
 			// postメソッドで通信する
 			type: 'POST',
 			// 同期通信を行う

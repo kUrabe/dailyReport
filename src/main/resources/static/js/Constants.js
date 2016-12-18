@@ -361,7 +361,7 @@ PATH_USER_WINDOW_EDIT = '/userWindow/userEditWindow.html';		// ユーザ編集�
 //PATH_USER_WINDOW_FAMILY = '/userWindow/familyEditWindow.html';	// 家族構成編集画面のPATH
 PATH_USER_WINDOW_FAMILY = '/editWindow/familyEditWindow.html';
 PATH_USER_WINDOW_LIST = '/userWindow/userListWindow.html';		// ユーザ一覧画面のPATH
-PATH_USRE_CHACK = 'common/userId';								// ユーザID存在チェックのPATH
+PATH_USRE_CHACK = '../common/userId';								// ユーザID存在チェックのPATH
 
 
 /*

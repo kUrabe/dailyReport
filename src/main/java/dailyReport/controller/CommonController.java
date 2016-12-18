@@ -118,16 +118,16 @@ public class CommonController {
 	 * 作成者：	k.urabe
 	 */
 	@RequestMapping(value = "common/userId", method = RequestMethod.POST)
-	public String requestUserIdCheck(@RequestParam("crud") String crud, @RequestParam("json") String json) {
+	public String requestUserIdCheck(@RequestParam("user") String userId) {
 		
 		int getAuth = 0;					// DB上から取得したログインユーザに紐付く権限を取得する
 		String result = "";					// 処理結果の判定を格納するための変数
 		
 		// パラメータのJSONをMapに変換する
-		Map<String, Object> map = commonService.convertJsonToMap(json);
+		//Map<String, Object> map = commonService.convertJsonToMap(json);
 		
 		// ログイン中のユーザ情報を取得する
-		UserInf user = commonService.getUserName(map.get(Constants.KEY_USER_ID).toString());
+		UserInf user = commonService.getUserName(userId);
 		
 		// ユーザが存在していないことを確認する
 		if(user == null) {

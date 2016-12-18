@@ -51,7 +51,7 @@ function UserEditWindowDetail() {
 		
 		// 共通の各ボタンへイベントを登録する
 		// 重複チェックボタンへイベントを登録する
-		this.setClickEvent(SELECTOR_B_OVER_LAP, this.clickOverLapButton, null, $(SELECTOR_USER_ID).text());
+		this.setClickEvent(SELECTOR_B_OVER_LAP, this.clickOverLapButton, null, $(SELECTOR_USER_ID).val());
 		// メールアドレス追加ボタンへイベントを登録する
 		this.setClickEvent(SELECTOR_B_ADD_MAIL, this.clickAddContentButton);
 		// 住所追加ボタンへイベントを登録する
@@ -137,7 +137,7 @@ function UserEditWindowDetail() {
 		var message = "";			// 返却用メッセージを格納するための変数
 		
 		// 設定対象のユーザIDが存在するかチェック（存在しなければSUCCESS）
-		if(thisElem.chackUser(valueTarget) == STR_SUCCESS) {
+		if(thisElem.chackUser($(SELECTOR_USER_ID).val()) == STR_SUCCESS) {
 			// メッセージに重複していない旨をセットする
 			message = MASSAGE_OVER_LAP_OK;
 		} else {
