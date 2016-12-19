@@ -16,6 +16,8 @@ function BaseWindow() {
 	
 	this.anotherWindow;			// 別Windowを格納する変数
 	this.contentCheck = {};		// 入力値チェック
+	this.pattenCheck = {};		// 正規表現チェック
+	this.pattenMessage = {};	// マッチングするメッセージ
 	
 	// 入力値チェック用の連想配列を作成する
 	this.contentCheck[KEY_USER_ID] = MASSAGE_USER_ID;
@@ -26,6 +28,8 @@ function BaseWindow() {
 	this.contentCheck[KEY_USER_BIRTHDAY] = MASSAGE_USER_BIRTHDAY;
 	this.contentCheck[KEY_MAIL_TITLE] = MASSAGE_MAIL_TITLE;
 	this.contentCheck[KEY_MAIL] = MASSAGE_MAIL;
+	this.contentCheck[KEY_TEL_TITLE] = MASSAGE_TEL_TITLE;
+	this.contentCheck[KEY_TEL] = MASSAGE_TEL;
 	this.contentCheck[KEY_ADDRESS_TITLE] = MASSAGE_ADDRESS_TITLE;
 	this.contentCheck[KEY_POST_NUMBER] = MASSAGE_POST_NUMBER;
 	this.contentCheck[KEY_ADDRESS] = MASSAGE_ADDRESS;
@@ -33,6 +37,19 @@ function BaseWindow() {
 	this.contentCheck[KEY_FAMILY_NAME_KANA] = MASSAGE_FAMILY_NAME_KANA;
 	this.contentCheck[KEY_FAMILY_RELATION] = MASSAGE_FAMILY_RELATION;
 	this.contentCheck[KEY_FAMILY_SUPPORT] = MASSAGE_FAMILY_SUPPORT;
+	
+	// 正規表現用連想配列
+	this.pattenCheck[KEY_USER_BIRTHDAY] = STR_PATTEN_USER_BIRTHDAY;
+	this.pattenCheck[KEY_MAIL] = STR_PATTEN_MAIL;
+	this.pattenCheck[KEY_TEL] = STR_PATTEN_TEL;
+	this.pattenCheck[KEY_POST_NUMBER] = STR_PATTEN_POST_NUMBER;
+	// マッチングメッセージ用
+	this.pattenMessage[KEY_USER_BIRTHDAY] = MASSAGE_PATTEN_USER_BIRTHDAY;
+	this.pattenMessage[KEY_MAIL] = MASSAGE_PATTEN_MAIL;
+	this.pattenMessage[KEY_TEL] = MASSAGE_PATTEN_TEL;
+	this.pattenMessage[KEY_POST_NUMBER] = MASSAGE_PATTEN_POST_NUMBER;
+	
+	
 	
 	/**
 	 * 関数名：	chackUser
@@ -662,8 +679,10 @@ function BaseWindow() {
 			if($(this).val() == "") {
 				// クラス名を取得する
 				var target = $(this).get(0).className.split(" ")[0];
+				// 新規登録以外ではパスワードおよびパスワード（再）の未入力チェックをスキップする
+				if((target == KEY_LOGIN_PASSWORD && thisElem.parentWindow !== null) || (target == KEY_LOGIN_PASSWORD_SAI && thisElem.parentWindow !== null)) {
 				// メッセージが追加済みか検証する
-				if(message.indexOf(thisElem.contentCheck[target]) == -1) {
+				} else if(message.indexOf(thisElem.contentCheck[target]) == -1) {
 					// メッセージにエラーメッセージを追加する。
 					message += thisElem.contentCheck[target];
 				}
@@ -671,6 +690,33 @@ function BaseWindow() {
 			
 		});
 		
+		/* 正規表現チェック未実装
+		// 全入力エリアを走査する
+		$("input").each(function(index, elem){
+
+			// クラス名を取得する
+			var target = $(this).get(0).className.split(" ")[0];
+			var value = $(this).val();
+			
+			// 入力があり、かつ誕生日か、メールアドレスか、電話番号か、郵便番号
+			if(value !== "" && (target == KEY_USER_BIRTHDAY || target == KEY_MAIL || target == KEY_TEL || target == KEY_POST_NUMBER)) {
+				
+				//var patten = new RegExp(thisElem.pattenCheck[target]);
+				var patten = thisElem.pattenCheck[target];
+				
+				// 入力値が正規表現とマッチするか検証
+				//if(!(patten.test(value))) {
+				if(value.match(patten) == null) {
+					// メッセージが追加済みか検証する
+					if(message.indexOf(thisElem.pattenMessage[target]) == -1) {
+						// メッセージにエラーメッセージを追加する。
+						message += thisElem.pattenMessage[target];
+					}
+				}
+			}
+			
+		});
+		 */
 		return message;
 		
 	}

@@ -226,91 +226,98 @@ function UserEditWindowDetail() {
 		if(thisElem.chackUser($(SELECTOR_USER_ID).val()) != STR_SUCCESS && (thisElem.parentWindow == null || thisElem.parentWindow == undefined)) {
 			// 重複しているため、その旨を出力する
 			thisElem.openWarnigDialog(MASSAGE_OVER_LAP_NG);
-		// 必須入力チェックを行う
+		// 入力チェックを行う
 		} else if(requiredMessage != "") {
 			// チェック結果を返す
 			thisElem.openWarnigDialog(MESSAGE_ERROR_TITLE + requiredMessage);
-			
-		}
-		
-		
-		// パスワードが一致しているかチェックを行う。
-		
-		// まず増減しないベース情報一式を集める
-		// user_idを取得する
-		jsonArray[KEY_USER_ID] = $(SELECTOR_USER_ID).val();
-		// login_passwordを取得する
-		jsonArray[KEY_LOGIN_PASSWORD] = $(SELECTOR_LOGIN_PASSWORD).val();
-		// user_nameを取得する
-		jsonArray[KEY_USER_NAME] = $(SELECTOR_USER_NAME).val();
-		// user_nameを取得する
-		jsonArray[KEY_USER_NAME_KANA] = $(SELECTOR_USER_NAME_KANA).val();
-		// user_birthdayを取得する
-		jsonArray[KEY_USER_BIRTHDAY] = $(SELECTOR_USER_BIRTHDAY).val();
-		// user_sexを取得する
-		jsonArray[KEY_USER_SEX] = $(SELECTOR_USER_SEX).val();
-		// campany_idを取得する
-		jsonArray[KEY_CAMPANY_ID] = $(SELECTOR_CAMPANY_ID).val();
-		// department_idを取得する
-		jsonArray[KEY_DEPARTMENT_ID] = $(SELECTOR_DEPARTMENT_ID).val();
-		// postion_idを取得する
-		jsonArray[KEY_POSITION_ID] = $(SELECTOR_POSITION_ID).val();
-		// user_statusを取得する
-		jsonArray[KEY_USER_SATTUS] = $(SELECTOR_USER_STATUS).val();
-		
-		// 押下されているボタンが承認ボタンか検証する
-		if($(selector).val() === KEY_B_APPROVAL_USER) {
-			// user_statusを登録済みに設定する
-			jsonArray[KEY_USER_SATTUS] = FLAG_USER_STATUS_REG;
-		}
-		
-		// 新規登録ボタンかどうかを検証する
-		if($(selector).val() === KEY_B_NEW_USER) {
-			// 登録リクエストURLをセットする
-			path = PATH_USER_SAVE_BASE_INF;
+		// パスワードが一致しているかチェックを行う。	
+		} else if($(SELECTOR_LOGIN_PASSWORD).val() !== $(SELECTOR_LOGIN_PASSWORD_SAI).val()) {
+			// チェック結果を返す
+			thisElem.openWarnigDialog(MASSAGE_PASSWORD_EQUAL);
 		} else {
-			// 更新リクエストURLをセットする
-			path = PATH_USER_UPDATE_BASE_INF;
-		}
-		// ベース情報をDBに登録する
-		thisElem.getJsonData(path, jsonArray, STR_CREATE);
-		
-		// 増減コンテンツ（メールアドレス等）のデータを取得するため、コンテンツを走査する
-		$(SELECTOR_ADD_CONTENT).each(function(index, elem){
-			
-			// 増減コンテンツの登録に備えて、jsonArrayを初期化する
-			jsonArray = {};
-			// リクエスト用連想配列に増減コンテンツの種類をセットする
-			jsonArray[STR_CONTENT_TYPE] = $(this).attr("value");
-			// ユーザIDをセットする
-			jsonArray[KEY_USER_ID] = $(SELECTOR_USER_ID).val();
-			
-			// 増減コンテンツ毎のblockareaを走査する
-			$(this).children(SELECTOR_PARENT_AREA).each(function(index, elem) {
-				// 行に対してjsonの連想配列を拡張する
-				jsonArray[index] = {}
-				// ユーザIDをセットする
-				jsonArray[index][KEY_USER_ID] = $(SELECTOR_USER_ID).val();
-			
-				// それぞれのblockarea内のinput要素を走査する
-				$(this).children("input").each(function(index_in, elem_in) {
-					// 順番にinputの要素を取得していく
-					jsonArray[index][$(elem_in).attr("class")] = $(elem_in).val();
-				});
-				// それぞれのblockarea内のselect要素を走査する
-				$(this).children("select").each(function(index_in, elem_in) {
-					// 順番にinputの要素を取得していく
-					jsonArray[index][$(elem_in).get(0).className.split(" ")[0]] = $(elem_in).val();
-				});
-			});
-			
-			// 増減コンテンツの塊をDBに登録する
-			thisElem.getJsonData(PATH_USER_SAVE_ADD_INF, jsonArray, STR_CREATE);
 
-		});
+			// まず増減しないベース情報一式を集める
+			// user_idを取得する
+			jsonArray[KEY_USER_ID] = $(SELECTOR_USER_ID).val();
+			// login_passwordを取得する
+			jsonArray[KEY_LOGIN_PASSWORD] = $(SELECTOR_LOGIN_PASSWORD).val();
+			// user_nameを取得する
+			jsonArray[KEY_USER_NAME] = $(SELECTOR_USER_NAME).val();
+			// user_nameを取得する
+			jsonArray[KEY_USER_NAME_KANA] = $(SELECTOR_USER_NAME_KANA).val();
+			// user_birthdayを取得する
+			jsonArray[KEY_USER_BIRTHDAY] = $(SELECTOR_USER_BIRTHDAY).val();
+			// user_sexを取得する
+			jsonArray[KEY_USER_SEX] = $(SELECTOR_USER_SEX).val();
+			// campany_idを取得する
+			jsonArray[KEY_CAMPANY_ID] = $(SELECTOR_CAMPANY_ID).val();
+			// department_idを取得する
+			jsonArray[KEY_DEPARTMENT_ID] = $(SELECTOR_DEPARTMENT_ID).val();
+			// postion_idを取得する
+			jsonArray[KEY_POSITION_ID] = $(SELECTOR_POSITION_ID).val();
+			// user_statusを取得する
+			jsonArray[KEY_USER_SATTUS] = $(SELECTOR_USER_STATUS).val();
 		
-		// ウインドウを閉じる
-		thisElem.closeWindow();
+			// 押下されているボタンが承認ボタンか検証する
+			if($(selector).val() === KEY_B_APPROVAL_USER) {
+				// user_statusを登録済みに設定する
+				jsonArray[KEY_USER_SATTUS] = FLAG_USER_STATUS_REG;
+			}
+		
+			// 新規登録ボタンかどうかを検証する
+			if($(selector).val() === KEY_B_NEW_USER) {
+				// 登録リクエストURLをセットする
+				path = PATH_USER_SAVE_BASE_INF;
+			} else {
+				// 更新リクエストURLをセットする
+				path = PATH_USER_UPDATE_BASE_INF;
+			}
+			// ベース情報をDBに登録する
+			thisElem.getJsonData(path, jsonArray, STR_CREATE);
+		
+			// 増減コンテンツ（メールアドレス等）のデータを取得するため、コンテンツを走査する
+			$(SELECTOR_ADD_CONTENT).each(function(index, elem){
+			
+				// 増減コンテンツの登録に備えて、jsonArrayを初期化する
+				jsonArray = {};
+				// リクエスト用連想配列に増減コンテンツの種類をセットする
+				jsonArray[STR_CONTENT_TYPE] = $(this).attr("value");
+				// ユーザIDをセットする
+				jsonArray[KEY_USER_ID] = $(SELECTOR_USER_ID).val();
+				
+				// 増減コンテンツ毎のblockareaを走査する
+				$(this).children(SELECTOR_PARENT_AREA).each(function(index, elem) {
+					// 行に対してjsonの連想配列を拡張する
+					jsonArray[index] = {}
+					// ユーザIDをセットする
+					jsonArray[index][KEY_USER_ID] = $(SELECTOR_USER_ID).val();
+			
+					// それぞれのblockarea内のinput要素を走査する
+					$(this).children("input").each(function(index_in, elem_in) {
+						// 順番にinputの要素を取得していく
+						jsonArray[index][$(elem_in).attr("class")] = $(elem_in).val();
+					});
+					// それぞれのblockarea内のselect要素を走査する
+					$(this).children("select").each(function(index_in, elem_in) {
+						// 順番にinputの要素を取得していく
+						jsonArray[index][$(elem_in).get(0).className.split(" ")[0]] = $(elem_in).val();
+					});
+				});
+				
+				// 増減コンテンツの塊をDBに登録する
+				thisElem.getJsonData(PATH_USER_SAVE_ADD_INF, jsonArray, STR_CREATE);
+
+			});
+		
+			// 新規登録かを検証する
+			if($(selector).val() === KEY_B_NEW_USER) {
+				// 新規登録が完了した旨を表示する
+				thisElem.openWarnigDialog(MASSAGE_REG_OK)
+			}
+			// ウインドウを閉じる
+			thisElem.closeWindow();
+		
+		}
 		
 	}
 	

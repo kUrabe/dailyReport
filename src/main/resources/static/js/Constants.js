@@ -162,6 +162,8 @@ KEY_DB_FAMILY_SUPPORT = 'familySupport';
 KEY_REQUIRED = 'required';					//　必須項目に付いているクラス名
 KEY_MAIL_TITLE = 'mail_title';
 KEY_MAIL = 'mail';
+KEY_TEL_TITLE = 'tel_title';
+KEY_TEL = 'tel';
 KEY_ADDRESS_TITLE = 'address_title';
 KEY_POST_NUMBER = 'post_number';
 KEY_ADDRESS = 'address';
@@ -592,6 +594,13 @@ STR_USER_EDIT = 'ユーザ編集画面';
 STR_USER_LIST = 'ユーザ一覧画面';
 STR_FAMILY_EDIT = '家族構成編集画面';
 
+// 正規表現
+STR_PATTEN_USER_BIRTHDAY ='\d{4}-\d{1,2}-\d{1,2}';
+STR_PATTEN_MAIL ='/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/';
+STR_PATTEN_TEL ='/^[0-9\-]+$/';
+STR_PATTEN_POST_NUMBER ='/^[0-9\-]+$/';
+
+
 //TODO:【未実装】ダイアログのコメント系が未定義
 MESSAGE_DEL_INDEX = '見出しエリアを削除します。\n入力していたデータは消えますがよろしいですか？';
 MESSAGE_FORMAT_ERROR = '見出しが1つもないため登録できません。';
@@ -621,6 +630,8 @@ MASSAGE_LOGIN_PASSWORD_SAI = 'ログインパスワード（再）が未入力�
 MASSAGE_USER_BIRTHDAY = '誕生日が未入力です。\n';
 MASSAGE_MAIL_TITLE = 'メール名称が未入力です。\n';
 MASSAGE_MAIL = 'メールアドレスが未入力です。\n';
+MASSAGE_TEL_TITLE = '電話番号名称が未入力です。\n';
+MASSAGE_TEL = '電話番号が未入力です。\n';
 MASSAGE_ADDRESS_TITLE = '住所名称が未入力です。\n';
 MASSAGE_POST_NUMBER = '郵便番号が未入力です。\n';
 MASSAGE_ADDRESS = '住所が未入力です。\n';
@@ -629,6 +640,13 @@ MASSAGE_FAMILY_NAME_KANA = '家族氏名（カナ）が未入力です。\n';
 MASSAGE_FAMILY_RELATION = '続柄が未入力です。\n';
 MASSAGE_FAMILY_SUPPORT = '扶養が未入力です。\n';
 
+MASSAGE_PATTEN_USER_BIRTHDAY ='誕生日は日付形式で入力してください。\n';
+MASSAGE_PATTEN_MAIL ='メールアドレスはアドレス形式で入力してください。\n';
+MASSAGE_PATTEN_TEL ='電話番号は数値とハイフン（-）で入力してください。\n';
+MASSAGE_PATTEN_POST_NUMBER ='郵便番号は数値とハイフン（-）で入力してください。\n';
+
+MASSAGE_PASSWORD_EQUAL = '入力されたパスワードとパスワード（再）の値が異なります。';
+MASSAGE_REG_OK = '登録に成功しました。\n管理者へ連絡してください。\n承認されるまでログインできません。';
 
 MARK_SPACE = " ";		// 半角スペース
 
