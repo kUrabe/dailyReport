@@ -15,6 +15,25 @@
 function BaseWindow() {
 	
 	this.anotherWindow;			// 別Windowを格納する変数
+	this.contentCheck = {};		// 入力値チェック
+	
+	// 入力値チェック用の連想配列を作成する
+	this.contentCheck[KEY_USER_ID] = MASSAGE_USER_ID;
+	this.contentCheck[KEY_LOGIN_PASSWORD] = MASSAGE_LOGIN_PASSWORD;
+	this.contentCheck[KEY_LOGIN_PASSWORD_SAI] = MASSAGE_LOGIN_PASSWORD_SAI;
+	this.contentCheck[KEY_USER_NAME] = MASSAGE_USER_NAME;
+	this.contentCheck[KEY_USER_NAME_KANA] = MASSAGE_USER_NAME_KANA;
+	this.contentCheck[KEY_USER_BIRTHDAY] = MASSAGE_USER_BIRTHDAY;
+	this.contentCheck[KEY_MAIL_TITLE] = MASSAGE_MAIL_TITLE;
+	this.contentCheck[KEY_MAIL] = MASSAGE_MAIL;
+	this.contentCheck[KEY_ADDRESS_TITLE] = MASSAGE_ADDRESS_TITLE;
+	this.contentCheck[KEY_POST_NUMBER] = MASSAGE_POST_NUMBER;
+	this.contentCheck[KEY_ADDRESS] = MASSAGE_ADDRESS;
+	this.contentCheck[KEY_FAMILY_NAME] = MASSAGE_FAMILY_NAME;
+	this.contentCheck[KEY_FAMILY_NAME_KANA] = MASSAGE_FAMILY_NAME_KANA;
+	this.contentCheck[KEY_FAMILY_RELATION] = MASSAGE_FAMILY_RELATION;
+	this.contentCheck[KEY_FAMILY_SUPPORT] = MASSAGE_FAMILY_SUPPORT;
+	
 	/**
 	 * 関数名：	chackUser
 	 * 概要：		入力されたユーザIDが存在するかチェックする
@@ -622,7 +641,39 @@ function BaseWindow() {
 		*/
 	}
 	
-	
+	/**
+	 * 関数名：	checkRequired
+	 * 概要：		入力値チェック
+	 * 引数：		なし
+	 * 戻り値：	String
+	 * 作成日：	2016/12/19
+	 * 作成者：	k.urabe
+	 */
+	this.checkRequired = function() {
+		
+		var message = "";
+		
+		thisElem = this;
+		
+		// 全入力エリアを走査する
+		$("input").each(function(index, elem){
+			
+			// 空白の入力エリアがあるか検証する
+			if($(this).val() == "") {
+				// クラス名を取得する
+				var target = $(this).get(0).className.split(" ")[0];
+				// メッセージが追加済みか検証する
+				if(message.indexOf(thisElem.contentCheck[target]) == -1) {
+					// メッセージにエラーメッセージを追加する。
+					message += thisElem.contentCheck[target];
+				}
+			}
+			
+		});
+		
+		return message;
+		
+	}
 	
 	
 }

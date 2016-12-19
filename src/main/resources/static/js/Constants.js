@@ -154,11 +154,19 @@ KEY_CAMPANY_ID = 'campany_id';
 KEY_DEPARTMENT_ID = 'department_id';
 KEY_POSITION_ID = 'position_id';
 KEY_USER_SATTUS = 'user_status';
-KEY_FAMILY_NAME = '.family_name';
+KEY_FAMILY_NAME = 'family_name';
 KEY_FAMILY_NAME_KANA = 'family_name_kana';
 KEY_FAMILY_RELATION = 'family_relation';
 KEY_FAMILY_SUPPORT = 'family_support';
 KEY_DB_FAMILY_SUPPORT = 'familySupport';
+KEY_REQUIRED = 'required';					//　必須項目に付いているクラス名
+KEY_MAIL_TITLE = 'mail_title';
+KEY_MAIL = 'mail';
+KEY_ADDRESS_TITLE = 'address_title';
+KEY_POST_NUMBER = 'post_number';
+KEY_ADDRESS = 'address';
+
+
 
 KEY_B_USER_LIST_WINDOW = 'b_user_list_window';
 KEY_B_USER_EDIT_WINDOW = 'b_user_edit_window';
@@ -314,6 +322,7 @@ SELECTOR_NAME_START = '[name=';					// name属性で何かを指定する際
 SELECTOR_NAME_END = ']';						// name属性で何かを指定する際
 SELECTOR_BUTTON_NAME = '.button_name';
 SELECTOR_FAMILY_SUPPORT_TITLE = '.family_support_title';
+SELECTOR_REQUIRED = '.required';					//　必須項目に付いているクラス名
 
 SELECTOR_LINE = '.line';							// blockAreaに付与される行番号セレクタ
 SELECTOR_COMMENT_LINE = '.comment_line';		// コメント1行分の領域セレクタ
@@ -600,8 +609,26 @@ MESSAGE_NOT_TODAY_CONTENT = '結果の情報がありません。';
 MESSAGE_NOT_BEFORE_CONTENT = '前日予定の取得に失敗しました。';
 MASSAGE_FROM_TO_ERROR = '日付はFROM <= TOで指定してください。';
 MASSAGE_OVER_LAP_OK = 'このIDは使用可能です。';
-MASSAGE_OVER_LAP_NG = 'ユーザIDが重複しています。<br>別の値を入力してください。';
+MASSAGE_OVER_LAP_NG = 'ユーザIDが重複しています。\n別の値を入力してください。';
 MASSAGE_SEARCH_NOT_USER = '検索条件に一致するユーザがいません。';
+
+MESSAGE_ERROR_TITLE = '入力値にエラーがあります。確認してください。\n\n';
+MASSAGE_USER_ID = 'ユーザIDが未入力です。\n';
+MASSAGE_LOGIN_PASSWORD = 'ログインパスワードが未入力です。\n';
+MASSAGE_USER_NAME = '氏名（漢字）が未入力です。\n';
+MASSAGE_USER_NAME_KANA = '氏名（カナ）が未入力です。\n';
+MASSAGE_LOGIN_PASSWORD_SAI = 'ログインパスワード（再）が未入力です。\n';
+MASSAGE_USER_BIRTHDAY = '誕生日が未入力です。\n';
+MASSAGE_MAIL_TITLE = 'メール名称が未入力です。\n';
+MASSAGE_MAIL = 'メールアドレスが未入力です。\n';
+MASSAGE_ADDRESS_TITLE = '住所名称が未入力です。\n';
+MASSAGE_POST_NUMBER = '郵便番号が未入力です。\n';
+MASSAGE_ADDRESS = '住所が未入力です。\n';
+MASSAGE_FAMILY_NAME = '家族氏名（漢字）が未入力です。\n';
+MASSAGE_FAMILY_NAME_KANA = '家族氏名（カナ）が未入力です。\n';
+MASSAGE_FAMILY_RELATION = '続柄が未入力です。\n';
+MASSAGE_FAMILY_SUPPORT = '扶養が未入力です。\n';
+
 
 MARK_SPACE = " ";		// 半角スペース
 

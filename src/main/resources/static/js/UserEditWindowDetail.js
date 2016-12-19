@@ -216,8 +216,23 @@ function UserEditWindowDetail() {
 		
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		var path;
+		var requiredMessage = "";	// 必須チェック用メッセージ
+		var numberMessage = "";		// 数値チェック用メッセージ
+		var aa;
+		
+		requiredMessage = thisElem.checkRequired();
 		
 		// ユーザIDの重複チェックを行う。
+		if(thisElem.chackUser($(SELECTOR_USER_ID).val()) != STR_SUCCESS && (thisElem.parentWindow == null || thisElem.parentWindow == undefined)) {
+			// 重複しているため、その旨を出力する
+			thisElem.openWarnigDialog(MASSAGE_OVER_LAP_NG);
+		// 必須入力チェックを行う
+		} else if(requiredMessage != "") {
+			// チェック結果を返す
+			thisElem.openWarnigDialog(MESSAGE_ERROR_TITLE + requiredMessage);
+			
+		}
+		
 		
 		// パスワードが一致しているかチェックを行う。
 		
