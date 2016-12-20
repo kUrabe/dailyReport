@@ -595,10 +595,10 @@ STR_USER_LIST = 'ユーザ一覧画面';
 STR_FAMILY_EDIT = '家族構成編集画面';
 
 // 正規表現
-STR_PATTEN_USER_BIRTHDAY ='\d{4}-\d{1,2}-\d{1,2}';
-STR_PATTEN_MAIL ='/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/';
-STR_PATTEN_TEL ='/^[0-9\-]+$/';
-STR_PATTEN_POST_NUMBER ='/^[0-9\-]+$/';
+STR_PATTEN_USER_BIRTHDAY = /\d{4}-\d{1,2}-\d{1,2}/;
+STR_PATTEN_MAIL = /^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/;
+STR_PATTEN_TEL = /^[0-9\-]+$/;
+STR_PATTEN_POST_NUMBER = /^[0-9\-]+$/;
 
 
 //TODO:【未実装】ダイアログのコメント系が未定義

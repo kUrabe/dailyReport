@@ -690,7 +690,7 @@ function BaseWindow() {
 			
 		});
 		
-		/* 正規表現チェック未実装
+		
 		// 全入力エリアを走査する
 		$("input").each(function(index, elem){
 
@@ -702,11 +702,12 @@ function BaseWindow() {
 			if(value !== "" && (target == KEY_USER_BIRTHDAY || target == KEY_MAIL || target == KEY_TEL || target == KEY_POST_NUMBER)) {
 				
 				//var patten = new RegExp(thisElem.pattenCheck[target]);
-				var patten = thisElem.pattenCheck[target];
+				//var patten = thisElem.pattenCheck[target];
 				
 				// 入力値が正規表現とマッチするか検証
 				//if(!(patten.test(value))) {
-				if(value.match(patten) == null) {
+				if(!(thisElem.pattenCheck[target].test(value))) {
+				//if(value.match(patten) == null) {
 					// メッセージが追加済みか検証する
 					if(message.indexOf(thisElem.pattenMessage[target]) == -1) {
 						// メッセージにエラーメッセージを追加する。
@@ -716,7 +717,8 @@ function BaseWindow() {
 			}
 			
 		});
-		 */
+		
+		// 完成したメッセージを返す
 		return message;
 		
 	}

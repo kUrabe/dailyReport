@@ -500,28 +500,37 @@ public class UserService {
 		
 		String query = Constants.GET_USER_SEARCH_INF;		// 検索用クエリの固定部分をセットする
 		
-		// JSONから取得した日付をentityクラスのdate型プロパティへ格納するための日付変換インスタンスを生成する
+		// JSONから取得した日付をentityクラスのdate型プロパティの形に合わせる（検索文字として使用するため）
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
-		
-		// 本日日付を所定フォーマットで取得する
-		Calendar today = sdf.getCalendar();
+		// 現在時刻を取得するための変数を宣言する
+		Calendar today;
 		
 		// 年齢のmin値がセットされている
 		if(map.get(Constants.MIN) != "") {
+			// 現在日付を取得する。
+			today = Calendar.getInstance( );
+			// クライアントからの入力値をint型で保持する
 			int min = new Integer(map.get(Constants.MIN).toString());
 			// 現在日付より入力値を差し引く
 			today.add(Calendar.YEAR, -min);
 			// 検索条件を追加する
-			query += Constants.STR_MIN_DATE + Constants.STR_SINGLE + today.toString() + Constants.STR_SINGLE;
+			query += Constants.STR_MIN_DATE + Constants.STR_SINGLE + sdf.format(today.getTime()) + Constants.STR_SINGLE;
 		}
 		
 		// 年齢のmin値がセットされている
 		if(map.get(Constants.MAX) != "") {
-			int max = new Integer(map.get(Constants.MIN).toString());
+			// 現在日付を取得する。
+			today = Calendar.getInstance( );
+			// クライアントからの入力値をint型で保持する
+			int max = new Integer(map.get(Constants.MAX).toString());
 			// 現在日付より入力値を差し引く
 			today.add(Calendar.YEAR, -max);
+			// 年齢の下限値になるため、年齢が監査されている当該年の1月に設定する
+			today.set(Calendar.MONTH, 0);
+			// 年齢の下限値になるため、年齢が監査されている当該年の1日に設定する
+			today.set(Calendar.DATE, 1);
 			// 検索条件を追加する
-			query += Constants.STR_MAX_DATE + Constants.STR_SINGLE + today.toString() + Constants.STR_SINGLE;
+			query += Constants.STR_MAX_DATE + Constants.STR_SINGLE + sdf.format(today.getTime()) + Constants.STR_SINGLE;
 		}
 		
 		// jsonから取得したコンテンツIDで情報を取得する

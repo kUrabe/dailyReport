@@ -106,8 +106,8 @@ public class Constants {
 	public static final String STR_QUERY_NOTE_OUT =" AND ((ri.entry_status = 2 AND ri.user_id = ?1) OR (ri.user_id <> ?1 AND ri.entry_status = 2))";
 	public static final String STR_QUERY_NOTE_ONLY =" AND (ri.entry_status = 1 AND ri.user_id = ?1)";
 	public static final String STR_QUERY_ORDER__REPOT_DATE = " ORDER BY ri.report_date, ri.content_id, ri.parent_content_id, ri.grand_parent_content_id";
-	public static final String STR_MIN_DATE = " AND ui.user_birthday >= ";
-	public static final String STR_MAX_DATE = " AND ui.user_birthday <= ";
+	public static final String STR_MIN_DATE = " AND ui.user_birthday <= ";
+	public static final String STR_MAX_DATE = " AND ui.user_birthday >= ";
 	
 	// その他定数
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
