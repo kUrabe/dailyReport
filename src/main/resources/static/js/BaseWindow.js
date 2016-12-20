@@ -678,6 +678,7 @@ function BaseWindow() {
 		
 		thisElem = this;
 		
+		// 必須チェック
 		// 全入力エリアを走査する
 		$("input").each(function(index, elem){
 			
@@ -686,7 +687,7 @@ function BaseWindow() {
 				// クラス名を取得する
 				var target = $(this).get(0).className.split(" ")[0];
 				// 新規登録以外ではパスワードおよびパスワード（再）の未入力チェックをスキップする
-				if((target == KEY_LOGIN_PASSWORD && thisElem.parentWindow !== null) || (target == KEY_LOGIN_PASSWORD_SAI && thisElem.parentWindow !== null)) {
+				if((target == KEY_LOGIN_PASSWORD && parentWindowDate !== undefined) || (target == KEY_LOGIN_PASSWORD_SAI && parentWindowDate !== undefined)) {
 				// メッセージが追加済みか検証する
 				} else if(message.indexOf(thisElem.contentCheck[target]) == -1) {
 					// メッセージにエラーメッセージを追加する。
@@ -696,7 +697,7 @@ function BaseWindow() {
 			
 		});
 		
-		
+		// 正規表現チェック
 		// 全入力エリアを走査する
 		$("input").each(function(index, elem){
 
