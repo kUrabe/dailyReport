@@ -41,8 +41,8 @@ function UserEditWindowDetail() {
 		var jsonArray = {};			// リクエストに使用するjson連想配列を作成する
 		var jsonLen;				// jsonの長さを取得するための変数
 		
-		// 親の画面が存在するか判定する
-		if(this.parentWindow !== null && this.parentWindow !== undefined) {
+		// 親の画面から値を対象ユーザを取得するためのセレクタを受け取っているか
+		if(parentWindowDate !== null && parentWindowDate !== undefined) {
 
 			// 親から取得したuser_idを取得する
 			selectUserId = this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_ID).text();

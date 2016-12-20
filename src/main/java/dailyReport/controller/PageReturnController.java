@@ -62,7 +62,7 @@ public class PageReturnController {
 	
 	/**
 	 * 関数名：	requestTopEditPage
-	 * 概要：		topページへのリクエスト
+	 * 概要：		indexページから編集画面へのリクエスト
 	 * 引数：		なし
 	 * 戻り値：	String
 	 * 作成日：	2016/11/24

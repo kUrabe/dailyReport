@@ -172,6 +172,7 @@ KEY_ADDRESS = 'address';
 
 KEY_B_USER_LIST_WINDOW = 'b_user_list_window';
 KEY_B_USER_EDIT_WINDOW = 'b_user_edit_window';
+KEY_B_USER_NEW_EDIT_WINDOW = 'b_user_new_edit_window';
 
 KEY_F_ON = 'f-on';								// いいねボタンを押下している状態のボタンに付与
 KEY_R_ON = 'r-on';								// 未読にするボタンを押下している状態（未読状態）のボタンに付与
@@ -271,6 +272,7 @@ SELECTOR_B_UPDATE = '.b_update';
 
 SELECTOR_B_USER_LIST_WINDOW = '.b_user_list_window';
 SELECTOR_B_USER_EDIT_WINDOW = '.b_user_edit_window';
+SELECTOR_B_USER_NEW_EDIT_WINDOW = '.b_user_new_edit_window';
 
 
 // top画面のボタンセレクタ
@@ -368,6 +370,7 @@ PATH_USER_SAVE_ADD_INF = '/user/saveAddInf';					// ユーザ編集画面の登�
 PATH_USER_DELETE_INF = '/user/deleteUserInf';					// ユーザ編集画面の削除時
 PATH_USER_MATCH_INF = '/user/matchUserInf';						// ユーザ一覧画面の検索結果取得
 
+PATH_USER_WINDOW_NEW_EDIT = '/editWindow';						// ユーザ編集画面のPATH(認証なし)
 PATH_USER_WINDOW_EDIT = '/userWindow/userEditWindow.html';		// ユーザ編集画面のPATH(認証済み)
 //PATH_USER_WINDOW_FAMILY = '/userWindow/familyEditWindow.html';	// 家族構成編集画面のPATH
 PATH_USER_WINDOW_FAMILY = '/editWindow/familyEditWindow.html';

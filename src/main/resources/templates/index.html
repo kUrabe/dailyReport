@@ -3,13 +3,28 @@
 <head>
 	<meta charset="UTF-8" />
 	<title></title>
+	<!-- Queryの本体を読み込む。 -->
+ 	<script src="js/jquery-1.11.0.min.js"></script>
+	<!-- jQueryUIを読み込む。 -->
+ 	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+ 	<!-- 定数クラスを読み込む。 -->
+ 	<script src="js/Constants.js"></script>
+ 	<!-- 基底画面クラスを読み込む。 -->
+ 	<script src="js/BaseWindow.js"></script>
 </head>
 <body>
 	<form th:action="@{/loginForm}" method="POST">
 		<button type="submit">ログイン</button>
 	</form>
-	<form th:action="@{/editWindow}" method="GET">
-		<button type="submit">新規ユーザ登録</button>
-	</form>
+	<button class="b_user_new_edit_window" value="b_user_new_edit_window" type="submit" onclick="anotherWindow()">新規ユーザ登録</button>
+
+<script type="text/javascript">
+	function anotherWindow() {
+		// 基底ウインドウ用のインスタンスを生成する
+		thisElem = new BaseWindow();
+		// 別ウインドウを開く
+		thisElem.prepareAnotherWindow($(SELECTOR_B_USER_NEW_EDIT_WINDOW));
+	}
+</script>
 </body>
 </html>

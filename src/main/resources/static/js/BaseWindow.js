@@ -597,6 +597,12 @@ function BaseWindow() {
 			path = PATH_USER_WINDOW_EDIT;
 			// 画面名をセットする
 			name = STR_USER_EDIT;
+			// ユーザ登録画面ならば
+		} else if(button_type === KEY_B_USER_NEW_EDIT_WINDOW) {
+			// ユーザ登録画面のpathをセットする
+			path = PATH_USER_WINDOW_NEW_EDIT;
+			// 画面名をセットする
+			name = STR_USER_EDIT;
 		// ユーザ一覧画面ならば
 		} else if(button_type === KEY_B_USER_LIST_WINDOW) {
 			// ユーザ編集画面のpathをセットする
