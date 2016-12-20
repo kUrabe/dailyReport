@@ -79,7 +79,7 @@ public class PageReturnController {
 		model.addAttribute("positionList", userService.searchPositionList());
 		
 		// トップページのURLを返す
-		return "/userEditWindow";
+		return "userWindow/userEditWindow";
 	}
 	
 	/**
