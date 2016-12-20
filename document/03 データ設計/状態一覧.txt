@@ -8,6 +8,11 @@ user_authority　：　ユーザ権限
  0001　会員
  0010　管理
 
+user_status	：　ユーザ登録状態
+ 0001　登録済み
+ 0010　削除済み
+ 0100　承認待ち
+
 【record_content_inf】
 entry_format　：　登録書式
  0001　テンプレート
@@ -24,6 +29,7 @@ entry_status　：　登録状態
 add_category　：　追加種別
  0001　既読
  0010　いいね
+ 0100　わるいね
 
 【record_content_add】
 category_status　：　登録状態
