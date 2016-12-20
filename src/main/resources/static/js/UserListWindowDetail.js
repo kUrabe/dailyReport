@@ -34,6 +34,9 @@ function UserListWindowDetail() {
 		// 検索ボタンを押下して初期の画面表示として、ユーザ一覧を取得する
 		$(SELECTOR_B_SERACH).click();
 		
+		// 画面を表示する
+		$("body").css("visibility", "visible");
+		
 	}
 	
 	/**

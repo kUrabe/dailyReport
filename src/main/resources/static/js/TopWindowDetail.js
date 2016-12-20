@@ -176,6 +176,9 @@ function TopWindowDetail() {
 		// 初期の検索条件にて画面項目の取得を行う。
 		$(SELECTOR_B_SERACH).click();
 		
+		// 画面を表示する
+		$("body").css("visibility", "visible");
+		
 	}
 	
 }

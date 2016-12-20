@@ -51,6 +51,9 @@ function FamilyEditWindowDetail() {
 		// 画面上の閉じるボタンに対して押下時に実行されるイベントを登録する。
 		this.setClickEvent(SELECTOR_B_CANCEL, this.closeWindow);
 		
+		// 画面を表示する
+		$("body").css("visibility", "visible");
+		
 	}
 	
 	/**

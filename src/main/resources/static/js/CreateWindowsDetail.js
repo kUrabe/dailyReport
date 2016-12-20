@@ -746,6 +746,9 @@ function CreateWindowsDetail() {
 		// チェンジイベントを発生させ、セットした日付に紐付くデータがあれば取得・展開する
 		$(SELECTOR_REPORT_DATE).change();
 		
+		// 画面を表示する
+		$("body").css("visibility", "visible");
+		
 	}
 	
 	/**
@@ -811,6 +814,9 @@ function CreateWindowsDetail() {
 		title += $(SELECTOR_ENTRY_FORMAT).text() == FLAG_ENTRY_FORMAT_REPORT ? STR_REPORT_COMMENT : STR_COMMENT_COMMENT;
 		// 作成したタイトルをセットする
 		$(SELECTOR_SEND_TO).text(title);
+		
+		// 画面を表示する
+		$("body").css("visibility", "visible");
 		
 	}
 	
@@ -891,6 +897,8 @@ function CreateWindowsDetail() {
 		// コメントするボタンのイベントを登録する
 		this.setClickEvent(SELECTOR_B_NEW_COMMENT, this.prepareAnotherWindow, null, this.parentWindow.$(parentWindowDate));
 		
+		// 画面を表示する
+		$("body").css("visibility", "visible");		
 	}
 	
 }

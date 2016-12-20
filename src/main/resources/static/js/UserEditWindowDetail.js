@@ -125,6 +125,10 @@ function UserEditWindowDetail() {
 			// ユーザステータスに承認ステータスをセットする
 			$(SELECTOR_USER_STATUS).val(STR_STATUS_TNP_NUM);
 		}
+		
+		// 画面を表示する
+		$("body").css("visibility", "visible");
+		
 	}
 	
 	/**
