@@ -82,6 +82,7 @@ function ChartSummaryWindowDetail() {
 			$(SELECTOR_SERACH_MESSAGE).text("");
 			// 既存のグラフを削除する
 			// TODO【未実装】そもそも、削除が必要なのか、グラフ描画の方法による（指定エリアに追加なのか、削除してから再作成なのか）
+			$("iframe").remove();
 			
 			// 取得したデータをグラフ用の値形式に加工する
 			thisElem.createChartData();
@@ -111,7 +112,7 @@ function ChartSummaryWindowDetail() {
 			
 		} else {
 			// 入力項目でエラーが発生しているため、その旨を警告する
-			this.openWarnigDialog(message);
+			thisElem.openWarnigDialog(message);
 		}
 		
 		
@@ -192,6 +193,11 @@ function ChartSummaryWindowDetail() {
 	 * 作成者：	k.urabe
 	 */
 	this.createChartData = function() {
+		
+		// データ登録前に、各データ用の配列を初期化する
+		this.data[STR_LABELS] = [];
+		this.favoriteDataset[STR_DATA] = [];
+		this.noneFavoriteDataset[STR_DATA] = [];
 		
 		// 取得したjsonデータの行要素を走査する
 		for(var key in this.json) {
