@@ -605,8 +605,8 @@ public class Constants {
 	public static final String GET_CHART_RECORD = 
 			"SELECT"
 			+ " ui.user_name AS user_name"
-			+ ", COUNT(t_favorite_count.in_count) AS favorite_count"
-			+ ", COUNT(t_none_favorite_count.in_count) AS none_favorite_count"
+			+ ", SUM(t_favorite_count.in_count) AS favorite_count"
+			+ ", SUM(t_none_favorite_count.in_count) AS none_favorite_count"
 			+ " FROM"
 			+ " user_inf ui"
 			+ " LEFT JOIN"
