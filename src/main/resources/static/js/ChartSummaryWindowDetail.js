@@ -83,6 +83,9 @@ function ChartSummaryWindowDetail() {
 			// 既存のグラフを削除する
 			// TODO【未実装】そもそも、削除が必要なのか、グラフ描画の方法による（指定エリアに追加なのか、削除してから再作成なのか）
 			$("iframe").remove();
+			$(SELECTOR_VIEW_AREA).remove();
+			// 描画エリアを再度追加する
+			$(SELECTOR_CONTENT_AREA).append(TAG_BAR_CHART);
 			
 			// 取得したデータをグラフ用の値形式に加工する
 			thisElem.createChartData();
@@ -196,6 +199,7 @@ function ChartSummaryWindowDetail() {
 		
 		// データ登録前に、各データ用の配列を初期化する
 		this.data[STR_LABELS] = [];
+		this.data[STR_DATASETS] = [];
 		this.favoriteDataset[STR_DATA] = [];
 		this.noneFavoriteDataset[STR_DATA] = [];
 		
@@ -216,25 +220,49 @@ function ChartSummaryWindowDetail() {
 	// バーチャート用のデータ群
 	this.data = {
 		labels:[],
-		datasets:[],	
+		datasets:[],
 	}
 	// バーチャート用のオプション設定
 	this.options = {
 		title: {    
 		    display: true,
 		    text: STR_BAR_CHART_TITLE
+		},
+		//軸の設定
+	    scales: {
+			//縦軸の設定
+			yAxes: [{
+				//目盛りの設定
+				ticks: {
+					//開始値を0にする
+					beginAtZero:true,
+				}
+			}]
+		},
+		//ホバーの設定
+		hover: {
+			//ホバー時の動作（single, label, dataset）
+			mode: 'single'
 		}
 	}
 	// いいね用データセット群
 	this.favoriteDataset = {
 		label: "いいね数",
+		backgroundColor: "rgba(179,181,198,0.2)",
+		borderColor: "rgba(179,181,198,1)",
+		borderWidth: 1,
 		hoverBackgroundColor: "rgba(179,181,198,0.4)",
+		hoverBorderColor: "rgba(179,181,198,1)",
 		data: []
 	}
 	// わるいね用データセット群
 	this.noneFavoriteDataset = {
 		label: "わるいね数",
+		backgroundColor: "rgba(255,99,132,0.2)",
+		borderColor: "rgba(255,99,132,1)",
+		borderWidth: 1,
 		hoverBackgroundColor: "rgba(255,99,132,0.4)",
+		hoverBorderColor: "rgba(255,99,132,1)",
 		data: []
 	}
 	

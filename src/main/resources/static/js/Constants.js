@@ -437,7 +437,7 @@ TAG_IN_LINE_ITEM = '<span class=""></span>';
 // アコーディオンエリアのフォーマットタグを追加する（共通のボタンも）
 TAG_REPORT_ACCORDION = '<div class="accordion_area"><div class="content_detail"></div><div class="comment_area"><div class="title">コメント一覧</div><button type="button" class="b_new_comment" value="b_new_comment">コメントする</button><div class="serach_message"></div></div><button type="button" class="b_accordion">閉じる</button></div>';
 
-
+TAG_BAR_CHART = '<canvas class="view_area" id="view_area" width="800" height="400"></canvas>';
 
 TAG_REPORT_AREA_START = '<div class="blockArea"><table class="tableIndex ">';
 TAG_REPORT_AREA_END = '</table>';
