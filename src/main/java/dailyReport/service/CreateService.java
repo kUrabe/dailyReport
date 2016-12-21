@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dailyReport.Constants;
+import dailyReport.resource.ChartViewRecord;
 import dailyReport.resource.FixedItemInf;
 import dailyReport.resource.GetContentByDayQuery;
 import dailyReport.resource.GetReportByDayQuery;
@@ -314,10 +315,61 @@ public class CreateService {
 		return returnBoolean;
 	}
 	
-	// updateContentへ統合（不要）
-	public boolean updateTemplate(Map<String, Object> json) {
+	/**
+	 * 関数名：	getChartViewContent
+	 * 概要：		日報作成画面で、初期表示時（編集機能で日付を持っていた場合）や、日付選択時のリクエストに対して情報を取得する
+	 * 引数：		Map<String, Object> map
+	 * 戻り値：	List<GetReportByDayQuery
+	 * 作成日：	2016/11/25
+	 * 作成者：	k.urabe
+	 */
+	// TODO:【未実装】entityクラスはこれでよいか未検証。今はダミーとしてテーブル単体のものを指定している。
+	public List<ChartViewRecord> getChartViewContent(Map<String, Object> map) {
+
+		// グラフ情報取得用のベースとなるクエリを取得する
+		String query = Constants.GET_CHART_RECORD;
+		// FROMの入力値を保持する
+		String fromValue = map.get(Constants.KEY_SERACH_FROM_DATE).toString();
+		// TOの入力値を保持する
+		String toValue = map.get(Constants.KEY_SERACH_TO_DATE).toString();
+		int entryFormatValue = new Integer(map.get(Constants.KEY_ENTRY_FORMAT).toString());
 		
-		return false;
+		// クライアントでFROMに入力がされているか検証
+		if(fromValue != "") {
+			// クエリに検索条件を追加する
+			query += Constants.STR_SEARCH_FROM_REPORT_DATE + Constants.STR_SINGLE + fromValue + Constants.STR_SINGLE;
+		}
+		// クライアントでFROMに入力がされているか検証
+		if(toValue != "") {
+			// クエリに検索条件を追加する
+			query += Constants.STR_SEARCH_TO_REPORT_DATE + Constants.STR_SINGLE + toValue + Constants.STR_SINGLE;
+		}
+		// クライアントでentry_formatにチェックが付いている、かつ両方にチェックが付いている
+		if(entryFormatValue != 0 && (entryFormatValue & Constants.FLAG_ENTRY_FORMAT_REPORT_AND_COMMENT) == Constants.FLAG_ENTRY_FORMAT_REPORT_AND_COMMENT) {
+			// 対象のクエリを追加する
+			query += Constants.STR_ENTRY_FORMAT_STR_ENTRY_FORMAT_REPORT_AND_COMMENT;
+		// クライアントでentry_formatにチェックが付いている、かつ日報にチェックが付いている
+		} else if(entryFormatValue != 0 && (entryFormatValue & Constants.FLAG_ENTRY_FORMAT_REPORT) == Constants.FLAG_ENTRY_FORMAT_REPORT) {
+			// 対象のクエリを追加する
+			query += Constants.STR_ENTRY_FORMAT_REPORT;
+		// クライアントでentry_formatにチェックが付いている、かつコメントにチェックが付いている
+		} else if(entryFormatValue != 0 && (entryFormatValue & Constants.FLAG_ENTRY_FORMAT_COMMENT) == Constants.FLAG_ENTRY_FORMAT_COMMENT) {
+			// 対象のクエリを追加する
+			query += Constants.STR_ENTRY_FORMAT_COMMENT;
+		}
+		
+		// クエリに共通のものを追加する
+		query += Constants.STR_GRUOUP_BY_USER_ID;
+		
+		// 作成したクエリを実行し、必要なデータを取得する
+		@SuppressWarnings("unchecked")
+		List<ChartViewRecord> content = entityManager
+				.createNativeQuery(query, "getUserBaseInfQuery")
+				.getResultList();
+		
+		// 取得した情報を返す
+		return content;
+		
 	}
 	
 }

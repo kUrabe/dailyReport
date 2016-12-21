@@ -35,6 +35,17 @@ import javax.persistence.*;
 							@ColumnResult(name = "position_title")
 					}
 			)
+	),
+	@SqlResultSetMapping(
+			name="chartViewRecord", 
+			classes = @ConstructorResult(
+					targetClass = dailyReport.resource.ChartViewRecord.class, 
+					columns = {
+							@ColumnResult(name = "user_name"),
+							@ColumnResult(name = "favorite_count"),
+							@ColumnResult(name = "none_favorite_count")
+					}
+			)
 	)
 })
 public class UserInf implements Serializable {

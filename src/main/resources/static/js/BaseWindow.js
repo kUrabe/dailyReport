@@ -39,15 +39,19 @@ function BaseWindow() {
 	this.contentCheck[KEY_FAMILY_SUPPORT] = MASSAGE_FAMILY_SUPPORT;
 	
 	// 正規表現用連想配列
-	this.pattenCheck[KEY_USER_BIRTHDAY] = STR_PATTEN_USER_BIRTHDAY;
+	this.pattenCheck[KEY_USER_BIRTHDAY] = STR_PATTEN_DATE;
 	this.pattenCheck[KEY_MAIL] = STR_PATTEN_MAIL;
 	this.pattenCheck[KEY_TEL] = STR_PATTEN_TEL;
 	this.pattenCheck[KEY_POST_NUMBER] = STR_PATTEN_POST_NUMBER;
+	this.pattenCheck[KEY_SERACH_FROM_DATE] = STR_PATTEN_DATE;
+	this.pattenCheck[KEY_SERACH_TO_DATE] = STR_PATTEN_DATE;
 	// マッチングメッセージ用
 	this.pattenMessage[KEY_USER_BIRTHDAY] = MASSAGE_PATTEN_USER_BIRTHDAY;
 	this.pattenMessage[KEY_MAIL] = MASSAGE_PATTEN_MAIL;
 	this.pattenMessage[KEY_TEL] = MASSAGE_PATTEN_TEL;
 	this.pattenMessage[KEY_POST_NUMBER] = MASSAGE_PATTEN_POST_NUMBER;
+	this.pattenMessage[KEY_SERACH_FROM_DATE] = MASSAGE_PATTEN_DATE;
+	this.pattenMessage[KEY_SERACH_TO_DATE] = MASSAGE_PATTEN_DATE;
 	
 	
 	
@@ -482,6 +486,13 @@ function BaseWindow() {
 			changeValue = addCount == -1 ? FLAG_CATEGORY_STATUS_DEL : FLAG_CATEGORY_STATUS_REG;
 			// ユーザがいいねしているかのフラグを格納するセレクタ
 			changeValueSelector = SELECTOR_FAVARITE_STATUS;
+			
+			// わるいねとの排他関係を検証する
+			if(($(selector).children(SELECTOR_NONE_FAVARITE_STATUS).text() & FLAG_CATEGORY_STATUS_REG) && (category_status & FLAG_CATEGORY_STATUS_DEL)) {
+				// 自分が登録になるにあたり、相手機能が登録中であるため、相手を機能ボタンをクリックする
+				$(buttonSelector).parent().children(SELECTOR_B_NONE_FAVORITE).click();
+			}
+			
 		// 機能が未読にするか検証
 		} else if(FLAG_ADD_CATEGORY_NOREAD & add_category) {
 			// 集計数へのセレクタをセットする
@@ -498,6 +509,12 @@ function BaseWindow() {
 			changeValue = addCount == -1 ? FLAG_CATEGORY_STATUS_DEL : FLAG_CATEGORY_STATUS_REG;
 			// ユーザがいいねしているかのフラグを格納するセレクタ
 			changeValueSelector = SELECTOR_NONE_FAVARITE_STATUS;
+			
+			// いいねとの排他関係を検証する
+			if(($(selector).children(SELECTOR_FAVARITE_STATUS).text() & FLAG_CATEGORY_STATUS_REG) && (category_status & FLAG_CATEGORY_STATUS_DEL)) {
+				// 自分が登録になるにあたり、相手機能が登録中であるため、相手を機能ボタンをクリックする
+				$(buttonSelector).parent().children(SELECTOR_B_FAVORITE).click();
+			}
 		}
 		
 		// TODO:【セレクタ】行単位は引数でまかなえるが、項目単位のセレクタを判定する必要がある

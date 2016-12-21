@@ -102,7 +102,7 @@ KEY_PARENT_AREA = 'blockArea';					// ボタンからみた親要素を囲むセ
 
 KEY_B_CHART_SUMMARY = 'b_chart_summary';		// Top画面のグラフ集計画面へのボタン名
 KEY_B_CHART_VIEW = 'b_chart_view';				// グラフ集計画面の検索ボタン名
-KEY_VIEW_AREA = 'vewi_area';					// グラフ描画エリアのクラス名
+KEY_VIEW_AREA = 'view_area';					// グラフ描画エリアのクラス名
 
 
 
@@ -202,7 +202,7 @@ SELECTOR_LEFT_MENU = '.leftMenu';			// トップ画面の左領域
 SELECTOR_TOP_MENU = '.topMenu';				// トップ画面の上領域
 SELECTOR_MAIN_MENU = '.mainMenu';			// トップ画面のメイン領域
 SELECTOR_DOWN_MENU = '.downMenu';			// 下領域
-
+SELECTOR_SEARCH_AREA = '.searchArea';		// 検索領域
 
 SELECTOR_CATEGORY_STATUS = '.category_status';		// いいね、既読数の登録状態を管理するセレクタ
 SELECTOR_BASE_PARENT_CONTENT_ID = '.base_parent_content_id';
@@ -249,7 +249,7 @@ SELECTOR_USER_BIRTHDAY = '.user_birthday';
 
 SELECTOR_B_CHART_SUMMARY = '.b_chart_summary';		// Top画面のグラフ集計画面へのボタン名
 SELECTOR_B_CHART_VIEW = '.b_chart_view';			// グラフ集計画面の検索ボタン名
-SELECTOR_VIEW_AREA = '.vewi_area';					// グラフ描画エリアのクラス名
+SELECTOR_VIEW_AREA = '.view_area';					// グラフ描画エリアのクラス名
 
 
 // ユーザ一覧・編集画面系（以下のボタン以外は、他画面の名称を流用）
@@ -350,6 +350,8 @@ SELECTOR_COMMENT_LINE = '.comment_line';		// コメント1行分の領域セレ�
 SELECTOR_F_ON = '.f-on';								// いいねボタンを押下している状態のボタンに付与
 SELECTOR_R_ON = '.r-on';								// 未読にするボタンを押下している状態（未読状態）のボタンに付与
 
+SELECTOR_NOTE_CHECKBOX = ':not([type=checkbox])';
+
 /*
  * path名(file名)
  * 
@@ -372,6 +374,7 @@ PATH_CREATE_BY_DAY = '/create/contentByDay';				// 作成画面の日付選択�
 PATH_CREATE_SAVE_CONTENT = '/create/saveContent';			// コンテンツ（日報・コメント）の新規・更新処理
 PATH_CREATE_BEFORE_CONTENT = '/create/beforeContent';		// 前日以前の日報（予定）を取得
 PATH_CREATE_SAVE_TEMPLATE = '/create/saveTemplate';			// テンプレートの新規・更新処理
+PATH_CREATE_CHART_VIEW = '/create/chartView';				// グラフ表示用のデータリクエスト
 PATH_LOGOUT = "/logout";									// ログアウトのリクエストパス
 
 PATH_REPORT_CREATE = '/createWindow/report_create.html';			// 日報作成画面のPATH
@@ -519,6 +522,10 @@ STR_POST = 'post';									// POST
 STR_LOGOUT_PATH = '/logout';						// ログアウト用path
 STR_NONE = 'none';										// display属性のプロパティnone
 
+STR_LABELS = 'labels';								// グラフの横軸用キー名
+STR_DATASETS = 'datasets';							// グラフのデータ一塊を指すキー名
+STR_DATA = 'data';
+
 STR_TRUE = 'true';
 STR_FALSE = 'false';
 STR_CREATE = 'create';								// サーバへ渡すパラメータにリクエストする処理をマッピングさせるための単語
@@ -594,6 +601,8 @@ STR_DOT = '.';
 STR_TIME_SEPARATOR = '-';
 STR_GET_PARA_CONTENT_ID = '?contentId=';
 STR_GET_PARA_P_CONTENT_ID = '&parentContentId=';
+STR_CHART_BAR = 'bar';
+STR_BAR_CHART_TITLE = 'グラフ集計';
 
 // コメント作成画面のタイトル作成用の固定文字列
 STR_TITLES = 'さんの';
@@ -618,7 +627,7 @@ STR_FAMILY_EDIT = '家族構成編集画面';
 STR_CHART_SUMMAY = 'グラフ集計画面';
 
 // 正規表現
-STR_PATTEN_USER_BIRTHDAY = /\d{4}-\d{1,2}-\d{1,2}/;
+STR_PATTEN_DATE = /\d{4}-\d{1,2}-\d{1,2}/;
 STR_PATTEN_MAIL = /^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/;
 STR_PATTEN_TEL = /^[0-9\-]+$/;
 STR_PATTEN_POST_NUMBER = /^[0-9\-]+$/;
@@ -667,9 +676,13 @@ MASSAGE_PATTEN_USER_BIRTHDAY ='誕生日は日付形式で入力してくださ�
 MASSAGE_PATTEN_MAIL ='メールアドレスはアドレス形式で入力してください。\n';
 MASSAGE_PATTEN_TEL ='電話番号は数値とハイフン（-）で入力してください。\n';
 MASSAGE_PATTEN_POST_NUMBER ='郵便番号は数値とハイフン（-）で入力してください。\n';
+MASSAGE_PATTEN_DATE ='FROMおよびTOは日付形式で入力してください。\n';
 
 MASSAGE_PASSWORD_EQUAL = '入力されたパスワードとパスワード（再）の値が異なります。';
 MASSAGE_REG_OK = '登録に成功しました。\n管理者へ連絡してください。\n承認されるまでログインできません。';
+
+MASSAGE_ENTRY_FORMAT = '対象コンテンツはどちらか選択してください。';
+MASSAGE_ADD_CATEGORY = '対象評価はどちらか選択してください。';
 
 MARK_SPACE = " ";		// 半角スペース
 

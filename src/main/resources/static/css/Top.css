@@ -103,6 +103,10 @@ div {
 	width:		80px;
 	display:	inline-block;
 }
+.content_index .none_favorite_count {
+	width:		80px;
+	display:	inline-block;
+}
 .content_index .content_id {
 	display:	none;
 }
@@ -194,6 +198,10 @@ div {
 	hight:		0px;
 }
 .comment_area .favorite_count {
+	width:		80px;
+	display:	inline-block;
+}
+.comment_area .none_favorite_count {
 	width:		80px;
 	display:	inline-block;
 }

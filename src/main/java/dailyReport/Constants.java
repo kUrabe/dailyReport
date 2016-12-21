@@ -6,6 +6,9 @@ public class Constants {
 	public static final int FLAG_USER_AUTH_USER = 1;
 	public static final int FLAG_USER_AUTH_MASTER = 2;
 	public static final int FLAG_USER_STATUS_REG = 1;
+	public static final int FLAG_ENTRY_FORMAT_REPORT = 2;
+	public static final int FLAG_ENTRY_FORMAT_COMMENT = 4;
+	public static final int FLAG_ENTRY_FORMAT_REPORT_AND_COMMENT = 6;
 	
 	// パラメータ内のcrud判定用
 	public static final String STR_CREATE = "create";
@@ -108,6 +111,12 @@ public class Constants {
 	public static final String STR_QUERY_ORDER__REPOT_DATE = " ORDER BY ri.report_date, ri.content_id, ri.parent_content_id, ri.grand_parent_content_id";
 	public static final String STR_MIN_DATE = " AND ui.user_birthday <= ";
 	public static final String STR_MAX_DATE = " AND ui.user_birthday >= ";
+	public static final String STR_SEARCH_FROM_REPORT_DATE = " AND ri.report_date >= ";
+	public static final String STR_SEARCH_TO_REPORT_DATE = " AND ri.report_date <= ";
+	public static final String STR_ENTRY_FORMAT_REPORT = " AND ri.entry_format = 2";
+	public static final String STR_ENTRY_FORMAT_COMMENT = " AND ri.entry_format = 4";
+	public static final String STR_ENTRY_FORMAT_STR_ENTRY_FORMAT_REPORT_AND_COMMENT = " AND ri.entry_format IN(2, 4)";
+	public static final String STR_GRUOUP_BY_USER_ID = " GROUP BY ui.user_id";
 	
 	// その他定数
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -591,6 +600,47 @@ public class Constants {
 			+ " ui.user_sex LIKE ?3"
 			+ " AND"
 			+ " ui.user_authority <> 2"
-			;		
-				
+			;
+	
+	public static final String GET_CHART_RECORD = 
+			"SELECT"
+			+ " ui.user_name AS user_name"
+			+ ", COUNT(t_favorite_count.in_count) AS favorite_count"
+			+ ", COUNT(t_none_favorite_count.in_count) AS none_favorite_count"
+			+ " FROM"
+			+ " user_inf ui"
+			+ " LEFT JOIN"
+			+ " record_content_inf ri"
+			+ " ON"
+			+ " ui.user_id = ri.user_id"
+			+ " LEFT JOIN"
+			+ " (SELECT"
+			+ " ra.content_id AS content_id"
+			+ ", COUNT(ra.content_id) AS in_count"
+			+ " FROM"
+			+ " record_content_add ra"
+			+ " WHERE"
+			+ " ra.add_category = 2"
+			+ " AND"
+			+ " ra.category_status = 1"
+			+ " GROUP BY ra.content_id) AS t_favorite_count"
+			+ " ON"
+			+ " t_favorite_count.content_id = ri.content_id"
+			+ " LEFT JOIN"
+			+ " (SELECT ra.content_id AS content_id"
+			+ ", COUNT(ra.content_id) AS in_count"
+			+ " FROM"
+			+ " record_content_add ra"
+			+ " WHERE"
+			+ " ra.add_category = 4"
+			+ " AND"
+			+ " ra.category_status = 1"
+			+ " GROUP BY ra.content_id) AS t_none_favorite_count"
+			+ " ON"
+			+ " t_none_favorite_count.content_id = ri.content_id"
+			+ " WHERE"
+			+ " ui.user_authority = 1"
+			;
+
+
 }

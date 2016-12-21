@@ -710,17 +710,62 @@ AND
 
 SELECT ui.user_id AS user_id, ui.user_name AS user_name, ui.user_name_kana AS user_name_kana, ui.user_sex AS user_sex, ui.user_birthday AS user_birthday, ui.user_status AS user_status, cs.campany_id AS campany_id, cs.department_id AS department_id, cs.position_id AS position_id FROM user_inf ui LEFT JOIN company_status cs ON ui.user_id = cs.user_id WHERE ui.user_id = ?1 AND ui.user_name = ?2 AND ui.user_sex = ?3
 
+LEFT JOIN　campany_detail cd　ON　cs.campany_id = cd.campany_id　LEFT JOIN　department_detail dd　ON　cs.campany_id = dd.campany_id　LEFT JOIN　position_detail pd　ON　cs.campany_id = pd.campany_id
 
+
+
+
+
+グラフ描画用データ取得（基底部分）
+※クライアントからの入力値による追加部分は別途定義
+SELECT
+	 ui.user_name AS user_name
+	, COUNT(t_favorite_count.in_count) AS favorite_count
+	, COUNT(t_none_favorite_count.in_count) AS none_favorite_count
+FROM
+	user_inf ui
 LEFT JOIN
-	campany_detail cd
+	record_content_inf ri
 ON
-	cs.campany_id = cd.campany_id
+	ui.user_id = ri.user_id
 LEFT JOIN
-	department_detail dd
+	(
+		SELECT
+			 ra.content_id AS content_id
+			, COUNT(ra.content_id) AS in_count
+		FROM
+			record_content_add ra
+		WHERE
+			ra.add_category = 2
+		AND
+			ra.category_status = 1
+		GROUP BY
+			ra.content_id
+	) AS t_favorite_count
 ON
-	cs.campany_id = dd.campany_id
+	t_favorite_count.content_id = ri.content_id
 LEFT JOIN
-	position_detail pd
+	(
+		SELECT
+			 ra.content_id AS content_id
+			, COUNT(ra.content_id) AS in_count
+		FROM
+			record_content_add ra
+		WHERE
+			ra.add_category = 4
+		AND
+			ra.category_status = 1
+		GROUP BY
+			ra.content_id
+	) AS t_none_favorite_count
 ON
-	cs.campany_id = pd.campany_id
+	t_none_favorite_count.content_id = ri.content_id
+WHERE
+	ui.user_authority = 1
+
+GROUP BY ui.user_id
+
+
+SELECT ui.user_name AS user_name, COUNT(t_favorite_count.in_count) AS favorite_count, COUNT(t_none_favorite_count.in_count) AS none_favorite_count FROM user_inf ui LEFT JOIN record_content_inf ri ON ui.user_id = ri.user_id LEFT JOIN (SELECT ra.content_id AS content_id, COUNT(ra.content_id) AS in_count FROM record_content_add ra WHERE ra.add_category = 2 AND ra.category_status = 1 GROUP BY ra.content_id) AS t_favorite_count ON t_favorite_count.content_id = ri.content_id LEFT JOIN (SELECT ra.content_id AS content_id, COUNT(ra.content_id) AS in_count FROM record_content_add ra WHERE ra.add_category = 4 AND ra.category_status = 1 GROUP BY ra.content_id) AS t_none_favorite_count ON t_none_favorite_count.content_id = ri.content_id WHERE ui.user_authority = 1
+
 
