@@ -62,8 +62,13 @@ function ChartSummaryWindowDetail() {
 				// inputの形式がチェックボックスか判定する
 				if($(elem).prop("checked")) {
 					// チェックボックスだと判定
+					// 初めて当該キーに値をセットするか検証
+					if(jsonArray[$(elem).attr("class")] == undefined) {
+						// 初期として0をセットする
+						jsonArray[$(elem).attr("class")] = 0;
+					}
 					// 入力値を加算する
-					jsonArray[$(elem).attr("class")] += $(elem).val();
+					jsonArray[$(elem).attr("class")] += parseInt($(elem).val(), 10);
 				// チェックボックス以外か判定する
 				} else if($(elem).attr("type") != "checkbox") {
 					// チェックボックス出ないと判定
@@ -150,7 +155,7 @@ function ChartSummaryWindowDetail() {
 				if($(elem).prop("checked")) {
 					// チェックボックスだと判定
 					// 入力値を加算する
-					entry_format += $(elem).val();
+					entry_format += parseInt($(elem).val(), 10);
 				}
 			// add_categoryか検証
 			} else if(target == KEY_ADD_CATEGORY) {
@@ -158,7 +163,7 @@ function ChartSummaryWindowDetail() {
 				if($(elem).prop("checked")) {
 					// チェックボックスだと判定
 					// 入力値を加算する
-					add_category += $(elem).val();
+					add_category += parseInt($(elem).val(), 10);
 				}
 			}
 		});

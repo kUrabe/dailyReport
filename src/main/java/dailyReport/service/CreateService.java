@@ -364,7 +364,7 @@ public class CreateService {
 		// 作成したクエリを実行し、必要なデータを取得する
 		@SuppressWarnings("unchecked")
 		List<ChartViewRecord> content = entityManager
-				.createNativeQuery(query, "getUserBaseInfQuery")
+				.createNativeQuery(query, "chartViewRecord")
 				.getResultList();
 		
 		// 取得した情報を返す
