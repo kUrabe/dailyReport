@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>グラフ集計画面</title>
+  <!-- Top画面用CSSを読み込む。 -->
+  <link href="../css/chart_view.css" rel="stylesheet" type="text/css" />
+  <!-- Queryの本体を読み込む。 -->
+  <script src="../js/jquery-1.11.0.min.js"></script>
+  <!-- jQueryUIを読み込む。 -->
+  <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+  <!-- chart.jsの本体を読み込む。 -->
+  <script src="../js/chart.js"></script>
+  <!-- 定数クラスを読み込む。 -->
+  <script src="../js/Constants.js"></script>
+  <!-- 基底画面クラスを読み込む。 -->
+  <script src="../js/BaseWindow.js"></script>
+  <!-- 画面描画クラスを読み込む。 -->
+  <script src="../js/WindowDesign.js"></script>
+  <!-- 作成画面クラスを読み込む。 -->
+  <script src="../js/CreateWindowsDetail.js"></script>
+  <!-- グラフ画面用クラスを読み込む。 -->
+  <script src="../js/ChartSummaryWindowDetail.js"></script>
+</head>
+
+<body style="visibility:hidden">
+
+
+<div class="main">
+	
+<div class="leftMenu">
+	<div class="searchArea">
+		<p class="searchIndex">FROM</p>
+		<input class="serach_from_date" type="date"></input>
+		<p class="searchIndex">TO</p>
+		<input class="serach_to_date" type="date"></input>
+		<p class="searchIndex">対象コンテンツ</p>
+		<input type="checkbox" class="entry_format" value="2" checked="checked">日報</input><span>日報</span>
+		<input type="checkbox" class="entry_format" value="4" checked="checked">コメント</input><span>コメント</span>
+		<p class="searchIndex">対象評価</p>
+		<input type="checkbox" class="add_category" value="2" checked="checked"></input><span>いいね</span>
+		<input type="checkbox" class="add_category" value="4" checked="checked"></input><span>わるいね</span>
+		<br />
+		<button class="b_chart_view">グラフ表示</button>
+	</div>
+</div>
+
+<div class="topMenu">
+	<p>グラフ集計画面</p>
+	<div><button class="b_cancel">戻る</button></div>
+</div>
+
+<div class="mainMenu">
+	<div class="content_area">
+		<div class="serach_message"></div>
+		<canvas class="vewi_area"></canvas>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+	setTimeout(function() {
+		// ユーザ一覧用のインスタンスを生成する
+		thisElem = new ChartSummaryWindowDetail();
+		// 初期化処理を実行する
+		thisElem.createChartSummaryWindow();
+	}, 200);
+</script>
+
+</body>
+
+</html>

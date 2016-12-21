@@ -305,6 +305,14 @@ function WindowDesign() {
 					// ユーザいいねをした状態であればクラス名にフラグ名を追加する
 					this.changeButtonStatus($(selector).children(SELECTOR_B_FAVORITE), $(selector).children(SELECTOR_B_FAVORITE).val(), $_contentIndex.children(SELECTOR_FAVARITE_STATUS).text());
 					
+					// わるいねボタンを追加する
+					$(selector).append(TAG_NONE_FAVORITE_BUTTON);
+					// わるいねボタンのイベントを登録する
+					this.setClickEvent($(selector).children(SELECTOR_B_NONE_FAVORITE), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
+					// ユーザわるいねをした状態であればクラス名にフラグ名を追加する
+					this.changeButtonStatus($(selector).children(SELECTOR_B_NONE_FAVORITE), $(selector).children(SELECTOR_B_NONE_FAVORITE).val(), $_contentIndex.children(SELECTOR_NONE_FAVARITE_STATUS).text());
+					
+					
 					// 未読にするボタンを追加する
 					$(selector).append(TAG_NO_READ_BUTTON);
 					// 未読にするボタンのイベントを登録する
@@ -321,6 +329,14 @@ function WindowDesign() {
 				this.setClickEvent($(selector).children(SELECTOR_B_FAVORITE), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
 				// ユーザいいねをした状態であればクラス名にフラグ名を追加する
 				this.changeButtonStatus($(selector).children(SELECTOR_B_FAVORITE), $(selector).children(SELECTOR_B_FAVORITE).val(), $_contentIndex.children(SELECTOR_FAVARITE_STATUS).text());
+
+				// わるいねボタンを追加する
+				$(selector).append(TAG_NONE_FAVORITE_BUTTON);
+				// わるいねボタンのイベントを登録する
+				this.setClickEvent($(selector).children(SELECTOR_B_NONE_FAVORITE), this.clickAddContentButton, $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX), $(selector).parent().parent(SELECTOR_PARENT_AREA).children(SELECTOR_CONTENT_INDEX));
+				// ユーザわるいねをした状態であればクラス名にフラグ名を追加する
+				this.changeButtonStatus($(selector).children(SELECTOR_B_NONE_FAVORITE), $(selector).children(SELECTOR_B_NONE_FAVORITE).val(), $_contentIndex.children(SELECTOR_NONE_FAVARITE_STATUS).text());
+
 				
 				// 未読にするボタンを追加する
 				$(selector).append(TAG_NO_READ_BUTTON);
@@ -489,6 +505,14 @@ function WindowDesign() {
 							this.setClickEvent($_blockSelector.children(SELECTOR_B_FAVORITE), this.clickAddContentButton, null, $_blockSelector);
 							// ユーザいいねをした状態であればクラス名にフラグ名を追加する
 							$_blockSelector.children(SELECTOR_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_FAVORITE).addClass(KEY_F_ON) : "";
+
+							// わるいねボタンを追加する
+							$_blockSelector.append(TAG_NONE_FAVORITE_BUTTON_COMMENT);
+							// わるいねボタンのイベントを登録する
+							this.setClickEvent($_blockSelector.children(SELECTOR_B_NONE_FAVORITE), this.clickAddContentButton, null, $_blockSelector);
+							// ユーザわるいねをした状態であればクラス名にフラグ名を追加する
+							$_blockSelector.children(SELECTOR_NONE_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $_blockSelector.children(SELECTOR_B_NONE_FAVORITE).addClass(KEY_F_ON) : "";
+
 							
 							// 未読にするボタンを追加する
 							$_blockSelector.append(TAG_NO_READ_BUTTON_COMMENT);

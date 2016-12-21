@@ -1,0 +1,114 @@
+@CHARSET "UTF-8";
+
+body {
+	font-size: 11px;		/* フォントサイズを11ptにする */
+    line-height:1.4;        /* 1行の間を1.4行分にする */
+	font-family: 'Osaka', 'メイリオ', 'ＭＳ Ｐゴシック';		/* font-familyを指定 */
+	color: #555;			/* ベースのフォントカラー */
+    background: white;  	/* 背景色を白にする。 */
+}
+
+div {
+	border:		1px solid #AAA;
+}
+
+/* 画面全体の領域 */
+.main {
+	width:		674px;
+	height:		372px;
+	display:	inline;
+	left:		145px;
+	display:	inline;
+}
+/* 画面上部メニュー領域 */
+.topMenu {
+	float:		top;
+	width:		528px;
+	height:		36px;
+	display:	inline;
+	left:		145px;
+}
+
+/* 画面左部メニュー領域（検索領域） */
+.leftMenu {
+	float:		left;
+	width:		144px;
+	height:		370px;
+	display:	inline-block;
+}
+
+/* 画面メインコンテンツ領域 */
+.mainMenu {
+	float:		left;
+	/*width:		528px;*/
+	/*height:		560px;*/
+	display:	inline-block;
+	left:		145px;
+	top:		37px;
+}
+
+/* 検索領域 */
+.searchArea {
+	margin-top:	32px;
+	height:		204px;
+}
+
+/* index_line配下のdiv幅 */
+.index_line div {
+	width:		80px;
+	display:	inline-block;
+}
+/* blockArea配下のdiv幅 */
+.blockArea {
+	position: relative;
+}
+/* blockArea配下のspan幅 */
+.blockArea span {
+	width:		50px;
+	border:		1px solid #AAA;
+}
+
+
+
+/* blockArea配下の表示・非表示項目 */
+.blockArea .user_id {
+	display:	none;
+}
+.blockArea .user_name {
+	width:		80px;
+	display:	inline-block;
+}
+.blockArea .user_birthday {
+	width:		80px;
+	display:	inline-block;
+}
+.blockArea .user_sex {
+	width:		80px;
+	display:	inline-block;
+}
+.blockArea .campany_id {
+	display:	none;
+}
+.blockArea .campany_title {
+	width:		80px;
+	display:	inline-block;
+}
+.blockArea .department_id {
+	display:	none;
+}
+.blockArea .department_title {
+	width:		80px;
+	display:	inline-block;
+}
+.blockArea .position_id {
+	display:	none;
+}
+.blockArea .position_title {
+	width:		80px;
+	display:	inline-block;
+}
+.blockArea .user_status {
+	width:		80px;
+	display:	inline-block;
+}
+

@@ -127,6 +127,9 @@ div {
 .content_index .favorite_status {
 	display:	none;
 }
+.content_index .none_favorite_status {
+	display:	none;
+}
 /* content_index配下（日報概要内）の表示・非表示項目 */
 .content_detail .blockArea .content_id {
 	display:	none;
@@ -148,6 +151,10 @@ div {
 
 /* いいねボタンの登録状況 いいねしている状態（赤くする） */
 .b_favorite.f-on {
+	color:	red;
+}
+/* わるいねボタンの登録状況 いいねしている状態（赤くする） */
+.b_none_favorite.f-on {
 	color:	red;
 }
 /* 未読にするボタンの登録状況 未読状態で押せない */
@@ -177,7 +184,7 @@ div {
 	display:	inline-block;
 }
 .comment_area .main_text {
-	width:		490px;
+	width:		570px;
 	display:	block;
 	overflow:	hidden; 	/* はみ出した文字を隠す。 */
 	white-space:nowrap; 	/* 改行・連続するスペースを無視する。 */
@@ -212,6 +219,9 @@ div {
 	display:	none;
 }
 .comment_area .favorite_status {
+	display:	none;
+}
+.comment_area .none_favorite_status {
 	display:	none;
 }
 /* コメント1行分の領域。インライン定義 */

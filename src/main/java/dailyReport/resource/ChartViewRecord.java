@@ -6,12 +6,12 @@ import java.util.Date;
 import dailyReport.Constants;
 
 /**
- * クラス名：	TopSearchContentSummary
- * 概要：		Top画面の情報表示用のサマリークラス
- * 作成日：	2016/11/29
+ * クラス名：	TopCommentContent
+ * 概要：		Top画面のコメント概要と内容
+ * 作成日：	2016/12/04
  * 作成者：	k.urabe
  */
-public class TopSearchContentSummary {
+public class ChartViewRecord {
 
 	private String report_date;				// 報告日マッピング
 	private int content_id;				// コンテンツIDマッピング
@@ -27,11 +27,10 @@ public class TopSearchContentSummary {
 	private int comment_count;			// コメントカウント数マッピング
 	private int favorite_count;			// いいねカウント数マッピング
 	private int favorite_status;		// ログインユーザが対象コンテンツにいいねを付けているか
-	private int none_favorite_count;	// わるいねカウント数マッピング
-	private int none_favorite_status;	// ログインユーザが対象コンテンツにわるいねを付けているか
+	private String main_text;			// コメントの内容をマッピングう
 	
 	// コンストラクタ（引数あり）
-	public TopSearchContentSummary(
+	public ChartViewRecord(
 			Date report_date,
 			int content_id,
 			String user_id,
@@ -46,8 +45,7 @@ public class TopSearchContentSummary {
 			Object comment_count,
 			Object favorite_count,
 			Object favorite_status,
-			Object none_favorite_count,
-			Object none_favorite_status
+			String main_text
 			) {
 
 		this.report_date = new SimpleDateFormat(Constants.DATE_FORMAT).format(report_date);
@@ -64,8 +62,7 @@ public class TopSearchContentSummary {
 		this.comment_count = comment_count == null ? 0 : new Integer(comment_count.toString());
 		this.favorite_count = favorite_count == null ? 0 : new Integer(favorite_count.toString());
 		this.favorite_status = favorite_status == null ? 2 : new Integer(favorite_status.toString());
-		this.none_favorite_count = none_favorite_count == null ? 0 : new Integer(none_favorite_count.toString());
-		this.none_favorite_status = none_favorite_status == null ? 2 : new Integer(none_favorite_status.toString());
+		this.main_text = main_text;
 	}
 	
 	// コンストラクタ（引数なし）
@@ -166,20 +163,12 @@ public class TopSearchContentSummary {
 		this.favorite_status = favorite_status;
 	}
 
-	public int getNone_favorite_count() {
-		return none_favorite_count;
+	public String getMain_text() {
+		return main_text;
 	}
 
-	public void setNone_favorite_count(int none_favorite_count) {
-		this.none_favorite_count = none_favorite_count;
-	}
-
-	public int getNone_favorite_status() {
-		return none_favorite_status;
-	}
-
-	public void setNone_favorite_status(int none_favorite_status) {
-		this.none_favorite_status = none_favorite_status;
+	public void setMain_text(String main_text) {
+		this.main_text = main_text;
 	}
 	
 }

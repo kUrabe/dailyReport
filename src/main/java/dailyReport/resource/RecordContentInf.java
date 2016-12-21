@@ -34,7 +34,9 @@ import javax.persistence.*;
 							@ColumnResult(name = "read_status"),
 							@ColumnResult(name = "comment_count"),
 							@ColumnResult(name = "favorite_count"),
-							@ColumnResult(name = "favorite_status")
+							@ColumnResult(name = "favorite_status"),
+							@ColumnResult(name = "none_favorite_count"),
+							@ColumnResult(name = "none_favorite_status")
 					}
 			)
 	),
@@ -57,6 +59,8 @@ import javax.persistence.*;
 							@ColumnResult(name = "comment_count"),
 							@ColumnResult(name = "favorite_count"),
 							@ColumnResult(name = "favorite_status"),
+							@ColumnResult(name = "none_favorite_count"),
+							@ColumnResult(name = "none_favorite_status"),
 							@ColumnResult(name = "main_text")
 					}
 			)

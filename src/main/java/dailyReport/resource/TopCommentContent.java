@@ -27,6 +27,8 @@ public class TopCommentContent {
 	private int comment_count;			// コメントカウント数マッピング
 	private int favorite_count;			// いいねカウント数マッピング
 	private int favorite_status;		// ログインユーザが対象コンテンツにいいねを付けているか
+	private int none_favorite_count;	// わるいねカウント数マッピング
+	private int none_favorite_status;	// ログインユーザが対象コンテンツにわるいねを付けているか
 	private String main_text;			// コメントの内容をマッピングう
 	
 	// コンストラクタ（引数あり）
@@ -45,6 +47,8 @@ public class TopCommentContent {
 			Object comment_count,
 			Object favorite_count,
 			Object favorite_status,
+			Object none_favorite_count,
+			Object none_favorite_status,
 			String main_text
 			) {
 
@@ -62,6 +66,8 @@ public class TopCommentContent {
 		this.comment_count = comment_count == null ? 0 : new Integer(comment_count.toString());
 		this.favorite_count = favorite_count == null ? 0 : new Integer(favorite_count.toString());
 		this.favorite_status = favorite_status == null ? 2 : new Integer(favorite_status.toString());
+		this.none_favorite_count = none_favorite_count == null ? 0 : new Integer(none_favorite_count.toString());
+		this.none_favorite_status = none_favorite_status == null ? 2 : new Integer(none_favorite_status.toString());
 		this.main_text = main_text;
 	}
 	
@@ -169,6 +175,22 @@ public class TopCommentContent {
 
 	public void setMain_text(String main_text) {
 		this.main_text = main_text;
+	}
+
+	public int getNone_favorite_count() {
+		return none_favorite_count;
+	}
+
+	public void setNone_favorite_count(int none_favorite_count) {
+		this.none_favorite_count = none_favorite_count;
+	}
+
+	public int getNone_favorite_status() {
+		return none_favorite_status;
+	}
+
+	public void setNone_favorite_status(int none_favorite_status) {
+		this.none_favorite_status = none_favorite_status;
 	}
 	
 }

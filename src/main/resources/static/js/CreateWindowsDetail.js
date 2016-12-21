@@ -838,6 +838,7 @@ function CreateWindowsDetail() {
 		$(SELECTOR_PARENT_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_PARENT_CONTENT_ID).text());
 		$(SELECTOR_CONTENT_ID).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_CONTENT_ID).text());
 		$(SELECTOR_FAVORITE_COUNT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_FAVORITE_COUNT).text());
+		$(SELECTOR_NONE_FAVORITE_COUNT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_NONE_FAVORITE_COUNT).text());
 		$(SELECTOR_READ_COUNT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_READ_COUNT).text());
 		$(SELECTOR_MAIN_TEXT).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_MAIN_TEXT).text());
 		$(SELECTOR_USER_NAME).text(this.parentWindow.$(parentWindowDate).children(SELECTOR_USER_NAME).text());
@@ -863,6 +864,8 @@ function CreateWindowsDetail() {
 			$(SELECTOR_B_NO_READ).addClass(SRT_SHOW_HIDE);
 			// いいねボタンを非表示にする。
 			$(SELECTOR_B_FAVORITE).addClass(SRT_SHOW_HIDE);
+			// わるいねボタンを非表示にする。
+			$(SELECTOR_B_NONE_FAVORITE).addClass(SRT_SHOW_HIDE);
 			
 			
 		} else {
@@ -870,20 +873,23 @@ function CreateWindowsDetail() {
 			// 他人用のボタンイベントを登録する
 			// 未読にするボタンのイベントを登録する
 			this.setClickEvent(SELECTOR_B_NO_READ, this.clickAddContentButton, null, this.parentWindow.$(parentWindowDate), MESSAGE_COMMENT_NOREAD);
-			// 未読にするが押された状態（未読状態）であればボタンを無効化する
-			//$(parentWindowDate).children(SELECTOR_READ_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $(SELECTOR_B_NO_READ).prop("disabled", true) : $(SELECTOR_B_NO_READ).prop("disabled", false);
-			//this.changeButtonStatus($(SELECTOR_B_NO_READ), $(SELECTOR_B_NO_READ).val(), $(parentWindowDate).children(SELECTOR_READ_STATUS).text());
 			// いいねボタンのイベントを登録する
 			this.setClickEvent(SELECTOR_B_FAVORITE, this.clickAddContentButton, null, this.parentWindow.$(parentWindowDate));
 			// ユーザいいねをした状態であればクラス名にフラグ名を追加する
-			//$(parentWindowDate).children(SELECTOR_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? $(SELECTOR_B_FAVORITE).addClass(KEY_F_ON) : "";
 			this.changeButtonStatus($(SELECTOR_B_FAVORITE), $(SELECTOR_B_FAVORITE).val(), $(parentWindowDate).children(SELECTOR_FAVARITE_STATUS).text());
+			// わるいねボタンのイベントを登録する
+			this.setClickEvent(SELECTOR_B_NONE_FAVORITE, this.clickAddContentButton, null, this.parentWindow.$(parentWindowDate));
+			// ユーザわるいねをした状態であればクラス名にフラグ名を追加する
+			this.changeButtonStatus($(SELECTOR_B_NONE_FAVORITE), $(SELECTOR_B_NONE_FAVORITE).val(), $(parentWindowDate).children(SELECTOR_NONE_FAVARITE_STATUS).text());
 
+			
 			// 未読にするボタンのイベント後に、親の所定位置から値を取得するようにする。
 			this.getChangeParentItem(SELECTOR_B_NO_READ, SELECTOR_READ_COUNT, SELECTOR_READ_COUNT);
 			// いいねボタンのイベント後に、親の所定位置から値を取得するようにする。
 			this.getChangeParentItem(SELECTOR_B_FAVORITE, SELECTOR_FAVORITE_COUNT, SELECTOR_FAVORITE_COUNT);
 
+			// わるいねボタンのイベント後に、親の所定位置から値を取得するようにする。
+			this.getChangeParentItem(SELECTOR_B_NONE_FAVORITE, SELECTOR_NONE_FAVORITE_COUNT, SELECTOR_NONE_FAVORITE_COUNT);
 
 			// 不要なボタンを非表示にする。
 			// 編集ボタンを非表示にする

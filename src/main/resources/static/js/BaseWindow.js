@@ -217,8 +217,8 @@ function BaseWindow() {
 	 */
 	this.changeButtonStatus = function(target, category, value) {
 		
-		// 押下されボタンの機能を検証する（いいねボタンであるか検証する）
-		if(FLAG_ADD_CATEGORY_FAVORITE & category) {
+		// 押下されボタンの機能を検証する（いいねもしくはわるいねボタンであるか検証する）
+		if(FLAG_ADD_CATEGORY_FAVORITE & category || FLAG_ADD_CATEGORY_NONE_FAVORITE & category) {
 			// いいねが登録状態であるか検証する
 			if(FLAG_CATEGORY_STATUS_REG & value) {
 				// 登録状態のクラス名を付与する
@@ -410,9 +410,12 @@ function BaseWindow() {
 		if(add_category & FLAG_ADD_CATEGORY_NOREAD) {
 			// 未読にするボタンが押下されているため、登録状態を取得する
 			category_status = $(valueTarget).children(SELECTOR_READ_STATUS).text() == STR_READ_ON ? FLAG_CATEGORY_STATUS_REG : FLAG_CATEGORY_STATUS_DEL;
-		} else {
+		} else if(add_category & FLAG_ADD_CATEGORY_FAVORITE) {
 			// いいねボタンが押下されているため、登録状態を取得する
 			category_status = $(valueTarget).children(SELECTOR_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? FLAG_CATEGORY_STATUS_REG : FLAG_CATEGORY_STATUS_DEL
+		} else if(add_category & FLAG_ADD_CATEGORY_NONE_FAVORITE) {
+			// わるいねボタンが押下されているため、登録状態を取得する
+			category_status = $(valueTarget).children(SELECTOR_NONE_FAVARITE_STATUS).text() == FLAG_CATEGORY_STATUS_REG ? FLAG_CATEGORY_STATUS_REG : FLAG_CATEGORY_STATUS_DEL
 		}
 		// 取得した各値を処理振り分け用の関数に渡す
 		thisElem.addContentBranch(content_id, add_category, category_status, valueTarget, selector);
@@ -487,6 +490,14 @@ function BaseWindow() {
 			changeValue = addCount == -1 ? STR_READ_OFF : STR_READ_ON;
 			// ユーザが既読なのかのフラグを格納するセレクタ
 			changeValueSelector = SELECTOR_READ_STATUS;
+		// 機能がわるいねか検証
+		} else if(FLAG_ADD_CATEGORY_NONE_FAVORITE & add_category) {
+			// 集計数へのセレクタをセットする
+			addCountSelector = SELECTOR_NONE_FAVORITE_COUNT;
+			// ユーザがわるいねしているかのフラグ(addCountが-1ということは削除となるので、いいねをしていないフラグとして0をセット)
+			changeValue = addCount == -1 ? FLAG_CATEGORY_STATUS_DEL : FLAG_CATEGORY_STATUS_REG;
+			// ユーザがいいねしているかのフラグを格納するセレクタ
+			changeValueSelector = SELECTOR_NONE_FAVARITE_STATUS;
 		}
 		
 		// TODO:【セレクタ】行単位は引数でまかなえるが、項目単位のセレクタを判定する必要がある
@@ -615,6 +626,12 @@ function BaseWindow() {
 			path = PATH_USER_WINDOW_FAMILY;
 			// 画面名をセットする
 			name = STR_FAMILY_EDIT;
+		// グラフ表示画面ならば
+		} else if(button_type === KEY_B_CHART_SUMMARY) {
+			// ユーザ編集画面のpathをセットする
+			path = PATH_CHART_VIEW;
+			// 画面名をセットする
+			name = STR_CHART_SUMMAY;
 		} else {
 			// コメント詳細画面のpathをセットする
 			path = PATH_COMMENT_VIEW;

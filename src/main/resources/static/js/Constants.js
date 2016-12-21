@@ -32,6 +32,7 @@ FLAG_CATEGORY_STATUS_REG = 1;				// record_content_addテーブルの登録状�
 FLAG_CATEGORY_STATUS_DEL = 2;				// record_content_addテーブルの削除状態を表す
 FLAG_ADD_CATEGORY_NOREAD = 1;				// record_content_addテーブルの未読機能（既読状態）
 FLAG_ADD_CATEGORY_FAVORITE = 2;				// record_content_addテーブルのいいね機能
+FLAG_ADD_CATEGORY_NONE_FAVORITE = 4;		// record_content_addテーブルのわるいね機能
 FLAG_ENTRY_STATUS_NOTE = 1;					// record_content_infテーブルの下書状態を表す
 FLAG_ENTRY_STATUS_REG = 2;					// record_content_infテーブルの登録状態を表す
 FLAG_ENTRY_STATUS_DEL = 4;					// record_content_infテーブルの削除状態を表す
@@ -80,6 +81,8 @@ KEY_PARENT_CONTENT_ID = 'parent_content_id';
 
 KEY_FAVORITE_COUNT = 'favorite_count';		// いいね集計項目のセレクタ
 KEY_FAVARITE_STATUS = 'favorite_status';		// 対象記事に対してその人がいいねを付けているか。1は付けてる。0は付けてない
+KEY_NONE_FAVORITE_COUNT = 'none_favorite_count';		// わるいね集計項目のセレクタ
+KEY_NONE_FAVARITE_STATUS = 'none_favorite_status';		// 対象記事に対してその人がわるいねを付けているか。1は付けてる。0は付けてない
 
 KEY_SRC = 'src';								// src属性
 KEY_DISABLED = 'disabled';						// disabled属性
@@ -96,6 +99,12 @@ KEY_DISPLAY = 'display';						// display属性
 KEY_DISABLED = 'disabled';						// disabled属性
 KEY_BUTTON = 'button';							// button要素
 KEY_PARENT_AREA = 'blockArea';					// ボタンからみた親要素を囲むセレクタ(.report_areaやcomment_areaの中で、1行ごとにこれで囲む)
+
+KEY_B_CHART_SUMMARY = 'b_chart_summary';		// Top画面のグラフ集計画面へのボタン名
+KEY_B_CHART_VIEW = 'b_chart_view';				// グラフ集計画面の検索ボタン名
+KEY_VIEW_AREA = 'vewi_area';					// グラフ描画エリアのクラス名
+
+
 
 KEY_SERACH_FROM_DATE = 'serach_from_date';		// 検索領域のfrom
 KEY_SERACH_TO_DATE = 'serach_to_date';			// 検索領域のto
@@ -203,6 +212,8 @@ SELECTOR_CONTENT_ID = '.content_id';				// コンテンツIDを管理するセ�
 SELECTOR_TEMP_CONTENT_ID = '.temp_content_id';		// テンプレート用コンテンツIDを管理するセレクタ	
 SELECTOR_FAVORITE_COUNT = '.favorite_count';		// いいね集計項目のセレクタ
 SELECTOR_FAVARITE_STATUS = '.favorite_status';		// 対象記事に対してその人がいいねを付けているか。1は付けてる。0は付けてない
+SELECTOR_NONE_FAVORITE_COUNT = '.none_favorite_count';		// わるいね集計項目のセレクタ
+SELECTOR_NONE_FAVARITE_STATUS = '.none_favorite_status';		// 対象記事に対してその人がわるいねを付けているか。1は付けてる。0は付けてない
 SELECTOR_READ_COUNT = '.read_count';				// 既読集計項目のセレクタ
 SELECTOR_ENTRY_STATUS = '.entry_status';			// コンテンツの登録状態（下書、登録、削除）を管理するセレクタ
 SELECTOR_ENTRY_FORMAT = '.entry_format';			// コンテンツの登録様式
@@ -235,6 +246,10 @@ SELECTOR_LOGIN_ID = '.login_id';
 SELECTOR_LOGIN_PASSWORD = '.login_password';
 SELECTOR_LOGIN_PASSWORD_SAI = '.login_password_sai';
 SELECTOR_USER_BIRTHDAY = '.user_birthday';
+
+SELECTOR_B_CHART_SUMMARY = '.b_chart_summary';		// Top画面のグラフ集計画面へのボタン名
+SELECTOR_B_CHART_VIEW = '.b_chart_view';			// グラフ集計画面の検索ボタン名
+SELECTOR_VIEW_AREA = '.vewi_area';					// グラフ描画エリアのクラス名
 
 
 // ユーザ一覧・編集画面系（以下のボタン以外は、他画面の名称を流用）
@@ -284,6 +299,7 @@ SELECTOR_B_NEW_COMMENT = '.b_new_comment';		// コメントするボタン
 SELECTOR_B_CLOSE = '.b_close';					// 閉じる（アコーディオン）ボタン
 SELECTOR_B_NO_READ = '.b_no_read';				// 未読にするボタン
 SELECTOR_B_FAVORITE = '.b_favorite';			// いいねボタン
+SELECTOR_B_NONE_FAVORITE = '.b_none_favorite';	// わるいねボタン
 SELECTOR_B_EDIT = '.b_edit';					// 編集ボタン
 SELECTOR_B_COMMENT_EDIT='.b_comment_edit';			// 編集ボタン機能（コメント編集）
 SELECTOR_B_DELETE = '.b_delete';				// 削除ボタン
@@ -361,6 +377,7 @@ PATH_LOGOUT = "/logout";									// ログアウトのリクエストパス
 PATH_REPORT_CREATE = '/createWindow/report_create.html';			// 日報作成画面のPATH
 PATH_COMMENT_CREATE = '/createWindow/comment_create.html';		// コメント作成画面のPATH
 PATH_COMMENT_VIEW = '/createWindow/comment_view.html';			// コメント詳細画面のPATH
+PATH_CHART_VIEW = '/createWindow/chart_view.html';				// グラフ表示詳細画面のPATH
 
 PATH_USER_GET_BASE_INF = '/user/getBaseInf';					// ユーザ編集画面（ユーザ指定時）開いた際のベース情報取得
 PATH_USER_GET_ADD_INF = '/user/getAddInf';						// ユーザ編集画面（ユーザ指定時）開いた際の追加（ユーザに対して複数紐付く）情報取得
@@ -392,14 +409,14 @@ TAG_TOP_TABLE_START ='<table class="">';								// tableの開始タグ
 TAG_TOP_TABLE_END = '</table>';
 
 // トップ画面 日報概要の見出し
-TAG_REPORT_INDEX_LINE = '<div class="index_line"><div>報告日</div><div>報告者</div><div>既読者</div><div>ステータス</div><div>コメント数</div><div>いいね数</div></div>';
+TAG_REPORT_INDEX_LINE = '<div class="index_line"><div>報告日</div><div>報告者</div><div>既読者</div><div>ステータス</div><div>コメント数</div><div>いいね数</div><div>わるいね数</div></div>';
 // トップ画面 コメントの概要の見出し
-TAG_COMMENT_INDEX_LINE = '<div class="index_line"><div>投稿日</div><div>投稿者</div><div>既読者</div><div>ステータス</div><div>コメント数</div><div>いいね数</div></div>';
+TAG_COMMENT_INDEX_LINE = '<div class="index_line"><div>投稿日</div><div>投稿者</div><div>既読者</div><div>ステータス</div><div>コメント数</div><div>いいね数</div><div>わるいね数</div></div>';
 
 // トップ画面日報概要の見出し
-TAG_REPORT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div><div class="favorite_status" name="favorite_status"></div>';
+TAG_REPORT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div><div class="favorite_status" name="favorite_status"><div class="none_favorite_count" name="none_favorite_count"></div><div class="none_favorite_status" name="none_favorite_status"></div>';
 // トップ画面コメント1行分の見出し
-TAG_COMMENT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div><div class="favorite_status" name="favorite_status"></div><div class="main_text" name="main_text"></div>';
+TAG_COMMENT_LINE = '<div class="report_date" name="reportDate"></div><div class="content_id" name="contentId"></div><div class="user_id" name="userId"></div><div class="user_name" name="userName"></div><div class="entry_format" name="entryFormat"></div><div class="entry_status" name="entryStatus"></div><div class="base_parent_content_id" name="baseParentContentId"></div><div class="grand_parent_content_id" name="grandParentContentId"></div><div class="parent_content_id" name="parentContentId"></div><div class="read_count" name="read_count"></div><div class="read_status" name="read_status"></div><div class="comment_count" name="comment_count"></div><div class="favorite_count" name="favorite_count"></div><div class="favorite_status" name="favorite_status"><div class="none_favorite_count" name="none_favorite_count"></div><div class="none_favorite_status" name="none_favorite_status"></div><div class="main_text" name="main_text"></div>';
 
 
 // トップ画面日報詳細の1レコード文
@@ -426,8 +443,10 @@ TAG_REPORT_AREA_END = '</table>';
 TAG_EDIT_BUTTON = '<button type="button" class="b_edit" value="b_edit">編集</button>';	// 編集ボタン
 TAG_DELETE_BUTTON = '<button type="button" class="b_delete" value="b_delete">削除</button>';	// 削除ボタン
 TAG_FAVORITE_BUTTON = '<button type="button" class="b_favorite" value="2">いいね</button>';	// いいねボタン(日報用)
+TAG_NONE_FAVORITE_BUTTON = '<button type="button" class="b_none_favorite" value="4">わるいね</button>';	// わるいねボタン(日報用)
 TAG_NO_READ_BUTTON = '<button type="button" class="b_no_read" value="1">未読にする</button>';	// 未読にするボタン(日報用)
 TAG_FAVORITE_BUTTON_COMMENT = '<button type="button" class="b_favorite" value="2" style="display:none">いいね</button>';	// いいねボタン(コメント用)
+TAG_NONE_FAVORITE_BUTTON_COMMENT = '<button type="button" class="b_none_favorite" value="4" style="display:none">わるいね</button>';	// いいねボタン(コメント用)
 TAG_NO_READ_BUTTON_COMMENT = '<button type="button" class="b_no_read" value="1" style="display:none">未読にする</button>';	// 未読にするボタン(コメント用)
 TAG_NEW_COMMENT_BUTTON = '<button type="button" class="b_new_comment" value="b_new_comment">コメントする</button>';	// コメントするボタン
 TAG_ACCORDION_BUTTON = '<button type="button" class="b_accordion">閉じる</button>';	// ボタン
@@ -596,6 +615,7 @@ STR_REPORT_CREATE = '日報作成画面';
 STR_USER_EDIT = 'ユーザ編集画面';
 STR_USER_LIST = 'ユーザ一覧画面';
 STR_FAMILY_EDIT = '家族構成編集画面';
+STR_CHART_SUMMAY = 'グラフ集計画面';
 
 // 正規表現
 STR_PATTEN_USER_BIRTHDAY = /\d{4}-\d{1,2}-\d{1,2}/;

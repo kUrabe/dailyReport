@@ -158,6 +158,9 @@ function TopWindowDetail() {
 		this.setClickEvent(SELECTOR_B_SERACH, this.clickSearchButton);
 		// 新規日報ボタンのイベントを登録する
 		this.setClickEvent(SELECTOR_B_NEW_REPORT, this.prepareAnotherWindow, null, null);
+		// グラフ表示画面ボタンのイベントを登録する
+		this.setClickEvent(SELECTOR_B_CHART_SUMMARY, this.clickSearchButton);
+		
 		
 		// ログインユーザが管理者であるか検証する
 		if(this.getUserAuth() == STR_SUCCESS) {
