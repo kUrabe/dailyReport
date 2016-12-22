@@ -720,8 +720,8 @@ LEFT JOIN　campany_detail cd　ON　cs.campany_id = cd.campany_id　LEFT JOIN�
 ※クライアントからの入力値による追加部分は別途定義
 SELECT
 	 ui.user_name AS user_name
-	, COUNT(t_favorite_count.in_count) AS favorite_count
-	, COUNT(t_none_favorite_count.in_count) AS none_favorite_count
+	, SUM(t_favorite_count.in_count) AS favorite_count
+	, SUM(t_none_favorite_count.in_count) AS none_favorite_count
 FROM
 	user_inf ui
 LEFT JOIN
@@ -763,9 +763,15 @@ ON
 WHERE
 	ui.user_authority = 1
 
+ AND ri.report_date >= '2016-12-15'
+
 GROUP BY ui.user_id
 
 
 SELECT ui.user_name AS user_name, COUNT(t_favorite_count.in_count) AS favorite_count, COUNT(t_none_favorite_count.in_count) AS none_favorite_count FROM user_inf ui LEFT JOIN record_content_inf ri ON ui.user_id = ri.user_id LEFT JOIN (SELECT ra.content_id AS content_id, COUNT(ra.content_id) AS in_count FROM record_content_add ra WHERE ra.add_category = 2 AND ra.category_status = 1 GROUP BY ra.content_id) AS t_favorite_count ON t_favorite_count.content_id = ri.content_id LEFT JOIN (SELECT ra.content_id AS content_id, COUNT(ra.content_id) AS in_count FROM record_content_add ra WHERE ra.add_category = 4 AND ra.category_status = 1 GROUP BY ra.content_id) AS t_none_favorite_count ON t_none_favorite_count.content_id = ri.content_id WHERE ui.user_authority = 1
 
+
+SELECT ui.user_name AS user_name, COUNT(t_favorite_count.in_count) AS favorite_count, COUNT(t_none_favorite_count.in_count) AS none_favorite_count FROM user_inf ui LEFT JOIN record_content_inf ri ON ui.user_id = ri.user_id LEFT JOIN (SELECT ra.content_id AS content_id, COUNT(ra.content_id) AS in_count FROM record_content_add ra WHERE ra.add_category = 2 AND ra.category_status = 1 GROUP BY ra.content_id) AS t_favorite_count ON t_favorite_count.content_id = ri.content_id LEFT JOIN (SELECT ra.content_id AS content_id, COUNT(ra.content_id) AS in_count FROM record_content_add ra WHERE ra.add_category = 4 AND ra.category_status = 1 GROUP BY ra.content_id) AS t_none_favorite_count ON t_none_favorite_count.content_id = ri.content_id WHERE ui.user_authority = 1 GROUP BY ui.user_id
+
+SELECT ui.user_name AS user_name, COUNT(t_favorite_count.in_count) AS favorite_count, COUNT(t_none_favorite_count.in_count) AS none_favorite_count, ri.report_date, ri.entry_format FROM user_inf ui LEFT JOIN record_content_inf ri ON ui.user_id = ri.user_id LEFT JOIN (SELECT ra.content_id AS content_id, COUNT(ra.content_id) AS in_count FROM record_content_add ra WHERE ra.add_category = 2 AND ra.category_status = 1 GROUP BY ra.content_id) AS t_favorite_count ON t_favorite_count.content_id = ri.content_id LEFT JOIN (SELECT ra.content_id AS content_id, COUNT(ra.content_id) AS in_count FROM record_content_add ra WHERE ra.add_category = 4 AND ra.category_status = 1 GROUP BY ra.content_id) AS t_none_favorite_count ON t_none_favorite_count.content_id = ri.content_id WHERE ui.user_authority = 1 GROUP BY ui.user_id HAVING ri.report_date >= '2016-12-10' AND ri.report_date <= '2016-12-21' AND ri.entry_format IN(2, 4)
 
