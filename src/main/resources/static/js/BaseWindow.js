@@ -71,7 +71,7 @@ function BaseWindow() {
 			// リクエストURL
 			url: PATH_USRE_CHACK,
 			// postメソッドで通信する
-			type: 'POST',
+			type: STR_POST,
 			// 同期通信を行う
 			async: false,
 			// サーバへ渡すデータを連想配列にする
@@ -108,7 +108,7 @@ function BaseWindow() {
 			// リクエストURL
 			url: PATH_USER_AUTH,
 			// postメソッドで通信する
-			type: 'POST',
+			type: STR_POST,
 			// 同期通信を行う
 			async: false,
 			// キャッシュを無効にする
@@ -599,7 +599,7 @@ function BaseWindow() {
 		contentId = $(valueTarget).children(SELECTOR_CONTENT_ID).text();
 		// 押下されたボタンのタイプを取得
 		//button_type = $(selector).val();
-		button_type = $(selector).attr("value");
+		button_type = $(selector).attr(KEY_VALUE);
 		// button_typeが取得出来ていなかったら
 		if(button_type == null && button_type == undefined) {
 			button_type = $(selector).val();
@@ -733,7 +733,7 @@ function BaseWindow() {
 		
 		// 正規表現チェック
 		// 全入力エリアを走査する
-		$("input").each(function(index, elem){
+		$(KEY_INPUT).each(function(index, elem){
 
 			// クラス名を取得する
 			var target = $(this).get(0).className.split(" ")[0];

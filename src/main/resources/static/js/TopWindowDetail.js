@@ -180,7 +180,7 @@ function TopWindowDetail() {
 		$(SELECTOR_B_SERACH).click();
 		
 		// 画面を表示する
-		$("body").css("visibility", "visible");
+		$(KEY_BODY).css(KEY_VISIBILITY, KEY_VISIBLE);
 		
 	}
 	

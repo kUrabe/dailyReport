@@ -168,9 +168,9 @@ function WindowDesign() {
 			// リクエストURL
 			url: path,
 			// 取得ファイルの形式をJSONに指定する
-			dataType: 'JSON',
+			dataType: STR_JSON,
 			// postメソッドで通信する
-			type: 'POST',
+			type: STR_POST,
 			// 同期通信を行う
 			async: false,
 			// サーバへ渡すデータを連想配列にする
@@ -209,9 +209,9 @@ function WindowDesign() {
 			// リクエストURL
 			url: path,
 			// 取得ファイルの形式をHTMLに指定する
-			dataType: 'HTML',
+			dataType: STR_HTML,
 			// postメソッドで通信する
-			type: 'POST',
+			type: STR_POST,
 			// 同期通信を行う
 			async: false,
 			// サーバへ渡すデータを連想配列にする

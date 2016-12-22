@@ -98,6 +98,16 @@ KEY_TEXT_AREA = 'textarea';						// textarea要素
 KEY_DISPLAY = 'display';						// display属性
 KEY_DISABLED = 'disabled';						// disabled属性
 KEY_BUTTON = 'button';							// button要素
+KEY_CLASS = 'class';							// class要素
+KEY_INPUT = 'input';							// input要素
+KEY_CHECKED = 'checked';						// checkedプロパティ
+KEY_CHECKBOX = 'checkbox';						// checkboxプロパティ
+KEY_TYPE = 'type';								// type属性
+KEY_BODY = 'body';								// body要素
+KEY_VISIBLE = 'visible';						// visibleプロパティ
+KEY_VISIBILITY = 'visibility';					// visibility属性
+KEY_IFRAME = 'iframe';							// iframe要素
+KEY_VALUE = 'value';							// value属性
 KEY_PARENT_AREA = 'blockArea';					// ボタンからみた親要素を囲むセレクタ(.report_areaやcomment_areaの中で、1行ごとにこれで囲む)
 
 KEY_B_CHART_SUMMARY = 'b_chart_summary';		// Top画面のグラフ集計画面へのボタン名
@@ -521,6 +531,8 @@ TAG_REPORT_DATE_OPEN = '<div class="number" name="detail_id"></div><div class="f
 STR_POST = 'post';									// POST
 STR_LOGOUT_PATH = '/logout';						// ログアウト用path
 STR_NONE = 'none';										// display属性のプロパティnone
+STR_JSON = 'JSON';
+STR_HTML = 'HTML';
 
 STR_LABELS = 'labels';								// グラフの横軸用キー名
 STR_DATASETS = 'datasets';							// グラフのデータ一塊を指すキー名
@@ -582,6 +594,19 @@ STR_SUPPORT_ON = '対象';
 STR_SUPPORT_OFF = '非対象';
 
 
+// グラフ設定値関連
+STR_FAVORITE_LABEL = 'いいね数';				// いいね、のデータセット用のラベル
+STR_NONE_FAVORITE_LABEL = 'わるいね数';		// わるいね、のデータセット用のラベル
+STR_HOVER_MODE = 'single';					// グラフマウスオーバー中の動作
+STR_FAVORITE_BACKGROUND_COLOR = 'rgba(179,181,198,0.2)';	// いいね用の背景色
+STR_FAVORITE_BORDER_COLOR = 'rgba(179,181,198,1)';			// いいね用の線色
+STR_FAVORITE_H_BACKGROUND_COLOR = 'rgba(179,181,198,0.4)';	// いいね用の背景色（マウスオーバー時）
+STR_FAVORITE_H_BORDER_COLOR = 'rgba(179,181,198,1)';			// いいね用の線色（マウスオーバー時）
+
+STR_NONE_FAVORITE_BACKGROUND_COLOR = 'rgba(255,99,132,0.2)';	// わるいね用の背景色
+STR_NONE_FAVORITE_BORDER_COLOR = 'rgba(255,99,132,1)';			// わるいね用の線色
+STR_NONE_FAVORITE_H_BACKGROUND_COLOR = 'rgba(255,99,132,0.4)';	// わるいね用の背景色（マウスオーバー時）
+STR_NONE_FAVORITE_H_BORDER_COLOR = 'rgba(255,99,132,1)';			// わるいね用の線色（マウスオーバー時）
 
 // 固定ボタンで返されるファンクション名
 STR_GET_BEFORE_PLAN = 'this.getBeforePlan';
@@ -681,8 +706,8 @@ MASSAGE_PATTEN_DATE ='FROMおよびTOは日付形式で入力してください�
 MASSAGE_PASSWORD_EQUAL = '入力されたパスワードとパスワード（再）の値が異なります。';
 MASSAGE_REG_OK = '登録に成功しました。\n管理者へ連絡してください。\n承認されるまでログインできません。';
 
-MASSAGE_ENTRY_FORMAT = '対象コンテンツはどちらか選択してください。';
-MASSAGE_ADD_CATEGORY = '対象評価はどちらか選択してください。';
+MASSAGE_ENTRY_FORMAT = '対象コンテンツはどちらか選択してください。\n';
+MASSAGE_ADD_CATEGORY = '対象評価はどちらか選択してください。\n';
 
 MARK_SPACE = " ";		// 半角スペース
 

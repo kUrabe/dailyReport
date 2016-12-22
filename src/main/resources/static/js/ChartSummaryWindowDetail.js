@@ -34,7 +34,7 @@ function ChartSummaryWindowDetail() {
 		$(SELECTOR_B_CHART_VIEW).click();
 		
 		// 画面を表示する
-		$("body").css("visibility", "visible");
+		$(KEY_BODY).css(KEY_VISIBILITY, KEY_VISIBLE);
 		
 	}
 	
@@ -58,22 +58,22 @@ function ChartSummaryWindowDetail() {
 			// 入力項目にエラーがないため、描画処理を行っていく。
 			
 			// 検索項目内のinput要素を走査する
-			$(SELECTOR_SEARCH_AREA).children("input").each(function(index, elem){
+			$(SELECTOR_SEARCH_AREA).children(KEY_INPUT).each(function(index, elem){
 				// inputの形式がチェックボックスか判定する
-				if($(elem).prop("checked")) {
+				if($(elem).prop(KEY_CHECKED)) {
 					// チェックボックスだと判定
 					// 初めて当該キーに値をセットするか検証
-					if(jsonArray[$(elem).attr("class")] == undefined) {
+					if(jsonArray[$(elem).attr(KEY_CLASS)] == undefined) {
 						// 初期として0をセットする
-						jsonArray[$(elem).attr("class")] = 0;
+						jsonArray[$(elem).attr(KEY_CLASS)] = 0;
 					}
 					// 入力値を加算する
-					jsonArray[$(elem).attr("class")] += parseInt($(elem).val(), 10);
+					jsonArray[$(elem).attr(KEY_CLASS)] += parseInt($(elem).val(), 10);
 				// チェックボックス以外か判定する
-				} else if($(elem).attr("type") != "checkbox") {
+				} else if($(elem).attr(KEY_TYPE) != KEY_CHECKBOX) {
 					// チェックボックス出ないと判定
 					// 入力値をセットしていく。
-					jsonArray[$(elem).attr("class")] = $(elem).val();
+					jsonArray[$(elem).attr(KEY_CLASS)] = $(elem).val();
 				}
 			});
 			// DBからグラフ用のデータを取得する
@@ -82,7 +82,7 @@ function ChartSummaryWindowDetail() {
 			$(SELECTOR_SERACH_MESSAGE).text("");
 			// 既存のグラフを削除する
 			// TODO【未実装】そもそも、削除が必要なのか、グラフ描画の方法による（指定エリアに追加なのか、削除してから再作成なのか）
-			$("iframe").remove();
+			$(KEY_IFRAME).remove();
 			$(SELECTOR_VIEW_AREA).remove();
 			// 描画エリアを再度追加する
 			$(SELECTOR_CONTENT_AREA).append(TAG_BAR_CHART);
@@ -136,7 +136,7 @@ function ChartSummaryWindowDetail() {
 		var add_category = 0;
 		
 		// 検索項目内のinput要素を走査する
-		$(SELECTOR_SEARCH_AREA).children("input").each(function(index, elem){
+		$(SELECTOR_SEARCH_AREA).children(KEY_INPUT).each(function(index, elem){
 			
 			// クラス名を取得する
 			var target = $(elem).get(0).className.split(" ")[0];
@@ -156,7 +156,7 @@ function ChartSummaryWindowDetail() {
 			// entry_formatか検証
 			} else if(target == KEY_ENTRY_FORMAT) {
 				// inputの形式がチェックボックスか判定する
-				if($(elem).prop("checked")) {
+				if($(elem).prop(KEY_CHECKED)) {
 					// チェックボックスだと判定
 					// 入力値を加算する
 					entry_format += parseInt($(elem).val(), 10);
@@ -164,7 +164,7 @@ function ChartSummaryWindowDetail() {
 			// add_categoryか検証
 			} else if(target == KEY_ADD_CATEGORY) {
 				// inputの形式がチェックボックスか判定する
-				if($(elem).prop("checked")) {
+				if($(elem).prop(KEY_CHECKED)) {
 					// チェックボックスだと判定
 					// 入力値を加算する
 					add_category += parseInt($(elem).val(), 10);
@@ -198,9 +198,13 @@ function ChartSummaryWindowDetail() {
 	this.createChartData = function() {
 		
 		// データ登録前に、各データ用の配列を初期化する
+		// 全体の横軸ラベルを登録する配列を初期化する
 		this.data[STR_LABELS] = [];
+		// いいね、わるいねのデータセットを登録する配列を初期化する
 		this.data[STR_DATASETS] = [];
+		// いいね用のデータセット一式を登録する配列を初期化する
 		this.favoriteDataset[STR_DATA] = [];
+		// わるいね用のデータセット一式を登録する配列を初期化する
 		this.noneFavoriteDataset[STR_DATA] = [];
 		
 		// 取得したjsonデータの行要素を走査する
@@ -242,27 +246,27 @@ function ChartSummaryWindowDetail() {
 		//ホバーの設定
 		hover: {
 			//ホバー時の動作（single, label, dataset）
-			mode: 'single'
+			mode: STR_HOVER_MODE
 		}
 	}
 	// いいね用データセット群
 	this.favoriteDataset = {
-		label: "いいね数",
-		backgroundColor: "rgba(179,181,198,0.2)",
-		borderColor: "rgba(179,181,198,1)",
+		label: STR_FAVORITE_LABEL,
+		backgroundColor: STR_FAVORITE_BACKGROUND_COLOR,
+		borderColor: STR_FAVORITE_BORDER_COLOR,
 		borderWidth: 1,
-		hoverBackgroundColor: "rgba(179,181,198,0.4)",
-		hoverBorderColor: "rgba(179,181,198,1)",
+		hoverBackgroundColor: STR_FAVORITE_H_BACKGROUND_COLOR,
+		hoverBorderColor: STR_FAVORITE_H_BORDER_COLOR,
 		data: []
 	}
 	// わるいね用データセット群
 	this.noneFavoriteDataset = {
-		label: "わるいね数",
-		backgroundColor: "rgba(255,99,132,0.2)",
-		borderColor: "rgba(255,99,132,1)",
+		label: STR_NONE_FAVORITE_LABEL,
+		backgroundColor: STR_NONE_FAVORITE_BACKGROUND_COLOR,
+		borderColor: STR_NONE_FAVORITE_BORDER_COLOR,
 		borderWidth: 1,
-		hoverBackgroundColor: "rgba(255,99,132,0.4)",
-		hoverBorderColor: "rgba(255,99,132,1)",
+		hoverBackgroundColor: STR_NONE_FAVORITE_H_BACKGROUND_COLOR,
+		hoverBorderColor: STR_NONE_FAVORITE_H_BORDER_COLOR,
 		data: []
 	}
 	
